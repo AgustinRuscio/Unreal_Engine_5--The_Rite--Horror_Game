@@ -22,5 +22,10 @@
 			"Name": "NiagaraFluids",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"Linux",
+		"Mac",
+		"Windows"
 	]
 }
