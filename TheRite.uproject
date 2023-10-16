@@ -21,11 +21,6 @@
 		{
 			"Name": "NiagaraFluids",
 			"Enabled": true
-		},
-		{
-			"Name": "AsyncLevelLoad",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fedd4da327a946a1ae5461da851ffcf1"
 		}
 	],
 	"TargetPlatforms": [
