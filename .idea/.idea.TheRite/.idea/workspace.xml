@@ -7,8 +7,98 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc297906-3059-4ecf-bdcc-f52261b7d2b4" name="Changes" comment="">
+    <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Build/Windows/Application.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/HoloLens/HoloLensEngine.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Compile.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Compile.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Export.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Export.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ExportDialogueScript.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ExportDialogueScript.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_GenerateReports.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_GenerateReports.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Import.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Import.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogue.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogue.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogueScript.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogueScript.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Assets/FogBrightnessLUT.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/BP_LightStudio.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Blueprints/BP_LightStudio.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Materials/M_Wood_Walnut.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Materials/M_Wood_Walnut.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Particles/Materials/M_Dust_Particle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Particles/Materials/M_Dust_Particle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Particles/Materials/M_smoke_subUV.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Particles/Materials/M_smoke_subUV.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Textures/T_Dust_Particle_D.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Textures/T_Dust_Particle_D.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/AIC_Enemy.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Estatua/Estatua_del_Viejo/Estatua_del__Viejo/low_poly_del_viejo_ojo1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Estatua/Estatua_del_Viejo/Estatua_del__Viejo/low_poly_del_viejo_ojo1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_manija.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_manija.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_polySurface1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_polySurface1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_polySurface3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/tocadisco_polySurface3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/Cora_Reloj.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/Cora_Reloj.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Alex/NewModel/BA_Alex.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Alex/NewModel/BA_Alex.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Tiffany/NewTiffany/BA_Tiffany.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Tiffany/NewTiffany/BA_Tiffany.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_InmmersiveTrigger.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_InmmersiveTrigger.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_Interactor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_Interactor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_MainPickUp.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Abstracts/A_BP_MainPickUp.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_Drawer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_Drawer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_Drawers.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_Interacotr.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_LittleDeskDrawer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_LittleDeskDrawer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_TiffanyDestroy.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_TiffanyDestroy.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/BP_Alex.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/BP_Alex.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/BP_Tiffany.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/BP_Tiffany.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Eye.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/GameMode/BP_TheRiteGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/GameMode/BP_TheRiteGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_BrokenWood.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Clock.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Clock.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Crowbar.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Diary.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Diary.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Door.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Key.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Key.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_LockedDoor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_LockedDoor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Picture.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Picture.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Portrait.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_RecordPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_RecordPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_TheRite.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_TheRite.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_ClockInGame.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_ClockInGame.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_HourLetter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_HourLetter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_Letter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_Letter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_MinutesLetter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/InPuzzle/BP_MinutesLetter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/TestInteractuable.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/TestInteractuable.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/MenuGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/MenuGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_Letter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_Letter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_Light.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_Light.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/PBP_Drawer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/PBP_Drawer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_CloseDoors.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_CloseDoors.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_DoorOpening.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_DoorOpening.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_Laugh.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_Laugh.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_MakeTiffanyWalk.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_MakeTiffanyWalk.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_SoundTrigger.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_SpawnTiffanyInTime.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_SpawnTiffanyInTime.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_TG_LockDoors.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_TG_LockDoors.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_TG_SpawnTiffany.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_TiffanyDestroy.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/BP_TimerSound.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Fonts/Fragmentcore_Font.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Fonts/Fragmentcore_Font.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Input/Input_Actions/Alex_Pause.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Input/Input_Actions/Alex_Pause.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntermediateWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntermediateWorld.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/PlayableLVL.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/PlayableLVL.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TestLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TestLevel.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_CenterDot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_CenterDot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Interactuable.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Interactuable.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Key.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Key.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Locked.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_Locked.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/TheRite.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/TheRite.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/TheRiteGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/TheRiteGameModeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheRite.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/TheRite.uproject" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,35 +108,55 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
-  <component name="ProjectId" id="2WYHIsZNPupyRIdeB9IfSB0RPUv" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2aEUpseJPG2dQv6Z4p8ZWTc2UlU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C++ Project.TheRite.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CodeLensConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\Usuario\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Usuario\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="TheRite" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -113,12 +223,32 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fc297906-3059-4ecf-bdcc-f52261b7d2b4" name="Changes" comment="" />
-      <created>1696902519705</created>
+      <changelist id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="" />
+      <created>1703883419514</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1696902519705</updated>
-      <workItem from="1696902522091" duration="329000" />
+      <updated>1703883419514</updated>
+      <workItem from="1703883420833" duration="2187000" />
+      <workItem from="1703910967811" duration="9154000" />
+      <workItem from="1703942253129" duration="12657000" />
+      <workItem from="1703963047692" duration="4005000" />
+      <workItem from="1704164983566" duration="5295000" />
+      <workItem from="1704171215829" duration="2174000" />
+      <workItem from="1704200476695" duration="13559000" />
+      <workItem from="1704223186187" duration="6380000" />
+      <workItem from="1704249456701" duration="54000" />
+      <workItem from="1704249701351" duration="9643000" />
+      <workItem from="1704260077506" duration="277000" />
+      <workItem from="1704286057206" duration="19091000" />
+      <workItem from="1704338546923" duration="4959000" />
+      <workItem from="1704377162559" duration="1319000" />
+      <workItem from="1704382613277" duration="17522000" />
+      <workItem from="1704413644060" duration="19513000" />
+      <workItem from="1704453074887" duration="13142000" />
+      <workItem from="1704477974329" duration="681000" />
+      <workItem from="1704480970984" duration="129000" />
+      <workItem from="1704490560026" duration="6155000" />
+      <workItem from="1704515703369" duration="4671000" />
     </task>
     <servers />
   </component>

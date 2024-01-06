@@ -13,5 +13,4 @@ UCLASS()
 class THERITE_API ATheRiteGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };
