@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "KeyWidget.generated.h"
 
 
@@ -13,7 +14,12 @@ class THERITE_API UKeyWidget : public UUserWidget
 public:
 	UPROPERTY(BlueprintReadOnly)
 	FString ZoneText;
-
+	UPROPERTY(EditAnywhere)
+	FString NotChangableText;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTextBlock* TextComponent;
+	
 	UFUNCTION(BlueprintCallable)
-	void SetKeyZoneText(FText newZone);
+	void SetKeyZoneText(FString newZone);
 };

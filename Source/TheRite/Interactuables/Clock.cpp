@@ -13,6 +13,7 @@ AClock::AClock()
 	Needles->SetupAttachment(BaseMesh);
 
 	Light= CreateDefaultSubobject<UPointLightComponent>("Light");
+	Light->SetupAttachment(BaseMesh);
 }
 
 void AClock::Interaction()

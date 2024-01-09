@@ -253,15 +253,6 @@ void AAlex::CheckLighterOn()
 void AAlex::Interaction()
 {
 	if(!bCanTalk || !bCanInteract) return;
-
-	if(TempAudio == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TempoAudio"));
-	}
-	if(bCanInteract)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("CanINteract"));
-	}
 	
 	if(TalkSound != nullptr)
 		MakeTalk();

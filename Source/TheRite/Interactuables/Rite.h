@@ -19,7 +19,7 @@ private:
 	bool bClockReady = false;
 
 	
-	UPROPERTY(EditAnywhere, Category= "Voice Audio")
+	UPROPERTY(EditAnywhere, Category= "Level to Open")
 	FName NextLevel;
 	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")

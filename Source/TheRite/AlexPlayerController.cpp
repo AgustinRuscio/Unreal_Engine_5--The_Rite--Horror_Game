@@ -51,7 +51,6 @@ void AAlexPlayerController::CloseHint(const FInputActionValue& value)
 
 void AAlexPlayerController::Paused(const FInputActionValue& value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Pause"));
 	OnPause.Broadcast();
 }
 

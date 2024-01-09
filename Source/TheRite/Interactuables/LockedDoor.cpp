@@ -14,6 +14,10 @@ ALockedDoor::ALockedDoor()
 	RootComponent = DoorItself;
 	Latch->SetupAttachment(DoorItself);
 	
+	BoxCollision = CreateDefaultSubobject<UBoxComponent>("Box Collision");
+
+	BoxCollision->SetupAttachment(DoorItself);
+	
 	bCanSoundItsLocked = true;
 	bCanSound = true;
 	bHasInteraction = true;

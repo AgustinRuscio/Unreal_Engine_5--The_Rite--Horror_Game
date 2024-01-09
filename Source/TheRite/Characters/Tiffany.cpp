@@ -10,16 +10,18 @@
 ATiffany::ATiffany()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
-	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
+    
 	
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->InitSphereRadius(305.0f);
+	Sphere->SetupAttachment(GetMesh());
 	
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ATiffany::OnOverlapBegin);
 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ATiffany::OnOverlapEnd);
 
 	GetMesh()->SetMobility(EComponentMobility::Movable);
+	
+	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
 	
 	//AIControllerClass = DefaultAIController;
 }

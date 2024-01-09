@@ -160,19 +160,18 @@ private:
 	UFUNCTION()
 	void LatchHoldTimelineFinished();
 
-
 	
 	UFUNCTION()
 	void HardClosingTimeLineUpdate(float value);
 	
-	
 	UFUNCTION()
 	void HardClosingTimelineFinished();
 
+	FRotator InitialRot;
+	FRotator CurrentRot;
 	
 protected:
 	virtual void BeginPlay() override;
-	
 
 public:	
 	ADoor();
@@ -195,4 +194,5 @@ public:
 	bool IsLocked() const;
 	bool NeedKey() const;
 	bool KeyUnlocked() const;
+	void SetLockedState(bool bCond);
 };

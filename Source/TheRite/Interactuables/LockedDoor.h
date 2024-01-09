@@ -22,6 +22,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* Latch;
 
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UBoxComponent* BoxCollision;
 	//--------------Audio Compoenents
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* LockedSound;
@@ -47,6 +49,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "CD sound")
 	float SoundCD = 60.0f;
+	
 
 	//--------------Functions
 	UFUNCTION()

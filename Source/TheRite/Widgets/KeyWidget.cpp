@@ -1,6 +1,8 @@
 #include "KeyWidget.h"
 
-void UKeyWidget::SetKeyZoneText(FText newZone)
+void UKeyWidget::SetKeyZoneText(FString newZone)
 {
-	ZoneText = newZone.ToString();
+	ZoneText = *newZone;
+	FString finalText = ZoneText + NotChangableText;
+	TextComponent->SetText(FText::FromString(finalText));
 }

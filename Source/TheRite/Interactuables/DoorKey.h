@@ -24,10 +24,12 @@ private:
 	UPointLightComponent* PointLight;
 	
 	UPROPERTY(EditAnywhere, Category= "UI")
+	TSubclassOf<UKeyWidget> KeyUI;
+	
 	UKeyWidget* KeyWidget;
 
 	UPROPERTY(EditAnywhere, Category= "Zone Name")
-	FText DoorZoneName;
+	FString DoorZoneName;
 
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	USoundBase* VoiceSound;

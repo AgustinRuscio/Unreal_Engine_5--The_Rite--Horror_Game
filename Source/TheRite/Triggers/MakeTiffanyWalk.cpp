@@ -6,8 +6,6 @@
 
 void AMakeTiffanyWalk::FirstTimeLineUpdate(float value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("a"));
-	
 	for (auto Element : OtherLights)
 	{
 		Element->TurnOff();
@@ -27,7 +25,6 @@ void AMakeTiffanyWalk::FirstTimelineFinished()
 
 void AMakeTiffanyWalk::SecondsTimeLineUpdate(float value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("b"));
 	for (auto Element : Lights)
 	{
 		Element->TurnOn();
@@ -114,8 +111,6 @@ void AMakeTiffanyWalk::Tick(float DeltaTime)
 	SecondsTimeLine.TickTimeline(DeltaTime);
 	
 	if(!bReady) return;
-
-	UE_LOG(LogTemp, Warning, TEXT("Pase al Tick"));
 	
 	if(FVector::Dist(Target->GetActorLocation(), Tiffany->GetActorLocation()) > 200.0f)
 	{
@@ -144,7 +139,6 @@ void AMakeTiffanyWalk::Tick(float DeltaTime)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Fuera del Disc"));
 		FirstTimeLine.Play();
 	}
 }

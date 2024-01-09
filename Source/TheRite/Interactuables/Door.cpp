@@ -3,6 +3,7 @@
 #include "Components/TimelineComponent.h"
 #include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 
 ADoor::ADoor()
 {
@@ -10,8 +11,12 @@ ADoor::ADoor()
 
 	//------- Mesh Creation
 	DoorItself = CreateDefaultSubobject<UStaticMeshComponent>("Door Itself");
-	RootComponent = DoorItself;
+	
+	USceneComponent* NewRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NewRootComponent"));
+	SetRootComponent(NewRootComponent);
 
+	DoorItself->SetupAttachment(NewRootComponent);
+	
 	DoorItself->SetMobility(EComponentMobility::Movable);
 	
 	BaseFront = CreateDefaultSubobject<UStaticMeshComponent>("Front base");
@@ -45,14 +50,19 @@ void ADoor::OpenCloseTimeLineUpdate(float value)
 	DoorItself->SetRelativeRotation(FRotator(0,newRoll, 0));
 }
 
-void ADoor::OpenCloseTimelineFinished() { }
+void ADoor::OpenCloseTimelineFinished()
+{
+	CurrentRot = DoorItself->GetRelativeRotation();
+}
 
 
 
 void ADoor::ItLockedTimeLineUpdate(float value)
 {
-	float newRoll = FMath::Lerp(0, 5, value);
-	DoorItself->SetRelativeRotation(FRotator(0,newRoll, 0));
+	float TargetYaw = InitialRot.Yaw + 5.0f;
+	float NewYaw = FMath::Lerp(InitialRot.Yaw, TargetYaw, value);
+
+	DoorItself->SetRelativeRotation(FRotator(0, NewYaw, 0));
 }
 
 void ADoor::ItLockedTimelineFinished()
@@ -60,6 +70,8 @@ void ADoor::ItLockedTimelineFinished()
 	UGameplayStatics::PlaySound2D(this, SFXDoorLocked);
 	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
 	++AudioCounterItsLocked;
+	
+	CurrentRot = DoorItself->GetRelativeRotation();
 }
 
 
@@ -86,12 +98,15 @@ void ADoor::LatchHoldTimelineFinished() { }
 
 void ADoor::HardClosingTimeLineUpdate(float value)
 {
-	float lerpValue = FMath::Lerp(90,0, value);
+	float lerpValue = FMath::Lerp(CurrentRot.Yaw,InitialRot.Yaw, value);
 	DoorItself->SetRelativeRotation(FRotator(0,lerpValue, 0));
 }
 
 
-void ADoor::HardClosingTimelineFinished() { }
+void ADoor::HardClosingTimelineFinished()
+{
+	CurrentRot = DoorItself->GetRelativeRotation();
+}
 
 
 void ADoor::CheckDragDoor()
@@ -102,13 +117,18 @@ void ADoor::CheckDragDoor()
 	float Yaw = DoorItself->GetRelativeRotation().Yaw;
 
 	float Check = FMath::ClampAngle(Yaw, FrontAngle, (FrontAngle*-1));
+
+	float DoorFloat = Player->GetDoorFloat();
 	
+
+	UE_LOG(LogTemp, Warning, TEXT("Door Float %f"), DoorItself->GetComponentRotation().Yaw);
 	if(Yaw != Check)
 	{
 		LatchHolding(bHolding);
 
-		float YawRot = Player->GetDoorFloat() * Sensitivity;
-		DoorItself->AddLocalRotation(FRotator(0,YawRot,0));
+		float YawRot = DoorFloat * Sensitivity;
+		
+		DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
 	}
 	else
 	{
@@ -204,6 +224,9 @@ void ADoor::BeginPlay()
 	Super::BeginPlay();
 
 	BindTimeLines();
+	
+	InitialRot = DoorItself->GetRelativeRotation();
+	CurrentRot = DoorItself->GetRelativeRotation();
 	
 	LockedWidget = CreateWidget<ULockedWidget>(GetWorld(), LockedUI);
 	LockedWidget->AddToViewport();
@@ -302,12 +325,18 @@ bool ADoor::KeyUnlocked() const
 	return bKeyUnlocked;
 }
 
+void ADoor::SetLockedState(bool bCond)
+{
+	bIsLocked = bCond;
+}
+
 void ADoor::ItsLocked()
 {
-	if(SFXVoiceLocked != nullptr)
+	if(IsValid(SFXVoiceLocked))
 	{
-		Player->ForceTalk(SFXDoorLocked);
+		Player->ForceTalk(SFXVoiceLocked);
 	}
+	
 	LockedWidget->SetVisibility(ESlateVisibility::Visible);
 	LatchAnim();
 	TimeLineItsLocked.PlayFromStart();

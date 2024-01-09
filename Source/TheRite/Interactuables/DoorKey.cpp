@@ -42,6 +42,8 @@ void ADoorKey::TimeOver()
 
 void ADoorKey::BeginPlay()
 {
+	Super::BeginPlay();
+	KeyWidget = CreateWidget<UKeyWidget>(GetWorld(), KeyUI);
 	KeyWidget->AddToViewport();
 	KeyWidget->SetVisibility(ESlateVisibility::Hidden);
 
