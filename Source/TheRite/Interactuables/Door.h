@@ -194,5 +194,5 @@ public:
 	bool IsLocked() const;
 	bool NeedKey() const;
 	bool KeyUnlocked() const;
-	void SetLockedState(bool bCond);
+	void SetLockedState(bool lockednewState);
 };

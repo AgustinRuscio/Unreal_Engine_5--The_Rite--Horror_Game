@@ -325,9 +325,9 @@ bool ADoor::KeyUnlocked() const
 	return bKeyUnlocked;
 }
 
-void ADoor::SetLockedState(bool bCond)
+void ADoor::SetLockedState(bool lockednewState)
 {
-	bIsLocked = bCond;
+	bIsLocked = lockednewState;
 }
 
 void ADoor::ItsLocked()

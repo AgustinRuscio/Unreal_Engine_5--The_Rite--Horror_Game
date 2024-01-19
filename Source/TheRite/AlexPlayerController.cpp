@@ -56,9 +56,9 @@ void AAlexPlayerController::Paused(const FInputActionValue& value)
 
 void AAlexPlayerController::BeginPlay()
 {
-	
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
+
 	
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
     

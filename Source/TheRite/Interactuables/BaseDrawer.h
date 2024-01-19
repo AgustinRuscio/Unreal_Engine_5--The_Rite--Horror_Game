@@ -75,6 +75,9 @@ public:
 	
 	virtual void Interaction() override;
 
+	bool IsKeyContainer() const;
+	void SetKeyContainer();
+	
 	UFUNCTION()
 	void AddingForce();
 };

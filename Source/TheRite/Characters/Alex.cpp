@@ -38,18 +38,21 @@ AAlex::AAlex()
 
 void AAlex::OnJumpScare()
 {
-	DisableInput(MyController);
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+    
+	DisableInput(GetWorld()->GetFirstPlayerController());
 	ScreamerSkeleton->SetVisibility(true);
 	ScreamerSkeleton->PlayAnimation(ScreamerAnim,false);
 	
 	if (!GetWorldTimerManager().IsTimerActive(ScreamerTimerHanlde))
-		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, this, &AAlex::TimeOver, 1.2f, false);
+		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, this, &AAlex::TimeOver, .7f, false);
 
 }
 
 void AAlex::TimeOver()
 {
-	EnableInput(MyController);
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+	EnableInput(GetWorld()->GetFirstPlayerController());
 	ScreamerSkeleton->SetVisibility(false);
 }
 
@@ -104,6 +107,27 @@ float AAlex::GetDoorFloat() const
 	return DoorFloat;
 }
 
+void AAlex::SetHintState(bool newHintState)
+{
+	bHasHint = newHintState;
+}
+
+void AAlex::SetCanUseLigherState(bool lighterState)
+{
+	bCanUseLigher = true;
+}
+
+void AAlex::ForceTurnLighterOn()
+{
+	bLighter = true;
+	CheckLighterOn();
+}
+
+UChildActorComponent* AAlex::GetHint() const
+{
+	return Hint;
+}
+
 UCameraComponent* AAlex::GetCamera() const
 {
 	return Camera;
@@ -119,7 +143,6 @@ void AAlex::BeginPlay()
 	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
 
 	BindTimeLineMethods();
-	//BindActions();
 }
 
 void AAlex::BindTimeLineMethods()
@@ -288,7 +311,6 @@ void AAlex::OpenPause()
 	if(bPauseFlip)
 	{
 		PuaseWidget->SetVisibility(ESlateVisibility::Visible);
-		PuaseWidget->SetUserFocus(MyController);
 		bPauseFlip = false;
 	}
 	else

@@ -34,6 +34,18 @@ void ADoorKey::Interaction()
 		GetWorldTimerManager().SetTimer(timer, this, &ADoorKey::TimeOver, 2.0f, false);
 }
 
+void ADoorKey::SetZone(FString NewZoneName)
+{
+	DoorZoneName = NewZoneName;
+	
+	KeyWidget->SetKeyZoneText(DoorZoneName);
+}
+
+void ADoorKey::SetDoor(ADoor* NewDoor)
+{
+	MyDoor = NewDoor;
+}
+
 void ADoorKey::TimeOver()
 {
 	KeyWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -43,6 +55,7 @@ void ADoorKey::TimeOver()
 void ADoorKey::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	KeyWidget = CreateWidget<UKeyWidget>(GetWorld(), KeyUI);
 	KeyWidget->AddToViewport();
 	KeyWidget->SetVisibility(ESlateVisibility::Hidden);

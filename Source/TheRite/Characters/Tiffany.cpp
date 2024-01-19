@@ -68,6 +68,11 @@ void ATiffany::SetWaypoints(TArray<ATargetPoint*> targets)
 	Waypoints = targets;
 }
 
+bool ATiffany::SetHasToMove(bool hasToMoveState)
+{
+	return bHasToMove;
+}
+
 
 void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
                               int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -84,13 +89,13 @@ void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 	FVector StartPosition = GetActorLocation();
 	
 	bool overlaped = UKismetSystemLibrary::SphereOverlapActors(this, StartPosition, 500.0f,
-		ObjectTypes,AActor::StaticClass(),IgnoredTargtes, OutTragtes);
+		ObjectTypes,ALightsTheRite::StaticClass(),IgnoredTargtes, OutTragtes);
 
 	if(overlaped)
 	{
 		for (auto ObjectType : OutTragtes)
 		{
-			auto light = Cast<ALightsTheRite>(ObjectType);
+			auto light = CastChecked<ALightsTheRite>(ObjectType);
 			light->AggresiveMatterial();
 		}
 	}
@@ -113,7 +118,7 @@ void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 	FVector StartPosition = GetActorLocation();
 	
 	bool overlaped = UKismetSystemLibrary::SphereOverlapActors(this, StartPosition, 500.0f,
-		ObjectTypes,AActor::StaticClass(),IgnoredTargtes, OutTragtes);
+		ObjectTypes,ALightsTheRite::StaticClass(),IgnoredTargtes, OutTragtes);
 
 	if(overlaped)
 	{

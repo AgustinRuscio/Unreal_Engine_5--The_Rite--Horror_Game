@@ -24,7 +24,7 @@ private:
 						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 
-	UPROPERTY(EditAnywhere, Category="Tiffany")
+	UPROPERTY()
 	ATiffany* Tiffany;
 
 	UPROPERTY(EditAnywhere, Category="Tiffany")
@@ -50,7 +50,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
 	
-	UPROPERTY(EditAnywhere, Category = "Testing", meta=(ToolTip = "Set false when not testing"))
 	bool bKeyReady;
 	bool bReady;
 
@@ -78,7 +77,7 @@ public:
 	AMakeTiffanyWalk();
 
 	UFUNCTION()
-	void KeyOBtein(ATiffany* newTiff);
+	void KeyObtein(ATiffany* newTiff);
 	
 	virtual void Tick(float DeltaTime) override;
 

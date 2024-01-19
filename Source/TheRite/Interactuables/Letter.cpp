@@ -11,6 +11,7 @@ ALetter::ALetter()
 	Writing->SetupAttachment(LetterMesh);
 
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
+	PointLight->SetupAttachment(LetterMesh);
 }
 
 void ALetter::Interaction()

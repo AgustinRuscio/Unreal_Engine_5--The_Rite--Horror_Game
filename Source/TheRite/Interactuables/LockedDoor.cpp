@@ -54,9 +54,9 @@ void ALockedDoor::BeginPlay()
 
 void ALockedDoor::ItsLocked()
 {
-	if(LockedSound != nullptr)
+	if(AudioToPlay != nullptr)
 	{
-		Player->ForceTalk(LockedSound);
+		Player->ForceTalk(AudioToPlay);
 	}
 
 	tempAudioComponent = UGameplayStatics::SpawnSound2D(this, DoorLockedSFX);

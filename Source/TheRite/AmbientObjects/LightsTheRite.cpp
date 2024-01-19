@@ -2,7 +2,13 @@
 
 ALightsTheRite::ALightsTheRite()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true;
+	
+	USceneComponent* NewRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NewRootComponent"));
+	SetRootComponent(NewRootComponent);
+
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Lamp Mesh");
+	Mesh->SetupAttachment(NewRootComponent);
 
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->SetSphereRadius(177.0f);
@@ -10,12 +16,10 @@ ALightsTheRite::ALightsTheRite()
 	SpotLight = CreateDefaultSubobject<USpotLightComponent>("Spot Light");
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Lamp Mesh");
-	RootComponent = Mesh;
 
-	SpotLight->SetupAttachment(Mesh);
-	PointLight->SetupAttachment(Mesh);
-	Sphere->SetupAttachment(Mesh);
+	SpotLight->SetupAttachment(NewRootComponent);
+	PointLight->SetupAttachment(NewRootComponent);
+	Sphere->SetupAttachment(NewRootComponent);
 }
 
 void ALightsTheRite::BeginPlay()

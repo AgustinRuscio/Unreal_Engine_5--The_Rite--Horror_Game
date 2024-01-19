@@ -23,6 +23,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Closing Door")
 	ADoor* Door;
+	
+	UPROPERTY(EditAnywhere, Category = "Closing Door")
+	bool bWillLockTheDoor = false;
 
 	UPROPERTY(EditAnywhere, Category = "Ambient")
 	TArray<ALightsTheRite*> Lights;
@@ -35,7 +38,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Ambient")
 	bool bAggresiveLight;
-	
+
 public:	
 	ACloseDoor();
 

@@ -78,7 +78,7 @@ AMakeTiffanyWalk::AMakeTiffanyWalk()
 
 
 
-void AMakeTiffanyWalk::KeyOBtein(ATiffany* newTiff)
+void AMakeTiffanyWalk::KeyObtein(ATiffany* newTiff)
 {
 	Tiffany = newTiff;
 	bKeyReady = true;
@@ -126,7 +126,7 @@ void AMakeTiffanyWalk::Tick(float DeltaTime)
 		FVector StartPosition = Tiffany->GetActorLocation();
 	
 		bool overlaped = UKismetSystemLibrary::SphereOverlapActors(this, StartPosition, 300.0f,
-			ObjectTypes,AActor::StaticClass(),IgnoredTargtes, OutTragtes);
+			ObjectTypes,ALightsTheRite::StaticClass(),IgnoredTargtes, OutTragtes);
 
 		if(overlaped)
 		{

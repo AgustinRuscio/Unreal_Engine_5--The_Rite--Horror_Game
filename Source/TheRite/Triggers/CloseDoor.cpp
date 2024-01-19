@@ -20,6 +20,9 @@ void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	Door->HardClosing();
 
+	if(bWillLockTheDoor)
+		Door->SetLockedState(true);
+
 	for (auto Element : Lights)
 	{
 		if(bAggresiveLight)

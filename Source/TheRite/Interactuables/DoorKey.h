@@ -53,6 +53,10 @@ protected:
 public:	
 	ADoorKey();
 	virtual void Interaction() override;
+	
+	void SetZone(FString NewZoneName);
 
+	void SetDoor(ADoor* NewDoor);
+	
 	FOnKeyCollected OnKeyCollected;
 };

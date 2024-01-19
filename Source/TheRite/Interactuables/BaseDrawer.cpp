@@ -114,6 +114,16 @@ void ABaseDrawer::Interaction()
 	}
 }
 
+bool ABaseDrawer::IsKeyContainer() const
+{
+	return bKeyConteiner;
+}
+
+void ABaseDrawer::SetKeyContainer()
+{
+	bKeyConteiner = true;
+}
+
 void ABaseDrawer::AddingForce()
 {
 	DrawerModel->SetSimulatePhysics(true);

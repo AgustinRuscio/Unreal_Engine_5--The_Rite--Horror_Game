@@ -12,7 +12,7 @@ class THERITE_API UKeyWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	FString ZoneText;
 	UPROPERTY(EditAnywhere)
 	FString NotChangableText;

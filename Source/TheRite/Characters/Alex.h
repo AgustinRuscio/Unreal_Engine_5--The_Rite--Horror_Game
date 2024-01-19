@@ -9,6 +9,7 @@
 #include "GameFramework/Character.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/IInteractuable.h"
+#include "TheRite/Interactuables/Letter.h"
 #include "TheRite/Widgets/CenterDotWidget.h"
 #include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Alex.generated.h"
@@ -61,7 +62,7 @@ private:
 	IIInteractuable* ActualInteractuable;
 
 	
-	bool bLighterOnCD;
+	bool bLighterOnCD = false;
 
 
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
@@ -205,7 +206,6 @@ private:
 
 
 	UAudioComponent* TempAudio = nullptr;
-	void OnJumpScare();
 	void TimeOver();
 
 	void MakeTalk();
@@ -243,6 +243,16 @@ public:
 	bool IsHoldInteracBTN() const;
 
 	float GetDoorFloat() const;
+
+	void SetHintState(bool newHintState);
+	
+	void SetCanUseLigherState(bool lighterState);
+	void ForceTurnLighterOn();
+
+	void OnJumpScare();
+	
+	UChildActorComponent* GetHint() const;
+	
 	UCameraComponent* GetCamera() const;
 	
 	FAllItemsCollected OnAllItemCollected;

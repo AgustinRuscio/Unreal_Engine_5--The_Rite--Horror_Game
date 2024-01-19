@@ -25,8 +25,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UBoxComponent* BoxCollision;
 	//--------------Audio Compoenents
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* LockedSound;
 	
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* DoorLockedSFX;
