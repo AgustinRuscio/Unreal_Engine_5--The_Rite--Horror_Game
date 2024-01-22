@@ -535,8 +535,8 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
 	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
 	
-	MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
-	MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
+	//MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
+	//MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
 	
 	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
 }

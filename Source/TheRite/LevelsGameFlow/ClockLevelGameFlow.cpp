@@ -13,9 +13,9 @@ AClockLevelGameFlow::AClockLevelGameFlow()
 
 void AClockLevelGameFlow::SetVariables()
 {
-	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(),AAlex::StaticClass()));
+	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
-	Player->GetHint()->SetChildActorClass(AHandLetter::StaticClass());
+	//Player->GetHint()->SetChildActorClass(AHandLetter::StaticClass());
 	//PlayerHint = Cast<AHandLetter>(Player->GetHint());
 }
 
@@ -65,7 +65,7 @@ void AClockLevelGameFlow::GetMinutes()
 
 void AClockLevelGameFlow::GetHours()
 {
-	HintUIOn();
+	//HintUIOn();
 	//PlayerHint->SetOfficeMaterial();
 	bHours = true;
 	OnPartOfClockGain.Broadcast();
@@ -75,13 +75,13 @@ void AClockLevelGameFlow::FirstLetterRead()
 {
 	GarageDoor->SetLockedState(false);
 	Player->SetHintState(true);
-	HintUIOn();
+	//HintUIOn();
 }
 
-void AClockLevelGameFlow::HintUIOn()
-{
-	HintsWidget->MakeVisible();
-}
+//void AClockLevelGameFlow::HintUIOn()
+//{
+//	HintsWidget->MakeVisible();
+//}
 
 void AClockLevelGameFlow::MinutesCollected()
 {
@@ -216,26 +216,12 @@ void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 
 void AClockLevelGameFlow::SetDrawers()
 {
-	//for (auto Element : Drawers)
-	//{
-	//	Element->OnDrawerOpen.AddDynamic(this, &AClockLevelGameFlow::DrawerPuzzle);
-	//}
-
 	for (auto Element : Map_Drawers_Target)
 	{
 		Element.Key->OnDrawerOpen.AddDynamic(this, &AClockLevelGameFlow::DrawerPuzzle);
 		UE_LOG(LogTemp, Warning, TEXT("a"));
 		UE_LOG(LogTemp, Warning, TEXT("drawer name %s"), *Element.Key->GetName());
 	}
-
-	
-	//for (int32 Index = 0; Index < Drawers.Num(); ++Index)
-	//{
-	//	ABaseDrawer* CurrentDrawer = Drawers[Index];
-	//	ATargetPoint* CurrentTargetPoint = DrawersTargetsPoint[Index];
-	//	
-	//	Map_Drawers_Target.Add(CurrentDrawer, CurrentTargetPoint);
-	//}
 }
 
 void AClockLevelGameFlow::DrawerPuzzle(ABaseDrawer* Drawer)
@@ -323,15 +309,14 @@ void AClockLevelGameFlow::OnDrawerTimelineFinished()
 	{
 		Element->NormalMatterial();
 	}
-	UE_LOG(LogTemp, Error, TEXT("Drawer Ready"));
 }
 
 
 void AClockLevelGameFlow::SetHintsWidget()
 {
-	HintsWidget = CreateWidget<UHintsWidget>(GetWorld(), HintsUI);
-	HintsWidget->AddToViewport();
-	HintsWidget->SetVisibility(ESlateVisibility::Hidden);
+	//HintsWidget = CreateWidget<UHintsWidget>(GetWorld(), HintsUI);
+	//HintsWidget->AddToViewport();
+	//HintsWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 
@@ -361,6 +346,7 @@ void AClockLevelGameFlow::BeginPlay()
 	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
 	
 	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
+	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 }
 
 void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
@@ -424,9 +410,7 @@ auto AClockLevelGameFlow::MakeBreath(float time) -> void
 		BreathCD = FMath::RandRange(25.0f, 190.0f);
 	}
 	else
-	{
 		BreathTimer += time;
-	}
 }
 
 void AClockLevelGameFlow::DropPortrait(float DeltaTime)

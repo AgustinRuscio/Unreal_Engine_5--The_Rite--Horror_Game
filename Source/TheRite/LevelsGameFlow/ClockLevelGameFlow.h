@@ -7,7 +7,6 @@
 #include "Engine/TriggerBox.h"
 #include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/HandLetter.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Widgets/HintsWidget.h"
 
@@ -37,9 +36,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* RainEffect;
 
-	UPROPERTY(EditAnywhere, Category = "Widgets")
-	TSubclassOf<UHintsWidget> HintsUI;
-	UHintsWidget* HintsWidget;
+	//UPROPERTY(EditAnywhere, Category = "Widgets")
+	//TSubclassOf<UHintsWidget> HintsUI;
+	//UHintsWidget* HintsWidget;
 
 
 	UPROPERTY(EditAnywhere, Category = "One item grab items")
@@ -259,7 +258,7 @@ private:
 	
 	UFUNCTION()
 	void FirstLetterRead();
-	void HintUIOn();
+	//void HintUIOn();
 
 	void MinutesCollected();
 
