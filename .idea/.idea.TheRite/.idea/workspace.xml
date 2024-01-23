@@ -9,12 +9,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/AmbientMusic2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/AmbientMusic2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Mr__Sandman.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Mr__Sandman.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_Rain.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_Rain.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/++/BP_LightsTheRite.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/++/BP_LightsTheRite.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntermediateWorld++.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntermediateWorld++.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,6 +240,7 @@
       <workItem from="1705952602450" duration="92000" />
       <workItem from="1705954063005" duration="341000" />
       <workItem from="1705977640893" duration="3860000" />
+      <workItem from="1706030408704" duration="2213000" />
     </task>
     <servers />
   </component>
