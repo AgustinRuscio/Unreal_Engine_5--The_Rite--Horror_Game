@@ -8,7 +8,6 @@
 #include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Interactuables/Door.h"
-#include "TheRite/Widgets/HintsWidget.h"
 
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
@@ -158,8 +157,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Audios: Library")
 	USoundBase* SFX_Alex_GoingInside;
 	
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_TiffanyTalkingToAlex;
 	UPROPERTY(EditAnywhere, Category = "Audios: Library")
 	USoundBase* SFX_TiffanyScream;
 	UPROPERTY(EditAnywhere, Category = "Audios: Library")
@@ -327,7 +324,4 @@ public:
 public:	
 	AClockLevelGameFlow();
 	virtual void Tick(float DeltaTime) override;
-
-	
-
 };

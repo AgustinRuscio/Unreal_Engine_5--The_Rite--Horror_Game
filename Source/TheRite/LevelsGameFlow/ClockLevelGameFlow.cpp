@@ -95,7 +95,7 @@ void AClockLevelGameFlow::MinutesCollected()
 	PlaceBlockingVolumen(BlockingVolumenLibraryPosition->GetActorLocation());
 
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyHeavyBreath);
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyTalkingToAlex);
+	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
 void AClockLevelGameFlow::OnSoundPaused()
 {
@@ -122,7 +122,7 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 		LibraryRoofLight->TurnOn();
 		LibraryTiffany->GetMesh()->SetVisibility(true, false);
 		
-		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyTalkingToAlex);
+		UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 		
 		bLibraryJumpScaredReady = true;
 		RecordPlayer->PlaySong();
@@ -397,6 +397,7 @@ void AClockLevelGameFlow::MakeTiffanyTalk(float time)
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyTalkCue);
 		TiffanyTalkCD = FMath::RandRange(60.0f, 120.0f);
+		TiffanyTalkTimer = 0;
 	}
 	else
 		TiffanyTalkTimer += time;
