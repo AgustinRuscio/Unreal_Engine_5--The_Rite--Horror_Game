@@ -9,24 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Compile.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Compile.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Export.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Export.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ExportDialogueScript.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ExportDialogueScript.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Import.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Import.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogue.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogue.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogueScript.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_ImportDialogueScript.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.locmeta" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.locmeta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es-AR/Game.archive" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es-AR/Game.locres" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_LevelLoader.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntroductionLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntroductionLevel.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheRite.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/TheRite.uproject" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,6 +244,8 @@
       <workItem from="1706030408704" duration="2213000" />
       <workItem from="1706035423602" duration="481000" />
       <workItem from="1706037002478" duration="1362000" />
+      <workItem from="1706040288975" duration="338000" />
+      <workItem from="1706040678948" duration="88000" />
     </task>
     <servers />
   </component>
