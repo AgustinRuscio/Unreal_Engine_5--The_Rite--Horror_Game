@@ -9,12 +9,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/BP_LevelLoader.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/BlockinPorLasDudas.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/Blocking1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntroductionLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/IntroductionLevel.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNew/Pared_y_columnas_nuevas_polySurface78.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNew/Pared_y_columnas_nuevas_polySurface78.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNewNew/ParedLisaPuerta2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNewNew/ParedLisaPuerta2.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TheRite.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/TheRite.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Button.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Button.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,6 +245,7 @@
       <workItem from="1706037002478" duration="1362000" />
       <workItem from="1706040288975" duration="338000" />
       <workItem from="1706040678948" duration="88000" />
+      <workItem from="1706114480125" duration="643000" />
     </task>
     <servers />
   </component>
