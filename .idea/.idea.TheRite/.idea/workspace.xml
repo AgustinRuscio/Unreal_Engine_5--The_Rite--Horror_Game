@@ -10,8 +10,9 @@
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/RealWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/ArtDrawer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/ArtDrawer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/ArtRoomWall.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/ArtRoomWall.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/CatWalkWalls.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/CatWalkWalls.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,6 +248,7 @@
       <workItem from="1706116446324" duration="494000" />
       <workItem from="1706123477766" duration="658000" />
       <workItem from="1706124495434" duration="1267000" />
+      <workItem from="1706159035465" duration="1861000" />
     </task>
     <servers />
   </component>
