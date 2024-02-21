@@ -7,6 +7,8 @@ ALoreInteractuable::ALoreInteractuable()
  	PrimaryActorTick.bCanEverTick = true;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("Object mesh");
+	bCanInteract = true;
+	bWillSound = true;
 }
 
 void ALoreInteractuable::Interaction()

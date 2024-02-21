@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "GameFramework/Actor.h"
 #include "LoreInteractuable.generated.h"
 
 UCLASS()
