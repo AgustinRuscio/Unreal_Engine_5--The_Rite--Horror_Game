@@ -52,8 +52,10 @@ void AAlex::OnJumpScare()
 void AAlex::TimeOver()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+	OnJumpscaredFinished.Broadcast();
 	EnableInput(GetWorld()->GetFirstPlayerController());
 	ScreamerSkeleton->SetVisibility(false);
+	
 }
 
 void AAlex::MakeTalk()

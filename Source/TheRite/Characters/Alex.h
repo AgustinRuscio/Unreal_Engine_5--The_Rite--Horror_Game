@@ -16,6 +16,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLighterMontage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
 
 class UInputMappingContext;
 class UInputAction;
@@ -257,4 +258,5 @@ public:
 	
 	FAllItemsCollected OnAllItemCollected;
 	FLighterMontage OnLighterAnimMontage;
+	FJumpscaredFinished OnJumpscaredFinished;
 };

@@ -17,7 +17,7 @@ void ARealWorldGameFlow::OpenArtRoomDoor()
 	ArtRoomDoor->Open();
 	bCloseDoor = true;
 
-	for (auto Element : ArtRoomRedLights)
+	for (auto const Element : ArtRoomRedLights)
 	{
 		Element->SpotLightComponent->SetIntensity(1000.0f);
 	}
@@ -49,7 +49,7 @@ void ARealWorldGameFlow::OnCloseTimeLineFinished()
 {
 	ArtRoomTiffany->Destroy();
 
-	for (auto Element : ArtRoomRedLights)
+	for (auto const Element : ArtRoomRedLights)
 	{
 		Element->Destroy();
 	}
@@ -59,10 +59,17 @@ void ARealWorldGameFlow::OnCloseTimeLineFinished()
 }
 void ARealWorldGameFlow::GetPlayer()
 {
-	auto tempSearch = UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass());
+	auto const tempSearch = UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass());
 	Player = CastChecked<AAlex>(tempSearch);
 }
 
+void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor))return;
+
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
+	KnockTrigger->Destroy();
+}
 
 void ARealWorldGameFlow::BeginPlay()
 {
@@ -74,7 +81,8 @@ void ARealWorldGameFlow::BeginPlay()
 	GetPlayer();
 	
 	Player->ForceTalk(FirstTalkAudio);
-
+	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
+	
 	LockedInteractionDoor->OnInteraction.AddDynamic(this, &ARealWorldGameFlow::OpenArtRoomDoor);
 }
 

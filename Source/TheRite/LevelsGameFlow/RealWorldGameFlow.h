@@ -44,10 +44,14 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Objects")
 	ATriggerVolume* SlamDoorTriggerVolume;
-
+	
+	UPROPERTY(EditAnywhere, Category= "Objects")
+	ATriggerVolume* KnockTrigger;
+	
 	UPROPERTY(EditAnywhere, Category= "Objects")
 	ATiffany* ArtRoomTiffany;
-
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_Knocking;
 
 	UPROPERTY(EditAnywhere, Category= "Objects")
 	float OnCloseTimeLineLength = 0.2f;
@@ -69,6 +73,9 @@ private:
 	void BindTimeLine();
 	void GetPlayer();
 	
+	UFUNCTION()
+	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
+
 protected:
 	virtual void BeginPlay() override;
 

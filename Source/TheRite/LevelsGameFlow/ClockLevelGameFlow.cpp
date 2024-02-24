@@ -94,6 +94,7 @@ void AClockLevelGameFlow::MinutesCollected()
 
 	PlaceBlockingVolumen(BlockingVolumenLibraryPosition->GetActorLocation());
 
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightSwitch);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyHeavyBreath);
 	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
@@ -128,6 +129,8 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 		RecordPlayer->PlaySong();
 
 		Player->ForceTalk(SFX_Alex_GoingInside);
+		
+		LibraryRoofLight->TurnOn();
 		Player->CameraTargeting(RecordPlayer->GetActorLocation());
 	}
 }
@@ -143,10 +146,17 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyScream);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Heartbeat);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
+
+	Player->OnJumpscaredFinished.AddDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 	
 	Player->OnJumpScare();
 
 	JumpscareFirstTimeLine.PlayFromStart();
+}
+
+void AClockLevelGameFlow::OnJumpscareFinished()
+{
+	LibraryRoofLight->TurnOff();
 }
 
 void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor)
@@ -176,6 +186,14 @@ void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor*
 	Player->SetCanUseLigherState(true);
 	
 	EndGameTriggerVolumen->Destroy();
+}
+
+void AClockLevelGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor))return;
+
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
+	KnockTrigger->Destroy();
 }
 
 void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor)
@@ -211,6 +229,9 @@ void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 	}
 
 	LibraryDoor->SetLockedState(false);
+	
+	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
+	
 	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
 }
 
@@ -325,8 +346,9 @@ void AClockLevelGameFlow::BeginPlay()
 	Super::BeginPlay();
 	BindTimLinemethods();
 	
-	//UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
-	//UGameplayStatics::SpawnSound2D(GetWorld(), RainEffect);
+	UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
+	UGameplayStatics::SpawnSound2D(GetWorld(), StressSound);
+	UGameplayStatics::SpawnSound2D(GetWorld(), VoicesSound);
 
 	SetHintsWidget();
 	SetVariables();
@@ -346,6 +368,7 @@ void AClockLevelGameFlow::BeginPlay()
 	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
 	
 	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
+	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 }
 

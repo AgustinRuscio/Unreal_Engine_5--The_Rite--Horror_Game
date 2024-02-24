@@ -33,7 +33,9 @@ private:
 	USoundBase* AmbientMusic;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* RainEffect;
+	USoundBase* StressSound;
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundBase* VoicesSound;
 
 	//UPROPERTY(EditAnywhere, Category = "Widgets")
 	//TSubclassOf<UHintsWidget> HintsUI;
@@ -167,6 +169,11 @@ private:
 	USoundBase* SFX_TiffanyLaugh;
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_LightsBroken;
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_LightSwitch;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_Knocking;
 
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* OhFuckAlexTalk;
@@ -182,6 +189,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* EndGameTriggerVolumen;
+	
+	UPROPERTY(EditAnywhere, Category = "InGameObject")
+	ATriggerBox* KnockTrigger;
+	
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* CloseGaregeDoorTriggerVolumen;
 	
@@ -304,6 +315,10 @@ private:
 
 	UFUNCTION()
 	void OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
+	
 	UFUNCTION()
 	void OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor);
 
@@ -313,6 +328,8 @@ private:
 	void OnFirstJumpscareTimelineFinished();
 	UFUNCTION()
 	void OnSecondJumpscareTimelineFinished();
+	UFUNCTION()
+	void OnJumpscareFinished();
 	
 protected:
 	virtual void BeginPlay() override;
