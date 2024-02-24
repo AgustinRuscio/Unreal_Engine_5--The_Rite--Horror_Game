@@ -325,8 +325,8 @@ void AClockLevelGameFlow::BeginPlay()
 	Super::BeginPlay();
 	BindTimLinemethods();
 	
-	UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
-	UGameplayStatics::SpawnSound2D(GetWorld(), RainEffect);
+	//UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
+	//UGameplayStatics::SpawnSound2D(GetWorld(), RainEffect);
 
 	SetHintsWidget();
 	SetVariables();
