@@ -10,6 +10,7 @@ AMinutesLetter::AMinutesLetter()
 
 void AMinutesLetter::Interaction()
 {
+	OnInteractionTrigger.Broadcast();
 	OnAction.Broadcast();
 	Destroy();
 }

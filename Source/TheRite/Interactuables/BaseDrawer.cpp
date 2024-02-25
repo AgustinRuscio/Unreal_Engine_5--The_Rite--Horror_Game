@@ -83,6 +83,11 @@ ABaseDrawer::ABaseDrawer()
 
 }
 
+bool ABaseDrawer::IsOpen() const
+{
+	return bIsOpen;
+}
+
 void ABaseDrawer::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -93,6 +98,8 @@ void ABaseDrawer::Tick(float DeltaSeconds)
 
 void ABaseDrawer::Interaction()
 {
+	Super::Interaction();
+	
 	if(!bCanInteract) return;
 
 	if(bFlipFlop)
@@ -100,7 +107,7 @@ void ABaseDrawer::Interaction()
 		OnDrawerOpen.Broadcast(this);
 		
 		bCanInteract = false;
-
+		bIsOpen = true;
 		bFlipFlop = false;
 		
 		OpenTimeLine.PlayFromStart();
@@ -108,7 +115,7 @@ void ABaseDrawer::Interaction()
 	else
 	{
 		bCanInteract = false;
-
+		bIsOpen = false;
 		CloseTimeLine.PlayFromStart();
 		bFlipFlop = true;
 	}
@@ -130,7 +137,7 @@ void ABaseDrawer::AddingForce()
 
 	FVector force = ForceDir * ForceIntensity;
 	
-	DrawerModel->AddForce(force, "None", true);
+	DrawerModel->AddForce(force);
 
 	WaitTimeLine.PlayFromStart();
 }

@@ -16,7 +16,7 @@ void ARealWorldGameFlow::OpenArtRoomDoor()
 	
 	ArtRoomDoor->Open();
 	bCloseDoor = true;
-
+	
 	for (auto const Element : ArtRoomRedLights)
 	{
 		Element->SpotLightComponent->SetIntensity(1000.0f);

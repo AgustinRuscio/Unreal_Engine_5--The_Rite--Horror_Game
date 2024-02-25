@@ -5,7 +5,11 @@
 #include "GameFramework/Actor.h"
 #include "Interactor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionTrigger);
+
 UCLASS()
+
+
 class THERITE_API AInteractor : public AActor, public IIInteractuable
 {
 	GENERATED_BODY()
@@ -29,4 +33,6 @@ public:
 	virtual void Interaction() override;
 	UFUNCTION()
 	virtual USoundBase* GetSound() override;
+
+	FInteractionTrigger OnInteractionTrigger;
 };

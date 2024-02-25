@@ -33,6 +33,7 @@ private:
 
 	bool bKeyConteiner;
 	bool bFlipFlop = true;
+	bool bIsOpen = false;
 
 
 	void BindTimeLines();
@@ -68,6 +69,7 @@ protected:
 public:	
 	ABaseDrawer();
 
+	bool IsOpen() const;
 	virtual void Tick(float DeltaSeconds) override;
 	
 	UPROPERTY(BlueprintAssignable, Category = "Drawer event")

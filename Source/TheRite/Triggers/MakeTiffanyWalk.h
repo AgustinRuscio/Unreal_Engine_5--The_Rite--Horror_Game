@@ -9,6 +9,7 @@
 #include "MakeTiffanyWalk.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFinished);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStart);
 
 UCLASS()
 class THERITE_API AMakeTiffanyWalk : public AActor
@@ -81,6 +82,7 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
-	FOnFinished OnFinished;
+	FOnFinished OnFinishedEvent;
+	FOnFinished OnStartEvent;
 };
 

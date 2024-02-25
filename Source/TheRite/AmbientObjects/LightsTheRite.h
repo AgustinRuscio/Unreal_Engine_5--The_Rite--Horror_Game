@@ -48,6 +48,8 @@ public:
 
 	UFUNCTION()
 	void TurnOff();
+	UFUNCTION()
+	void TurnOffSpotLight();
 	
 	UFUNCTION()
 	void TurnOn();

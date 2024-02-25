@@ -4,6 +4,7 @@
 #include "Engine/SpotLight.h"
 #include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Interactuables/LockedDoor.h"
@@ -55,7 +56,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Objects")
 	float OnCloseTimeLineLength = 0.2f;
-	
+
 	bool bCloseDoor = false;
 
 	int DoOnce = 0;

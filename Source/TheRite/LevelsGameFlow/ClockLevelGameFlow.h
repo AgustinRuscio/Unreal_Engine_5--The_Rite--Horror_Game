@@ -177,6 +177,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* OhFuckAlexTalk;
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* GetAwaylexTalk;
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_LastAudio;
@@ -192,12 +194,18 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* KnockTrigger;
-	
+	 
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* CloseGaregeDoorTriggerVolumen;
 	
+	UPROPERTY(EditAnywhere, Category = "InGameObject")
+	ATriggerBox* ArtRoomEvenTriggerBox;
+	
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ALightsTheRite* LibraryRoofLight;
+	
+	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
+	ALightsTheRite* ArtRoomLight;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ATiffany* LibraryTiffany;
@@ -258,6 +266,8 @@ private:
 
 	UFUNCTION()
 	void CheckInteraction();
+	UFUNCTION()
+	void AlexSayGetAway();
 
 	UFUNCTION()
 	void GetMinutes();
@@ -295,7 +305,7 @@ private:
 	void OnInteractionWithLockedDoor();
 
 	
-	void PlaceBlockingVolumen(FVector NewLocation);
+	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRot);
 
 	void ResetBlockingVolumenPosition();
 

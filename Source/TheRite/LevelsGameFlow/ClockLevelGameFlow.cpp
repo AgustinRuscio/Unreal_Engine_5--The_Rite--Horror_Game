@@ -51,9 +51,17 @@ void AClockLevelGameFlow::CheckInteraction()
 	tiff->SetActorRotation(rotation);
 	
 	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
+	
+	
 	tiff->SetWaypoints(Waypoints);
 	tiff->SetHasToMove(true);
 }
+
+void AClockLevelGameFlow::AlexSayGetAway()
+{
+	Player->ForceTalk(GetAwaylexTalk);
+}
+
 
 void AClockLevelGameFlow::GetMinutes()
 {
@@ -92,7 +100,7 @@ void AClockLevelGameFlow::MinutesCollected()
 	RecordPlayer->PlaySong();
 	RecordPlayer->OnSongPaused.AddDynamic(this, &AClockLevelGameFlow::OnSoundPaused);
 
-	PlaceBlockingVolumen(BlockingVolumenLibraryPosition->GetActorLocation());
+	PlaceBlockingVolumen(BlockingVolumenLibraryPosition->GetActorLocation(), FRotator::ZeroRotator);
 
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightSwitch);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyHeavyBreath);
@@ -281,6 +289,8 @@ void AClockLevelGameFlow::DrawerPuzzle(ABaseDrawer* Drawer)
 		
 		for (const TPair<ABaseDrawer*, ATargetPoint*>& Pair : Map_Drawers_Target)
 		{
+			if(Pair.Key->IsOpen()) continue;
+			
 			Pairs.Add(Pair);
 		}
 
@@ -357,11 +367,13 @@ void AClockLevelGameFlow::BeginPlay()
 	MaxPortraitsDown = FMath::RandRange(4, Portraits.Num() / 3);
 
 	SetDrawers();
+
+	MakeTiffanyWalk->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::AlexSayGetAway);
 	
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnLibraryKeyCollected);
 	
-	MakeTiffanyWalk->OnFinished.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
+	MakeTiffanyWalk->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
 	BigLockedDoor->OnInteraction.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
 
 	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
@@ -390,7 +402,7 @@ void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
 
 void AClockLevelGameFlow::OnLibraryKeyCollected()
 {
-	PlaceBlockingVolumen(BlockingVolumeEntrancePosition->GetActorLocation());
+	PlaceBlockingVolumen(BlockingVolumeEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
 }
 
 void AClockLevelGameFlow::OnWalkFinished()
@@ -403,9 +415,12 @@ void AClockLevelGameFlow::OnInteractionWithLockedDoor()
 	Player->ForceTalk(SFX_BigDoor);
 }
 
-void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation)
+void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
 {
 	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
+
+	if(NewRotation != FRotator::ZeroRotator)
+		BlockingVolume->SetActorRotation(NewRotation);
 }
 
 void AClockLevelGameFlow::ResetBlockingVolumenPosition()

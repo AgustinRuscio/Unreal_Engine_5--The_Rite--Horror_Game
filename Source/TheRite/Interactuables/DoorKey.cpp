@@ -19,6 +19,8 @@ void ADoorKey::Interaction()
 {
 	if(!bKeyReady) return;
 
+	 //OnInteractionTrigger.Broadcast();
+	
 	UGameplayStatics::SpawnSound2D(this, VoiceSound);
 
 	OnKeyCollected.Broadcast();

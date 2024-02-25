@@ -91,6 +91,8 @@ void ALockedDoor::Tick(float DeltaTime)
 
 void ALockedDoor::Interaction()
 {
+	OnInteractionTrigger.Broadcast();
+	
 	ItsLocked();
 	
 	if(!bHasInteraction) return;

@@ -7,7 +7,7 @@ AInteractor::AInteractor()
 
 void AInteractor::Interaction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("No interaction"));
+	OnInteractionTrigger.Broadcast();
 }
 
 

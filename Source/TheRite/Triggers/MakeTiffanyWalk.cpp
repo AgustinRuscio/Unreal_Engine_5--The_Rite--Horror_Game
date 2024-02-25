@@ -34,7 +34,7 @@ void AMakeTiffanyWalk::SecondsTimeLineUpdate(float value)
 		Element->TurnOn();
 	}
 
-	OnFinished.Broadcast();
+	OnFinishedEvent.Broadcast();
 	Destroy();
 }
 
@@ -94,6 +94,7 @@ void AMakeTiffanyWalk::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	if(!bKeyReady) return;
 	if(DoOnce > 0) return;
 
+	OnStartEvent.Broadcast();
 	DoOnce++;
 
 	bReady = true;
