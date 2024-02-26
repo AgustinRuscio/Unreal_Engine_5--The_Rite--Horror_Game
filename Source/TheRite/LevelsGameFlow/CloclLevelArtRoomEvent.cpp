@@ -1,5 +1,6 @@
 #include "CloclLevelArtRoomEvent.h"
 
+#include "Components/AudioComponent.h"
 #include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -90,11 +91,20 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 
 void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(!Cast<AAlex>(OtherActor)) return;
+	auto Alex = Cast<AAlex>(OtherActor);
+	if(!Alex) return;
 
 	if(DoOnce != 0) return;
+
+	HearthBeatComponent = UGameplayStatics::SpawnSound2D(this, HeathBeatSFX);
+	
 	DoOnce++;
 	OnArtRoomEventStarted.Broadcast();
+
+	Alex->CameraTargeting(StandTiffany->GetActorLocation());
+	
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->DisableInput(controller);
 	
 	ArtRoomDoor->SetLockedState(true);
 	ArtRoomDoor->HardClosing();
@@ -198,9 +208,14 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	ResetBlockingVolumenPosition();
 
 	OnArtRoomEventFinished.Broadcast();
-
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->EnableInput(controller);
+	
+	HearthBeatComponent->Stop();
+	HearthBeatComponent->DestroyComponent();
 	
 	StartTriggerBox->Destroy();
+	
 	Destroy();
 }
 

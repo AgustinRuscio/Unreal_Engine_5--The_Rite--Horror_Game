@@ -58,8 +58,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Tiffany")
 	ASkeletalMeshActor* FloatingTiff4;
 
+	UAudioComponent* HearthBeatComponent;
+	
 	UPROPERTY(EditAnywhere, Category = "Sounds")
 	USoundBase* LightSwitch;
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* HeathBeatSFX;
 	
 	UPROPERTY(EditAnywhere, Category="Curves")
 	UCurveFloat* TurnOffCurve;

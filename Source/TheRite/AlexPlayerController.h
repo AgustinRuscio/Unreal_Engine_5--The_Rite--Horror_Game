@@ -84,7 +84,10 @@ protected:
 public:
 	AAlexPlayerController();
 	void SetPauseGame(bool PauseState);
-	
+
+	void DisableInput(APlayerController* PlayerController) override;
+
+	void EnableInput(APlayerController* PlayerController) override;
 	FPlayerMovement OnPlayerMovement;
 	
 	FStopSprint OnStopSprint;

@@ -105,3 +105,17 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 	else
 		SetInputMode(FInputModeGameOnly());
 }
+
+void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
+{
+	Super::DisableInput(PlayerController);
+	SetIgnoreLookInput(true);
+	SetIgnoreMoveInput(true);
+}
+
+void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
+{
+	Super::EnableInput(PlayerController);
+	SetIgnoreLookInput(false);
+	SetIgnoreMoveInput(false);
+}

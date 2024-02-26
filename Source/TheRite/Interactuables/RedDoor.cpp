@@ -4,6 +4,7 @@
 #include "LevelSequencePlayer.h"
 #include "MovieSceneSequencePlaybackSettings.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 
 ARedDoor::ARedDoor()
 {
@@ -123,6 +124,9 @@ void ARedDoor::Interaction()
 	TimeLineLatchAnim.PlayFromStart();
 	UGameplayStatics::PlaySound2D(GetWorld(), SFXDoor);
 
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->DisableInput(controller);
+	
 	TimeLineOpenDoor.Play();
 }
 

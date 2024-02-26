@@ -1,5 +1,6 @@
 #include "ClockLevelGameFlow.h"
 
+#include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "Containers/Map.h"
@@ -356,10 +357,14 @@ void AClockLevelGameFlow::BeginPlay()
 	Super::BeginPlay();
 	BindTimLinemethods();
 	
-	UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
-	UGameplayStatics::SpawnSound2D(GetWorld(), StressSound);
-	UGameplayStatics::SpawnSound2D(GetWorld(), VoicesSound);
+	AmbientMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
+	StressSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), StressSound);
+	VoicesSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), VoicesSound);
 
+	AmbientMusicOriginalVolumen = AmbientMusic->GetVolumeMultiplier();
+	StressSoundOriginalVolumen = StressSound->GetVolumeMultiplier();
+	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
+	
 	SetHintsWidget();
 	SetVariables();
 	BindPuzzleEvents();
@@ -368,6 +373,10 @@ void AClockLevelGameFlow::BeginPlay()
 
 	SetDrawers();
 
+	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::OnArtRoomEventStart);
+	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::OnArtRoomEventEnds);
+	
+	
 	MakeTiffanyWalk->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::AlexSayGetAway);
 	
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
@@ -382,6 +391,16 @@ void AClockLevelGameFlow::BeginPlay()
 	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
+}
+
+void AClockLevelGameFlow::OnArtRoomEventStart()
+{
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 10);
+}
+
+void AClockLevelGameFlow::OnArtRoomEventEnds()
+{
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundOriginalVolumen);
 }
 
 void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()

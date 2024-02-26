@@ -3,6 +3,7 @@
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 
 
 ARite::ARite()
@@ -31,15 +32,18 @@ void ARite::Interaction()
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;
 	PlaybackSettings.bRandomStartTime = false;
+
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->DisableInput(controller);
 	
 	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
 	
-	ULevelSequencePlayer* player =  ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceFade,
+	ULevelSequencePlayer* sequencePlayer =  ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceFade,
 																				PlaybackSettings,TempLevelSequenceActor);
 
-	player->OnFinished.AddDynamic(this, &ARite::ChangeLevel);
+	sequencePlayer->OnFinished.AddDynamic(this, &ARite::ChangeLevel);
 	
-	player->Play();
+	sequencePlayer->Play();
 }
 
 void ARite::SetClockReady()

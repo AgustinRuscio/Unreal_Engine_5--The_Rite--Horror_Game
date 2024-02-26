@@ -40,7 +40,7 @@ void AAlex::OnJumpScare()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
     
-	DisableInput(GetWorld()->GetFirstPlayerController());
+	MyController->DisableInput(PlayerController);
 	ScreamerSkeleton->SetVisibility(true);
 	ScreamerSkeleton->PlayAnimation(ScreamerAnim,false);
 	
@@ -53,9 +53,8 @@ void AAlex::TimeOver()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
 	OnJumpscaredFinished.Broadcast();
-	EnableInput(GetWorld()->GetFirstPlayerController());
 	ScreamerSkeleton->SetVisibility(false);
-	
+	MyController->EnableInput(PlayerController);
 }
 
 void AAlex::MakeTalk()

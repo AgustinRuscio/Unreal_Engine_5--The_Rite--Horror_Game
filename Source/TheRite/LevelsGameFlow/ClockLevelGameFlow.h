@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CloclLevelArtRoomEvent.h"
 #include "Engine/BlockingVolume.h"
 #include "Engine/StaticMeshActor.h"
 #include "Engine/TargetPoint.h"
@@ -29,6 +30,10 @@ class THERITE_API AClockLevelGameFlow : public AActor
 	GENERATED_BODY()
 	
 private:
+
+	UPROPERTY(EditAnywhere, Category= "Level Events")
+	ACloclLevelArtRoomEvent* ArtRoomEvent;
+	
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* AmbientMusic;
 
@@ -37,6 +42,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* VoicesSound;
 
+
+	UAudioComponent* AmbientMusicCompoenent;
+	UAudioComponent* StressSoundMusicCompoenent;
+	UAudioComponent* VoicesSoundMusicCompoenent;
+		
+	float AmbientMusicOriginalVolumen;
+	float StressSoundOriginalVolumen;
+	float VoicesSoundOriginalVolumen;
+	
 	//UPROPERTY(EditAnywhere, Category = "Widgets")
 	//TSubclassOf<UHintsWidget> HintsUI;
 	//UHintsWidget* HintsWidget;
@@ -294,6 +308,11 @@ private:
 	void OnDrawerTimelineFinished();
 
 	UFUNCTION()
+	void OnArtRoomEventEnds();
+	UFUNCTION()
+	void OnArtRoomEventStart();
+	
+	UFUNCTION()
 	void SpawnTiffanyForLibraryKeyCollected();
 
 	UFUNCTION()
@@ -343,6 +362,8 @@ private:
 	
 protected:
 	virtual void BeginPlay() override;
+
+	
 
 public:
 	FOnPartOfClockGain OnPartOfClockGain;
