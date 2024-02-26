@@ -212,14 +212,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* CloseGaregeDoorTriggerVolumen;
 	
-	UPROPERTY(EditAnywhere, Category = "InGameObject")
-	ATriggerBox* ArtRoomEvenTriggerBox;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ALightsTheRite* LibraryRoofLight;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ALightsTheRite* ArtRoomLight;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ATiffany* LibraryTiffany;

@@ -25,17 +25,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Triggers")
 	ATriggerBox* StartTriggerBox;
 	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects")
-	ABlockingVolume* BlockingVolume;
-	
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	ALightsTheRite* ArtRoomLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	ASpotLight* SpotLight;
-
-	UPROPERTY(EditAnywhere, Category = "Target points")
-	ATargetPoint* BlockingVolumenPosition;
+	
 	UPROPERTY(EditAnywhere, Category = "Target points")
 	ATargetPoint* RoomCenterTaregtPoint;
 	UPROPERTY(EditAnywhere, Category = "Target points")
@@ -125,6 +120,4 @@ public:
 	
 	UFUNCTION()
 	void OnEventStarted(AActor* OverlappedActor, AActor* OtherActor);
-	void ResetBlockingVolumenPosition();
-	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation);
 };

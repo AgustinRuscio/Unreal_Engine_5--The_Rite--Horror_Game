@@ -120,8 +120,6 @@ void ADoor::CheckDragDoor()
 
 	float DoorFloat = Player->GetDoorFloat();
 	
-
-	UE_LOG(LogTemp, Warning, TEXT("Door Float %f"), DoorItself->GetComponentRotation().Yaw);
 	if(Yaw != Check)
 	{
 		LatchHolding(bHolding);

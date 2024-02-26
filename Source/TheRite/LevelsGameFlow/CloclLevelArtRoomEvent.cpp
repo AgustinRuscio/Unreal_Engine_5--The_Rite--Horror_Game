@@ -111,8 +111,6 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 
 	ArtRoomLight->TurnOffSpotLight();
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-
-	PlaceBlockingVolumen(BlockingVolumenPosition->GetActorLocation(), FRotator(0,0,0));
 	
 	FirstTurnOffTimeLine.PlayFromStart();
 }
@@ -205,7 +203,6 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	
 	ArtRoomDoor->SetLockedState(false);
-	ResetBlockingVolumenPosition();
 
 	OnArtRoomEventFinished.Broadcast();
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -238,17 +235,4 @@ void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
 	ThirdTurnOnTimeLine.TickTimeline(DeltaTime);
 	LastTurnOffTimeLine.TickTimeline(DeltaTime);
 	LastTurnOnTimeLine.TickTimeline(DeltaTime);
-}
-
-void ACloclLevelArtRoomEvent::ResetBlockingVolumenPosition()
-{
-	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation->GetActorLocation(),false,
-		nullptr, ETeleportType::TeleportPhysics);
-}
-void ACloclLevelArtRoomEvent::PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
-{
-	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
-
-	if(NewRotation != FRotator::ZeroRotator)
-		BlockingVolume->SetActorRotation(NewRotation);
 }

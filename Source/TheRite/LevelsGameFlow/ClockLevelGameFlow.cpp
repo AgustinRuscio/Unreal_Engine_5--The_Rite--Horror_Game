@@ -226,7 +226,6 @@ void AClockLevelGameFlow::OnFirstJumpscareTimelineFinished()
 
 void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Finished"));
 	LibraryTriggerVolumenFirst->Destroy();
 	LibraryTriggerVolumenJumpScared->Destroy();
 
@@ -249,8 +248,6 @@ void AClockLevelGameFlow::SetDrawers()
 	for (auto Element : Map_Drawers_Target)
 	{
 		Element.Key->OnDrawerOpen.AddDynamic(this, &AClockLevelGameFlow::DrawerPuzzle);
-		UE_LOG(LogTemp, Warning, TEXT("a"));
-		UE_LOG(LogTemp, Warning, TEXT("drawer name %s"), *Element.Key->GetName());
 	}
 }
 
@@ -329,9 +326,7 @@ void AClockLevelGameFlow::OnDrawerKeyCollected()
 
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Steps);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_HeavyBreath);
-
 	
-	UE_LOG(LogTemp, Error, TEXT("Drawer Start"));
 	DrawerTimeline.Play();
 }
 

@@ -42,6 +42,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="SFX")
 	USoundBase* SFXTiffanyNear;
+	
+	UPROPERTY(EditAnywhere, Category="SFX")
+	USoundBase* SFX_AfterEvent;
 
 	
 	FTimeline FirstTimeLine;
@@ -53,8 +56,12 @@ private:
 	
 	bool bKeyReady;
 	bool bReady;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bSoundAfterEvent;
 
 	int8 DoOnce;
+	int8 DoOnceTimeLine = 0;
 
 	UFUNCTION()
 	void FirstTimeLineUpdate(float value);
