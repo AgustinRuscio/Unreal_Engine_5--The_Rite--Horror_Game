@@ -303,9 +303,9 @@ private:
 	void OnDrawerTimelineFinished();
 
 	UFUNCTION()
-	void OnArtRoomEventEnds();
+	void VoicesSoundSetOrigialVolumen();
 	UFUNCTION()
-	void OnArtRoomEventStart();
+	void VoicesSoundIncrease();
 	
 	UFUNCTION()
 	void SpawnTiffanyForLibraryKeyCollected();

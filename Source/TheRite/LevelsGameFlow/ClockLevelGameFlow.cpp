@@ -52,7 +52,8 @@ void AClockLevelGameFlow::CheckInteraction()
 	tiff->SetActorRotation(rotation);
 	
 	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
-	
+	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
 	
 	tiff->SetWaypoints(Waypoints);
 	tiff->SetHasToMove(true);
@@ -368,8 +369,8 @@ void AClockLevelGameFlow::BeginPlay()
 
 	SetDrawers();
 
-	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::OnArtRoomEventStart);
-	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::OnArtRoomEventEnds);
+	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
 	
 	
 	MakeTiffanyWalk->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::AlexSayGetAway);
@@ -388,12 +389,12 @@ void AClockLevelGameFlow::BeginPlay()
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 }
 
-void AClockLevelGameFlow::OnArtRoomEventStart()
+void AClockLevelGameFlow::VoicesSoundIncrease()
 {
 	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 10);
 }
 
-void AClockLevelGameFlow::OnArtRoomEventEnds()
+void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()
 {
 	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundOriginalVolumen);
 }
