@@ -244,93 +244,6 @@ void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
 }
 
-void AClockLevelGameFlow::SetDrawers()
-{
-	for (auto Element : Map_Drawers_Target)
-	{
-		Element.Key->OnDrawerOpen.AddDynamic(this, &AClockLevelGameFlow::DrawerPuzzle);
-	}
-}
-
-void AClockLevelGameFlow::DrawerPuzzle(ABaseDrawer* Drawer)
-{
-	if(!bOnDrawerPuzzle) return;
-
-	if(DrawersOpened < MinDrawerOpenedUntilscreams)
-	{
-		++DrawersOpened;
-
-		if(DrawersOpened == 1) return;
-		
-		if(DrawersOpened == 2)
-			Player->ForceTalk(SFX_WhereDidILeftTheKey);
-		else
-			Player->ForceTalk(SFX_WhereIsTheDeamKey);
-	}
-	else
-	{
-		if(Drawer->IsKeyContainer())
-		{
-			bOnDrawerPuzzle = false;
-			Player->ForceTalk(SFX_ImLoosingMyMind);
-		}
-		else
-		{
-			Drawer->AddingForce();
-			Player->ForceTalk(SFX_AlexScream);
-		}
-
-		if(DoOnceDrawers > 0) return;
-
-		int RandomDrawer = FMath::RandRange(0,Map_Drawers_Target.Num()-1);
-
-		TArray<TPair<ABaseDrawer*, ATargetPoint*>> Pairs;
-		
-		for (const TPair<ABaseDrawer*, ATargetPoint*>& Pair : Map_Drawers_Target)
-		{
-			if(Pair.Key->IsOpen()) continue;
-			
-			Pairs.Add(Pair);
-		}
-
-		SpawnArtRoomKey(Pairs[RandomDrawer].Value, Pairs[RandomDrawer].Key);
-	}
-}
-
-void AClockLevelGameFlow::SpawnArtRoomKey(ATargetPoint* SpawnPoint, ABaseDrawer* ParentDrawer)
-{
-	if(DoOnceSpawnKey > 0) return;
-	++DoOnceSpawnKey;
-
-	ParentDrawer->SetKeyContainer();
-
-	FVector const& Position = SpawnPoint->GetActorLocation();
-	FRotator const& Rotation = SpawnPoint->GetActorRotation();
-	
-	ADoorKey* DrawerKey = GetWorld()->SpawnActor<ADoorKey>(KeySubclass, Position, Rotation);
-	DrawerKey->SetZone("Art Room");
-	DrawerKey->SetDoor(ArtRoomDoor);
-	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget,
-		EAttachmentRule::KeepWorld, true);
-	
-	DrawerKey->AttachToActor(ParentDrawer,AttachmentRules);
-
-	DrawerKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnDrawerKeyCollected);
-}
-
-void AClockLevelGameFlow::OnDrawerKeyCollected()
-{
-	for (auto Element : Lights)
-	{
-		Element->AggresiveMatterial();
-	}
-
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Steps);
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_HeavyBreath);
-	
-	DrawerTimeline.Play();
-}
-
 void AClockLevelGameFlow::OnDrawerTimelineFinished()
 {
 	for (auto Element : Lights)
@@ -366,9 +279,7 @@ void AClockLevelGameFlow::BeginPlay()
 	BindPuzzleEvents();
 	
 	MaxPortraitsDown = FMath::RandRange(4, Portraits.Num() / 3);
-
-	SetDrawers();
-
+	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
 	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
 	
@@ -507,15 +418,6 @@ void AClockLevelGameFlow::DropPortrait(float DeltaTime)
 
 void AClockLevelGameFlow::BindTimLinemethods()
 {
-	//------Drawers
-	FOnTimelineFloat DrawerKeyObteinTimelineCallback;
-	DrawerKeyObteinTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
-	DrawerTimeline.AddInterpFloat(DrawerTimeLineCurve, DrawerKeyObteinTimelineCallback);
-	
-	FOnTimelineEventStatic TimelineFinishedCallback;
-	TimelineFinishedCallback.BindUFunction(this, FName("OnDrawerTimelineFinished"));
-	DrawerTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
-
 	//------First Library
 	FOnTimelineFloat FirstJumpscareTimelineCallback;
 	FirstJumpscareTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
@@ -541,11 +443,9 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	DrawerTimeline.TickTimeline(DeltaTime);
 	JumpscareFirstTimeLine.TickTimeline(DeltaTime);
 	JumpscareSecondTimeLine.TickTimeline(DeltaTime);
 	
-
 	MakeTiffanyTalk(DeltaTime);
 	MakeBreath(DeltaTime);
 

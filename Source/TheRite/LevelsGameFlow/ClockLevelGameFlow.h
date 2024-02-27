@@ -91,9 +91,6 @@ private:
 	TArray<AStaticMeshActor*> Portraits;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
-	TArray<ABaseDrawer*> Drawers;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
 	TArray<ATargetPoint*> DrawersTargetsPoint;
 
 	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
@@ -289,16 +286,6 @@ private:
 
 	void MinutesCollected();
 
-	void SetDrawers();
-
-	UFUNCTION()
-	void DrawerPuzzle(ABaseDrawer* Drawer);
-
-	void SpawnArtRoomKey(ATargetPoint* SpawnPoint, ABaseDrawer* ParentDrawer);
-
-	UFUNCTION()
-	void OnDrawerKeyCollected();
-
 	UFUNCTION()
 	void OnDrawerTimelineFinished();
 
@@ -357,8 +344,6 @@ private:
 	
 protected:
 	virtual void BeginPlay() override;
-
-	
 
 public:
 	FOnPartOfClockGain OnPartOfClockGain;
