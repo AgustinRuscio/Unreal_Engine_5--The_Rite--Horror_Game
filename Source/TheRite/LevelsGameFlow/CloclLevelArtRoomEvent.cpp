@@ -7,7 +7,6 @@
 ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()
 {
  	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void ACloclLevelArtRoomEvent::BindTimeLines()
@@ -91,8 +90,11 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 
 void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* OtherActor)
 {
-	auto Alex = Cast<AAlex>(OtherActor);
-	if(!Alex) return;
+	auto alex = Cast<AAlex>(OtherActor);
+	if(!alex) return;
+	
+	Alex = alex;
+	Alex->SetCameraStun(true);
 
 	if(DoOnce != 0) return;
 
@@ -212,6 +214,8 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	HearthBeatComponent->DestroyComponent();
 	
 	StartTriggerBox->Destroy();
+	
+	Alex->SetCameraStun(false);
 	
 	Destroy();
 }

@@ -75,6 +75,8 @@ private:
 	FTimeline LastTurnOnTimeLine;
 
 	int DoOnce = 0;
+
+	AAlex* Alex;
 	
 	void BindTimeLines();
 

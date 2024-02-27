@@ -273,6 +273,10 @@ void AAlex::CheckLighterOn()
 	}
 }
 
+void AAlex::SetCameraStun(bool stun)
+{
+	bStun = stun;
+}
 
 void AAlex::Interaction()
 {
@@ -386,15 +390,24 @@ void AAlex::CheckLighterCooldDown(float deltaTime)
 
 void AAlex::HeadBob()
 {
-	if(GetVelocity().Length() > 0)
+	if(bStun)
 	{
-		if(GetVelocity().Length() < 700)
-			MyController->ClientStartCameraShake(CameraShakeWalk);
-		else
-			MyController->ClientStartCameraShake(CameraShakeRun);
+		UE_LOG(LogTemp, Warning, TEXT("Stun"));
+		MyController->ClientStartCameraShake(CameraShakeStun);
 	}
 	else
-		MyController->ClientStartCameraShake(CameraShakeIdle);
+	{
+		if(GetVelocity().Length() > 0)
+		{
+			if(GetVelocity().Length() < 700)
+				MyController->ClientStartCameraShake(CameraShakeWalk);
+			else
+				MyController->ClientStartCameraShake(CameraShakeRun);
+		}
+		else
+			MyController->ClientStartCameraShake(CameraShakeIdle);
+	}
+	
 }
 
 void AAlex::Breath(float deltaTime)

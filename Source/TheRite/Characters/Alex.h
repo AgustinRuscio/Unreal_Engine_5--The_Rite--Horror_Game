@@ -88,6 +88,7 @@ private:
 	float BreathTimer;
 	float AudioTimer;
 	bool bCanSound = true;
+	bool bStun = false;
 
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	USoundBase* LighterCDSound;
@@ -139,6 +140,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Camera Shake")
 	TSubclassOf<UCameraShakeBase> CameraShakeIdle;
+	
+	UPROPERTY(EditAnywhere, Category = "Camera Shake")
+	TSubclassOf<UCameraShakeBase> CameraShakeStun;
 
 	UPROPERTY(EditAnywhere, Category = "Screamer")
 	UAnimationAsset* ScreamerAnim;
@@ -235,6 +239,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void CallPauseFunc();
+
+	
+	void SetCameraStun(bool stun);
 	
 	UFUNCTION()
 	void CameraTargeting(FVector Target);
