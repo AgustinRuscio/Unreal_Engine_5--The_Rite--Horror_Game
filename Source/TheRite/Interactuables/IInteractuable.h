@@ -16,5 +16,8 @@ class THERITE_API IIInteractuable
 
 public:
 	 virtual void Interaction() = 0;
+	 virtual bool IsPickable() const = 0;
+	 virtual FString GetItemName() const = 0;
+	 virtual FString GetItemID() const = 0;
 	 virtual USoundBase* GetSound() = 0;
 };

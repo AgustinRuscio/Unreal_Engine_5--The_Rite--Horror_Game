@@ -24,6 +24,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenHint);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCloseHint);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPaused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventory);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNextInventoryItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPrevInventoryItem);
 
 UCLASS()
 class THERITE_API AAlexPlayerController : public APlayerController
@@ -57,6 +61,15 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	class UInputAction* PuaseAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	class UInputAction* InventoryAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	class UInputAction* NextInventoryItemAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	class UInputAction* PrevInventoryItemAction;
+
 	
 	void PlayerMovement(const FInputActionValue& value);
 	
@@ -74,16 +87,23 @@ private:
 	void CloseHint(const FInputActionValue& value);
 	
 	void Paused(const FInputActionValue& value);
-	
+	void Inventory(const FInputActionValue& value);
+	void NextInventoryItem(const FInputActionValue& value);
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
 	UWidgetInteractionComponent* WidgetInteractionComponent;
 
+	void PrevInventoryItem(const FInputActionValue& value);
 	virtual void BeginPlay() override;
+	void BindActions();
+	void UnbindActions();
+	void SetInventoryInputs();
 
 public:
 	AAlexPlayerController();
 	void SetPauseGame(bool PauseState);
+	void SetUIOnly(bool uiMode);
 
 	void DisableInput(APlayerController* PlayerController) override;
 
@@ -104,4 +124,8 @@ public:
 	FCloseHint OnCloseHint;
 
 	FPaused OnPause;
+	FInventory OnInventory;
+	
+	FNextInventoryItem OnNextInventoryItem;
+	FPrevInventoryItem OnPrevInventoryItem;
 };

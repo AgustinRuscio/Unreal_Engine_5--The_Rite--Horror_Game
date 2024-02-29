@@ -54,11 +54,33 @@ void AAlexPlayerController::Paused(const FInputActionValue& value)
 	OnPause.Broadcast();
 }
 
+void AAlexPlayerController::Inventory(const FInputActionValue& value)
+{
+	OnInventory.Broadcast();
+}
+
+void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
+{
+	OnNextInventoryItem.Broadcast();
+}
+
+void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
+{
+	OnPrevInventoryItem.Broadcast();
+}
+
+
 void AAlexPlayerController::BeginPlay()
 {
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
 
+	BindActions();
+}
+
+void AAlexPlayerController::BindActions()
+{
+	UnbindActions();
 	
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
     
@@ -85,6 +107,33 @@ void AAlexPlayerController::BeginPlay()
 		enhantedComponent->BindAction(OpenHintAction, ETriggerEvent::Canceled, this, &AAlexPlayerController::CloseHint);
 		
 		enhantedComponent->BindAction(PuaseAction, ETriggerEvent::Started, this, &AAlexPlayerController::Paused);
+		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
+	}
+}
+
+void AAlexPlayerController::UnbindActions()
+{
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->ClearActionBindings();
+	}
+}
+
+void AAlexPlayerController::SetInventoryInputs()
+{
+	UnbindActions();
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+	
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
+
+		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
+		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
 	}
 }
 
@@ -106,6 +155,16 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 		SetInputMode(FInputModeGameOnly());
 }
 
+void AAlexPlayerController::SetUIOnly(bool uiMode)
+{
+	UE_LOG(LogTemp, Warning, TEXT("INVENTORY %d"), uiMode)
+	bShowMouseCursor = uiMode;
+	
+	uiMode ? 
+	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI()):
+	BindActions(), SetInputMode(FInputModeGameOnly());
+	
+}
 void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 {
 	Super::DisableInput(PlayerController);

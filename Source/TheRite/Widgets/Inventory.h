@@ -38,7 +38,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetButtons(UButton* Next, UButton* Prev, UTextBlock* textBlock);
-
+	
+	void OnInventoryOpen();
+	
+	void OnInventoryClose();
+	
+	UFUNCTION()
+	void ShowNextItem();
+	
+	UFUNCTION()
+	void ShowPrevItem();
+	
 private:
 
 	int8 index = 0;
@@ -46,9 +56,5 @@ private:
 	TPair<FString, UStaticMesh*> CurrentPair;
 	
 	
-	UFUNCTION()
-	void ShowNextItem();
 	
-	UFUNCTION()
-	void ShowPrevItem();
 };

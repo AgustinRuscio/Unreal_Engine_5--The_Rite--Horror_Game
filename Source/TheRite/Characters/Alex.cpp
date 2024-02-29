@@ -79,14 +79,24 @@ void AAlex::StopTalking()
 
 void AAlex::CreateWidgets()
 {
-	PuaseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
-	PuaseWidget->AddToViewport(0);
-	PuaseWidget->SetVisibility(ESlateVisibility::Hidden);
-	PuaseWidget->SetIsFocusable(true);
+	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
+	PauseWidget->AddToViewport(0);
+	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	PauseWidget->SetIsFocusable(true);
 
 	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
 	DotWidget->AddToViewport(-1);
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
+	
+	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
+	InventoryWidget->AddToViewport(0);
+	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+	InventoryWidget->SetIsFocusable(true);
+
+	
+	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
+
 }
 
 void AAlex::ForceTalk(USoundBase* Voice)
@@ -198,6 +208,10 @@ void AAlex::BindActions()
 	MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
 	
 	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
+	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+	
+	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 }
 
 void AAlex::MovePlayer(FVector2D vector)
@@ -286,6 +300,11 @@ void AAlex::Interaction()
 		MakeTalk();
 
 	ActualInteractuable->Interaction();
+	
+	if(ActualInteractuable->IsPickable())
+	{
+		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemName());
+	}
 }
 
 void AAlex::CheckHolding(bool IsHolding)
@@ -315,16 +334,35 @@ void AAlex::OpenPause()
 {
 	if(bPauseFlip)
 	{
-		PuaseWidget->SetVisibility(ESlateVisibility::Visible);
+		PauseWidget->SetVisibility(ESlateVisibility::Visible);
 		bPauseFlip = false;
 	}
 	else
 	{
-		PuaseWidget->SetVisibility(ESlateVisibility::Hidden);
+		PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 		bPauseFlip = true;
 	}
 	
 	MyController->SetPauseGame(!bPauseFlip);
+}
+
+void AAlex::OpenInventory()
+{
+	if(bInventoryFlip)
+	{
+		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		bInventoryFlip = false;
+		InventoryWidget->OnInventoryOpen();
+	}
+	else
+	{
+		InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+		bInventoryFlip = true;
+		InventoryWidget->OnInventoryClose();
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT(" ALEX: %d"), bInventoryFlip)
+	MyController->SetUIOnly(!bInventoryFlip);
 }
 
 //-----------------------------------------------
@@ -553,6 +591,7 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	//MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
 	
 	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
+	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
 }
 
 void AAlex::CallPauseFunc()

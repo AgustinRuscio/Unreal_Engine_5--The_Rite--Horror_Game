@@ -11,6 +11,7 @@
 #include "TheRite/Interactuables/IInteractuable.h"
 #include "TheRite/Interactuables/Letter.h"
 #include "TheRite/Widgets/CenterDotWidget.h"
+#include "TheRite/Widgets/Inventory.h"
 #include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Alex.generated.h"
 
@@ -83,7 +84,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UPauseMenuWidget> PauseMenu;
 	
-	UPauseMenuWidget* PuaseWidget;
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UInventory> InventoryMenu;
+	
+	UPauseMenuWidget* PauseWidget;
+	UInventory* InventoryWidget;
 	
 	float BreathTimer;
 	float AudioTimer;
@@ -153,6 +158,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	UCurveFloat* EmptyCurve;
+	bool bInventoryFlip = true;
 
 	UFUNCTION()
 	void CameraTargetTick(float time);
@@ -191,6 +197,8 @@ private:
 
 	UFUNCTION()
 	void OpenPause();
+	UFUNCTION()
+	void OpenInventory();
 
 	UFUNCTION()
 	
