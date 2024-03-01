@@ -93,6 +93,10 @@ void AAlex::CreateWidgets()
 	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 	InventoryWidget->SetIsFocusable(true);
 
+	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
+	OpenInventoryWidget->AddToViewport(0);
+	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+	OpenInventoryWidget->SetIsFocusable(true);
 	
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
@@ -303,15 +307,24 @@ void AAlex::Interaction()
 	
 	if(ActualInteractuable->IsPickable())
 	{
-		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemName());
+		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
+
+		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		
+		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
+			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, this, &AAlex::CloseOpenInventoryWidget, 1.5f, false);
 	}
+}
+
+void AAlex::CloseOpenInventoryWidget()
+{
+	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AAlex::CheckHolding(bool IsHolding)
 {
 	bHoldingInteractBTN = IsHolding;
 }
-
 
 void AAlex::OpenHint()
 {

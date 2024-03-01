@@ -20,9 +20,27 @@ FString AInteractor::GetItemName() const
 	return DisplayName;
 }
 
-FString AInteractor::GetItemID() const
+PickableItemsID AInteractor::GetItemID() const
 {
 	return ItemID;
+}
+
+bool AInteractor::IsRemovable()
+{
+	return bIsRemovable;
+}
+
+TTuple<bool, FString, PickableItemsID> AInteractor::CheckRemove()
+{
+	TTuple<bool, FString, PickableItemsID> InteractorInfo(bIsRemovable, GetItemName(), GetItemID());
+	return InteractorInfo;	
+}
+
+void AInteractor::SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id)
+{
+	bIsPickeable = isPickeable;
+	DisplayName = nameToDisplay;
+	ItemID = id;
 }
 
 USoundBase* AInteractor::GetSound()

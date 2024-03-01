@@ -23,7 +23,11 @@ private:
 	FString DisplayName;
 	
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
-	FString ItemID;
+	PickableItemsID ItemID;
+	
+	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
+	bool bIsRemovable;
+	
 protected:
 	UPROPERTY(EditAnywhere, Category="State")
 	USoundBase* AudioToPlay;
@@ -42,7 +46,12 @@ public:
 	
 	virtual bool IsPickable() const override;
 	virtual FString GetItemName() const override;
-	virtual FString GetItemID() const override;
+	virtual PickableItemsID GetItemID() const override;
+	virtual bool IsRemovable() override;
+
+	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() override;
+	
+	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
 	
 	UFUNCTION()
 	virtual USoundBase* GetSound() override;

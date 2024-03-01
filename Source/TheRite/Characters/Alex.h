@@ -12,6 +12,7 @@
 #include "TheRite/Interactuables/Letter.h"
 #include "TheRite/Widgets/CenterDotWidget.h"
 #include "TheRite/Widgets/Inventory.h"
+#include "TheRite/Widgets/OpenInventory.h"
 #include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Alex.generated.h"
 
@@ -62,7 +63,8 @@ private:
 	bool bCanInteract;
 
 	IIInteractuable* ActualInteractuable;
-
+	FString RemovableName;
+	PickableItemsID RemovableID;
 	
 	bool bLighterOnCD = false;
 
@@ -85,10 +87,14 @@ private:
 	TSubclassOf<UPauseMenuWidget> PauseMenu;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UOpenInventory> OpenInventoryMenu;
+	
+	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UInventory> InventoryMenu;
 	
 	UPauseMenuWidget* PauseWidget;
 	UInventory* InventoryWidget;
+	UOpenInventory* OpenInventoryWidget;
 	
 	float BreathTimer;
 	float AudioTimer;
@@ -153,6 +159,8 @@ private:
 	UAnimationAsset* ScreamerAnim;
 
 	FTimerHandle ScreamerTimerHanlde;
+	
+	FTimerHandle OpeninventorywidgetTimerHandle;
 
 	FTimeline TargetCameraTimeLine;
 	
@@ -187,9 +195,10 @@ private:
 	
 	UFUNCTION()
 	void Interaction();
+	void CloseOpenInventoryWidget();
 	UFUNCTION()
 	void CheckHolding(bool HoldingState);
-
+	
 	UFUNCTION()
 	void OpenHint();
 	UFUNCTION()
