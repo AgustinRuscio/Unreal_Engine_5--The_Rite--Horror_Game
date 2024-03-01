@@ -53,7 +53,6 @@ public:
 	void ShowPrevItem();
 
 	void RemoveItem(FString itemName, PickableItemsID id);
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 private:
 
 	int8 index = 0;

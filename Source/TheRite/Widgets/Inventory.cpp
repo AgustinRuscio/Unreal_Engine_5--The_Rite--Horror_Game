@@ -24,7 +24,6 @@ void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 {
 	bool contains = false;
 	
-		UE_LOG(LogTemp,Warning, TEXT("Remove"));
 	for (auto Element : AllItems)
 	{
 		if(Element.Key == itemName)
@@ -44,12 +43,6 @@ void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 	removedPair.Value = ItemsInIds[id];
 
 	AllItems.Remove(removedPair);
-}
-
-void UInventory::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	Super::NativeTick(MyGeometry, InDeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("a  %d"), AllItems.Num());
 }
 
 void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
