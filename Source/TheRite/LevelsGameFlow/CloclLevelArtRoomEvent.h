@@ -57,6 +57,10 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Sounds")
 	USoundBase* LightSwitch;
+	
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* SFXTiffanyTalksToAlex;
+	
 	UPROPERTY(EditAnywhere, Category = "Sounds")
 	USoundBase* HeathBeatSFX;
 	

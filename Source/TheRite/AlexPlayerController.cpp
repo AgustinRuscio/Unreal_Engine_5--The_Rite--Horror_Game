@@ -64,6 +64,12 @@ void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 	OnNextInventoryItem.Broadcast();
 }
 
+void AAlexPlayerController::SetIsUsingGamepad(const bool bIsUsing)
+{
+	bIsUsingGamepad = bIsUsing;
+}
+
+
 void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 {
 	OnPrevInventoryItem.Broadcast();
@@ -143,6 +149,11 @@ AAlexPlayerController::AAlexPlayerController()
 	WidgetInteractionComponent->SetupAttachment(RootComponent);
 }
 
+bool AAlexPlayerController::GetIsUsingGamepad() const
+{
+	return bIsUsingGamepad;
+}
+
 
 void AAlexPlayerController::SetPauseGame(bool PauseState)
 {
@@ -157,7 +168,6 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 
 void AAlexPlayerController::SetUIOnly(bool uiMode)
 {
-	UE_LOG(LogTemp, Warning, TEXT("INVENTORY %d"), uiMode)
 	bShowMouseCursor = uiMode;
 	
 	uiMode ? 

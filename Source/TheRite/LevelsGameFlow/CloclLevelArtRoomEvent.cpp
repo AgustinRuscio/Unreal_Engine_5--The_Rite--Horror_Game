@@ -203,6 +203,7 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 {
 	ArtRoomLight->TurnOn();
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
+	UGameplayStatics::SpawnSound2D(this, SFXTiffanyTalksToAlex);
 	
 	ArtRoomDoor->SetLockedState(false);
 

@@ -90,6 +90,11 @@ private:
 	void Inventory(const FInputActionValue& value);
 	void NextInventoryItem(const FInputActionValue& value);
 
+	bool bIsUsingGamepad;
+	
+	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	void SetIsUsingGamepad(const bool bIsUsing);
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
 	UWidgetInteractionComponent* WidgetInteractionComponent;
@@ -102,6 +107,8 @@ protected:
 
 public:
 	AAlexPlayerController();
+
+	bool GetIsUsingGamepad() const;
 	void SetPauseGame(bool PauseState);
 	void SetUIOnly(bool uiMode);
 
