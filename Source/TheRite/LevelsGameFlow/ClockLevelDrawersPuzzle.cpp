@@ -122,8 +122,9 @@ void AClockLevelDrawersPuzzle::SpawnArtRoomKey(ATargetPoint* SpawnPoint, ABaseDr
 	FRotator const& Rotation = SpawnPoint->GetActorRotation();
 	
 	ADoorKey* DrawerKey = GetWorld()->SpawnActor<ADoorKey>(KeySubclass, Position, Rotation);
-	DrawerKey->SetZone("Art Room");
 	DrawerKey->SetDoor(ArtRoomDoor);
+	DrawerKey->SetPickeableSettings(true, "Art room key", PickableItemsID::ArtRoomKey);
+	
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget,
 		EAttachmentRule::KeepWorld, true);
 	

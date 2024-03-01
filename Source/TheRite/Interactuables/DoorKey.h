@@ -22,14 +22,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Light")
 	UPointLightComponent* PointLight;
-	
-	UPROPERTY(EditAnywhere, Category= "UI")
-	TSubclassOf<UKeyWidget> KeyUI;
-	
-	UKeyWidget* KeyWidget;
-
-	UPROPERTY(EditAnywhere, Category= "Zone Name")
-	FString DoorZoneName;
 
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	USoundBase* VoiceSound;
@@ -42,20 +34,15 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool bKeyReady;
-
-	FTimerHandle timer;
-
-	void TimeOver();
 	
 protected:
 	virtual void BeginPlay() override;
 
 public:	
 	ADoorKey();
+	
 	virtual void Interaction() override;
 	
-	void SetZone(FString NewZoneName);
-
 	void SetDoor(ADoor* NewDoor);
 	
 	FOnKeyCollected OnKeyCollected;

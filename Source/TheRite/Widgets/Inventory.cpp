@@ -1,25 +1,63 @@
 #include "Inventory.h"
 
-void UInventory::AddItemToInventory(FString itemName, FString id)
+#include "Styling/SlateBrush.h"
+
+
+void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 {
 	for (auto Element : AllItems)
 	{
 		if(Element.Key == itemName)
 			return;
 	}
+
 	
-	TPair<FString, UStaticMesh*> addedPair;
+	TPair<FString, UMaterialInterface*> addedPair;
+	
 	addedPair.Key = itemName;
 	addedPair.Value = ItemsInIds[id];
 	
 	AllItems.Add(addedPair);
 }
 
-void UInventory::SetButtons(UButton* Next, UButton* Prev, UTextBlock* textBlock)
+void UInventory::RemoveItem(FString itemName, PickableItemsID id)
+{
+	bool contains = false;
+	
+		UE_LOG(LogTemp,Warning, TEXT("Remove"));
+	for (auto Element : AllItems)
+	{
+		if(Element.Key == itemName)
+		{
+			contains = true;
+			break;
+		}
+	}
+	if(!contains)
+	{
+		return;
+	}
+
+	TPair<FString, UMaterialInterface*> removedPair;
+
+	removedPair.Key = itemName;
+	removedPair.Value = ItemsInIds[id];
+
+	AllItems.Remove(removedPair);
+}
+
+void UInventory::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("a  %d"), AllItems.Num());
+}
+
+void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
 {
 	BTN_NextItem = Next;
 	BTN_PrevItem = Prev;
 	TextBlockName = textBlock;
+	OverlayImage = imageToDisplay;
 	
 	BTN_NextItem->OnClicked.AddDynamic(this, &UInventory::ShowNextItem);
 	BTN_PrevItem->OnClicked.AddDynamic(this, &UInventory::ShowPrevItem);
@@ -31,6 +69,7 @@ void UInventory::OnInventoryOpen()
 	{
 		FText NewText = FText::FromString(TEXT("Empty"));
 		TextBlockName->SetText(NewText);
+		OverlayImage->SetVisibility(ESlateVisibility::Hidden);
 		
 		BTN_PrevItem->SetIsEnabled(false);
 		BTN_NextItem->SetIsEnabled(false);
@@ -41,6 +80,12 @@ void UInventory::OnInventoryOpen()
 		
 		FText NewText = FText::FromString(CurrentPair.Key);
 		TextBlockName->SetText(NewText);
+
+		OverlayImage->SetVisibility(ESlateVisibility::Visible);
+		FSlateBrush Brush;
+		Brush.SetResourceObject(CurrentPair.Value);
+		UE_LOG(LogTemp, Warning, TEXT("name %s"), *CurrentPair.Value->GetName());
+		OverlayImage->SetBrush(Brush);
 		
 		if(AllItems.Num() == 1)
 		{
@@ -71,7 +116,10 @@ void UInventory::ShowNextItem()
 	FText NewText = FText::FromString(CurrentPair.Key);
 	TextBlockName->SetText(NewText);
 
-	OnInventoryChange.Broadcast(CurrentPair.Key, CurrentPair.Value);
+	OverlayImage->SetVisibility(ESlateVisibility::Visible);
+	FSlateBrush Brush;
+	Brush.SetResourceObject(CurrentPair.Value); 
+	OverlayImage->SetBrush(Brush);
 }
 
 void UInventory::ShowPrevItem()
@@ -89,5 +137,8 @@ void UInventory::ShowPrevItem()
 	FText NewText = FText::FromString(CurrentPair.Key);
 	TextBlockName->SetText(NewText);
 	
-	OnInventoryChange.Broadcast(CurrentPair.Key, CurrentPair.Value);
+	OverlayImage->SetVisibility(ESlateVisibility::Visible);
+	FSlateBrush Brush;
+	Brush.SetResourceObject(CurrentPair.Value); 
+	OverlayImage->SetBrush(Brush);
 }

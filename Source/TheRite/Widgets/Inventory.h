@@ -3,10 +3,12 @@
 #include "CoreMinimal.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "TheRite/EnumsContainer.h"
+#include "Materials/MaterialInterface.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Image.h"
 #include "Inventory.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnInventoryChange, FString, itemName, UStaticMesh*, itemMesh);
 
 UCLASS()
 class THERITE_API UInventory : public UUserWidget
@@ -25,19 +27,20 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	UTextBlock* TextBlockName;
+
+	UPROPERTY(BlueprintReadWrite)
+	UImage* OverlayImage;
 	
-	TArray<TPair<FString, UStaticMesh*>> AllItems;
+	TArray<TPair<FString, UMaterialInterface*>> AllItems;
 	
 	UPROPERTY(EditAnywhere)
-	TMap<FString, UStaticMesh*> ItemsInIds;
+	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
 
 
-	void AddItemToInventory(FString itemName, FString id);
-
-	FOnInventoryChange OnInventoryChange;
+	void AddItemToInventory(FString itemName, PickableItemsID id);
 
 	UFUNCTION(BlueprintCallable)
-	void SetButtons(UButton* Next, UButton* Prev, UTextBlock* textBlock);
+	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay);
 	
 	void OnInventoryOpen();
 	
@@ -48,13 +51,12 @@ public:
 	
 	UFUNCTION()
 	void ShowPrevItem();
-	
+
+	void RemoveItem(FString itemName, PickableItemsID id);
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 private:
 
 	int8 index = 0;
 
-	TPair<FString, UStaticMesh*> CurrentPair;
-	
-	
-	
+	TPair<FString, UMaterialInterface*> CurrentPair;
 };

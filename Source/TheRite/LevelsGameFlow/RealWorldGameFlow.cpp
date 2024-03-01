@@ -10,7 +10,9 @@ ARealWorldGameFlow::ARealWorldGameFlow()
 }
 
 void ARealWorldGameFlow::OpenArtRoomDoor()
-{ 
+{
+	if(bCloseDoor) return;
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_DoorOpening);
 	Player->ForceTalk(ReactToLockedDoorAudio);
 	

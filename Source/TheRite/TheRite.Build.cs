@@ -8,7 +8,7 @@ public class TheRite : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] {  "EnhancedInput", "Core", "CoreUObject", "Engine", "InputCore", "LevelSequence", "MovieScene"});
+		PublicDependencyModuleNames.AddRange(new string[] {  "EnhancedInput", "Core", "CoreUObject", "Engine", "InputCore", "LevelSequence", "MovieScene", "Slate", "SlateCore"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
