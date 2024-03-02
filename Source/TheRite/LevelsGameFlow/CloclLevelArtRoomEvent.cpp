@@ -99,10 +99,19 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	if(DoOnce != 0) return;
 
 	HearthBeatComponent = UGameplayStatics::SpawnSound2D(this, HeathBeatSFX);
+	UGameplayStatics::SpawnSound2D(this, TiffanyNearSFX);
 	
-	DoOnce++;
+	DoOnce++;	
 	OnArtRoomEventStarted.Broadcast();
 
+	
+	
+	UMaterialInstanceDynamic* PostProcessMaterial1 = UMaterialInstanceDynamic::Create(PostProcessMaterialEvent, this);
+
+	originalPostProcessValues = PostProcess->GetProperties();
+
+	PostProcess->AddOrUpdateBlendable(PostProcessMaterial1);
+	
 	Alex->CameraTargeting(StandTiffany->GetActorLocation());
 	
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());

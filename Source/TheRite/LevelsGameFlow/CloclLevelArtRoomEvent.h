@@ -2,13 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "Animation/SkeletalMeshActor.h"
+#include "Components/PostProcessComponent.h"
 #include "Engine/SpotLight.h"
 #include "Engine/TargetPoint.h"
 #include "Engine/TriggerBox.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Door.h"
-#include "Engine/BlockingVolume.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "CloclLevelArtRoomEvent.generated.h"
 
@@ -64,6 +64,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Sounds")
 	USoundBase* HeathBeatSFX;
 	
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* TiffanyNearSFX;
+	
 	UPROPERTY(EditAnywhere, Category="Curves")
 	UCurveFloat* TurnOffCurve;
 	UPROPERTY(EditAnywhere, Category="Curves")
@@ -84,6 +87,13 @@ private:
 	
 	void BindTimeLines();
 
+	UPROPERTY(EditAnywhere, Category="PostProcess")
+	UPostProcessComponent* PostProcess;
+
+	UPROPERTY(EditAnywhere, Category="PostProcess")
+	UMaterial* PostProcessMaterialEvent;
+	FPostProcessVolumeProperties originalPostProcessValues ;
+	
 	UFUNCTION()
 	void DuringFirstTurnOffTick(float deltaTime);
 	UFUNCTION()

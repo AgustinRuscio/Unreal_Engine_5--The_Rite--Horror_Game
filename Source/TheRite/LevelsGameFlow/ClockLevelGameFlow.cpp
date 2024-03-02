@@ -302,7 +302,7 @@ void AClockLevelGameFlow::BeginPlay()
 
 void AClockLevelGameFlow::VoicesSoundIncrease()
 {
-	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 10);
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 20);
 }
 
 void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()
