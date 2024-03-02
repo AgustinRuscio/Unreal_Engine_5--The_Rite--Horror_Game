@@ -7,4 +7,7 @@ enum class PickableItemsID : uint8
 	LibraryKey,
 	ArtRoomKey,
 	Clock,
+	TiffanysCard,
+	Hours,
+	Minutes
 };

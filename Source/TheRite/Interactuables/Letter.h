@@ -17,11 +17,6 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* LetterMesh;
 	
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* Writing;
-
-	UPROPERTY(EditAnywhere, Category= "Light")
-	UPointLightComponent* PointLight;
 public:	
 	ALetter();
 
