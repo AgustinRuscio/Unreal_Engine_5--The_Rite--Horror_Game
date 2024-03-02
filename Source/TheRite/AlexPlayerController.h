@@ -29,6 +29,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventory);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNextInventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPrevInventoryItem);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckInputMode, bool,  isGamepad);
+
 UCLASS()
 class THERITE_API AAlexPlayerController : public APlayerController
 {
@@ -93,7 +95,7 @@ private:
 	bool bIsUsingGamepad;
 	
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
-	void SetIsUsingGamepad(const bool bIsUsing);
+	void SetIsmepad(const bool bIsGamepad);
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
@@ -135,4 +137,6 @@ public:
 	
 	FNextInventoryItem OnNextInventoryItem;
 	FPrevInventoryItem OnPrevInventoryItem;
+
+	FCheckInputMode OnKeyPressed;
 };

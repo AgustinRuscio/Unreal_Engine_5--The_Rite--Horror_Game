@@ -77,7 +77,7 @@ void UInventory::OnInventoryOpen()
 		OverlayImage->SetVisibility(ESlateVisibility::Visible);
 		FSlateBrush Brush;
 		Brush.SetResourceObject(CurrentPair.Value);
-		UE_LOG(LogTemp, Warning, TEXT("name %s"), *CurrentPair.Value->GetName());
+
 		OverlayImage->SetBrush(Brush);
 		
 		if(AllItems.Num() == 1)

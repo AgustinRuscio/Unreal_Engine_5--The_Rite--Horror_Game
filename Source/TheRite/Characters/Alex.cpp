@@ -101,6 +101,7 @@ void AAlex::CreateWidgets()
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 
+	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
 }
 
 void AAlex::ForceTalk(USoundBase* Voice)

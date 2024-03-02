@@ -64,9 +64,10 @@ void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 	OnNextInventoryItem.Broadcast();
 }
 
-void AAlexPlayerController::SetIsUsingGamepad(const bool bIsUsing)
+void AAlexPlayerController::SetIsmepad(const bool bIsGamepad)
 {
-	bIsUsingGamepad = bIsUsing;
+	bIsUsingGamepad = bIsGamepad;
+	OnKeyPressed.Broadcast(bIsGamepad);
 }
 
 

@@ -8,6 +8,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Interactuables/LockedDoor.h"
+#include "TheRite/Widgets/TutorialWidget.h"
 #include "RealWorldGameFlow.generated.h"
 
 UCLASS()
@@ -19,6 +20,22 @@ private:
 	AAlex* Player;
 
 	FTimeline OnCloseTimeline;
+
+
+	FTimerHandle ShowFirstTutorialWidget;
+	FTimerHandle HideFirstTutorialWidget;
+	FTimerHandle ShowSecondTutorialWidget;
+	FTimerHandle HideSecondTutorialWidget;
+
+	UTutorialWidget* FirstTutorialWidget;
+
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
+	
+	UTutorialWidget* SecondTutorialWidget;
+
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> SecondsTutorialMenu;
 	
 	//------------ In Level Varibles Objects
 	UPROPERTY(EditAnywhere, Category= "Audios")
@@ -60,8 +77,11 @@ private:
 	bool bCloseDoor = false;
 
 	int DoOnce = 0;
+
 	
 private:
+void CreateWidgets();
+	
 	UFUNCTION()
 	void OpenArtRoomDoor();
 	
@@ -76,6 +96,12 @@ private:
 	
 	UFUNCTION()
 	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
+
+
+	void ShowingFirstTutorialWidget();
+	void HidingFirstTutorialWidget();
+	void ShowingSecondTutorialWidget();
+	void HidingSecondTutorialWidget();
 
 protected:
 	virtual void BeginPlay() override;
