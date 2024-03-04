@@ -123,7 +123,7 @@ private:
 
 	USoundBase* TalkSound;
 	
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
+	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* BreathSound;
 
 	bool bCanTalk = true;

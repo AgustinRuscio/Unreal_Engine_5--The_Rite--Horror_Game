@@ -470,7 +470,7 @@ void AAlex::Breath(float deltaTime)
 		BreathTimer = 0;
 	}
 	else
-		BreathTimer = BreathTimer + deltaTime;
+		BreathTimer += deltaTime;
 }
 
 void AAlex::InteractuableCheck()
@@ -515,7 +515,7 @@ void AAlex::InteractuableCheck()
 				{
 					bCanInteract = true;
 					DotWidget->Interact(false, true,false);
-				}
+				}	
 				else
 				{
 					bCanInteract = true;

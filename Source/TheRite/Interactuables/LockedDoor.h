@@ -28,6 +28,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundBase* DoorLockedSFX;
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundBase* AudioInteractionDone;
 
 	UAudioComponent* tempAudioComponent;
 	

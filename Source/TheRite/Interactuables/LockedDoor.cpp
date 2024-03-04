@@ -91,13 +91,18 @@ void ALockedDoor::Tick(float DeltaTime)
 
 void ALockedDoor::Interaction()
 {
+	if(bInteractionDone)
+	{
+		AudioToPlay = AudioInteractionDone;
+		return;
+	}
+	
+	if(!bHasInteraction) return;
+	
 	OnInteractionTrigger.Broadcast();
 	
 	ItsLocked();
-	
-	if(!bHasInteraction) return;
 
-	if(bInteractionDone) return;
 
 	bInteractionDone = true;
 	
