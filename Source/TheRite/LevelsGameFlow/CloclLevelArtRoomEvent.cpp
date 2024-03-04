@@ -120,7 +120,7 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	ArtRoomDoor->SetLockedState(true);
 	ArtRoomDoor->HardClosing();
 
-	ArtRoomLight->TurnOffSpotLight();
+	ArtRoomLight->TurnOff();
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	
 	FirstTurnOffTimeLine.PlayFromStart();

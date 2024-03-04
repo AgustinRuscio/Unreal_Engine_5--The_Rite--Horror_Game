@@ -31,6 +31,10 @@
 			"Name": "AsyncLevelLoad",
 			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fedd4da327a946a1ae5461da851ffcf1"
+		},
+		{
+			"Name": "GPULightmass",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [
