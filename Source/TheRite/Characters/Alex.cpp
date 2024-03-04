@@ -462,17 +462,6 @@ void AAlex::HeadBob()
 	
 }
 
-void AAlex::Breath(float deltaTime)
-{
-	if(BreathTimer > 15)
-	{
-		UGameplayStatics::PlaySound2D(this, BreathSound);
-		BreathTimer = 0;
-	}
-	else
-		BreathTimer += deltaTime;
-}
-
 void AAlex::InteractuableCheck()
 {
 	if(!bCanTalk)
@@ -581,7 +570,6 @@ void AAlex::Tick(float DeltaTime)
 	LighterSoundTimer(DeltaTime);
 	CheckLighterCooldDown(DeltaTime);
 	HeadBob();
-	Breath(DeltaTime);
 	InteractuableCheck();
 }
 

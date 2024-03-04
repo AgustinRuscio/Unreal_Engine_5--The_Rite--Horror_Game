@@ -149,7 +149,7 @@ private:
 	USoundBase* TiffanyTalkCue;
 
 	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
-	USoundBase* BreathkCue;
+	USoundBase* TiffanyBreathkCue;
 	UPROPERTY(EditAnywhere, Category = "Audios: Portrait")
 	USoundBase* PortraitDropedCue;
 
