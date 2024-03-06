@@ -371,8 +371,9 @@ auto AClockLevelGameFlow::MakeBreath(float time) -> void
 {
 	if(BreathTimer > BreathCD)
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), BreathkCue);
+		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyBreathkCue);
 		BreathCD = FMath::RandRange(25.0f, 190.0f);
+		BreathTimer = 0;
 	}
 	else
 		BreathTimer += time;

@@ -48,11 +48,6 @@ void ALightsTheRite::TurnOff()
 	PointLight->SetIntensity(0.0f);
 }
 
-void ALightsTheRite::TurnOffSpotLight()
-{
-	SpotLight->SetIntensity(0.0f);
-}
-
 void ALightsTheRite::TurnOn()
 {
 	SpotLight->SetIntensity(FirstStopIntensity);

@@ -218,8 +218,6 @@ private:
 
 	void HeadBob();
 
-	void Breath(float deltaTime);
-
 	void InteractuableCheck();
 
 	bool IsDoorCheck(IIInteractuable* checked);
