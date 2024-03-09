@@ -14,9 +14,6 @@ class THERITE_API ALightsTheRite : public AActor
 private:
 	UPROPERTY()
 	USphereComponent* Sphere;
-	
-	UPROPERTY(EditAnywhere, Category= "Lights")
-	USpotLightComponent* SpotLight;
 
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	UPointLightComponent* PointLight;

@@ -119,6 +119,7 @@ void ADoor::CheckDragDoor()
 	float Check = FMath::ClampAngle(Yaw, FrontAngle, (FrontAngle*-1));
 
 	float DoorFloat = Player->GetDoorFloat();
+
 	
 	if(Yaw != Check)
 	{

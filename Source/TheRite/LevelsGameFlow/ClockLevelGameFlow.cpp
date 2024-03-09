@@ -134,14 +134,12 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 		LibraryTiffany->GetMesh()->SetVisibility(true, false);
 		
 		UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
+		UGameplayStatics::SpawnSound2D(GetWorld(), DropSound);
 		
 		bLibraryJumpScaredReady = true;
 		RecordPlayer->PlaySong();
 
-		Player->ForceTalk(SFX_Alex_GoingInside);
-		
-		LibraryRoofLight->TurnOn();
-		Player->CameraTargeting(RecordPlayer->GetActorLocation());
+		Player->ForceTalk(SFX_Alex_WhatwasThat);
 	}
 }
 
@@ -399,7 +397,7 @@ void AClockLevelGameFlow::DropPortrait(float DeltaTime)
 			MeshComponent->SetEnableGravity(true); 
 			MeshComponent->SetLinearDamping(0.2f);
 
-			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PortraitDropedCue, MeshComponent->GetComponentLocation());
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DropSound, MeshComponent->GetComponentLocation());
 			Portraits.Remove(Element);
 			++PortraitsDown;
 			PortraitTimer = 0.0f;

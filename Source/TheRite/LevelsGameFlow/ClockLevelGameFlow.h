@@ -147,11 +147,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
 	USoundBase* TiffanyTalkCue;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
+	USoundBase* DropSound;
 
 	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
 	USoundBase* TiffanyBreathkCue;
-	UPROPERTY(EditAnywhere, Category = "Audios: Portrait")
-	USoundBase* PortraitDropedCue;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ADoor* LibraryDoor;
@@ -168,7 +169,7 @@ private:
 	USoundBase* SFX_Alex_IHateThatSong;
 		
 	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_Alex_GoingInside;
+	USoundBase* SFX_Alex_WhatwasThat;
 	
 	UPROPERTY(EditAnywhere, Category = "Audios: Library")
 	USoundBase* SFX_TiffanyScream;
