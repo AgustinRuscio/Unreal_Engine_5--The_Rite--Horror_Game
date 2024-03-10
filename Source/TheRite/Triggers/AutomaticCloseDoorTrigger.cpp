@@ -49,5 +49,5 @@ void AAutomaticCloseDoorTrigger::OnTimerFinished()
 {
 	if(playerInside) return;
 
-	DoorToClose->Close();
+	DoorToClose->AutomaticClose();
 }

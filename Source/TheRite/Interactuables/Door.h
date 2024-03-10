@@ -41,6 +41,8 @@ private:
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFXDoorUnlocked;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorClinck;
 	
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFXDoorLocked;
@@ -101,7 +103,7 @@ private:
 
 	UFUNCTION()
 	void LatchAnim();
-	
+
 
 	UFUNCTION()
 	void LatchHolding(bool isOppening);
@@ -190,6 +192,8 @@ public:
 	UFUNCTION()
 	void Close();
 
+	void AutomaticClose();
+	
 	UFUNCTION()
 	void HardClosing();
 

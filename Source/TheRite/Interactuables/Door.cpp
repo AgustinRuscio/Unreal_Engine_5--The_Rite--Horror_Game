@@ -353,6 +353,11 @@ void ADoor::LatchAnim()
 	TimeLineLatchAnim.PlayFromStart();
 }
 
+void ADoor::AutomaticClose()
+{
+	TimeLineOpenDoor.ReverseFromEnd();
+	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
+}
 
 void ADoor::LatchHolding(bool isOppening)
 {
