@@ -119,11 +119,13 @@ void ADoor::CheckDragDoor()
 	float Check = FMath::ClampAngle(Yaw, FrontAngle, (FrontAngle*-1));
 
 	float DoorFloat = Player->GetDoorFloat();
+	
+	LatchHolding(bHolding);
 
+	if(DoorTimer < DoorCD) return;
 	
 	if(Yaw != Check)
 	{
-		LatchHolding(bHolding);
 
 		float YawRot = DoorFloat * Sensitivity;
 		
@@ -254,6 +256,11 @@ void ADoor::Tick(float DeltaTime)
 		}
 	}
 
+	if(bHolding)
+		DoorTimer += DeltaTime;
+	else
+		DoorTimer = 0;
+	
 	CheckDragDoor();
 	CheckIfLookingDoor();
 }

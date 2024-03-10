@@ -89,6 +89,11 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
 	float ItsLockedCD = 60;
+
+	float DoorTimer;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	float DoorCD;
 	//---- Functions
 	
 	UFUNCTION()

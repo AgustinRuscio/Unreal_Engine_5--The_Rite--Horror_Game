@@ -5,7 +5,6 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Components/BoxComponent.h"
-#include "TheRite/AI/TiffanyController.h"
 #include "CloseDoor.generated.h"
 
 UCLASS()
