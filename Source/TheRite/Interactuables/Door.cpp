@@ -297,12 +297,12 @@ void ADoor::Interaction()
 
 void ADoor::Open()
 {
-	TimeLineOpenDoor.Play();
+	TimeLineOpenDoor.PlayFromStart();
 }
 
 void ADoor::Close()
 {
-	TimeLineOpenDoor.Reverse();
+	TimeLineOpenDoor.ReverseFromEnd();
 }
 
 void ADoor::HardClosing()
