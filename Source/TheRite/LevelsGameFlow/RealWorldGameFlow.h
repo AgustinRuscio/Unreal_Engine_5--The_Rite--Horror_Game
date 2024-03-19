@@ -19,9 +19,6 @@ class THERITE_API ARealWorldGameFlow : public AActor
 private:
 	AAlex* Player;
 
-	FTimeline OnCloseTimeline;
-
-
 	FTimerHandle ShowFirstTutorialWidget;
 	FTimerHandle HideFirstTutorialWidget;
 	FTimerHandle ShowSecondTutorialWidget;
@@ -41,57 +38,16 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Audios")
 	USoundBase* FirstTalkAudio;
 	
-	UPROPERTY(EditAnywhere, Category= "Audios")
-	USoundBase* ReactToLockedDoorAudio;
-	
-	UPROPERTY(EditAnywhere, Category= "Audios")
-	USoundBase* SFX_SlamDoor;
-	
-	UPROPERTY(EditAnywhere, Category= "Audios")
-	USoundBase* SFX_DoorOpening;
-
-	
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	ALockedDoor* LockedInteractionDoor;
-	
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	ADoor* ArtRoomDoor;
-
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	TArray<ASpotLight*> ArtRoomRedLights;
-
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	ATriggerVolume* SlamDoorTriggerVolume;
-	
 	UPROPERTY(EditAnywhere, Category= "Objects")
 	ATriggerVolume* KnockTrigger;
 	
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	ATiffany* ArtRoomTiffany;
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_Knocking;
-
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	float OnCloseTimeLineLength = 0.2f;
-
-	bool bCloseDoor = false;
-
-	int DoOnce = 0;
-
 	
 private:
-void CreateWidgets();
+	void CreateWidgets();
 	
-	UFUNCTION()
-	void OpenArtRoomDoor();
 	
-	UFUNCTION()
-	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnCloseTimeLineFinished();
-
-	void BindTimeLine();
 	void GetPlayer();
 	
 	UFUNCTION()
@@ -108,6 +64,4 @@ protected:
 
 public:	
 	ARealWorldGameFlow();
-	virtual void Tick(float DeltaTime) override;
-
 };

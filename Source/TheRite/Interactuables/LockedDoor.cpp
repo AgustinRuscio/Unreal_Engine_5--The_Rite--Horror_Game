@@ -97,13 +97,12 @@ void ALockedDoor::Interaction()
 		return;
 	}
 	
+	ItsLocked();
+	
 	if(!bHasInteraction) return;
 	
 	OnInteractionTrigger.Broadcast();
 	
-	ItsLocked();
-
-
 	bInteractionDone = true;
 	
 	OnInteraction.Broadcast();
