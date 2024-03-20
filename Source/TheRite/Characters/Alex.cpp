@@ -104,6 +104,13 @@ void AAlex::CreateWidgets()
 	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
 }
 
+void AAlex::SetPlayerStats(bool canRun, bool canUseLighter)
+{
+	bCanRun = canRun;
+	SetCanUseLigherState(canUseLighter);
+	
+}
+
 void AAlex::ForceTalk(USoundBase* Voice)
 {
 	if(!bCanTalk)
@@ -130,7 +137,7 @@ void AAlex::SetHintState(bool newHintState)
 
 void AAlex::SetCanUseLigherState(bool lighterState)
 {
-	bCanUseLigher = true;
+	bCanUseLigher = lighterState;
 }
 
 void AAlex::ForceTurnLighterOn()
@@ -156,6 +163,8 @@ void AAlex::BeginPlay()
 	CreateWidgets();
 	LighterLight->SetVisibility(false);
 
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	
 	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
 
 	BindTimeLineMethods();
@@ -194,30 +203,30 @@ void AAlex::CameraTargetFinished()
 
 
 //------------------------ Inputs Actions
-void AAlex::BindActions()
-{
-	MyController = Cast<AAlexPlayerController>(Controller);
-	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
-	
-	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
-	
-	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
-	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
-	
-	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
-	
-	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
-	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-	
-	MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
-	MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
-	
-	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
-	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
-	
-	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-}
+//void AAlex::BindActions()
+//{
+//	MyController = Cast<AAlexPlayerController>(Controller);
+//	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
+//	
+//	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+//	
+//	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
+//	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
+//	
+//	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
+//	
+//	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
+//	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
+//	
+//	MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
+//	MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
+//	
+//	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
+//	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+//	
+//	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+//	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
+//}
 
 void AAlex::MovePlayer(FVector2D vector)
 {
@@ -246,11 +255,14 @@ void AAlex::MoveCamera(FVector2D vector)
 
 void AAlex::StartSprint()
 {
+	if(!bCanRun) return;
+	
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
 void AAlex::StopSprint()
 {
+	if(!bCanRun) return;
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
@@ -266,11 +278,15 @@ void AAlex::CheckLighterOn()
 {
 	if(!bLighter)
 	{
-		if(bLighterOnCD)
+		if(!bLighterOnCD)
 		{
+			
 			UGameplayStatics::SpawnSound2D(this, LighterOn);
 			bLighter = true;
-			LighterLight->SetVisibility(true);
+
+			
+			SetLighterAssetsVisibility(true);
+			
 			OnLighterAnimMontage.Broadcast();
 		}
 		else
@@ -280,14 +296,19 @@ void AAlex::CheckLighterOn()
 			UGameplayStatics::SpawnSound2D(this, LighterCDSound);
 			bCanSound = false;
 			bLighter = false;
-			LighterLight->SetVisibility(false);
+			
+			
+			SetLighterAssetsVisibility(false);
+			
 			OnLighterAnimMontage.Broadcast();
 		}
 	}
 	else
 	{
 		bLighter = false;
-		LighterLight->SetVisibility(false);
+		
+		SetLighterAssetsVisibility(true);
+		
 		OnLighterAnimMontage.Broadcast();
 	}
 }
@@ -431,7 +452,9 @@ void AAlex::CheckLighterCooldDown(float deltaTime)
 			if(LighterTimer < MaxLighterTime) return;
 
 			bLighter = false;
-			LighterLight->SetVisibility(false);
+			
+			SetLighterAssetsVisibility(false);
+			
 			bLighterOnCD = true;
 			OnLighterAnimMontage.Broadcast();
 		}
@@ -440,11 +463,17 @@ void AAlex::CheckLighterCooldDown(float deltaTime)
 	}
 }
 
+void AAlex::SetLighterAssetsVisibility(bool visibilityState)
+{
+	LighterLight->SetVisibility(visibilityState);
+	Lighter->SetVisibility(visibilityState);
+	FlamePlane->SetVisibility(visibilityState);
+}
+
 void AAlex::HeadBob()
 {
 	if(bStun)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Stun"));
 		MyController->ClientStartCameraShake(CameraShakeStun);
 	}
 	else

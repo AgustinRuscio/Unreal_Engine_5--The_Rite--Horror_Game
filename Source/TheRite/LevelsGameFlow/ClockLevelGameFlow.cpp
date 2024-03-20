@@ -191,7 +191,6 @@ void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor*
 	
 	Player->ForceTalk(OhFuckAlexTalk);
 	Player->ForceTurnLighterOn();
-	Player->SetCanUseLigherState(true);
 	
 	EndGameTriggerVolumen->Destroy();
 }
@@ -275,6 +274,9 @@ void AClockLevelGameFlow::BeginPlay()
 	SetHintsWidget();
 	SetVariables();
 	BindPuzzleEvents();
+
+	Player->SetPlayerStats(false, true);
+	
 	
 	MaxPortraitsDown = FMath::RandRange(4, Portraits.Num() / 3);
 	

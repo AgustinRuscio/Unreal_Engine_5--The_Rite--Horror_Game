@@ -71,7 +71,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	float MaxLighterTime = 12.0f;
-	float LighterTimer = 12.0f;
+	
+	float LighterTimer = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	float LighterCD = 5.0f;
@@ -127,6 +128,7 @@ private:
 	USoundBase* BreathSound;
 
 	bool bCanTalk = true;
+	bool bCanRun = true;
 
 	float DoorFloat;
 
@@ -175,7 +177,7 @@ private:
 
 	void BindTimeLineMethods();
 	
-	void BindActions();
+	//void BindActions();
 
 	UFUNCTION()
 	void StartSprint();
@@ -236,6 +238,8 @@ private:
 	void StopTalking();
 
 	void CreateWidgets();
+
+	void SetLighterAssetsVisibility(bool visibilityState);
 	
 	FVector CameraLookTarget;
 	
@@ -245,6 +249,8 @@ protected:
 public:	
 	AAlex();
 
+	
+	void SetPlayerStats(bool canRun, bool canUseLighter);
 	
 	UPROPERTY(BlueprintReadOnly)
 	bool bLighter;
