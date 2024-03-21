@@ -10,6 +10,7 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/IInteractuable.h"
 #include "TheRite/Interactuables/Letter.h"
+#include "TheRite/Triggers/WrittingsDetector.h"
 #include "TheRite/Widgets/CenterDotWidget.h"
 #include "TheRite/Widgets/Inventory.h"
 #include "TheRite/Widgets/OpenInventory.h"
@@ -44,7 +45,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Ligher")
 	UChildActorComponent* Lighter;
 
-	
+	AWrittingsDetector* WrittingsDetector;
+
+	UPROPERTY(EditAnywhere, Category = "Ligher")
+	TSubclassOf<AWrittingsDetector> DetectorSubclass;
 	
 	UPROPERTY(EditAnywhere, Category = "Ligher")
 	UStaticMeshComponent* FlamePlane;

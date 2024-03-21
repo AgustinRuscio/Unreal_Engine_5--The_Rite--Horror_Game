@@ -22,11 +22,12 @@ AAlex::AAlex()
 	Lighter = CreateDefaultSubobject<UChildActorComponent>("Ligher");
 	FlamePlane =  CreateDefaultSubobject<UStaticMeshComponent>("Plane Lighter");
 	LighterLight = CreateDefaultSubobject<UPointLightComponent>("Lighter Light");
-
+	
 	Lighter->SetupAttachment(GetMesh(), "hand_r");
 	LighterLight->SetupAttachment(Lighter);
 	FlamePlane->SetupAttachment(Lighter);
-
+	
+	
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	ScreamerSkeleton = CreateDefaultSubobject<USkeletalMeshComponent>("Screammer Skeleton");
 
@@ -167,6 +168,11 @@ void AAlex::BeginPlay()
 	
 	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
 
+	auto detector = GetWorld()->SpawnActor(DetectorSubclass);
+	WrittingsDetector = CastChecked<AWrittingsDetector>(detector);
+	WrittingsDetector->AttachToActor(Lighter->GetChildActor(), FAttachmentTransformRules::KeepRelativeTransform);
+	WrittingsDetector->SetComponentSettings(LighterLight->SourceRadius, LighterLight->GetRelativeTransform());
+	
 	BindTimeLineMethods();
 }
 
@@ -307,7 +313,7 @@ void AAlex::CheckLighterOn()
 	{
 		bLighter = false;
 		
-		SetLighterAssetsVisibility(true);
+		SetLighterAssetsVisibility(false);
 		
 		OnLighterAnimMontage.Broadcast();
 	}
@@ -468,6 +474,7 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 	LighterLight->SetVisibility(visibilityState);
 	Lighter->SetVisibility(visibilityState);
 	FlamePlane->SetVisibility(visibilityState);
+	WrittingsDetector->SetInteractionStatus(visibilityState);
 }
 
 void AAlex::HeadBob()
