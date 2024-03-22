@@ -1,6 +1,4 @@
-
 #include "SpectralWrittings.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
