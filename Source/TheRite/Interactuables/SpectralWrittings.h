@@ -3,6 +3,8 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "Components/AudioComponent.h"
+#include "Components/BoxComponent.h"
 #include "SpectralWrittings.generated.h"
 
 
@@ -13,15 +15,17 @@ class THERITE_API ASpectralWrittings : public AInteractor
 private:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	UAudioComponent* IdleAudio;
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	UBoxComponent* CollisionBox;
+	
 	bool bDiscovered = false;
-
 	
 	UPROPERTY(EditAnywhere)
 	UMaterialInterface* Material;
 	UMaterialInstanceDynamic* DynamicMaterial;
 
-	
-	
 public:
 	ASpectralWrittings();
 	virtual void BeginPlay() override;
