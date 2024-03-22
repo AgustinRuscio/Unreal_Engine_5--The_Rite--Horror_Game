@@ -283,7 +283,11 @@ public:
 	void ForceTurnLighterOn();
 
 	void OnJumpScare();
-	
+
+	void ForceDisableInput();
+	UFUNCTION()
+	void ForceEnableInput();
+
 	UChildActorComponent* GetHint() const;
 	
 	UCameraComponent* GetCamera() const;

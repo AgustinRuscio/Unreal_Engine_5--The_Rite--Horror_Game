@@ -294,7 +294,9 @@ private:
 	void VoicesSoundSetOrigialVolumen();
 	UFUNCTION()
 	void VoicesSoundIncrease();
-	
+	UFUNCTION()
+	void SpawnPlanksOnDoor();
+
 	UFUNCTION()
 	void SpawnTiffanyForLibraryKeyCollected();
 
@@ -342,7 +344,9 @@ private:
 	void OnSecondJumpscareTimelineFinished();
 	UFUNCTION()
 	void OnJumpscareFinished();
-	
+
+	UPROPERTY(EditAnywhere, Category="Event planks")
+	TArray<AActor*> PlanksToBeSpawnOnTiffanyWalk;
 protected:
 	virtual void BeginPlay() override;
 

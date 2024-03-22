@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Characters/Alex.h"
+#include "LevelSequence.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/DoorKey.h"
 #include "TheRite/Interactuables/BaseDrawer.h"
@@ -44,7 +44,10 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
 	TArray<ALightsTheRite*> Lights;
-	
+
+	UPROPERTY(EditAnywhere, Category= "Sequence")
+	ULevelSequence* SequenceFade;
+
 	FTimeline DrawerTimeline;
 	
 	UPROPERTY(EditAnywhere, Category="Drawers", meta=(ToolTip = "4 sec, flat curve"))
@@ -61,6 +64,7 @@ private:
 	int8 DoOnceDrawers = 0;
 	int8 DrawersOpened = 0;
 	bool bOnDrawerPuzzle = true;
+	bool bScreamFlipFlop = true;
 	
 	void SetDrawers();
 	void BindTimeLine();

@@ -1,4 +1,8 @@
 #include "ClockLevelDrawersPuzzle.h"
+
+#include "LevelSequenceActor.h"
+#include "LevelSequencePlayer.h"
+#include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 
 AClockLevelDrawersPuzzle::AClockLevelDrawersPuzzle()
@@ -99,11 +103,35 @@ void AClockLevelDrawersPuzzle::DrawerPuzzle(ABaseDrawer* Drawer)
 			{
 				bOnDrawerPuzzle = false;
 				Player->ForceTalk(SFX_ImLoosingMyMind);
+				
+				FMovieSceneSequencePlaybackSettings PlaybackSettings;
+				PlaybackSettings.PlayRate = 1.0f; 
+				PlaybackSettings.bAutoPlay = true;
+				PlaybackSettings.bRandomStartTime = false;
+				
+				ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
+	
+				ULevelSequencePlayer* sequencePlayer =  ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceFade,
+																							PlaybackSettings,TempLevelSequenceActor);
+
+
+				Player->ForceDisableInput();
+				sequencePlayer->OnFinished.AddDynamic(Player, &AAlex::ForceEnableInput);
+				
+				sequencePlayer->Play();
 				Destroy();
 			}
 			else
 			{
 				Drawer->AddingForce();
+
+				if(!bScreamFlipFlop)
+				{
+					bScreamFlipFlop = true;
+					return;
+				}
+				
+				bScreamFlipFlop = false;
 				Player->ForceTalk(SFX_AlexScream);
 			}
 		}

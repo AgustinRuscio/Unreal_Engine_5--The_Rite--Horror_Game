@@ -1,6 +1,7 @@
 #include "ClockLevelGameFlow.h"
 
 #include "Components/AudioComponent.h"
+#include "Components/InstancedStaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "Containers/Map.h"
@@ -54,6 +55,7 @@ void AClockLevelGameFlow::CheckInteraction()
 	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
 	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
 	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
 	
 	tiff->SetWaypoints(Waypoints);
 	tiff->SetHasToMove(true);
@@ -303,6 +305,14 @@ void AClockLevelGameFlow::BeginPlay()
 void AClockLevelGameFlow::VoicesSoundIncrease()
 {
 	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 20);
+}
+
+void AClockLevelGameFlow::SpawnPlanksOnDoor()
+{
+	for (auto Element : PlanksToBeSpawnOnTiffanyWalk)
+	{
+		Element->FindComponentByClass<UStaticMeshComponent>()->SetVisibility(true);
+	}
 }
 
 void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()

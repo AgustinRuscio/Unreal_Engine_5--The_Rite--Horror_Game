@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Interactor.h"
 #include "LevelSequence.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
@@ -36,12 +37,16 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* SequenceFade;
-
+	
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	UAudioComponent* IdleAudio;
+	
 	UFUNCTION()
 	void CheckAudio();
 
 	UFUNCTION()
 	void ChangeLevel();
+
 	
 protected:
 	virtual void BeginPlay() override;

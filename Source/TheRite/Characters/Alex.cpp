@@ -50,6 +50,20 @@ void AAlex::OnJumpScare()
 
 }
 
+void AAlex::ForceDisableInput()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+    
+	MyController->DisableInput(PlayerController);
+}
+
+void AAlex::ForceEnableInput()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+    
+	MyController->EnableInput(PlayerController);
+}
+
 void AAlex::TimeOver()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);

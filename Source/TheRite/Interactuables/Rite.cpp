@@ -11,7 +11,10 @@ ARite::ARite()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Plane");
+	IdleAudio = CreateDefaultSubobject<UAudioComponent>("Audio");
+	
 	RootComponent = Mesh;
+	IdleAudio->SetupAttachment(Mesh);
 }
 
 void ARite::BeginPlay()
