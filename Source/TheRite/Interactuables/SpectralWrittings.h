@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "Components/PostProcessComponent.h"
+#include "Components/SphereComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "SpectralWrittings.generated.h"
@@ -25,8 +27,33 @@ private:
 	UMaterialInterface* Material;
 	UMaterialInstanceDynamic* DynamicMaterial;
 
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	USphereComponent* Sphere;
+	
+	bool bPlayerInside;
+	bool bReady = false;
+
+	AActor* InsideActor;
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UMaterialInterface* PostProcesVHSdMaterial;
+	UMaterialInstanceDynamic* DynamicMaterialPostProcess;
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UPostProcessComponent* PostProcessComponent;
+	
+	FPostProcessVolumeProperties OriginalPostProcessValues;
+	
 public:
 	ASpectralWrittings();
+	
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void OnActorOverapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
 	
 	bool GetDiscoverdStatus() const;

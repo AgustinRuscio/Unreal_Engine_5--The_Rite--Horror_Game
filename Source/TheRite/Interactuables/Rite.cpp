@@ -4,6 +4,7 @@
 #include "LevelSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Characters/Alex.h"
 
 
 ARite::ARite()
@@ -12,17 +13,44 @@ ARite::ARite()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Plane");
 	IdleAudio = CreateDefaultSubobject<UAudioComponent>("Audio");
+	Sphere = CreateDefaultSubobject<USphereComponent>("Detector");
+	
 	
 	RootComponent = Mesh;
 	IdleAudio->SetupAttachment(Mesh);
+	Sphere->SetupAttachment(Mesh);
+
+	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ARite::OnActorOverlap);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverapFinished);
+}
+
+void ARite::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	if(!bPlayerInside && bReady) return;
+	
+	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());
+	
+	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
+	
+	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+
+	
+	DynamicMaterial->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
 }
 
 void ARite::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	OnClockGain.AddDynamic(this, &ARite::CheckAudio);
 	OnClockGain.Broadcast();
+	
+	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
+	OriginalPostProcessValues = PostProcessComponent->GetProperties();
+	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
+	bReady = true;
 }
 
 void ARite::Interaction()
@@ -65,4 +93,22 @@ void ARite::CheckAudio()
 void ARite::ChangeLevel()
 {
 	UGameplayStatics::OpenLevel(GetWorld(),NextLevel);
+}
+
+void ARite::OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
+	UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult)
+{
+	if(!Cast<AAlex>(Actor)) return;
+
+	InsideActor = Actor;
+	bPlayerInside = true;
+}
+
+void ARite::OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
+	UPrimitiveComponent* PrimitiveComponent1, int I)
+{
+	if(!Cast<AAlex>(Actor)) return;
+	
+	bPlayerInside = false;
+	InsideActor = nullptr;
 }

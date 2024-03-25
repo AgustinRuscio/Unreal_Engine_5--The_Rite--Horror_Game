@@ -4,6 +4,9 @@
 #include "Interactor.h"
 #include "LevelSequence.h"
 #include "Components/AudioComponent.h"
+#include "Components/PostProcessComponent.h"
+#include "Components/SphereComponent.h"
+#include "Engine/PostProcessVolume.h"
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
@@ -40,6 +43,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	UAudioComponent* IdleAudio;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	USphereComponent* Sphere;
 	
 	UFUNCTION()
 	void CheckAudio();
@@ -47,12 +53,32 @@ private:
 	UFUNCTION()
 	void ChangeLevel();
 
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
+	UFUNCTION()
+	void OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
+	
+	bool bPlayerInside;
+	bool bReady = false;
+
+	AActor* InsideActor;
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UMaterialInterface* PostProcesRealWorldMaterial;
+	UMaterialInstanceDynamic* DynamicMaterial;
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UPostProcessComponent* PostProcessComponent;
+	
+	FPostProcessVolumeProperties OriginalPostProcessValues;
 	
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	ARite();
+
+	virtual void Tick(float DeltaSeconds) override;
 	
 	virtual void Interaction() override;
 
