@@ -3,14 +3,6 @@
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-void ACandle::BeginPlay()
-{
-	Super::BeginPlay();
-
-	if(IsValid(MyInteractor))
-	MyInteractor->OnInteractionTrigger.AddDynamic(this, &ACandle::EventReady);
-}
-
 ACandle::ACandle()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -22,11 +14,18 @@ ACandle::ACandle()
 	PointLight->SetupAttachment(Mesh);
 }
 
-void ACandle::EventReady()
+void ACandle::TurnOn()
 {
-	if(!bWillTurnOff) return;
+	PointLight->SetVisibility(true);
+	Plane->SetVisibility(true);
+}
 
-	UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
-	PointLight->DestroyComponent();
-	Plane->DestroyComponent();
+void ACandle::TurnOff()
+{
+	PointLight->SetVisibility(false);
+	Plane->SetVisibility(false);
+
+	if(bWillSound)
+		UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
+	
 }

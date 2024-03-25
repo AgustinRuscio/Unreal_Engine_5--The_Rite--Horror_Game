@@ -19,6 +19,7 @@ AClock::AClock()
 void AClock::Interaction()
 {
 	ClockReady();
+	OnInteractionTrigger.Broadcast();
 }
 
 void AClock::BeginPlay()

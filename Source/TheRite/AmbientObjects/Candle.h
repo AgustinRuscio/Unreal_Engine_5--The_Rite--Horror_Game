@@ -28,13 +28,14 @@ private:
 	bool bWillSound;
 
 	UPROPERTY(EditAnywhere, Category="State")
-	AInteractor* MyInteractor;
+	bool bIsGuideCandle;
 
-protected:
-	virtual void BeginPlay() override;
+	
 public:	
 	ACandle();
-
+	
 	UFUNCTION()
-	void EventReady();
+	void TurnOn();
+	UFUNCTION()
+	void TurnOff();
 };
