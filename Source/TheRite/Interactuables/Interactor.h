@@ -28,6 +28,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
 	bool bIsRemovable;
 	
+	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
+	bool bIsMainItem;
+	
 protected:
 	UPROPERTY(EditAnywhere, Category="State")
 	USoundBase* AudioToPlay;
@@ -45,6 +48,7 @@ public:
 	virtual void Interaction() override;
 	
 	virtual bool IsPickable() const override;
+	virtual bool IsMainItem() const override;
 	virtual FString GetItemName() const override;
 	virtual PickableItemsID GetItemID() const override;
 	virtual bool IsRemovable() override;

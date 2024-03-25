@@ -516,7 +516,7 @@ void AAlex::InteractuableCheck()
 {
 	if(!bCanTalk)
 	{
-		DotWidget->Interact(false, false,true);
+		DotWidget->Interact(false, false,true, false);
 	}
 	else
 	{
@@ -541,7 +541,7 @@ void AAlex::InteractuableCheck()
 			TalkSound = nullptr;
 			bCanInteract = false;
 			
-			DotWidget->Interact(true, false,false);
+			DotWidget->Interact(true, false,false, false);
 		}
 		else
 		{
@@ -553,18 +553,18 @@ void AAlex::InteractuableCheck()
 				if(bDoorWasLocked)
 				{
 					bCanInteract = true;
-					DotWidget->Interact(false, true,false);
+					DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
 				}	
 				else
 				{
 					bCanInteract = true;
-					DotWidget->Interact(false, false,false);
+					DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
 				}
 			}
 			else
 			{
 				bCanInteract = true;
-				DotWidget->Interact(false, false,false);
+				DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
 			}
 		}
 	}

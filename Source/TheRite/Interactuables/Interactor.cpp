@@ -15,6 +15,11 @@ bool AInteractor::IsPickable() const
 	return bIsPickeable;
 }
 
+bool AInteractor::IsMainItem() const
+{
+	return bIsMainItem;
+}
+
 FString AInteractor::GetItemName() const
 {
 	return DisplayName;

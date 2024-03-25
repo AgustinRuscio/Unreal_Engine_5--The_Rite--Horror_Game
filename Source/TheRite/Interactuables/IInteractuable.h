@@ -18,6 +18,7 @@ class THERITE_API IIInteractuable
 public:
 	 virtual void Interaction() = 0;
 	 virtual bool IsPickable() const = 0;
+	 virtual  bool IsMainItem() const = 0;
 	
 	 virtual FString GetItemName() const = 0;
 	 virtual PickableItemsID GetItemID() const = 0;

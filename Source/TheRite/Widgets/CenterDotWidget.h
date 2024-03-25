@@ -19,10 +19,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* InteractCircle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UImage* MainInteractCircle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* Talking;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* ClosedDoor;
 	
 	UFUNCTION(BlueprintCallable)
-	void Interact(bool Visible, bool LockedDoor, bool Wait);
+	void Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem);
 };
