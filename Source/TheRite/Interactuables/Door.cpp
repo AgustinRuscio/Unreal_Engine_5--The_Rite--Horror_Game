@@ -232,6 +232,21 @@ void ADoor::BeginPlay()
 	LockedWidget = CreateWidget<ULockedWidget>(GetWorld(), LockedUI);
 	LockedWidget->AddToViewport();
 	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
+
+	if(bIsTutorialDoor)
+	{
+		TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
+		TutorialWidget->AddToViewport();
+		TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+
+		auto controller = GetWorld()->GetFirstPlayerController();
+	
+		if(auto alexController = Cast<AAlexPlayerController>(controller))
+		{
+			alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
+		}
+		
+	}
 	
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 }
@@ -265,8 +280,22 @@ void ADoor::Tick(float DeltaTime)
 	CheckIfLookingDoor();
 }
 
+void ADoor::HideTutorial()
+{
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
 void ADoor::Interaction()
 {
+	if(bIsTutorialDoor && !bDoOnceTut)
+	{
+		bDoOnceTut = true;
+		TutorialWidget->SetVisibility(ESlateVisibility::Visible);
+		
+		if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
+			GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &ADoor::HideTutorial, 2.f, false);
+	}
+	
 	if(bFlipFlop)
 	{
 		if(bIsLocked)

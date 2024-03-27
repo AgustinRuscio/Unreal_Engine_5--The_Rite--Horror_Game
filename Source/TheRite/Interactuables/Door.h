@@ -6,6 +6,7 @@
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Widgets/LockedWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
 #include "Door.generated.h"
 
 
@@ -57,8 +58,20 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ULockedWidget> LockedUI;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UTutorialWidget> TutorialUI;
+	
 	UPROPERTY()
 	ULockedWidget* LockedWidget;
+	UPROPERTY()
+	UTutorialWidget* TutorialWidget;
+
+	FTimerHandle TutorialTimerHandle;
+
+	bool bDoOnceTut;
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	bool bIsTutorialDoor = false;
 	
 	//---- General
 	bool bFlipFlop = true;
@@ -184,6 +197,7 @@ public:
 	ADoor();
 	virtual void Tick(float DeltaTime) override;
 
+	void HideTutorial();
 	virtual void Interaction() override;
 	
 	UFUNCTION()
