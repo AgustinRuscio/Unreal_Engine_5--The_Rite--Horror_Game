@@ -44,5 +44,10 @@ void ALightsTheRite::TurnOff()
 
 void ALightsTheRite::TurnOn()
 {
-	PointLight->SetIntensity(FirstPointIntensity);
+	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
+}
+
+bool ALightsTheRite::IsLightOn()
+{
+	return PointLight->Intensity > 0;
 }

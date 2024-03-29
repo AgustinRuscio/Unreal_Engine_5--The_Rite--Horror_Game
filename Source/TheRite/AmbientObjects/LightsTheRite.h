@@ -22,8 +22,9 @@ private:
 	UStaticMeshComponent* Mesh;
 
 
-	float FirstStopIntensity;
 	float FirstPointIntensity;
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
+	float DefaultLightIntensity;
 
 	UPROPERTY(EditAnywhere, Category= "Materials")
 	UMaterialInterface* NormalMaterial;
@@ -48,4 +49,6 @@ public:
 	
 	UFUNCTION()
 	void TurnOn();
+
+	bool IsLightOn();
 };

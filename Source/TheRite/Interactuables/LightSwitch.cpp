@@ -1,5 +1,4 @@
 #include "LightSwitch.h"
-
 #include "Kismet/GameplayStatics.h"
 
 ALightSwitch::ALightSwitch()
@@ -66,7 +65,10 @@ void ALightSwitch::Interaction()
 		
 		for (auto Element : LightToInteract)
 		{
-			Element->TurnOn();
+			if(Element->IsLightOn())
+				Element->TurnOff();
+			else
+				Element->TurnOn();
 		}
 	}
 	else
@@ -76,7 +78,10 @@ void ALightSwitch::Interaction()
 		
 		for (auto Element : LightToInteract)
 		{
-			Element->TurnOff();
+			if(Element->IsLightOn())
+				Element->TurnOff();
+			else
+				Element->TurnOn();
 		}
 	}
 }
