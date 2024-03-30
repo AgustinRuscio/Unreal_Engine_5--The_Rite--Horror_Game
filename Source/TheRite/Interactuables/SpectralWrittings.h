@@ -16,9 +16,14 @@ class THERITE_API ASpectralWrittings : public AInteractor
 private:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Mesh;
+	
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	UAudioComponent* IdleAudio;
 	UPROPERTY(EditAnywhere, Category= "Audio")
+	USoundBase* SpectralSound;
+	
+	
+	UPROPERTY(EditAnywhere, Category= "Collidion")
 	UBoxComponent* CollisionBox;
 	
 	bool bDiscovered = false;

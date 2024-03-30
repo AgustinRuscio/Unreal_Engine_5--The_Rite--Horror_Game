@@ -98,14 +98,16 @@ void ASpectralWrittings::SetMaterialAlpha(float alpha)
 
 void ASpectralWrittings::Interaction()
 {
-	Super::Interaction();
-	
 	if(bDiscovered) return;
+	
+	Super::Interaction();
 	
 	bDiscovered= true;
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 	
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
+	auto audio = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
+	
 	IdleAudio->DestroyComponent();
 	
 	Mesh->SetVisibility(true);

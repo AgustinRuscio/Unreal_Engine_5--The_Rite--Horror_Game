@@ -13,10 +13,12 @@ AClockLevelDrawersPuzzle::AClockLevelDrawersPuzzle()
 void AClockLevelDrawersPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(DestroyableSpectralIbstacle, &ASpectralObstacle::OnDestroy);
 	
-	GetPlayer();
-	BindTimeLine();
-	SetDrawers();
+	//GetPlayer();
+	//BindTimeLine();
+	//SetDrawers();
 }
 
 void AClockLevelDrawersPuzzle::BindTimeLine()
