@@ -96,6 +96,19 @@ void ASpectralWrittings::SetMaterialAlpha(float alpha)
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),alpha);
 }
 
+void ASpectralWrittings::Discovered()
+{
+	bDiscovered= true;
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	IdleAudio->DestroyComponent();
+	
+	Mesh->SetVisibility(true);
+	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
+	
+	DynamicMaterialPostProcess->SetScalarParameterValue(TEXT("SpectralProximity"),0);
+}
+
 void ASpectralWrittings::Interaction()
 {
 	if(bDiscovered) return;
@@ -106,7 +119,7 @@ void ASpectralWrittings::Interaction()
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	
-	auto audio = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
 	
 	IdleAudio->DestroyComponent();
 	

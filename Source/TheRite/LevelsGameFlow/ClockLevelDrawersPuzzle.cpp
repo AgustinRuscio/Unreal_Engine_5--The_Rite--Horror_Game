@@ -14,12 +14,23 @@ void AClockLevelDrawersPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(DestroyableSpectralIbstacle, &ASpectralObstacle::OnDestroy);
+	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(this, &AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed);
 	
 	//GetPlayer();
 	//BindTimeLine();
 	//SetDrawers();
 }
+
+void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed()
+{
+	DestroyableSpectralIbstacle->ObstacleDestroy();
+
+	for (auto writtings : OtherSpectralWrittings)
+	{
+		writtings->Discovered();
+	}
+}
+
 
 void AClockLevelDrawersPuzzle::BindTimeLine()
 {
@@ -68,6 +79,7 @@ void AClockLevelDrawersPuzzle::Tick(float DeltaTime)
 
 	DrawerTimeline.TickTimeline(DeltaTime);
 }
+
 
 void AClockLevelDrawersPuzzle::SetDrawers()
 {

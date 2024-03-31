@@ -24,8 +24,14 @@ private:
 	ASpectralWrittings* KeySpectralWrittings;
 
 	UPROPERTY(EditAnywhere, Category = "Construction")
+	TArray<ASpectralWrittings*> OtherSpectralWrittings;	
+
+	UPROPERTY(EditAnywhere, Category = "Construction")
 	ASpectralObstacle* DestroyableSpectralIbstacle;
 
+	
+	UFUNCTION()
+	void OnKeySpectralWrittingUsed();
 	
 	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
 	USoundBase* SFX_WhereDidILeftTheKey;
@@ -92,6 +98,7 @@ private:
 	
 	UFUNCTION()
 	void OnDrawerTimelineFinished();
+
 	
 protected:
 	virtual void BeginPlay() override;

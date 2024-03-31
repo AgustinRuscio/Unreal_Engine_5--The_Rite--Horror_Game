@@ -67,6 +67,7 @@ public:
 
 	void SetMaterialAlpha(float alpha);
 
+	void Discovered();
 
 	virtual void Interaction() override;
 };

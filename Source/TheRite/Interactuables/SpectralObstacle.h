@@ -24,7 +24,6 @@ private:
 	USoundBase* SpectralSound;
 public:	
 	ASpectralObstacle();
-
-	UFUNCTION()
-	void OnDestroy();
+	
+	void ObstacleDestroy();
 };
