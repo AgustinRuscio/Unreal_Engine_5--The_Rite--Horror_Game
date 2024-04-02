@@ -16,6 +16,9 @@ void ASpectralWrittings::BeginPlay()
 	OriginalPostProcessValues = PostProcessComponent->GetProperties();
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterialPostProcess);
 	bReady = true;
+
+	
+	Mesh->SetVisibility(false);
 }
 
 void ASpectralWrittings::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
