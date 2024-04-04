@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -12,5 +17,4 @@ class THERITE_API UTutorialWidget : public UChangingdWidget
 {
 	GENERATED_BODY()
 
-public:
 };

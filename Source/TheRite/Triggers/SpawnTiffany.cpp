@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "SpawnTiffany.h"
 
 #include "Components/BoxComponent.h"

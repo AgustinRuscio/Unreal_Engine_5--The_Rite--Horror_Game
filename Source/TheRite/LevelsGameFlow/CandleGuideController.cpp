@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "CandleGuideController.h"
 
 ACandleGuideController::ACandleGuideController()
@@ -5,8 +10,6 @@ ACandleGuideController::ACandleGuideController()
  	PrimaryActorTick.bCanEverTick = true;
 
 }
-
-
 
 void ACandleGuideController::BeginPlay()
 {

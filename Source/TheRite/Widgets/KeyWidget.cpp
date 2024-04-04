@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "KeyWidget.h"
 
 void UKeyWidget::SetKeyZoneText(FString newZone)

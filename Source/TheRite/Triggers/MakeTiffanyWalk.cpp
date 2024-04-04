@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "MakeTiffanyWalk.h"
 
 #include "Kismet/GameplayStatics.h"

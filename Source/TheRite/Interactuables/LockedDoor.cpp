@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "LockedDoor.h"
 
 #include "Components/AudioComponent.h"

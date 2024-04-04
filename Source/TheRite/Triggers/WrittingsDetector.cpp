@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "WrittingsDetector.h"
 
 AWrittingsDetector::AWrittingsDetector()

@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "SpectralObstacle.h"
 
 #include "Kismet/GameplayStatics.h"

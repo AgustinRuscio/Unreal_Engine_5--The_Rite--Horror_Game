@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "RedDoor.h"
 
 #include "LevelSequenceActor.h"

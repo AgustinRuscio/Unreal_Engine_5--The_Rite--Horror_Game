@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "CloclLevelArtRoomEvent.h"
 
 #include "Components/AudioComponent.h"

@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "CenterDotWidget.h"
 
 void UCenterDotWidget::Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem)

@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "TimerSound.h"
 
 #include "Kismet/GameplayStatics.h"

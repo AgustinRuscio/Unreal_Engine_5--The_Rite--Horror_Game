@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "AutomaticCloseDoorTrigger.h"
 
 #include "TheRite/Characters/Alex.h"

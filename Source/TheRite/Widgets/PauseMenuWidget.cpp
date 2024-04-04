@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "PauseMenuWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"

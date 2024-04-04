@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
+#pragma once
 
 UENUM(BlueprintType)
 enum class PickableItemsID : uint8

@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "TiffanyDestroy.h"
 
 #include "TheRite/Characters/Alex.h"

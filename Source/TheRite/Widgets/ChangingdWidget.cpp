@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "ChangingdWidget.h"
 
 void UChangingdWidget::SetKeyMode(bool isGamepad)

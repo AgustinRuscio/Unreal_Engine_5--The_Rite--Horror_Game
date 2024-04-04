@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "BaseDrawer.h"
 
 void ABaseDrawer::BindTimeLines()
