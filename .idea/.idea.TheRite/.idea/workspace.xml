@@ -9,10 +9,27 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TiffanysCards/carta/Letter/AlexLetter_Sequence.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TiffanysCards/carta/Letter/AlexLetter_Sequence.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_SpectralObstacle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_SpectralObstacle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/LS_MenuOption.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/LS_MenuOption.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/TiffanyCard/BP_TiffanyCardOverlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/TiffanyCard/BP_TiffanyCardOverlay.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Logo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Logo.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +246,11 @@
       <workItem from="1712003123808" duration="600000" />
       <workItem from="1712034948513" duration="1972000" />
       <workItem from="1712037940824" duration="963000" />
+      <workItem from="1712071798526" duration="439000" />
+      <workItem from="1712112558011" duration="926000" />
+      <workItem from="1712148736712" duration="167000" />
+      <workItem from="1712191699035" duration="3851000" />
+      <workItem from="1712201278043" duration="3079000" />
     </task>
     <servers />
   </component>

@@ -86,9 +86,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
 	TArray<ALightsTheRite*> Lights;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
-	TArray<AStaticMeshActor*> Portraits;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
 	TArray<ATargetPoint*> DrawersTargetsPoint;
@@ -244,9 +241,7 @@ private:
 	bool bLibraryPuzzleStarted;
 	bool bLibraryJumpScaredReady;
 	bool bCanDrop;
-
-	int8 MaxPortraitsDown = 0;
-	int8 PortraitsDown = 0;
+	
 	int8 DrawersOpened = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
@@ -269,7 +264,6 @@ private:
 private:
 	void SetVariables();
 	void BindPuzzleEvents();
-	void SetHintsWidget();
 
 	UFUNCTION()
 	void CheckInteraction();
@@ -315,8 +309,6 @@ private:
 
 	void MakeTiffanyTalk(float time);
 	void MakeBreath(float time);
-
-	void DropPortrait(float DeltaTime);
 
 	UFUNCTION()
 	void OnSoundPaused();

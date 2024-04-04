@@ -28,7 +28,6 @@ private:
 	
 	bool bDiscovered = false;
 	
-	UPROPERTY(EditAnywhere)
 	UMaterialInterface* Material;
 	UMaterialInstanceDynamic* DynamicMaterial;
 

@@ -16,9 +16,6 @@ AAlex::AAlex()
 	
 	BodyLight = CreateDefaultSubobject<UPointLightComponent>("Body Light");
 	
-	Hint = CreateDefaultSubobject<UChildActorComponent>("Hint");
-	Hint->SetupAttachment(GetMesh(), "hand_l");
-	
 	Lighter = CreateDefaultSubobject<UChildActorComponent>("Ligher");
 	FlamePlane =  CreateDefaultSubobject<UStaticMeshComponent>("Plane Lighter");
 	LighterLight = CreateDefaultSubobject<UPointLightComponent>("Lighter Light");
@@ -161,10 +158,6 @@ void AAlex::ForceTurnLighterOn()
 	CheckLighterOn();
 }
 
-UChildActorComponent* AAlex::GetHint() const
-{
-	return Hint;
-}
 
 UCameraComponent* AAlex::GetCamera() const
 {
@@ -367,23 +360,6 @@ void AAlex::CheckHolding(bool IsHolding)
 {
 	bHoldingInteractBTN = IsHolding;
 }
-
-void AAlex::OpenHint()
-{
-	if(!bHasHint) return;
-
-	PlayAnimMontage(HintAnimMontage);
-	Hint->SetVisibility(true);
-}
-
-void AAlex::CloseHint()
-{
-	if(!bHasHint) return;
-
-	StopAnimMontage(HintAnimMontage);
-	Hint->SetVisibility(false);
-}
-
 
 void AAlex::OpenPause()
 {
@@ -638,9 +614,6 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
 	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-	
-	//MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
-	//MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
 	
 	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
 	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);

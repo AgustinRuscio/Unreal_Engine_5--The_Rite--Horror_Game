@@ -39,9 +39,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Screamer")
 	USkeletalMeshComponent* ScreamerSkeleton;
 	
-	UPROPERTY(EditAnywhere, Category = "Hint")
-	UChildActorComponent* Hint;
-	
 	UPROPERTY(EditAnywhere, Category = "Ligher")
 	UChildActorComponent* Lighter;
 
@@ -206,11 +203,6 @@ private:
 	void CheckHolding(bool HoldingState);
 	
 	UFUNCTION()
-	void OpenHint();
-	UFUNCTION()
-	void CloseHint();
-
-	UFUNCTION()
 	void OpenPause();
 	UFUNCTION()
 	void OpenInventory();
@@ -287,8 +279,6 @@ public:
 	void ForceDisableInput();
 	UFUNCTION()
 	void ForceEnableInput();
-
-	UChildActorComponent* GetHint() const;
 	
 	UCameraComponent* GetCamera() const;
 	

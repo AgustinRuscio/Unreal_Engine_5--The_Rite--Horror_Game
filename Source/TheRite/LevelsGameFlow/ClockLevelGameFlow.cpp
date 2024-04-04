@@ -17,8 +17,6 @@ void AClockLevelGameFlow::SetVariables()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
-	//Player->GetHint()->SetChildActorClass(AHandLetter::StaticClass());
-	//PlayerHint = Cast<AHandLetter>(Player->GetHint());
 }
 
 void AClockLevelGameFlow::BindPuzzleEvents()
@@ -252,14 +250,6 @@ void AClockLevelGameFlow::OnDrawerTimelineFinished()
 }
 
 
-void AClockLevelGameFlow::SetHintsWidget()
-{
-	//HintsWidget = CreateWidget<UHintsWidget>(GetWorld(), HintsUI);
-	//HintsWidget->AddToViewport();
-	//HintsWidget->SetVisibility(ESlateVisibility::Hidden);
-}
-
-
 void AClockLevelGameFlow::BeginPlay()
 {
 	Super::BeginPlay();
@@ -273,14 +263,10 @@ void AClockLevelGameFlow::BeginPlay()
 	StressSoundOriginalVolumen = StressSound->GetVolumeMultiplier();
 	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
 	
-	SetHintsWidget();
 	SetVariables();
 	BindPuzzleEvents();
 
 	Player->SetPlayerStats(false, true);
-	
-	
-	MaxPortraitsDown = FMath::RandRange(4, Portraits.Num() / 3);
 	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
 	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
@@ -389,43 +375,6 @@ auto AClockLevelGameFlow::MakeBreath(float time) -> void
 		BreathTimer += time;
 }
 
-void AClockLevelGameFlow::DropPortrait(float DeltaTime)
-{
-	if(!bCanDrop) return;
-	if(MaxPortraitsDown > PortraitsDown) return;
-	
-	if(PortraitTimer < PortraitDownCD)
-		PortraitTimer += DeltaTime;
-	else
-	{
-		for (auto Element : Portraits)
-		{
-			UStaticMeshComponent* MeshComponent = Element->GetStaticMeshComponent();
-			
-			if (!MeshComponent || !MeshComponent->WasRecentlyRendered()) continue;
-			
-			MeshComponent->SetSimulatePhysics(true);
-
-			MeshComponent->SetEnableGravity(true); 
-			MeshComponent->SetLinearDamping(0.2f);
-
-			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DropSound, MeshComponent->GetComponentLocation());
-			Portraits.Remove(Element);
-			++PortraitsDown;
-			PortraitTimer = 0.0f;
-			
-			FTimerDelegate TimerDelegate;
-			TimerDelegate.BindLambda([=]()
-			{
-				MeshComponent->SetSimulatePhysics(false);
-				PortraitTimerHandle.Invalidate();
-			});
-
-			GetWorldTimerManager().SetTimer(PortraitTimerHandle, TimerDelegate, 2.0f, false);
-			return;
-		}
-	}
-}
 
 void AClockLevelGameFlow::BindTimLinemethods()
 {
@@ -437,7 +386,6 @@ void AClockLevelGameFlow::BindTimLinemethods()
 	FOnTimelineEventStatic FirstJumpscareTimeLineCallbackFinished;
 	FirstJumpscareTimeLineCallbackFinished.BindUFunction(this, FName("OnFirstJumpscareTimelineFinished"));
 	JumpscareFirstTimeLine.SetTimelineFinishedFunc(FirstJumpscareTimeLineCallbackFinished);
-
 	
 	//------Seconds Library
 	FOnTimelineFloat SecondJumpscareTimelineCallback;
@@ -459,6 +407,4 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 	
 	MakeTiffanyTalk(DeltaTime);
 	MakeBreath(DeltaTime);
-
-	DropPortrait(DeltaTime);
 }

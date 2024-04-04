@@ -15,5 +15,6 @@ ASpectralObstacle::ASpectralObstacle()
 void ASpectralObstacle::ObstacleDestroy()
 {
 	UGameplayStatics::SpawnSoundAtLocation(this, SpectralSound, GetActorLocation());
+	
 	Destroy();
 }
