@@ -84,16 +84,16 @@ private:
 	
 	bool bFlipFlop = true;
 	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UPROPERTY(EditAnywhere, Category = "States")
 	bool bIsLocked;
 	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UPROPERTY(EditAnywhere, Category = "States")
 	bool bNeedKey;
 	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UPROPERTY(EditAnywhere, Category = "States")
 	bool bKeyUnlocked;
 	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UPROPERTY(EditAnywhere, Category = "States")
 	bool bCanSoundItsLocked;
 	
 	bool bHolding;

@@ -152,6 +152,13 @@ void ADoor::CheckDragDoor()
 
 void ADoor::CheckIfLookingDoor()
 {
+	if(bIsLocked) return;
+	
+	if(bNeedKey)
+	{
+		if(!bKeyUnlocked) return;
+	}
+	
 	 FVector Start = Player->GetCamera()->GetComponentLocation();
 	
 	 FVector distace = Player->GetActorForwardVector() * 300;
