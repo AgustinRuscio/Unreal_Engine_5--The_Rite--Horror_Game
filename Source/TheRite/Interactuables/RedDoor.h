@@ -69,6 +69,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	FName NextLevelName;
+
 	
 private:
 	void BindTimeLines();

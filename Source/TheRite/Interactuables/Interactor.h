@@ -51,6 +51,8 @@ public:
 	
 	UFUNCTION()
 	virtual void Interaction() override;
+
+	void SetCanInteract(bool newInteractionState);
 	
 	virtual bool IsPickable() const override;
 	virtual bool IsMainItem() const override;

@@ -121,8 +121,11 @@ void ARedDoor::BeginPlay()
 
 void ARedDoor::Interaction()
 {
+	if(!bCanInteract) return;
 	if(bAlreadyOpen) return;
 
+	Super::Interaction();
+	
 	bAlreadyOpen = true;
 	GetWorld()->GetFirstPlayerController()->GetPawn()->DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	

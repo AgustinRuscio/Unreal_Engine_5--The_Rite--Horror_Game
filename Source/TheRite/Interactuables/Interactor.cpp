@@ -15,6 +15,11 @@ void AInteractor::Interaction()
 	OnInteractionTrigger.Broadcast();
 }
 
+void AInteractor::SetCanInteract(bool newInteractionState)
+{
+	bCanInteract = newInteractionState;
+}
+
 bool AInteractor::IsPickable() const
 {
 	return bIsPickeable;
