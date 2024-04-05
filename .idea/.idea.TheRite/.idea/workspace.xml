@@ -9,27 +9,21 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_SpectralObstacle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_SpectralObstacle.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/LS_MenuOption.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/LS_MenuOption.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_AlexPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/BP_AlexPlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Door.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/MenuGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/MenuGameMode.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Logo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Logo.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Button.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Button.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +34,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://2" root0="SKIP_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://15" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -251,6 +245,11 @@
       <workItem from="1712148736712" duration="167000" />
       <workItem from="1712191699035" duration="3851000" />
       <workItem from="1712201278043" duration="3079000" />
+      <workItem from="1712205069554" duration="530000" />
+      <workItem from="1712253594752" duration="5766000" />
+      <workItem from="1712262813349" duration="1680000" />
+      <workItem from="1712271915871" duration="1002000" />
+      <workItem from="1712284189947" duration="10538000" />
     </task>
     <servers />
   </component>

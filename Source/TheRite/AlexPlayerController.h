@@ -35,6 +35,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNextInventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPrevInventoryItem);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckInputMode, bool,  isGamepad);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckKeyInputMode, bool,  isGamepad);
 
 UCLASS()
 class THERITE_API AAlexPlayerController : public APlayerController
@@ -89,6 +90,7 @@ private:
 	void HoldingBTN(const FInputActionValue& value);
 
 	void CameraMoved(const FInputActionValue& value);
+	void DoorMoved(const FInputActionValue& value);
 
 	void OpenHint(const FInputActionValue& value);
 	void CloseHint(const FInputActionValue& value);
@@ -100,7 +102,10 @@ private:
 	bool bIsUsingGamepad;
 	
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
-	void SetIsmepad(const bool bIsGamepad);
+	void SetIsGamepad(const bool bIsGamepad);
+	
+	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	bool GetIsGamepad() const;
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
@@ -111,12 +116,14 @@ protected:
 	void BindActions();
 	void UnbindActions();
 	void SetInventoryInputs();
+	void SetDoorInputs();
 
 public:
 	AAlexPlayerController();
 
 	bool GetIsUsingGamepad() const;
 	void SetPauseGame(bool PauseState);
+	void SetDoorMode(bool newMode);
 	void SetUIOnly(bool uiMode);
 
 	void DisableInput(APlayerController* PlayerController) override;
@@ -133,6 +140,7 @@ public:
 	FHoldingBTN OnHoldingBtn;
 
 	FMoveCamera OnCameraMoved;
+	FMoveCamera OnCameraMovedDoor;
 
 	FOpenHint OnOpenHint;
 	FCloseHint OnCloseHint;
@@ -144,4 +152,7 @@ public:
 	FPrevInventoryItem OnPrevInventoryItem;
 
 	FCheckInputMode OnKeyPressed;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FCheckKeyInputMode OnAnyKeyPressed;
 };

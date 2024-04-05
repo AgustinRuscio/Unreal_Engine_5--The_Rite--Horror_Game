@@ -142,6 +142,11 @@ bool AAlex::IsHoldInteracBTN() const
 	return bHoldingInteractBTN;
 }
 
+bool AAlex::CheckCanDrag() const
+{
+	return bIsDragging;
+}
+
 float AAlex::GetDoorFloat() const
 {
 	return DoorFloat;
@@ -219,33 +224,6 @@ void AAlex::CameraTargetFinished()
 	CameraLookTarget = FVector::Zero();
 }
 
-
-//------------------------ Inputs Actions
-//void AAlex::BindActions()
-//{
-//	MyController = Cast<AAlexPlayerController>(Controller);
-//	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
-//	
-//	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
-//	
-//	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
-//	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
-//	
-//	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
-//	
-//	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
-//	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-//	
-//	MyController->OnOpenHint.AddDynamic(this, &AAlex::OpenHint);
-//	MyController->OnCloseHint.AddDynamic(this, &AAlex::CloseHint);
-//	
-//	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
-//	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
-//	
-//	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-//	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-//}
-
 void AAlex::MovePlayer(FVector2D vector)
 {
 	const FRotator moveRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
@@ -267,9 +245,26 @@ void AAlex::MoveCamera(FVector2D vector)
 {
 	AddControllerYawInput(vector.X);
 	AddControllerPitchInput(vector.Y);
+}
+
+void AAlex::DoorMovement(FVector2D vector)
+{
 	DoorFloat = vector.X;
 }
 
+void AAlex::SetDraggingState(bool shouldCheck)
+{
+	if(shouldCheck)
+		bIsDragging = bHoldingInteractBTN;
+	else
+		bIsDragging = false;
+	
+	MyController->SetDoorMode(bIsDragging);
+}
+
+void AAlex::StartDraggingCheck()
+{
+}
 
 void AAlex::StartSprint()
 {
@@ -397,7 +392,6 @@ void AAlex::OpenInventory()
 		InventoryWidget->OnInventoryClose();
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT(" ALEX: %d"), bInventoryFlip)
 	MyController->SetUIOnly(!bInventoryFlip);
 }
 
@@ -611,6 +605,7 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
 	
 	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+	MyController->OnCameraMovedDoor.AddDynamic(this, &AAlex::DoorMovement);
 	
 	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
 	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);

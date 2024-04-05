@@ -116,45 +116,42 @@ void ADoor::HardClosingTimelineFinished()
 
 void ADoor::CheckDragDoor()
 {
-	if(!bHolding || !bIsLookingDoor || bIsLocked || (bNeedKey && !bKeyUnlocked))
+	if(!bcanDrag || bIsLocked || (bNeedKey && !bKeyUnlocked))
 		return;
 
-	float Yaw = DoorItself->GetRelativeRotation().Yaw;
-
-	float Check = FMath::ClampAngle(Yaw, FrontAngle, (FrontAngle*-1));
-
-	float DoorFloat = Player->GetDoorFloat();
 	
-	LatchHolding(bHolding);
+		float DoorFloat = Player->GetDoorFloat();
+		
+		LatchHolding(bHolding);
 
-	if(DoorTimer < DoorCD) return;
-	
-	if(Yaw != Check)
-	{
+		if(DoorTimer < DoorOpenOffsetCD) return;
 
 		float YawRot = DoorFloat * Sensitivity;
-		
+			
 		DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
-	}
-	else
-	{
-		if(Yaw >= FrontAngle)
-			DoorItself->SetRelativeRotation(FRotator(0,(FrontAngle-1),0));
+
+		float DoorCurrentYaw = DoorItself->GetRelativeRotation().Yaw;
+		
+		if(bFrontOpen)
+		{
+			if(DoorCurrentYaw > MaxYawrotation)
+				DoorItself->SetRelativeRotation(FRotator(0, MaxYawrotation,0));
+			else if(DoorCurrentYaw < FirstYawrotation)
+				DoorItself->SetRelativeRotation(FRotator(0, FirstYawrotation,0));
+		}
 		else
 		{
-			float num= FrontAngle * -1;
+			if(DoorCurrentYaw > FirstYawrotation)
+				DoorItself->AddLocalRotation(FRotator(0, FirstYawrotation,0));
+			else if(DoorCurrentYaw < MaxYawrotation)
+				DoorItself->AddLocalRotation(FRotator(0, MaxYawrotation,0));
 			
-			DoorItself->SetRelativeRotation(FRotator(0,(num+1),0));
 		}
-	}
+	
 }
 
 void ADoor::CheckIfLookingDoor()
 {
-	bHolding = Player->IsHoldInteracBTN();
-	
-	if(!bHolding) return;
-	
 	 FVector Start = Player->GetCamera()->GetComponentLocation();
 	
 	 FVector distace = Player->GetActorForwardVector() * 300;
@@ -169,10 +166,48 @@ void ADoor::CheckIfLookingDoor()
 								 false, IgnoredActors,
 								EDrawDebugTrace::ForDuration,HitResult, false);
 
-	if(hit)
-		bIsLookingDoor = HitResult.GetActor() == this;
+	if(hit && HitResult.GetActor() == this )
+	{		
+		bIsLookingDoor = true;
+		bWasLookingDoor = true;
+		
+		bHolding = Player->IsHoldInteracBTN();
+
+		if(bHolding)
+		{
+			Player->SetDraggingState(true);
+			bcanDrag = Player->CheckCanDrag();
+		}
+		else
+		{
+			
+			Player->SetDraggingState(false);
+			bcanDrag = Player->CheckCanDrag();
+			
+		}
+	}
 	else
+	{
 		bIsLookingDoor = false;
+		
+		if(bWasLookingDoor)
+		{
+
+			if(bHolding)
+			{
+				Player->SetDraggingState(true);
+				bcanDrag = Player->CheckCanDrag();
+			}
+			else
+			{
+				Player->SetDraggingState(false);
+				bcanDrag = Player->CheckCanDrag();
+			
+				bWasLookingDoor = false;
+			}
+		}
+	}
+	
 }
 
 void ADoor::BindTimeLines()
@@ -230,6 +265,9 @@ void ADoor::BeginPlay()
 	Super::BeginPlay();
 
 	BindTimeLines();
+
+	FirstYawrotation = DoorItself->GetRelativeRotation().Yaw;
+	MaxYawrotation = bFrontOpen ? FirstYawrotation + FrontAngle : FirstYawrotation - FrontAngle;
 	
 	InitialRot = DoorItself->GetRelativeRotation();
 	CurrentRot = DoorItself->GetRelativeRotation();
@@ -301,31 +339,24 @@ void ADoor::Interaction()
 			GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &ADoor::HideTutorial, 2.f, false);
 	}
 	
-	if(bFlipFlop)
-	{
-		if(bIsLocked)
-			ItsLocked();
-		else
-		{
-			if(bNeedKey)
-			{
-				if(bKeyUnlocked)
-				{
-					if(FirstTimeKeySound == 0)
-					{
-						FirstTimeKeySound++;
-						UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
-					}
-				}
-				else
-					ItsLocked();
-			}
-		}
-	}
+	
+	if(bIsLocked)
+		ItsLocked();
 	else
 	{
-		if(bIsLocked)
-			ItsLocked();
+		if(bNeedKey)
+		{
+			if(bKeyUnlocked)
+			{
+				if(FirstTimeKeySound == 0)
+				{
+					FirstTimeKeySound++;
+					UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
+				}
+			}
+			else
+				ItsLocked();
+		}
 	}
 }
 

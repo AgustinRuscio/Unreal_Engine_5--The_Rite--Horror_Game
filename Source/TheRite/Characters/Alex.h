@@ -139,6 +139,7 @@ private:
 	float DoorFloat;
 
 	bool bHoldingInteractBTN;
+	bool bIsDragging;
 
 	UPROPERTY(EditAnywhere, Category = "Hints")
 	UAnimMontage* HintAnimMontage;
@@ -167,6 +168,7 @@ private:
 	UAnimationAsset* ScreamerAnim;
 
 	FTimerHandle ScreamerTimerHanlde;
+	FTimerHandle DelayTimerHanlde;
 	
 	FTimerHandle OpeninventorywidgetTimerHandle;
 
@@ -183,8 +185,6 @@ private:
 
 	void BindTimeLineMethods();
 	
-	//void BindActions();
-
 	UFUNCTION()
 	void StartSprint();
 	
@@ -200,7 +200,9 @@ private:
 
 	UFUNCTION()
 	void MoveCamera(FVector2D vector);
-	
+	UFUNCTION()
+	void DoorMovement(FVector2D vector);
+
 	UFUNCTION()
 	void Interaction();
 	void CloseOpenInventoryWidget();
@@ -262,7 +264,9 @@ public:
 
 	void CallPauseFunc();
 
-	
+	void SetDraggingState(bool shouldCheck);
+	void StartDraggingCheck();
+
 	void SetCameraStun(bool stun);
 	
 	UFUNCTION()
@@ -272,6 +276,7 @@ public:
 	
 	bool IsHoldInteracBTN() const;
 
+	bool CheckCanDrag() const;
 	float GetDoorFloat() const;
 
 	void SetHintState(bool newHintState);

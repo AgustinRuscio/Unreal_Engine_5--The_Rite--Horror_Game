@@ -44,6 +44,12 @@ void AAlexPlayerController::CameraMoved(const FInputActionValue& value)
 	OnCameraMoved.Broadcast(moveAxis);
 }
 
+void AAlexPlayerController::DoorMoved(const FInputActionValue& value)
+{
+	FVector2d moveAxis = value.Get<FVector2d>();
+	OnCameraMovedDoor.Broadcast(moveAxis);
+}
+
 void AAlexPlayerController::OpenHint(const FInputActionValue& value)
 {
 	OnOpenHint.Broadcast();
@@ -69,10 +75,15 @@ void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 	OnNextInventoryItem.Broadcast();
 }
 
-void AAlexPlayerController::SetIsmepad(const bool bIsGamepad)
+void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
 {
 	bIsUsingGamepad = bIsGamepad;
 	OnKeyPressed.Broadcast(bIsGamepad);
+}
+
+bool AAlexPlayerController::GetIsGamepad() const
+{
+	return bIsUsingGamepad;
 }
 
 
@@ -149,6 +160,24 @@ void AAlexPlayerController::SetInventoryInputs()
 	}
 }
 
+void AAlexPlayerController::SetDoorInputs()
+{
+	UnbindActions();
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+	
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::DoorMoved);
+		
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::HoldingBTN);
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
+	}
+}
+
 AAlexPlayerController::AAlexPlayerController()
 {
 	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
@@ -172,6 +201,12 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 		SetInputMode(FInputModeGameOnly());
 }
 
+void AAlexPlayerController::SetDoorMode(bool newMode)
+{
+	newMode ?
+		SetDoorInputs() : BindActions();
+	
+}
 void AAlexPlayerController::SetUIOnly(bool uiMode)
 {
 	bShowMouseCursor = uiMode;
@@ -179,8 +214,9 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 	uiMode ? 
 	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI()):
 	BindActions(), SetInputMode(FInputModeGameOnly());
-	
 }
+
+
 void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 {
 	Super::DisableInput(PlayerController);

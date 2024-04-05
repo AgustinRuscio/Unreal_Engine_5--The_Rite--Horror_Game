@@ -79,6 +79,9 @@ private:
 	bool bIsTutorialDoor = false;
 	
 	//---- General
+	UPROPERTY(EditAnywhere, Category= "States")
+	bool bFrontOpen;
+	
 	bool bFlipFlop = true;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
@@ -95,6 +98,8 @@ private:
 	
 	bool bHolding;
 	bool bIsLookingDoor;
+	bool bWasLookingDoor;
+	bool bcanDrag;
 	
 	int8 FirstTimeKeySound = 0;
 	int8 AudioCounterItsLocked = 0;
@@ -112,8 +117,11 @@ private:
 
 	float DoorTimer;
 	
+	float FirstYawrotation;
+	float MaxYawrotation;
+	
 	UPROPERTY(EditAnywhere, Category= "Settings")
-	float DoorCD;
+	float DoorOpenOffsetCD;
 	//---- Functions
 	
 	UFUNCTION()
