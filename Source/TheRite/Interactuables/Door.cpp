@@ -118,18 +118,30 @@ void ADoor::CheckDragDoor()
 {
 	if(!bcanDrag || bIsLocked || (bNeedKey && !bKeyUnlocked))
 		return;
-
 	
-		float DoorFloat = Player->GetDoorFloat();
-		
 		LatchHolding(bHolding);
 
 		if(DoorTimer < DoorOpenOffsetCD) return;
+	
+		float DoorFloat = Player->GetDoorFloat();
 
 		float YawRot = DoorFloat * Sensitivity;
-			
-		DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
 
+		if(bFrontOpen)
+		{
+			if(bIsPlayerForward)
+			DoorItself->AddLocalRotation(FRotator(0, YawRot * -1,0));
+			else
+			DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
+		}
+		else
+		{
+			if(bIsPlayerForward)
+				DoorItself->AddLocalRotation(FRotator(0, YawRot ,0));
+			else
+				DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
+		}
+			
 		float DoorCurrentYaw = DoorItself->GetRelativeRotation().Yaw;
 		
 		if(bFrontOpen)
@@ -142,9 +154,9 @@ void ADoor::CheckDragDoor()
 		else
 		{
 			if(DoorCurrentYaw > FirstYawrotation)
-				DoorItself->AddLocalRotation(FRotator(0, FirstYawrotation,0));
+				DoorItself->SetRelativeRotation(FRotator(0, FirstYawrotation,0));
 			else if(DoorCurrentYaw < MaxYawrotation)
-				DoorItself->AddLocalRotation(FRotator(0, MaxYawrotation,0));
+				DoorItself->SetRelativeRotation(FRotator(0, MaxYawrotation,0));
 			
 		}
 	
@@ -171,8 +183,11 @@ void ADoor::CheckIfLookingDoor()
 	bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 								 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
 								 false, IgnoredActors,
-								EDrawDebugTrace::ForDuration,HitResult, false);
+								EDrawDebugTrace::None,HitResult, false);
 
+
+	
+	
 	if(hit && HitResult.GetActor() == this )
 	{		
 		bIsLookingDoor = true;
@@ -184,6 +199,8 @@ void ADoor::CheckIfLookingDoor()
 		{
 			Player->SetDraggingState(true);
 			bcanDrag = Player->CheckCanDrag();
+			
+			
 		}
 		else
 		{
@@ -298,7 +315,7 @@ void ADoor::BeginPlay()
 		
 	}
 	
-	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 void ADoor::Tick(float DeltaTime)
@@ -365,6 +382,41 @@ void ADoor::Interaction()
 				ItsLocked();
 		}
 	}
+
+	
+	
+	FVector DooraLocation = DoorItself->GetComponentLocation();
+
+	FVector PlayerLocation = Player->GetActorLocation();
+
+	FVector PlayerDirection = PlayerLocation - DooraLocation;
+
+	PlayerDirection.Normalize();
+
+	FRotator DoorRotation = GetActorRotation();
+	FVector DooraForwardVector = DoorItself->GetComponentLocation().RightVector;
+	
+	FVector forwatdRoated = DoorRotation.RotateVector(DooraForwardVector);
+	
+	float DotProduct = FVector::DotProduct(forwatdRoated, PlayerDirection);
+
+	if (DotProduct > 0.0f)
+	{
+		bIsPlayerForward = true;
+		UE_LOG(LogTemp, Warning, TEXT("Player is forward of the door"));
+	}
+	else if (DotProduct < 0.0f)
+	{
+		bIsPlayerForward = false;
+		UE_LOG(LogTemp, Warning, TEXT("Player is backward of the door"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player is exactly to the side of the door"));
+	}
+
+
+	
 }
 
 void ADoor::Open()

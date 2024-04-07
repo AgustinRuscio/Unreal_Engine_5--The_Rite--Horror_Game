@@ -24,6 +24,7 @@ class THERITE_API ADoor : public AInteractor
 	
 private:
 	//-------- Mesh
+	
 	UPROPERTY(EditAnywhere, Category = "Door mesh")
 	UStaticMeshComponent* DoorItself;
 	
@@ -100,6 +101,7 @@ private:
 	bool bIsLookingDoor;
 	bool bWasLookingDoor;
 	bool bcanDrag;
+	bool bIsPlayerForward;
 	
 	int8 FirstTimeKeySound = 0;
 	int8 AudioCounterItsLocked = 0;
