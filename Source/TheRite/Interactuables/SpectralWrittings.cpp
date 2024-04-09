@@ -23,6 +23,7 @@ void ASpectralWrittings::BeginPlay()
 	bReady = true;
 
 	
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Mesh->SetVisibility(false);
 }
 
@@ -62,6 +63,17 @@ ASpectralWrittings::ASpectralWrittings()
 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverapFinished);
 }
 
+ASpectralWrittings::~ASpectralWrittings()
+{
+	OnInteractionTrigger.Clear();
+}
+
+void ASpectralWrittings::BeginDestroy()
+{
+	Super::BeginDestroy();
+	OnInteractionTrigger.Clear();
+}
+
 void ASpectralWrittings::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -98,6 +110,11 @@ void ASpectralWrittings::Deactivate() const
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void ASpectralWrittings::EnableInteraction()
+{
+	bCanInteract = true;
+}
+
 void ASpectralWrittings::SetMaterialAlpha(float alpha)
 {
 	if(bDiscovered) return;
@@ -119,13 +136,13 @@ void ASpectralWrittings::Discovered()
 
 void ASpectralWrittings::Interaction()
 {
-	if(bDiscovered) return;
+	if(bDiscovered || !bCanInteract) return;
 	
 	Super::Interaction();
 	
+	bCanInteract = false;
 	bDiscovered= true;
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
 	
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
 	

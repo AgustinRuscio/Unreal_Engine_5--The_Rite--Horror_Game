@@ -265,7 +265,6 @@ public:
 	void CallPauseFunc();
 
 	void SetDraggingState(bool shouldCheck);
-	void StartDraggingCheck();
 
 	void SetCameraStun(bool stun);
 	

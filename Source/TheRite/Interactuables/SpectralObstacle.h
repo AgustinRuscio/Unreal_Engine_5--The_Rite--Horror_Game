@@ -29,6 +29,8 @@ private:
 	USoundBase* SpectralSound;
 public:	
 	ASpectralObstacle();
+	virtual void BeginPlay() override;
+	virtual void BeginDestroy() override;
 	
 	void ObstacleDestroy();
 };

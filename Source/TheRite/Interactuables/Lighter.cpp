@@ -1,6 +1,13 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "Lighter.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Characters/Alex.h"
 
 ALighter::ALighter()
 {
@@ -49,9 +56,13 @@ void ALighter::Tick(float DeltaTime)
 void ALighter::Interaction()
 {	
 	Super::Interaction();
-
-	RedDoor->SetCanInteract(true);
 	
+	auto Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+
+	Player->SetPlayerStats(true, true);
+	RedDoor->SetCanInteract(true);
+
+	KeySpectralWritting->EnableInteraction();
 	TutorialWidget->SetVisibility(ESlateVisibility::Visible);
 	
 	LighterBody->SetVisibility(false);
@@ -61,5 +72,5 @@ void ALighter::Interaction()
 	PointLight->SetVisibility(false);
 	
 	if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHanlde))
-		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 2.f, false);
+		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 4.f, false);
 }

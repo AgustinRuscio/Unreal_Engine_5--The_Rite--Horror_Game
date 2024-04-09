@@ -56,7 +56,9 @@ private:
 	
 public:
 	ASpectralWrittings();
-	
+	~ASpectralWrittings();
+
+	virtual void BeginDestroy() override;
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
@@ -69,6 +71,7 @@ public:
 	void Activate() const;
 	void Deactivate() const;
 
+	void EnableInteraction();
 	void SetMaterialAlpha(float alpha);
 
 	void Discovered();

@@ -38,71 +38,7 @@ private:
 	UFUNCTION()
 	void OnKeySpectralWrittingUsed();
 	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_WhereDidILeftTheKey;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_WhereIsTheDeamKey;
 
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_AlexScream;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_ImLoosingMyMind;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_Steps;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_HeavyBreath;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjetcs: Drawers")
-	TMap<ABaseDrawer*, ATargetPoint*> Map_Drawers_Target;
-
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjetcs: Drawers")
-	TSubclassOf<ADoorKey> KeySubclass;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
-	TArray<ALightsTheRite*> Lights;
-
-	UPROPERTY(EditAnywhere, Category= "Sequence")
-	ULevelSequence* SequenceFade;
-
-	FTimeline DrawerTimeline;
-	
-	UPROPERTY(EditAnywhere, Category="Drawers", meta=(ToolTip = "4 sec, flat curve"))
-	UCurveFloat* DrawerTimeLineCurve;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Doors")
-	ADoor* ArtRoomDoor;
-
-	AAlex* Player;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
-	int8 MinDrawerOpenedUntilscreams = 3;
-	int8 DoOnceSpawnKey = 0;
-	int8 DoOnceDrawers = 0;
-	int8 DrawersOpened = 0;
-	bool bOnDrawerPuzzle = true;
-	bool bScreamFlipFlop = true;
-	
-	void SetDrawers();
-	void BindTimeLine();
-	void GetPlayer();
-
-	void ResolveSpawnKey();
-	
-	UFUNCTION()
-	void DrawerPuzzle(ABaseDrawer* Drawer);
-	
-	void SpawnArtRoomKey(ATargetPoint* SpawnPoint, ABaseDrawer* ParentDrawer);
-	
-	UFUNCTION()
-	void OnDrawerKeyCollected();
-	
-	UFUNCTION()
-	void OnDrawerTimelineFinished();
 
 	
 protected:
@@ -110,5 +46,4 @@ protected:
 
 public:	
 	AClockLevelDrawersPuzzle();
-	virtual void Tick(float DeltaTime) override;
 };

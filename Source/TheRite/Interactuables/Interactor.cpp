@@ -45,6 +45,11 @@ bool AInteractor::IsRemovable()
 	return bIsRemovable;
 }
 
+bool AInteractor::GetCanInteract()
+{
+	return bCanInteract;
+}
+
 TTuple<bool, FString, PickableItemsID> AInteractor::CheckRemove()
 {
 	TTuple<bool, FString, PickableItemsID> InteractorInfo(bIsRemovable, GetItemName(), GetItemID());

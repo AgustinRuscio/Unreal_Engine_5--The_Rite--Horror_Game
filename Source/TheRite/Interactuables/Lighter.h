@@ -1,8 +1,13 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/BoxComponent.h"
+#include "SpectralWrittings.h"
 #include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Widgets/TutorialWidget.h"
@@ -34,6 +39,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	ARedDoor* RedDoor;
+
+	UPROPERTY(EditAnywhere, Category = "States")
+	ASpectralWrittings* KeySpectralWritting;
 	
 	void TurnTutorialOff();
 	

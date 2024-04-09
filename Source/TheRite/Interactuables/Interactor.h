@@ -59,6 +59,7 @@ public:
 	virtual FString GetItemName() const override;
 	virtual PickableItemsID GetItemID() const override;
 	virtual bool IsRemovable() override;
+	virtual bool GetCanInteract() override;
 
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() override;
 	

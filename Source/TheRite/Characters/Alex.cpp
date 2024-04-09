@@ -254,16 +254,14 @@ void AAlex::DoorMovement(FVector2D vector)
 
 void AAlex::SetDraggingState(bool shouldCheck)
 {
+	if(!bInventoryFlip) return;
+	
 	if(shouldCheck)
 		bIsDragging = bHoldingInteractBTN;
 	else
 		bIsDragging = false;
 	
 	MyController->SetDoorMode(bIsDragging);
-}
-
-void AAlex::StartDraggingCheck()
-{
 }
 
 void AAlex::StartSprint()
@@ -521,26 +519,28 @@ void AAlex::InteractuableCheck()
 		else
 		{
 			ActualInteractuable = currentCheck;
-			TalkSound = ActualInteractuable->GetSound();
+			
+				TalkSound = ActualInteractuable->GetSound();
 
-			if(IsDoorCheck(ActualInteractuable))
-			{
-				if(bDoorWasLocked)
+				if(IsDoorCheck(ActualInteractuable))
 				{
-					bCanInteract = true;
-					DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
-				}	
+					if(bDoorWasLocked)
+					{
+						bCanInteract = true;
+						DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
+					}	
+					else
+					{
+						bCanInteract = true;
+						DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
+					}
+				}
 				else
 				{
 					bCanInteract = true;
 					DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
 				}
-			}
-			else
-			{
-				bCanInteract = true;
-				DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
-			}
+			
 		}
 	}
 }

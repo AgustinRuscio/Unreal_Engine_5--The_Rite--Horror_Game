@@ -414,9 +414,6 @@ void ADoor::Interaction()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player is exactly to the side of the door"));
 	}
-
-
-	
 }
 
 void ADoor::Open()

@@ -17,9 +17,20 @@ ASpectralObstacle::ASpectralObstacle()
 	NiagaraSystem->SetupAttachment(BoxCollider);
 }
 
+void ASpectralObstacle::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ASpectralObstacle::BeginDestroy()
+{
+	Super::BeginDestroy();
+	UGameplayStatics::SpawnSoundAtLocation(this, SpectralSound, GetActorLocation());
+	
+}
+
 void ASpectralObstacle::ObstacleDestroy()
 {
-	UGameplayStatics::SpawnSoundAtLocation(this, SpectralSound, GetActorLocation());
 	
 	Destroy();
 }
