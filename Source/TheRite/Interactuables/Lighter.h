@@ -11,7 +11,6 @@
 #include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Widgets/TutorialWidget.h"
-#include "TheRite/Interactuables/RedDoor.h"
 #include "Lighter.generated.h"
 
 UCLASS()
@@ -37,8 +36,7 @@ private:
 	
 	UTutorialWidget* TutorialWidget;
 
-	UPROPERTY(EditAnywhere, Category = "States")
-	ARedDoor* RedDoor;
+
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralWrittings* KeySpectralWritting;

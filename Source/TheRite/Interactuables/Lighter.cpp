@@ -60,7 +60,6 @@ void ALighter::Interaction()
 	auto Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
 	Player->SetPlayerStats(true, true);
-	RedDoor->SetCanInteract(true);
 
 	KeySpectralWritting->EnableInteraction();
 	TutorialWidget->SetVisibility(ESlateVisibility::Visible);

@@ -43,7 +43,7 @@ void ABaseDrawer::OpenTimeLineUpdate(float value)
 	FVector A = GetActorLocation();
 	FVector B = A + MoveDir;
 
-	FVector values = FMath::Lerp(A, B, value);
+	FVector values = FMath::Lerp(StartLocation,EndLocation, value);
 	
 	SetActorRelativeLocation(values);
 }
@@ -55,7 +55,7 @@ void ABaseDrawer::CloseTimeLineUpdate(float value)
 	FVector A = GetActorLocation();
 	FVector B = A - MoveDir;
 
-	FVector values = FMath::Lerp(A, B, value);
+	FVector values = FMath::Lerp(StartLocation,EndLocation, value);
 	
 	SetActorRelativeLocation(values);
 }
@@ -96,6 +96,7 @@ bool ABaseDrawer::IsOpen() const
 void ABaseDrawer::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	
 	OpenTimeLine.TickTimeline(DeltaSeconds);
 	CloseTimeLine.TickTimeline(DeltaSeconds);
 	WaitTimeLine.TickTimeline(DeltaSeconds);
@@ -115,12 +116,19 @@ void ABaseDrawer::Interaction()
 		bIsOpen = true;
 		bFlipFlop = false;
 		
+		StartLocation = GetActorLocation();
+		EndLocation = StartLocation + MoveDir;
+		
 		OpenTimeLine.PlayFromStart();
 	}
 	else
 	{
 		bCanInteract = false;
 		bIsOpen = false;
+		
+		EndLocation = StartLocation;
+		StartLocation = GetActorLocation();
+		
 		CloseTimeLine.PlayFromStart();
 		bFlipFlop = true;
 	}

@@ -34,7 +34,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
 	
-	
+	FVector StartLocation;
+	FVector EndLocation;
 
 	bool bKeyConteiner;
 	bool bFlipFlop = true;
