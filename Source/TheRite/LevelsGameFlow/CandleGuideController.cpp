@@ -20,16 +20,19 @@ void ACandleGuideController::BeginPlay()
 
 void ACandleGuideController::GuideChange()
 {
-	for (auto Element : PlaceGuideCandles)
+	if(PlaceGuideCandles.Num() > 0)
 	{
-		if(!Element) continue;
-		Element->TurnOff();
+		for (auto Element : PlaceGuideCandles)
+		{
+			Element->TurnOff();
+		}
 	}
 
-	for (auto Element : NextPlaceGuideCandles)
+	if(NextPlaceGuideCandles.Num() > 0)
 	{
-		if(!Element) continue;
-		
-		Element->TurnOn();
+		for (auto Element : NextPlaceGuideCandles)
+		{
+			Element->TurnOn();
+		}
 	}
 }
