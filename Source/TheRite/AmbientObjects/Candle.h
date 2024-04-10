@@ -6,6 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraSystem.h"
 #include "Engine/PointLight.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -23,6 +24,9 @@ private:
 	UStaticMeshComponent* Mesh;
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* Plane;
+
+	UPROPERTY(EditAnywhere, Category="Mesh")
+	UNiagaraComponent* SmokeParticles;
 	
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	USoundBase* BlowCandleSound;
