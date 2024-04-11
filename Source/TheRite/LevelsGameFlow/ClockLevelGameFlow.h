@@ -26,8 +26,6 @@
 #include "TheRite/Triggers/MakeTiffanyWalk.h"
 
 
-#include "Components/PostProcessComponent.h"
-
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
@@ -59,14 +57,6 @@ private:
 	float AmbientMusicOriginalVolumen;
 	float StressSoundOriginalVolumen;
 	float VoicesSoundOriginalVolumen;
-
-
-	UPROPERTY(EditAnywhere, Category = "Post process event")
-	UMaterialInterface* PostProcesVHSdMaterial;
-	UMaterialInstanceDynamic* DynamicMaterialPostProcess;
-
-	UPROPERTY(EditAnywhere, Category = "Post process event")
-	UPostProcessComponent* PostProcessComponent;
 	
 	
 
@@ -363,5 +353,4 @@ public:
 	AClockLevelGameFlow();
 	virtual void Tick(float DeltaTime) override;
 
-	void ModifyPostProcessValues(FName& parameterName, float value);
 };

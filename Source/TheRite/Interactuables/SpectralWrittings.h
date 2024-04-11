@@ -7,13 +7,12 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
-//#include "TheRite/LevelsGameFlow/ClockLevelGameFlow.h"
 #include "Components/SphereComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
+#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "SpectralWrittings.generated.h"
 
-class AClockLevelGameFlow;
 UCLASS()
 class THERITE_API ASpectralWrittings : public AInteractor
 {
@@ -50,7 +49,7 @@ private:
 	AActor* InsideActor;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
-	AClockLevelGameFlow* Gameflow;
+	AProsProcessModifier* Gameflow;
 	
 	
 public:

@@ -274,9 +274,6 @@ void AClockLevelGameFlow::BeginPlay()
 
 	Player->SetPlayerStats(false, true);
 
-
-	DynamicMaterialPostProcess = UMaterialInstanceDynamic::Create(PostProcesVHSdMaterial, this);
-	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterialPostProcess);
 	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
 	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
@@ -417,9 +414,4 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 	
 	MakeTiffanyTalk(DeltaTime);
 	MakeBreath(DeltaTime);
-}
-
-void AClockLevelGameFlow::ModifyPostProcessValues(FName& parameterName, float value)
-{
-	DynamicMaterialPostProcess->SetScalarParameterValue(parameterName, value);
 }

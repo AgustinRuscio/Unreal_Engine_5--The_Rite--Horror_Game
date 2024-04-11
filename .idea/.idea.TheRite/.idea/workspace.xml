@@ -8,8 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_ProsProcessModifier.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_Candle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_Candle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
@@ -24,29 +31,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -277,6 +262,8 @@
       <workItem from="1712852664878" duration="2709000" />
       <workItem from="1712856204863" duration="119000" />
       <workItem from="1712856570679" duration="1541000" />
+      <workItem from="1712868271455" duration="81000" />
+      <workItem from="1712868379549" duration="1726000" />
     </task>
     <servers />
   </component>
