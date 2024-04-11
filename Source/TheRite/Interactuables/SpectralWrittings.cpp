@@ -18,8 +18,9 @@ void ASpectralWrittings::BeginPlay()
 
 
 	DynamicMaterialPostProcess = UMaterialInstanceDynamic::Create(PostProcesVHSdMaterial, this);
-	OriginalPostProcessValues = PostProcessComponent->GetProperties();
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterialPostProcess);
+
+	
 	bReady = true;
 
 	

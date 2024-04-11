@@ -52,7 +52,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Post process event")
 	UPostProcessComponent* PostProcessComponent;
 	
-	FPostProcessVolumeProperties OriginalPostProcessValues;
 	
 public:
 	ASpectralWrittings();
