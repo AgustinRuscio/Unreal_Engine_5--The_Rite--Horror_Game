@@ -24,6 +24,10 @@
 #include "TheRite/Interactuables/MinutesLetter.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
 #include "TheRite/Triggers/MakeTiffanyWalk.h"
+
+
+#include "Components/PostProcessComponent.h"
+
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
@@ -55,11 +59,16 @@ private:
 	float AmbientMusicOriginalVolumen;
 	float StressSoundOriginalVolumen;
 	float VoicesSoundOriginalVolumen;
-	
-	//UPROPERTY(EditAnywhere, Category = "Widgets")
-	//TSubclassOf<UHintsWidget> HintsUI;
-	//UHintsWidget* HintsWidget;
 
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UMaterialInterface* PostProcesVHSdMaterial;
+	UMaterialInstanceDynamic* DynamicMaterialPostProcess;
+
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UPostProcessComponent* PostProcessComponent;
+	
+	
 
 	UPROPERTY(EditAnywhere, Category = "One item grab items")
 	ATargetPoint* TiffanySpawnPointOneItem;
@@ -78,7 +87,6 @@ private:
 	ADoor* ArtRoomDoor;
 	
 	AAlex* Player; 
-	//AHandLetter* PlayerHint;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Letter")
 	ALetter* TiffanyFirstLetter;
@@ -354,4 +362,6 @@ public:
 public:	
 	AClockLevelGameFlow();
 	virtual void Tick(float DeltaTime) override;
+
+	void ModifyPostProcessValues(FName& parameterName, float value);
 };

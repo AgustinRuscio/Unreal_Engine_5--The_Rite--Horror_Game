@@ -7,18 +7,22 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
-#include "Components/PostProcessComponent.h"
+//#include "TheRite/LevelsGameFlow/ClockLevelGameFlow.h"
 #include "Components/SphereComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "SpectralWrittings.generated.h"
 
-
+class AClockLevelGameFlow;
 UCLASS()
 class THERITE_API ASpectralWrittings : public AInteractor
 {
 	GENERATED_BODY()
 private:
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	FName PostProcessToModifyParameterName;
+	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Mesh;
 	
@@ -45,12 +49,8 @@ private:
 
 	AActor* InsideActor;
 
-	UPROPERTY(EditAnywhere, Category = "Post process event")
-	UMaterialInterface* PostProcesVHSdMaterial;
-	UMaterialInstanceDynamic* DynamicMaterialPostProcess;
-
-	UPROPERTY(EditAnywhere, Category = "Post process event")
-	UPostProcessComponent* PostProcessComponent;
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	AClockLevelGameFlow* Gameflow;
 	
 	
 public:

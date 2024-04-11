@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Alex.h"
+#include "TheRite/LevelsGameFlow/ClockLevelGameFlow.h"
 
 void ASpectralWrittings::BeginPlay()
 {
@@ -17,8 +18,7 @@ void ASpectralWrittings::BeginPlay()
 	Mesh->SetMaterial(0, DynamicMaterial);
 
 
-	DynamicMaterialPostProcess = UMaterialInstanceDynamic::Create(PostProcesVHSdMaterial, this);
-	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterialPostProcess);
+
 
 	
 	bReady = true;
@@ -85,9 +85,8 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
 	
 	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
-
 	
-	DynamicMaterialPostProcess->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
+	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
 }
 
 bool ASpectralWrittings::GetDiscoverdStatus() const
@@ -131,8 +130,8 @@ void ASpectralWrittings::Discovered()
 	
 	Mesh->SetVisibility(true);
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
-	
-	DynamicMaterialPostProcess->SetScalarParameterValue(TEXT("SpectralProximity"),0);
+
+	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
 }
 
 void ASpectralWrittings::Interaction()
@@ -152,5 +151,5 @@ void ASpectralWrittings::Interaction()
 	Mesh->SetVisibility(true);
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	
-	DynamicMaterialPostProcess->SetScalarParameterValue(TEXT("SpectralProximity"),0);
+	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
 }
