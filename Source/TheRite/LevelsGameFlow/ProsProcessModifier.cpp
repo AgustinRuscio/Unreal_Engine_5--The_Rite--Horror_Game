@@ -1,5 +1,9 @@
-#include "ProsProcessModifier.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "ProsProcessModifier.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -12,7 +16,6 @@ AProsProcessModifier::AProsProcessModifier()
 void AProsProcessModifier::ModifyPostProcessValues(FName& parameterName, float value)
 {
 	DynamicMaterialPostProcess->SetScalarParameterValue(parameterName, value);
-	UE_LOG(LogTemp, Warning, TEXT("A"));
 }
 
 void AProsProcessModifier::BeginPlay()

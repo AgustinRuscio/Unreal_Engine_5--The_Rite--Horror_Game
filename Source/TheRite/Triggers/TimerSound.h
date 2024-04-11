@@ -18,14 +18,23 @@ private:
 
 	float Timer;
 
-	UPROPERTY(EditAnywhere, Category= "Sound Cd")
 	float CooldDown;
+	
+	UPROPERTY(EditAnywhere, Category= "Sound Cd")
+	float MinCoolDown;
+	UPROPERTY(EditAnywhere, Category= "Sound Cd")
+	float MaxCooldDown;
 
 	UPROPERTY(EditAnywhere, Category= "Sound")
-	USoundBase* Sound;
-
-
-public:	
+	TArray<USoundBase*> PosibleSounds;
+	UPROPERTY(EditAnywhere, Category= "Sound")
+	USoundAttenuation* FxAttenuation;
+	
+	USoundBase* CurrentAudio() const;
+	void ChangeCoolDown();
+	
+public:
 	ATimerSound();
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 };
