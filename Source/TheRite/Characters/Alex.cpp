@@ -16,6 +16,8 @@ AAlex::AAlex()
 {
  	PrimaryActorTick.bCanEverTick = true;
 
+	TimerComponentForLighterDisplay = CreateDefaultSubobject<UTimerActionComponent>("Timer");
+	
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	
@@ -37,6 +39,8 @@ AAlex::AAlex()
 	
 	Camera->SetupAttachment(GetMesh());
 	ScreamerSkeleton->SetupAttachment(Camera);
+
+	
 }
 
 void AAlex::OnJumpScare()
@@ -114,18 +118,24 @@ void AAlex::CreateWidgets()
 	OpenInventoryWidget->AddToViewport(0);
 	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 	OpenInventoryWidget->SetIsFocusable(true);
+
+	LighterReminderWidget = CreateWidget<UTutorialWidget>(GetWorld(), LighterRecordatoryMenu);
+	LighterReminderWidget->AddToViewport(0);
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+	LighterReminderWidget->SetIsFocusable(true);
+	
 	
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 
 	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
+	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
 }
 
 void AAlex::SetPlayerStats(bool canRun, bool canUseLighter)
 {
 	bCanRun = canRun;
 	SetCanUseLigherState(canUseLighter);
-	
 }
 
 void AAlex::ForceTalk(USoundBase* Voice)
@@ -191,6 +201,10 @@ void AAlex::BeginPlay()
 	WrittingsDetector->SetComponentSettings(LighterLight->SourceRadius, LighterLight->GetRelativeTransform());
 	
 	BindTimeLineMethods();
+
+
+	if(bCanUseLigher)
+		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
 }
 
 void AAlex::BindTimeLineMethods()
@@ -454,6 +468,21 @@ void AAlex::CheckLighterCooldDown(float deltaTime)
 		else
 			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
 	}
+
+}
+
+void AAlex::ShowLighterReminder()
+{
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
+
+	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
+		GetWorldTimerManager().SetTimer(LighterReminderTimer, this, &AAlex::HideLighterReminder, 4.f, false);
+}
+
+void AAlex::HideLighterReminder()
+{
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+	TimerComponentForLighterDisplay->ActionFinished();
 }
 
 void AAlex::SetLighterAssetsVisibility(bool visibilityState)
@@ -463,6 +492,7 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 	FlamePlane->SetVisibility(visibilityState);
 	WrittingsDetector->SetInteractionStatus(visibilityState);
 }
+
 
 void AAlex::HeadBob()
 {

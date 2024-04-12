@@ -75,9 +75,6 @@ void ASpectralWrittings::BeginDestroy()
 void ASpectralWrittings::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
-	
-	UE_LOG(LogTemp, Warning, TEXT("%d"), bPlayerInside);
 	
 	if(!bPlayerInside || bDiscovered) return;
 	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());

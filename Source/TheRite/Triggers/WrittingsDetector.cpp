@@ -24,7 +24,6 @@ void AWrittingsDetector::OnOverlapBegins(UPrimitiveComponent* OverlappedComponen
 	if(!castedActor) return;
 
 	currentWritting = castedActor;
-	UE_LOG(LogTemp, Warning, TEXT("Active"));
 	bwrittingDetected = true;
 	currentWritting->Activate();
 }

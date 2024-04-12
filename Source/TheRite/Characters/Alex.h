@@ -13,6 +13,7 @@
 #include "Components/Widget.h"
 #include "GameFramework/Character.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Components/TimerActionComponent.h"
 #include "TheRite/Interactuables/IInteractuable.h"
 #include "TheRite/Interactuables/Letter.h"
 #include "TheRite/Triggers/WrittingsDetector.h"
@@ -80,6 +81,9 @@ private:
 	
 	float LighterTimer = 0;
 	
+	UPROPERTY(EditAnywhere, Category="Components")
+	UTimerActionComponent* TimerComponentForLighterDisplay;
+	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	float LighterCD = 5.0f;
 
@@ -94,6 +98,9 @@ private:
 	TSubclassOf<UPauseMenuWidget> PauseMenu;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UTutorialWidget> LighterRecordatoryMenu;
+	
+	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UOpenInventory> OpenInventoryMenu;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
@@ -102,6 +109,7 @@ private:
 	UPauseMenuWidget* PauseWidget;
 	UInventory* InventoryWidget;
 	UOpenInventory* OpenInventoryWidget;
+	UTutorialWidget* LighterReminderWidget;
 	
 	float BreathTimer;
 	float AudioTimer;
@@ -174,6 +182,8 @@ private:
 
 	FTimeline TargetCameraTimeLine;
 	
+	FTimerHandle LighterReminderTimer;
+	
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	UCurveFloat* EmptyCurve;
 	bool bInventoryFlip = true;
@@ -221,6 +231,11 @@ private:
 	void LighterSoundTimer(float deltaTime);
 	void CheckLighterCooldDown(float deltaTime);
 
+	UFUNCTION()
+	void ShowLighterReminder();
+	void HideLighterReminder();
+
+
 	void HeadBob();
 
 	void InteractuableCheck();
@@ -243,6 +258,8 @@ private:
 	void CreateWidgets();
 
 	void SetLighterAssetsVisibility(bool visibilityState);
+
+	void CheckTimeWhileLighterOff(float deltaTime);
 	
 	FVector CameraLookTarget;
 	
