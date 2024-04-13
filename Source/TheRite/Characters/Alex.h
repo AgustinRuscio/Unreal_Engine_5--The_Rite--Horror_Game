@@ -132,6 +132,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	float RangeInteractuable;
+	UPROPERTY(EditAnywhere, Category = "Lighter values")
+	float Sensitivity;
 
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	bool bCanUseLigher;

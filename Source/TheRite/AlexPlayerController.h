@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
+#include "LevelsGameState.h"
 #include "GameFramework/PlayerInput.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -43,6 +44,12 @@ class THERITE_API AAlexPlayerController : public APlayerController
 	GENERATED_BODY()
 
 private:
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float MouseSensitivity = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	ALevelsGameState* GameState;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	class UInputMappingContext* DefaultMappingCOntext;
@@ -99,6 +106,7 @@ private:
 	void Inventory(const FInputActionValue& value);
 	void NextInventoryItem(const FInputActionValue& value);
 
+	
 	bool bIsUsingGamepad;
 	
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
@@ -106,6 +114,9 @@ private:
 	
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	bool GetIsGamepad() const;
+
+	UFUNCTION()
+	void RecieveLoadedData(float newSensitivity);
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
@@ -120,7 +131,7 @@ protected:
 
 public:
 	AAlexPlayerController();
-
+virtual void Tick(float DeltaSeconds) override;
 	bool GetIsUsingGamepad() const;
 	void SetPauseGame(bool PauseState);
 	void SetDoorMode(bool newMode);
@@ -129,6 +140,13 @@ public:
 	void DisableInput(APlayerController* PlayerController) override;
 
 	void EnableInput(APlayerController* PlayerController) override;
+
+	UFUNCTION(BlueprintCallable)
+	float GetMouseSensitivity() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetMouseSensitivity(float newSensitivity);
+	
 	FPlayerMovement OnPlayerMovement;
 	
 	FStopSprint OnStopSprint;

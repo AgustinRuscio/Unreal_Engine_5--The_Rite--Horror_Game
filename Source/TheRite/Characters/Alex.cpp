@@ -257,13 +257,13 @@ void AAlex::MovePlayer(FVector2D vector)
 
 void AAlex::MoveCamera(FVector2D vector)
 {
-	AddControllerYawInput(vector.X);
-	AddControllerPitchInput(vector.Y);
+	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
+	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
 }
 
 void AAlex::DoorMovement(FVector2D vector)
 {
-	DoorFloat = vector.X;
+	DoorFloat = vector.X * MyController->GetMouseSensitivity();
 }
 
 void AAlex::SetDraggingState(bool shouldCheck)

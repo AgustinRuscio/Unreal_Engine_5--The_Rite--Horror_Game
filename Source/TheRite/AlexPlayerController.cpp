@@ -4,8 +4,13 @@
 
 
 #include "AlexPlayerController.h"
+
+#include <string>
+
 #include "EnhancedInput/Public/EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/GameplayStatics.h"
+#define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
 void AAlexPlayerController::PlayerMovement(const FInputActionValue& value)
 {
@@ -70,6 +75,7 @@ void AAlexPlayerController::Inventory(const FInputActionValue& value)
 	OnInventory.Broadcast();
 }
 
+
 void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 {
 	OnNextInventoryItem.Broadcast();
@@ -86,6 +92,11 @@ bool AAlexPlayerController::GetIsGamepad() const
 	return bIsUsingGamepad;
 }
 
+void AAlexPlayerController::RecieveLoadedData(float newSensitivity)
+{
+	MouseSensitivity = newSensitivity;
+}
+
 
 void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 {
@@ -98,6 +109,17 @@ void AAlexPlayerController::BeginPlay()
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
 
+
+	auto gs = UGameplayStatics::GetGameState(GetWorld());
+
+	auto newCast = Cast<ALevelsGameState>(gs);
+
+	if(newCast)
+	{
+		auto saveData = newCast->GetSaveData();
+		MouseSensitivity = saveData.MouseSensitivity;
+	}
+	
 	BindActions();
 }
 
@@ -184,6 +206,12 @@ AAlexPlayerController::AAlexPlayerController()
 	WidgetInteractionComponent->SetupAttachment(RootComponent);
 }
 
+void AAlexPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+}
+
 bool AAlexPlayerController::GetIsUsingGamepad() const
 {
 	return bIsUsingGamepad;
@@ -229,4 +257,14 @@ void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
 	Super::EnableInput(PlayerController);
 	SetIgnoreLookInput(false);
 	SetIgnoreMoveInput(false);
+}
+
+float AAlexPlayerController::GetMouseSensitivity() const
+{
+	return MouseSensitivity;
+}
+
+void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
+{
+	MouseSensitivity = newSensitivity;
 }

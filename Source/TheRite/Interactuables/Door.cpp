@@ -125,21 +125,19 @@ void ADoor::CheckDragDoor()
 	
 		float DoorFloat = Player->GetDoorFloat();
 
-		float YawRot = DoorFloat * Sensitivity;
-
 		if(bFrontOpen)
 		{
 			if(bIsPlayerForward)
-			DoorItself->AddLocalRotation(FRotator(0, YawRot * -1,0));
+			DoorItself->AddLocalRotation(FRotator(0, DoorFloat * -1,0));
 			else
-			DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
+			DoorItself->AddLocalRotation(FRotator(0, DoorFloat,0));
 		}
 		else
 		{
 			if(bIsPlayerForward)
-				DoorItself->AddLocalRotation(FRotator(0, YawRot ,0));
+				DoorItself->AddLocalRotation(FRotator(0, DoorFloat ,0));
 			else
-				DoorItself->AddLocalRotation(FRotator(0, YawRot * -1,0));
+				DoorItself->AddLocalRotation(FRotator(0, DoorFloat * -1,0));
 		}
 			
 		float DoorCurrentYaw = DoorItself->GetRelativeRotation().Yaw;
