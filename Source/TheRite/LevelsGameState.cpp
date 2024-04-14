@@ -1,6 +1,13 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "LevelsGameState.h"
 #include "Serialization/BufferArchive.h"
 #include "Serialization/MemoryReader.h"
+#include "SaveData.h"
+#include "Kismet/GameplayStatics.h"
 #include "Misc/FileHelper.h"
 #define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
@@ -14,37 +21,31 @@ void ALevelsGameState::BeginPlay()
 }
 
 
-
 void ALevelsGameState::SaveData(float mouseSensitivity)
 {
-	FSaveGameData SaveData;
-	SaveData.MouseSensitivity = mouseSensitivity;
-	SaveData.PuzzleResolveIndex = 0;
-	
-	FBufferArchive Buffer;
-	Buffer << SaveData;
+	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
 
-	FString SavePath = FPaths::ProjectSavedDir() + TEXT("SaveGame.sav");
-	FFileHelper::SaveArrayToFile(Buffer, *SavePath);
+	saveGameDataInstance->MouseSensitivity = mouseSensitivity;
+
+	UGameplayStatics::SaveGameToSlot(saveGameDataInstance, TEXT("SavedGame"), 0);
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Saved")));
+
 }
 
 void ALevelsGameState::LoadData()
 {
-	PRINT("Load")
-	FString LoadPath = FPaths::ProjectSavedDir() + TEXT("SaveGame.sav");
-	TArray<uint8> LoadedData;
+	if(!UGameplayStatics::DoesSaveGameExist("SavedGame", 0)) return;
+	
+	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
 
-	if (FFileHelper::LoadFileToArray(LoadedData, *LoadPath))
-	{
-		FMemoryReader MemoryReader(LoadedData, true);
+	saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot("SavedGame", 0));
 
-		FSaveGameData LoadedSaveData;
-		MemoryReader << LoadedSaveData;
+	GameData.MouseSensitivity = saveGameDataInstance->MouseSensitivity;
+	GameData.PuzzleResolveIndex = saveGameDataInstance->PuzzleResolveIndex;
 
-		GameData.MouseSensitivity = LoadedSaveData.MouseSensitivity;
-		GameData.PuzzleResolveIndex = LoadedSaveData.PuzzleResolveIndex;
-
-	}
+	OnGameLoaded.Broadcast();
+	
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
 }
 
 FSaveGameData ALevelsGameState::GetSaveData() const

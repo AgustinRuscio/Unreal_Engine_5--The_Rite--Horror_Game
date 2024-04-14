@@ -108,19 +108,17 @@ void AAlexPlayerController::BeginPlay()
 {
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
-
-
-	auto gs = UGameplayStatics::GetGameState(GetWorld());
-
-	auto newCast = Cast<ALevelsGameState>(gs);
-
-	if(newCast)
-	{
-		auto saveData = newCast->GetSaveData();
-		MouseSensitivity = saveData.MouseSensitivity;
-	}
 	
 	BindActions();
+}
+
+
+
+void AAlexPlayerController::LoadValues()
+{
+	auto saveData = gs->GetSaveData();
+	MouseSensitivity = saveData.MouseSensitivity;
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(" Mouse sens: %f"),MouseSensitivity ));
 }
 
 void AAlexPlayerController::BindActions()
@@ -204,13 +202,33 @@ AAlexPlayerController::AAlexPlayerController()
 {
 	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
 	WidgetInteractionComponent->SetupAttachment(RootComponent);
+
+	gs = Cast<ALevelsGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	
+	if(gs)
+		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
 }
 
-void AAlexPlayerController::Tick(float DeltaSeconds)
+AAlexPlayerController::~AAlexPlayerController()
 {
-	Super::Tick(DeltaSeconds);
-
+	OnPlayerMovement.Clear();
+	OnStopSprint.Clear();
+	OnStartSprint.Clear();
+	OnLighter.Clear();
+	OnInteractionPressed.Clear();
+	OnHoldingBtn.Clear();
+	OnCameraMoved.Clear();
+	OnCameraMovedDoor.Clear();
+	OnOpenHint.Clear();
+	OnCloseHint.Clear();
+	OnPause.Clear();
+	OnInventory.Clear();
+	OnNextInventoryItem.Clear();
+	OnPrevInventoryItem.Clear();
+	OnKeyPressed.Clear();
+	OnAnyKeyPressed.Clear();
 }
+
 
 bool AAlexPlayerController::GetIsUsingGamepad() const
 {

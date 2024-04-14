@@ -117,6 +117,8 @@ private:
 
 	UFUNCTION()
 	void RecieveLoadedData(float newSensitivity);
+
+	ALevelsGameState* gs;
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
@@ -124,6 +126,9 @@ protected:
 
 	void PrevInventoryItem(const FInputActionValue& value);
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void LoadValues();
 	void BindActions();
 	void UnbindActions();
 	void SetInventoryInputs();
@@ -131,7 +136,7 @@ protected:
 
 public:
 	AAlexPlayerController();
-virtual void Tick(float DeltaSeconds) override;
+	~AAlexPlayerController();
 	bool GetIsUsingGamepad() const;
 	void SetPauseGame(bool PauseState);
 	void SetDoorMode(bool newMode);

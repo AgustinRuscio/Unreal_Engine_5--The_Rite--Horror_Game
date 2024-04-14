@@ -1,3 +1,7 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
 
 #pragma once
 
@@ -16,14 +20,10 @@ struct FSaveGameData
 		MouseSensitivity = 1.f;
 		PuzzleResolveIndex = 0;
 	}
-	
-	friend FArchive& operator<<(FArchive& Ar, FSaveGameData& Data)
-	{
-		Ar << Data.MouseSensitivity;
-		Ar << Data.PuzzleResolveIndex;
-		return Ar;
-	}
 };
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameLoaded);
 
 UCLASS()
 class THERITE_API ALevelsGameState : public AGameStateBase
@@ -32,9 +32,8 @@ class THERITE_API ALevelsGameState : public AGameStateBase
 
 private:
 	virtual void BeginPlay() override;
-
 	FSaveGameData GameData;
-	
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void SaveData(float mouseSensitivity);
@@ -43,4 +42,6 @@ public:
 	void LoadData();
 
 	FSaveGameData GetSaveData() const;
+
+	FGameLoaded OnGameLoaded;
 };
