@@ -27,27 +27,19 @@ void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 
 void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 {
-	bool contains = false;
-	
 	for (auto Element : AllItems)
 	{
 		if(Element.Key == itemName)
 		{
-			contains = true;
-			break;
+			TPair<FString, UMaterialInterface*> removedPair;
+
+			removedPair.Key = itemName;
+			removedPair.Value = ItemsInIds[id];
+
+			AllItems.Remove(removedPair);
+			return;
 		}
 	}
-	if(!contains)
-	{
-		return;
-	}
-
-	TPair<FString, UMaterialInterface*> removedPair;
-
-	removedPair.Key = itemName;
-	removedPair.Value = ItemsInIds[id];
-
-	AllItems.Remove(removedPair);
 }
 
 void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)

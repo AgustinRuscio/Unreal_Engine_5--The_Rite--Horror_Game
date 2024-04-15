@@ -65,10 +65,6 @@ void AClockLevelGameFlow::CheckInteraction()
 	tiff->SetHasToMove(true);
 }
 
-void AClockLevelGameFlow::AlexSayGetAway()
-{
-	Player->ForceTalk(GetAwaylexTalk);
-}
 
 
 void AClockLevelGameFlow::GetMinutes()
@@ -277,9 +273,6 @@ void AClockLevelGameFlow::BeginPlay()
 	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
 	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	
-	
-	MakeTiffanyWalk->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::AlexSayGetAway);
 	
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnLibraryKeyCollected);

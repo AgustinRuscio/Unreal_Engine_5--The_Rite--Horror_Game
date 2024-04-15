@@ -270,8 +270,6 @@ private:
 
 	UFUNCTION()
 	void CheckInteraction();
-	UFUNCTION()
-	void AlexSayGetAway();
 
 	UFUNCTION()
 	void GetMinutes();

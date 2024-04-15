@@ -106,10 +106,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UInventory> InventoryMenu;
 	
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> ConsumibleItemMenu;
+	
 	UPauseMenuWidget* PauseWidget;
 	UInventory* InventoryWidget;
 	UOpenInventory* OpenInventoryWidget;
 	UTutorialWidget* LighterReminderWidget;
+	UChangingdWidget* ConsumibleItemWidget;
 	
 	float BreathTimer;
 	float AudioTimer;
@@ -185,6 +189,7 @@ private:
 	FTimeline TargetCameraTimeLine;
 	
 	FTimerHandle LighterReminderTimer;
+	FTimerHandle ConsumibleWidgetTimer;
 	
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	UCurveFloat* EmptyCurve;
@@ -307,6 +312,9 @@ public:
 	void ForceDisableInput();
 	UFUNCTION()
 	void ForceEnableInput();
+
+	
+	void RemoveFromInventory(FString itemName, PickableItemsID id);
 	
 	UCameraComponent* GetCamera() const;
 	

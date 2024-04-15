@@ -205,6 +205,8 @@ private:
 	FRotator InitialRot;
 	FRotator CurrentRot;
 	
+	FString keyName;
+	PickableItemsID keyId;
 protected:
 	virtual void BeginPlay() override;
 
@@ -229,6 +231,9 @@ public:
 	UFUNCTION()
 	void ObteinKey();
 
+
+	void SetDoorKeyValues(FString itemName, PickableItemsID id);
+	
 	bool IsLocked() const;
 	bool NeedKey() const;
 	bool KeyUnlocked() const;

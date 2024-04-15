@@ -374,6 +374,7 @@ void ADoor::Interaction()
 				{
 					FirstTimeKeySound++;
 					UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
+					Player->RemoveFromInventory(keyName ,keyId);
 				}
 			}
 			else
@@ -433,6 +434,13 @@ void ADoor::HardClosing()
 void ADoor::ObteinKey()
 {
 	bKeyUnlocked = true;
+}
+
+void ADoor::SetDoorKeyValues(FString itemName, PickableItemsID id)
+{
+	keyName = itemName;
+	keyId = id;
+	
 }
 
 bool ADoor::IsLocked() const

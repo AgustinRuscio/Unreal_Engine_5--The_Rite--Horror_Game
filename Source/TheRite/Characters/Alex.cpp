@@ -123,7 +123,13 @@ void AAlex::CreateWidgets()
 	LighterReminderWidget->AddToViewport(0);
 	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
 	LighterReminderWidget->SetIsFocusable(true);
+
 	
+	
+	ConsumibleItemWidget = CreateWidget<UChangingdWidget>(GetWorld(), ConsumibleItemMenu);
+	ConsumibleItemWidget->AddToViewport(0);
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+	ConsumibleItemWidget->SetIsFocusable(true);
 	
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
@@ -405,6 +411,29 @@ void AAlex::OpenInventory()
 	}
 	
 	MyController->SetUIOnly(!bInventoryFlip);
+}
+
+void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
+{
+	InventoryWidget->RemoveItem(itemName, id);
+
+	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName));
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
+	
+	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
+	{
+		FTimerDelegate TimerDelegate;
+		TimerDelegate.BindLambda([&]
+		{
+			
+			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+			);
+
+		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
+	}
+
+	
 }
 
 //-----------------------------------------------

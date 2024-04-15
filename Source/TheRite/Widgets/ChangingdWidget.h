@@ -9,6 +9,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
+#include "Components/TextBlock.h"
 #include "ChangingdWidget.generated.h"
 
 UCLASS()
@@ -26,7 +27,11 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* DisplayImmage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTextBlock* ChangingText;
 
 	UFUNCTION()
 	virtual void SetKeyMode(bool isGamepad);
+
+	void  SetChangingText(FText newText);
 };

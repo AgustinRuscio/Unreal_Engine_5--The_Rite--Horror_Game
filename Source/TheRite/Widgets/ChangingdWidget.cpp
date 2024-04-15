@@ -12,3 +12,8 @@ void UChangingdWidget::SetKeyMode(bool isGamepad)
 
 	DisplayImmage->SetBrush(Brush);
 }
+
+void UChangingdWidget::SetChangingText(FText newText)
+{
+	ChangingText->SetText(newText);
+}

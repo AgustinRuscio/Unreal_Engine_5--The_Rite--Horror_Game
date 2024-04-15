@@ -30,6 +30,7 @@ void ADoorKey::Interaction()
 	OnInteractionTrigger.Broadcast();
 	
 	MyDoor->ObteinKey();
+	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());
 	
 	UGameplayStatics::SpawnSoundAtLocation(this, SFXGrabItem,GetActorLocation());
 
@@ -41,6 +42,7 @@ void ADoorKey::SetDoor(ADoor* NewDoor)
 {
 	MyDoor = NewDoor;
 }
+
 
 void ADoorKey::BeginPlay()
 {

@@ -8,6 +8,7 @@
 #include "CoreMinimal.h"
 #include "Door.h"
 #include "Interactor.h"
+#include "TheRite/EnumsContainer.h"
 #include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Widgets/KeyWidget.h"

@@ -8,16 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Movies/LoadingScreenMovie.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_ObjectUsed.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Textures/Cursor/Door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Textures/Cursor/Door.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_Candle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_Candle.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TheRite.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/TheRite.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,33 +36,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -310,6 +291,7 @@
       <workItem from="1713150755393" duration="1565000" />
       <workItem from="1713153007246" duration="261000" />
       <workItem from="1713185009285" duration="664000" />
+      <workItem from="1713188540680" duration="6777000" />
     </task>
     <servers />
   </component>
