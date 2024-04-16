@@ -12,6 +12,7 @@ AInteractor::AInteractor()
 
 void AInteractor::Interaction()
 {
+	if(!bCanInteract) return;
 	OnInteractionTrigger.Broadcast();
 }
 

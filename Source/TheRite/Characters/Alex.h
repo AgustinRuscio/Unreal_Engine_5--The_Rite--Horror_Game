@@ -182,7 +182,6 @@ private:
 	UAnimationAsset* ScreamerAnim;
 
 	FTimerHandle ScreamerTimerHanlde;
-	FTimerHandle DelayTimerHanlde;
 	
 	FTimerHandle OpeninventorywidgetTimerHandle;
 

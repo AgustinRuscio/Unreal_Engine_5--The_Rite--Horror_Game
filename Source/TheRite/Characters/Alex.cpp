@@ -52,7 +52,19 @@ void AAlex::OnJumpScare()
 	ScreamerSkeleton->PlayAnimation(ScreamerAnim,false);
 	
 	if (!GetWorldTimerManager().IsTimerActive(ScreamerTimerHanlde))
-		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, this, &AAlex::TimeOver, .7f, false);
+	{
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([&]
+		{
+			APlayerController* PlayerController = Cast<APlayerController>(MyController);
+			OnJumpscaredFinished.Broadcast();
+			ScreamerSkeleton->SetVisibility(false);
+			MyController->EnableInput(PlayerController);
+		});
+		
+		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, timerDelegate, .7f, false);
+	}
+		//GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, this, &AAlex::TimeOver, .7f, false);
 
 }
 
@@ -365,7 +377,15 @@ void AAlex::Interaction()
 		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
 		
 		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
-			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, this, &AAlex::CloseOpenInventoryWidget, 1.5f, false);
+		{
+			FTimerDelegate TimerDelegate;
+			TimerDelegate.BindLambda([&]
+			{
+				OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+			});
+			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
+		}
+			//GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, this, &AAlex::CloseOpenInventoryWidget, 1.5f, false);
 	}
 }
 
@@ -425,15 +445,11 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 		FTimerDelegate TimerDelegate;
 		TimerDelegate.BindLambda([&]
 		{
-			
 			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
-		}
-			);
+		});
 
 		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
 	}
-
-	
 }
 
 //-----------------------------------------------
@@ -505,7 +521,16 @@ void AAlex::ShowLighterReminder()
 	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
 
 	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
-		GetWorldTimerManager().SetTimer(LighterReminderTimer, this, &AAlex::HideLighterReminder, 4.f, false);
+	{
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([&]
+		{
+			LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+			TimerComponentForLighterDisplay->ActionFinished();
+		});
+		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
+	}
+		//GetWorldTimerManager().SetTimer(LighterReminderTimer, this, &AAlex::HideLighterReminder, 4.f, false);
 }
 
 void AAlex::HideLighterReminder()
