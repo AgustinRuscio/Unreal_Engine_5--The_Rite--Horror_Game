@@ -18,7 +18,7 @@ void ACandleGuideController::BeginPlay()
 	MyInteractor->OnInteractionTrigger.AddDynamic(this, &ACandleGuideController::GuideChange);
 }
 
-void ACandleGuideController::GuideChange()
+void ACandleGuideController::GuideChange(AInteractor* interactor)
 {
 	if(PlaceGuideCandles.Num() > 0)
 	{

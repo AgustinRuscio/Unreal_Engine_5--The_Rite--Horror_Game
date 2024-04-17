@@ -29,7 +29,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralObstacle* RedDoorObstacle;
 	UFUNCTION()
-	void RedDoorOpen();
+	void RedDoorOpen(AInteractor* interactor);
 protected:
 	virtual void BeginPlay() override;
 

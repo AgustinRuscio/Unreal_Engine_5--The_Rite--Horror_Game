@@ -106,7 +106,7 @@ void ALockedDoor::Interaction()
 	
 	if(!bHasInteraction) return;
 	
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	
 	bInteractionDone = true;
 	

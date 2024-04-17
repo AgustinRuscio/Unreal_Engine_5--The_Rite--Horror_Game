@@ -27,7 +27,7 @@ void ADoorKey::Interaction()
 	UGameplayStatics::SpawnSound2D(this, VoiceSound);
 
 	OnKeyCollected.Broadcast();
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	
 	MyDoor->ObteinKey();
 	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());

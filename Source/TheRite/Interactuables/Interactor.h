@@ -11,7 +11,7 @@
 #include "TheRite/Widgets/Inventory.h"
 #include "Interactor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionTrigger);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractionTrigger, AInteractor*, myself);
 
 UCLASS()
 

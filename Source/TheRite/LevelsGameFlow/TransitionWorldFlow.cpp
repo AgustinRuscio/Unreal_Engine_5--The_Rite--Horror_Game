@@ -23,7 +23,7 @@ void ATransitionWorldFlow::BeginPlay()
 	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(this, &ATransitionWorldFlow::RedDoorOpen);
 }
 
-void ATransitionWorldFlow::RedDoorOpen()
+void ATransitionWorldFlow::RedDoorOpen(AInteractor* interactor)
 {
 	RedDoor->SetCanInteract(true);
 	RedDoorObstacle->Destroy();

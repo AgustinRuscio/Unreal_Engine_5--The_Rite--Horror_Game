@@ -24,7 +24,7 @@ AClock::AClock()
 void AClock::Interaction()
 {
 	ClockReady();
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 }
 
 void AClock::BeginPlay()

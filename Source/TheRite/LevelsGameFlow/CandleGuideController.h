@@ -21,7 +21,7 @@ private:
 	AInteractor* MyInteractor;
 
 	UFUNCTION()
-	void GuideChange();
+	void GuideChange(AInteractor* interactor);
 
 	UPROPERTY(EditAnywhere, Category= "States")
 	TArray<ACandle*> PlaceGuideCandles;

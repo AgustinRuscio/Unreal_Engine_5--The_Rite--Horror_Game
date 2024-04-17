@@ -23,7 +23,7 @@ void AClockLevelDrawersPuzzle::BeginPlay()
 	
 }
 
-void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed()
+void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed(AInteractor* interactor)
 {
 	DestroyableSpectralIbstacle->ObstacleDestroy();
 

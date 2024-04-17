@@ -16,6 +16,6 @@ AHourLetter::AHourLetter()
 void AHourLetter::Interaction()
 {
 	OnAction.Broadcast();
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	Destroy();
 }

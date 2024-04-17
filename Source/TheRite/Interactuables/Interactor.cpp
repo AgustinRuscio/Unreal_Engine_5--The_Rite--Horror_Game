@@ -13,7 +13,7 @@ AInteractor::AInteractor()
 void AInteractor::Interaction()
 {
 	if(!bCanInteract) return;
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 }
 
 void AInteractor::SetCanInteract(bool newInteractionState)

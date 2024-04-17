@@ -36,7 +36,7 @@ private:
 
 	
 	UFUNCTION()
-	void OnKeySpectralWrittingUsed();
+	void OnKeySpectralWrittingUsed(AInteractor* interactor);
 	
 
 
