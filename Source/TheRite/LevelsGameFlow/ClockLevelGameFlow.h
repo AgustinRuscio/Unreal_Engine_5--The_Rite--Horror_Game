@@ -200,6 +200,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	ATriggerVolume* LibraryTriggerVolumenJumpScared;
+	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
+	ATriggerVolume* LibraryTriggerVolumenJumpScaredReady;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObject")
 	ATriggerBox* EndGameTriggerVolumen;
@@ -226,6 +228,14 @@ private:
 	FTimeline JumpscareFirstTimeLine;
 	FTimeline JumpscareSecondTimeLine;
 
+
+	FTimerHandle FirstJumpscareHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Library flow")
+	USoundBase* AudioIShouldGetOutOfHere;
+
+	bool IShouldGetOutOfHere;
+	
 	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "0.4f sec, flat curve"))
 	UCurveFloat* JumpscareFirstTimeLineCurve;
 	
@@ -234,9 +244,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Drawers", meta=(ToolTip = "4 sec, flat curve"))
 	UCurveFloat* DrawerTimeLineCurve;
-	
-	
-	FTimerHandle PortraitTimerHandle;
 	
 	bool bMinutes;
 	bool bHours;
@@ -253,6 +260,7 @@ private:
 	int8 DoOnceDrawers = 0;
 	int8 DoOnceLibrary = 0;
 	int8 DoOnceJumpscare = 0;
+	int8 DoOnceJumpscareReady = 0;
 	int8 DoOnceSpawnKey = 0;
 	
 	int8 HitCounterLibrary = 0;
@@ -319,6 +327,8 @@ private:
 
 	UFUNCTION()
 	void OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor);
+	UFUNCTION()
+	void OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor);
 
 	UFUNCTION()
 	void OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor);

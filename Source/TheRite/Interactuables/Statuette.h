@@ -52,5 +52,4 @@ public:
 	virtual void Interaction() override;
 virtual void Tick(float DeltaSeconds) override;
 	void RestoreInitialValues();
-
 };

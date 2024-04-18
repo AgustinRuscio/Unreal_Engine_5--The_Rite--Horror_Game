@@ -22,7 +22,6 @@ AClockLevelGameFlow::AClockLevelGameFlow()
 void AClockLevelGameFlow::SetVariables()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
-
 }
 
 void AClockLevelGameFlow::BindPuzzleEvents()
@@ -77,8 +76,6 @@ void AClockLevelGameFlow::GetMinutes()
 
 void AClockLevelGameFlow::GetHours()
 {
-	//HintUIOn();
-	//PlayerHint->SetOfficeMaterial();
 	bHours = true;
 	OnPartOfClockGain.Broadcast();
 }
@@ -87,13 +84,7 @@ void AClockLevelGameFlow::FirstLetterRead()
 {
 	GarageDoor->SetLockedState(false);
 	Player->SetHintState(true);
-	//HintUIOn();
 }
-
-//void AClockLevelGameFlow::HintUIOn()
-//{
-//	HintsWidget->MakeVisible();
-//}
 
 void AClockLevelGameFlow::MinutesCollected()
 {
@@ -110,6 +101,7 @@ void AClockLevelGameFlow::MinutesCollected()
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyHeavyBreath);
 	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
+
 void AClockLevelGameFlow::OnSoundPaused()
 {
 	HitCounterLibrary = 1;
@@ -145,13 +137,69 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 	}
 }
 
+
+//--------- JUMPSCARE
 void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bLibraryJumpScaredReady || DoOnceJumpscare > 0) return;
 	
 	DoOnceJumpscare++;
-	
+
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOff();
+	}
+	LibraryRoofLight->TurnOff();
+
 	LibraryTiffany->Destroy();
+	RecordPlayer->PauseSong();
+
+	
+	if(!GetWorldTimerManager().IsTimerActive(FirstJumpscareHandle))
+	{
+		FTimerDelegate timerDelegate;
+		
+		timerDelegate.BindLambda([&]
+		{
+			for (auto Element : LibraryLightsEvent)
+			{
+				Element->TurnOn();
+			}
+			
+				LibraryRoofLight->TurnOn();
+				Player->ForceTalk(AudioIShouldGetOutOfHere);
+				IShouldGetOutOfHere = true;
+		});
+		
+		GetWorldTimerManager().SetTimer(FirstJumpscareHandle,timerDelegate, 3.f, false);
+	}
+	
+	//
+	//LibraryTiffany->Destroy();
+	//
+	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyScream);
+	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Heartbeat);
+	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
+//
+	//Player->OnJumpscaredFinished.AddDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
+	//
+	//Player->OnJumpScare();
+//
+	//JumpscareFirstTimeLine.PlayFromStart();
+}
+
+void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor) || !IShouldGetOutOfHere || DoOnceJumpscareReady > 0) return;
+
+	DoOnceJumpscareReady++;
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOff();
+	}
+	
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyScream);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Heartbeat);
@@ -160,13 +208,50 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	Player->OnJumpscaredFinished.AddDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 	
 	Player->OnJumpScare();
-
-	JumpscareFirstTimeLine.PlayFromStart();
 }
+
+void AClockLevelGameFlow::OnFirstJumpscareTimelineFinished()
+{
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOff();
+	}
+
+	JumpscareSecondTimeLine.PlayFromStart();
+}
+
+void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
+{
+	
+	LibraryTriggerVolumenFirst->Destroy();
+	LibraryTriggerVolumenJumpScared->Destroy();
+
+	ResetBlockingVolumenPosition();
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOn();
+	}
+	
+	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
+}
+
 
 void AClockLevelGameFlow::OnJumpscareFinished()
 {
-	LibraryRoofLight->TurnOff();
+	
+	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
+	
+	LibraryDoor->SetLockedState(false);
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOn();
+	}
+	
+	LibraryRoofLight->TurnOn();
+	
+	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 }
 
 void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor)
@@ -214,35 +299,6 @@ void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor,
 	CloseGaregeDoorTriggerVolumen->Destroy();
 }
 
-void AClockLevelGameFlow::OnFirstJumpscareTimelineFinished()
-{
-	for (auto Element : LibraryLightsEvent)
-	{
-		Element->TurnOff();
-	}
-
-	JumpscareSecondTimeLine.PlayFromStart();
-}
-
-void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
-{
-	LibraryTriggerVolumenFirst->Destroy();
-	LibraryTriggerVolumenJumpScared->Destroy();
-
-	ResetBlockingVolumenPosition();
-
-	for (auto Element : LibraryLightsEvent)
-	{
-		Element->TurnOn();
-	}
-
-	LibraryDoor->SetLockedState(false);
-	
-	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
-	
-	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
-}
-
 void AClockLevelGameFlow::OnDrawerTimelineFinished()
 {
 	for (auto Element : Lights)
@@ -282,6 +338,7 @@ void AClockLevelGameFlow::BeginPlay()
 
 	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
 	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
+	LibraryTriggerVolumenJumpScaredReady->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscareReady);
 	
 	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
