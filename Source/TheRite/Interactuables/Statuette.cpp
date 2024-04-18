@@ -1,5 +1,9 @@
-#include "Statuette.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "Statuette.h"
 #include "Kismet/GameplayStatics.h"
 
 AStatuette::AStatuette()
