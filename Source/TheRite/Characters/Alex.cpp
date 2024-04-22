@@ -437,7 +437,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
 	InventoryWidget->RemoveItem(itemName, id);
 
-	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName));
+	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
 	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
 	
 	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
