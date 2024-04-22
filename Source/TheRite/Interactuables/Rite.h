@@ -6,11 +6,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Clock.h"
 #include "Interactor.h"
 #include "LevelSequence.h"
 #include "Components/AudioComponent.h"
 #include "Components/PostProcessComponent.h"
 #include "Components/SphereComponent.h"
+#include "EnumsContainer.generated.h"
 #include "Engine/PostProcessVolume.h"
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
@@ -25,10 +27,10 @@ class THERITE_API ARite : public AInteractor
 private:
 	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
-	bool bClockReady = false;
+	bool bObjectReady = false;
 
 	
-	UPROPERTY(EditAnywhere, Category= "Level to Open")
+	//UPROPERTY(EditAnywhere, Category= "Level to Open")
 	FName NextLevel;
 	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
@@ -51,6 +53,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	USphereComponent* Sphere;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	LevelObjectType LevelType;
 	
 	UFUNCTION()
 	void CheckAudio();
@@ -76,6 +81,9 @@ private:
 	UPostProcessComponent* PostProcessComponent;
 	
 	FPostProcessVolumeProperties OriginalPostProcessValues;
+
+	UPROPERTY(EditAnywhere, Category="Settings")
+	AClock* CurrentMainObject;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -87,7 +95,8 @@ public:
 	
 	virtual void Interaction() override;
 
-	void SetClockReady();
+	UFUNCTION()
+	void SetClockReady(AInteractor* obj);
 	
 	UPROPERTY(BlueprintAssignable, Category = "Clock")
 	FClockGain OnClockGain;

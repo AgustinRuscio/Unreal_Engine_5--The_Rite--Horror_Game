@@ -14,5 +14,14 @@ enum class PickableItemsID : uint8
 	Clock,
 	TiffanysCard,
 	Hours,
-	Minutes
+	Minutes,
+	Diary
+};
+
+UENUM(BlueprintType)
+enum class LevelObjectType : uint8
+{
+	Clock,
+	Diary,
+	Picture
 };

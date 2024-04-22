@@ -7,10 +7,14 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Rite.h"
 #include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "Clock.generated.h"
+
+struct ObjectData
+{
+	FName nextLevelName;
+};
 
 UCLASS()
 class THERITE_API AClock : public AInteractor
@@ -29,12 +33,15 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Light")
 	UPointLightComponent* Light;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	FName NextLevelName;
 	
 private:
 	void ClockReady();
 
-	UPROPERTY(EditAnywhere, Category = "Rite Object")
-	ARite* TheRite;
+	//UPROPERTY(EditAnywhere, Category = "Rite Object")
+	//ARite* TheRite;
 
 protected:
 	
@@ -42,7 +49,9 @@ protected:
 
 public:	
 	AClock();
+	~AClock();
 	
 	virtual void Interaction() override;
-	
+
+	FName GetObjectData();
 };

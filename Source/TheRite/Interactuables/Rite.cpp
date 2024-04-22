@@ -49,18 +49,22 @@ void ARite::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	OnClockGain.AddDynamic(this, &ARite::CheckAudio);
-	OnClockGain.Broadcast();
+	//OnClockGain.AddDynamic(this, &ARite::CheckAudio);
+	//OnClockGain.Broadcast();
+
+	CheckAudio();
 	
 	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
 	OriginalPostProcessValues = PostProcessComponent->GetProperties();
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
 	bReady = true;
+
+	CurrentMainObject->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
 }
 
 void ARite::Interaction()
 {
-	if(!bClockReady) return;
+	if(!bObjectReady) return;
 	
 	UGameplayStatics::PlaySound2D(this, PortalAudio);
 
@@ -82,17 +86,32 @@ void ARite::Interaction()
 	sequencePlayer->Play();
 }
 
-void ARite::SetClockReady()
+void ARite::SetClockReady(AInteractor* obj)
 {
-	bClockReady = true;
+	bObjectReady = true;
+	CheckAudio();
+	NextLevel = CurrentMainObject->GetObjectData();
 }
 
 void ARite::CheckAudio()
 {
-	if(bClockReady)
+	if(bObjectReady)
 		AudioToPlay = AudioClockReady;
 	else
-		AudioToPlay = AudioClockNotReady;
+	{
+		switch (LevelType)
+		{
+		case LevelObjectType::Clock:
+			AudioToPlay = AudioClockReady;
+			break;
+		case LevelObjectType::Picture:
+			AudioToPlay = AudioClockNotReady;
+			break;
+		case LevelObjectType::Diary:
+			AudioToPlay = AudioClockNotReady;
+			break;
+		}
+	}
 }
 
 void ARite::ChangeLevel()

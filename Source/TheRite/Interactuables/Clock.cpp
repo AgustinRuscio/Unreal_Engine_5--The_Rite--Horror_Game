@@ -21,10 +21,22 @@ AClock::AClock()
 	Light->SetupAttachment(BaseMesh);
 }
 
+AClock::~AClock()
+{
+	OnInteractionTrigger.Clear();
+}
+
 void AClock::Interaction()
 {
-	ClockReady();
+	//ClockReady();
 	OnInteractionTrigger.Broadcast(this);
+
+	Destroy();
+}
+
+FName AClock::GetObjectData()
+{
+	return NextLevelName;
 }
 
 void AClock::BeginPlay()
@@ -35,7 +47,7 @@ void AClock::BeginPlay()
 
 void AClock::ClockReady()
 {
-	TheRite->SetClockReady();
-	TheRite->OnClockGain.Broadcast();
-	Destroy();
+	//TheRite->SetClockReady();
+	//TheRite->OnClockGain.Broadcast();
+	//Destroy();
 }
