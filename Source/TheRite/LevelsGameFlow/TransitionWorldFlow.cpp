@@ -26,5 +26,5 @@ void ATransitionWorldFlow::BeginPlay()
 void ATransitionWorldFlow::RedDoorOpen(AInteractor* interactor)
 {
 	RedDoor->SetCanInteract(true);
-	RedDoorObstacle->Destroy();
+	RedDoorObstacle->ObstacleDestroy();
 }

@@ -5,6 +5,7 @@
 
 #include "SpectralObstacle.h"
 
+#include "VectorTypes.h"
 #include "Kismet/GameplayStatics.h"
 
 ASpectralObstacle::ASpectralObstacle()
@@ -12,25 +13,62 @@ ASpectralObstacle::ASpectralObstacle()
  	PrimaryActorTick.bCanEverTick = true;
 	
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>("Box Collider");
-	NiagaraSystem = CreateDefaultSubobject<UNiagaraComponent>("Niagara System");
+	NiagaraSystemComponent = CreateDefaultSubobject<UNiagaraComponent>("Niagara System");
 
-	NiagaraSystem->SetupAttachment(BoxCollider);
+	NiagaraSystemComponent->SetupAttachment(BoxCollider);
 }
 
 void ASpectralObstacle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	ParentStaticMesh = Cast<UStaticMeshComponent>(ParentActor->GetComponentByClass(UStaticMeshComponent::StaticClass()));
+
+	DynamicMaterial = UMaterialInstanceDynamic::Create(Mat, this);
+	ParentStaticMesh->SetMaterial(0, DynamicMaterial);
+
+	
+	//------------------- Open Time line
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
+	FirstTimeLine.AddInterpFloat(BothTimeLineCurve, TimelineCallback);
+
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	TimelineFinishedCallback.BindUFunction(this, FName("FirstTimelineFinished"));
+	FirstTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
 }
 
-void ASpectralObstacle::BeginDestroy()
+void ASpectralObstacle::FirstTimelineFinished()
 {
-	Super::BeginDestroy();
-	UGameplayStatics::SpawnSoundAtLocation(this, SpectralSound, GetActorLocation());
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation());
+	UE_LOG(LogTemp, Error, TEXT("Time line finished"));
+	OnObstacleDestroy.Broadcast();
+	Destroy();
+}
+
+void ASpectralObstacle::FirstTimeLineUpdate(float time)
+{
+	float value = FMathf::Lerp(1,2,time);
 	
+	UE_LOG(LogTemp, Error, TEXT("Tick %f"), value);
+	DynamicMaterial->SetScalarParameterValue("Corruption", value);
+}
+
+void ASpectralObstacle::Tick(float DeltaSeconds)
+{
+	FirstTimeLine.TickTimeline(DeltaSeconds);
 }
 
 void ASpectralObstacle::ObstacleDestroy()
 {
 	
-	Destroy();
+	UE_LOG(LogTemp, Error, TEXT("Destroy Started"));
+	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
+	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestryoObject);
+}
+
+void ASpectralObstacle::DestryoObject(UNiagaraComponent* comp)
+{
+	FirstTimeLine.PlayFromStart();
+	UE_LOG(LogTemp, Error, TEXT("Time started"));
 }
