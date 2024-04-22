@@ -116,7 +116,7 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 	if(HitCounterLibrary == 0)
 	{
 		Player->ForceTalk(SFX_Alex_IHateThatSong);
-		Player->CameraTargeting(RecordPlayer->GetActorLocation());
+//		Player->CameraTargeting(RecordPlayer->GetActorLocation());
 	}
 	else
 	{
@@ -144,49 +144,50 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	if(!Cast<AAlex>(OtherActor) || !bLibraryJumpScaredReady || DoOnceJumpscare > 0) return;
 	
 	DoOnceJumpscare++;
-
-
+	
 	for (auto Element : LibraryLightsEvent)
 	{
 		Element->TurnOff();
 	}
+	
 	LibraryRoofLight->TurnOff();
 
-	LibraryTiffany->Destroy();
 	RecordPlayer->PauseSong();
 
+	Player->SetPlayerStats(false, false);
 	
-	if(!GetWorldTimerManager().IsTimerActive(FirstJumpscareHandle))
+	if(!GetWorldTimerManager().IsTimerActive(JumpscareHandleSecond))
 	{
 		FTimerDelegate timerDelegate;
 		
 		timerDelegate.BindLambda([&]
 		{
-			for (auto Element : LibraryLightsEvent)
-			{
-				Element->TurnOn();
-			}
+			LibraryTiffany->Destroy();
 			
-				LibraryRoofLight->TurnOn();
-				Player->ForceTalk(AudioIShouldGetOutOfHere);
-				IShouldGetOutOfHere = true;
+			if(!GetWorldTimerManager().IsTimerActive(JumpscareHandleFirst))
+			{
+				FTimerDelegate timerDelegate;
+		
+				timerDelegate.BindLambda([&]
+				{
+					for (auto Element : LibraryLightsEvent)
+					{
+						Element->TurnOn();
+					}
+			
+						LibraryRoofLight->TurnOn();
+						Player->ForceTalk(AudioIShouldGetOutOfHere);
+						Player->SetPlayerStats(false, true);
+						IShouldGetOutOfHere = true;
+				});
+		
+				GetWorldTimerManager().SetTimer(JumpscareHandleFirst,timerDelegate, 3.f, false);
+			}
 		});
 		
-		GetWorldTimerManager().SetTimer(FirstJumpscareHandle,timerDelegate, 3.f, false);
+		GetWorldTimerManager().SetTimer(JumpscareHandleSecond,timerDelegate, 1.f, false);
 	}
 	
-	//
-	//LibraryTiffany->Destroy();
-	//
-	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyScream);
-	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Heartbeat);
-	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
-//
-	//Player->OnJumpscaredFinished.AddDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
-	//
-	//Player->OnJumpScare();
-//
-	//JumpscareFirstTimeLine.PlayFromStart();
 }
 
 void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor)
@@ -436,15 +437,6 @@ auto AClockLevelGameFlow::MakeBreath(float time) -> void
 
 void AClockLevelGameFlow::BindTimLinemethods()
 {
-	//------First Library
-	FOnTimelineFloat FirstJumpscareTimelineCallback;
-	FirstJumpscareTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
-	JumpscareFirstTimeLine.AddInterpFloat(JumpscareFirstTimeLineCurve, FirstJumpscareTimelineCallback);
-	
-	FOnTimelineEventStatic FirstJumpscareTimeLineCallbackFinished;
-	FirstJumpscareTimeLineCallbackFinished.BindUFunction(this, FName("OnFirstJumpscareTimelineFinished"));
-	JumpscareFirstTimeLine.SetTimelineFinishedFunc(FirstJumpscareTimeLineCallbackFinished);
-	
 	//------Seconds Library
 	FOnTimelineFloat SecondJumpscareTimelineCallback;
 	SecondJumpscareTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
@@ -460,7 +452,6 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	JumpscareFirstTimeLine.TickTimeline(DeltaTime);
 	JumpscareSecondTimeLine.TickTimeline(DeltaTime);
 	
 	MakeTiffanyTalk(DeltaTime);

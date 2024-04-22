@@ -225,11 +225,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
 	TArray<ALightsTheRite*> LibraryLightsEvent;
 	
-	FTimeline JumpscareFirstTimeLine;
 	FTimeline JumpscareSecondTimeLine;
 
 
-	FTimerHandle FirstJumpscareHandle;
+	FTimerHandle JumpscareHandleFirst;
+	FTimerHandle JumpscareHandleSecond;
 
 	UPROPERTY(EditAnywhere, Category = "Library flow")
 	USoundBase* AudioIShouldGetOutOfHere;
