@@ -239,6 +239,7 @@ void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 
 void AClockLevelGameFlow::OnJumpscareFinished()
 {
+	ResetBlockingVolumenPosition();
 	
 	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
 	

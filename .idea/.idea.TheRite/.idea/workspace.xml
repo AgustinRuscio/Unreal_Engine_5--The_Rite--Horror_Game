@@ -8,21 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/IntermediateWolrdDoor/M_RedDoor_CORRUPTION_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/LittleDesk/M_LittleDesk_CORRUPTION_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Curve/FC_sec4.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materiales/Ns_Edege.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materiales/Ns_Edege.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/LittleDesk/M_LittleDesk_CORRUPTION.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/LittleDesk/M_LittleDesk_CORRUPTION.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_RedDoor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_RedDoor.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -328,6 +315,7 @@
       <workItem from="1713721115377" duration="4809000" />
       <workItem from="1713746317312" duration="10278000" />
       <workItem from="1713761062321" duration="758000" />
+      <workItem from="1713762169959" duration="356000" />
     </task>
     <servers />
   </component>
