@@ -8,9 +8,7 @@
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-AAmbientSoundPlayer::AAmbientSoundPlayer()
-{
-}
+
 
 void AAmbientSoundPlayer::BeginPlay()
 {
@@ -19,9 +17,22 @@ void AAmbientSoundPlayer::BeginPlay()
 	CreateAudio();
 }
 
+AAmbientSoundPlayer::AAmbientSoundPlayer()
+{
+	bAllowTickBeforeBeginPlay = true;
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
+}
+
+AAmbientSoundPlayer::~AAmbientSoundPlayer()
+{
+	if(AudioComponent != nullptr)
+		AudioComponent->OnAudioFinished.Clear();
+}
+
 void AAmbientSoundPlayer::CreateAudio()
 {
-	AudioComponent = nullptr;
+	if(AudioComponent != nullptr)
+		AudioComponent->OnAudioFinished.Clear();
 
 	if(isTwoDimentional)
 		AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), CueToSound);

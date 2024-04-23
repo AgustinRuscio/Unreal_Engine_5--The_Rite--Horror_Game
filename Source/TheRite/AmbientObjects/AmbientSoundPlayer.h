@@ -33,4 +33,5 @@ protected:
 
 public:	
 	AAmbientSoundPlayer();
+	~AAmbientSoundPlayer();
 };

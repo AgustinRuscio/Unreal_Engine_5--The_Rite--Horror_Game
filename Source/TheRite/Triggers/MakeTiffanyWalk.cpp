@@ -135,7 +135,7 @@ void AMakeTiffanyWalk::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	bReady = true;
 	Tiffany->StartMovement(Target);
 
-	AlexInside->CameraTargeting(Tiffany->GetActorLocation());
+	//AlexInside->CameraTargeting(Tiffany->GetActorLocation());
 
 	UGameplayStatics::SpawnSound2D(this, SFXHeartBeat);
 	UGameplayStatics::SpawnSound2D(this, SFXTiffanyNear);

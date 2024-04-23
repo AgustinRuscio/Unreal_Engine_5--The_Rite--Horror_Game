@@ -59,6 +59,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
 	
+	UPROPERTY(EditAnywhere, Category = "States")
 	bool bKeyReady;
 	bool bReady;
 	

@@ -26,7 +26,7 @@ void AClockLevelGameFlow::SetVariables()
 
 void AClockLevelGameFlow::BindPuzzleEvents()
 {
-	OnPartOfClockGain.AddDynamic(this, &AClockLevelGameFlow::CheckInteraction);
+	//OnPartOfClockGain.AddDynamic(this, &AClockLevelGameFlow::CheckInteraction);
 
 	GarageDoor->SetLockedState(true);
 	
@@ -39,29 +39,29 @@ void AClockLevelGameFlow::BindPuzzleEvents()
 }
 void AClockLevelGameFlow::CheckInteraction()
 {
-	if(bMinutes && bHours) return;
-	if(!bMinutes && ! bHours) return;
+	//if(bMinutes && bHours) return;
+	//if(!bMinutes && ! bHours) return;
 
 
-	TArray<ATargetPoint*> Waypoints;
-	Waypoints.Add(TiffanySpawnPointOneItem);
-	
-	FVector const& position =TiffanySpawnPointOneItem->GetActorLocation();
-	FRotator const& rotation =TiffanySpawnPointOneItem->GetActorRotation();
-	
-	auto tiff =GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
+	//TArray<ATargetPoint*> Waypoints;
+	//Waypoints.Add(TiffanySpawnPointOneItem);
+	//
+	//FVector const& position =TiffanySpawnPointOneItem->GetActorLocation();
+	//FRotator const& rotation =TiffanySpawnPointOneItem->GetActorRotation();
+	//
+	//auto tiff =GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
 
-	
-	tiff->SetActorLocation(position);
-	tiff->SetActorRotation(rotation);
-	
-	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
-	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
-	
-	tiff->SetWaypoints(Waypoints);
-	tiff->SetHasToMove(true);
+	//
+	//tiff->SetActorLocation(position);
+	//tiff->SetActorRotation(rotation);
+	//
+	//MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
+	//MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	//MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+	//MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
+	//
+	//tiff->SetWaypoints(Waypoints);
+	//tiff->SetHasToMove(true);
 }
 
 
@@ -71,13 +71,13 @@ void AClockLevelGameFlow::GetMinutes()
 	MinutesCollected();
 	bLibraryPuzzleStarted = true;
 	bMinutes = true;
-	OnPartOfClockGain.Broadcast();
+	//OnPartOfClockGain.Broadcast();
 }
 
 void AClockLevelGameFlow::GetHours()
 {
 	bHours = true;
-	OnPartOfClockGain.Broadcast();
+	//OnPartOfClockGain.Broadcast();
 }
 
 void AClockLevelGameFlow::FirstLetterRead()
@@ -345,6 +345,29 @@ void AClockLevelGameFlow::BeginPlay()
 	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
+
+
+
+	TArray<ATargetPoint*> Waypoints;
+	Waypoints.Add(TiffanySpawnPointOneItem);
+	
+	FVector const& position =TiffanySpawnPointOneItem->GetActorLocation();
+	FRotator const& rotation =TiffanySpawnPointOneItem->GetActorRotation();
+	
+	auto tiff =GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
+
+	
+	tiff->SetActorLocation(position);
+	tiff->SetActorRotation(rotation);
+	
+	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
+	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
+	
+	tiff->SetWaypoints(Waypoints);
+	tiff->SetHasToMove(true);
+
 }
 
 void AClockLevelGameFlow::VoicesSoundIncrease()
