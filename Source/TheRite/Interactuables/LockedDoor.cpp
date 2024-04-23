@@ -96,6 +96,8 @@ void ALockedDoor::Tick(float DeltaTime)
 
 void ALockedDoor::Interaction()
 {
+	if(!bCanInteract) return;
+	
 	if(bInteractionDone)
 	{
 		AudioToPlay = AudioInteractionDone;
