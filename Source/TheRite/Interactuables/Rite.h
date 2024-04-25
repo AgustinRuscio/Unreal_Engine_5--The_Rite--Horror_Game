@@ -26,7 +26,6 @@ class THERITE_API ARite : public AInteractor
 	GENERATED_BODY()
 	
 private:
-	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
 	bool bObjectReady = false;
 
