@@ -4,8 +4,8 @@
 
 
 #include "PauseMenuWidget.h"
-#include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UPauseMenuWidget::NativeConstruct()

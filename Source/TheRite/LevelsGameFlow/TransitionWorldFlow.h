@@ -6,11 +6,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Characters/Alex.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/RedDoor.h"
-#include "TheRite/Interactuables/SpectralObstacle.h"
 #include "TransitionWorldFlow.generated.h"
+
+class AAlex;
+class ARedDoor;
+class ASpectralObstacle;
+class ASpectralWrittings;
+class AInteractor;
 
 UCLASS()
 class THERITE_API ATransitionWorldFlow : public AActor
@@ -26,10 +29,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralWrittings* KeySpectralWrittings;
+
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralObstacle* RedDoorObstacle;
+
 	UFUNCTION()
 	void RedDoorOpen(AInteractor* interactor);
+	
 protected:
 	virtual void BeginPlay() override;
 

@@ -6,13 +6,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Button.h"
-#include "Components/TextBlock.h"
-#include "TheRite/EnumsContainer.h"
-#include "Materials/MaterialInterface.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
+#include "TheRite/EnumsContainer.h"
 #include "Inventory.generated.h"
+
+class UButton;
+class UTextBlock;
+class UMaterialInterface;
+class UImage;
 
 
 UCLASS()

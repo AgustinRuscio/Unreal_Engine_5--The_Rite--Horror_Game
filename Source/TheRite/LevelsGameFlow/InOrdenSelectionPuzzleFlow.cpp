@@ -4,6 +4,8 @@
 
 
 #include "InOrdenSelectionPuzzleFlow.h"
+#include "TheRite/Interactuables/Statuette.h"
+#include "TheRite/Interactuables/Interactor.h"
 
 #define PRINT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 

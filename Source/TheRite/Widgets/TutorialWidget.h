@@ -7,8 +7,6 @@
 
 #include "CoreMinimal.h"
 #include "ChangingdWidget.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
 #include "TutorialWidget.generated.h"
 
 

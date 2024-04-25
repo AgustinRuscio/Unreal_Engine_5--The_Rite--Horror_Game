@@ -9,6 +9,7 @@ public class TheRiteTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+		WindowsPlatform.PCHMemoryAllocationFactor = 2000;
 		ExtraModuleNames.AddRange( new string[] { "TheRite" } );
 	}
 }

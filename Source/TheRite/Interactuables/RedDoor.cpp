@@ -6,7 +6,9 @@
 #include "RedDoor.h"
 
 #include "LevelSequenceActor.h"
+//#include "LevelSequence.h"
 #include "LevelSequencePlayer.h"
+#include "Components/BoxComponent.h"
 #include "MovieSceneSequencePlaybackSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"

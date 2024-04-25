@@ -6,12 +6,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
-#include "Components/SphereComponent.h"
-#include "Engine/TargetPoint.h"
 #include "GameFramework/Character.h"
-#include "TheRite/AI/TiffanyController.h"
 #include "Tiffany.generated.h"
+
+class UAudioComponent;
+class USphereComponent;
+class ATargetPoint;
+class ATiffanyController;
+class UBlackboardComponent;
 
 UCLASS()
 class THERITE_API ATiffany : public ACharacter

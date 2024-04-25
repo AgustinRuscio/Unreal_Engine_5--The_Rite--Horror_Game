@@ -4,9 +4,9 @@
 
 
 #include "LockedDoor.h"
-
 #include "Components/AudioComponent.h"
-#include "Components/TimelineComponent.h"
+#include "Components/BoxComponent.h"
+#include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 
 ALockedDoor::ALockedDoor()

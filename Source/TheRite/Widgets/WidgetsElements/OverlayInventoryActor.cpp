@@ -4,6 +4,8 @@
 
 
 #include "OverlayInventoryActor.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "Components/PointLightComponent.h"
 
 AOverlayInventoryActor::AOverlayInventoryActor()
 {

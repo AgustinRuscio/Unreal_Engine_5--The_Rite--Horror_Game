@@ -4,7 +4,10 @@
 
 
 #include "Inventory.h"
-
+#include "Components/TextBlock.h"
+#include "Materials/MaterialInterface.h"
+#include "Components/Button.h"
+#include "Components/Image.h"
 #include "Styling/SlateBrush.h"
 
 

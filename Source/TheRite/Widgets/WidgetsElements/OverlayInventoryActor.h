@@ -6,10 +6,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/PointLightComponent.h"
-#include "Components/SceneCaptureComponent2D.h"
 #include "GameFramework/Actor.h"
 #include "OverlayInventoryActor.generated.h"
+
+class UPointLightComponent;
+class USceneCaptureComponent2D;
 
 UCLASS()
 class THERITE_API AOverlayInventoryActor : public AActor

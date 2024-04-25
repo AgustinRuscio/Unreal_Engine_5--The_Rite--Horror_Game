@@ -7,7 +7,6 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "Letter.generated.h"
 

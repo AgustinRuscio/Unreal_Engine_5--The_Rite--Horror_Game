@@ -1,8 +1,13 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
 #include "Components/TimelineComponent.h"
+#include "Components/ActorComponent.h"
 #include "FloatingActorComponent.generated.h"
 
 
@@ -54,6 +59,6 @@ public:
 	UFloatingActorComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void Activate();
-	void Stop();
+	void ActivateComponent();
+	void StopComponent();
 };

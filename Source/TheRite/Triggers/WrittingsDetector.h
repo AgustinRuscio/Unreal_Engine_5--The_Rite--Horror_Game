@@ -6,10 +6,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/SpectralWrittings.h"
 #include "WrittingsDetector.generated.h"
+
+class USphereComponent;
+class ASpectralWrittings;
 
 UCLASS()
 class THERITE_API AWrittingsDetector : public AActor

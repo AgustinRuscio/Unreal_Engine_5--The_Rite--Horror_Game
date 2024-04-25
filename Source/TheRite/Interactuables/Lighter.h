@@ -7,11 +7,13 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "SpectralWrittings.h"
-#include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "Lighter.generated.h"
+
+
+class ASpectralWrittings;
+class UTutorialWidget;
+class UPointLightComponent;
 
 UCLASS()
 class THERITE_API ALighter : public AInteractor

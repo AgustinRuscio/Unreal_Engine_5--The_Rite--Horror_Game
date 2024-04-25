@@ -7,9 +7,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
 #include "HintsWidget.generated.h"
 
+class UImage;
 
 UCLASS()
 class THERITE_API UHintsWidget : public UUserWidget
@@ -31,7 +31,6 @@ private:
 	UPROPERTY(EditAnywhere, Category= "States")
 	float TimerCD = 7.0f;
 	
-private:
 	void JoystickChecker();
 	void TimerChecker(float deltaTime);
 	

@@ -6,30 +6,33 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CloclLevelArtRoomEvent.h"
-#include "Engine/BlockingVolume.h"
 #include "Engine/StaticMeshActor.h"
-#include "Engine/TargetPoint.h"
-#include "Engine/TriggerBox.h"
-#include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Door.h"
-
-#include "TheRite/Characters/Alex.h"
-#include "TheRite/Characters/Tiffany.h"
-#include "TheRite/Interactuables/BaseDrawer.h"
-#include "TheRite/Interactuables/DoorKey.h"
-#include "TheRite/Interactuables/HourLetter.h"
-#include "TheRite/Interactuables/LockedDoor.h"
-#include "TheRite/Interactuables/MinutesLetter.h"
-#include "TheRite/Interactuables/RecordPlayer.h"
-#include "TheRite/Triggers/MakeTiffanyWalk.h"
-
-
+#include "Components/TimelineComponent.h"
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBlockingHit);
+
+
+class ACloclLevelArtRoomEvent;
+class UAudioComponent;
+class ATargetPoint;
+class ATiffany;
+class AMakeTiffanyWalk;
+class AAlex;
+class ADoor;
+class ALetter;
+class AMinutesLetter;
+class AHourLetter;
+class ALightsTheRite;
+class ABaseDrawer;
+class ALockedDoor;
+class ADoorKey;
+class ATriggerVolume;
+class ARecordPlayer;
+class ABlockingVolume;
+class ATriggerBox;
 
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor

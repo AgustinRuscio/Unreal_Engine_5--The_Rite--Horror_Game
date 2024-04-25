@@ -7,9 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
-#include "LevelsGameState.h"
 #include "GameFramework/PlayerInput.h"
-#include "Components/WidgetInteractionComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "AlexPlayerController.generated.h"
 
@@ -38,6 +36,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPrevInventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckInputMode, bool,  isGamepad);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckKeyInputMode, bool,  isGamepad);
 
+
+class UInputMappingContext;
+class UInputAction;
+class ALevelsGameState;
+class UWidgetInteractionComponent;
+
 UCLASS()
 class THERITE_API AAlexPlayerController : public APlayerController
 {
@@ -52,38 +56,38 @@ private:
 	ALevelsGameState* GameState;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingCOntext;
+	UInputMappingContext* DefaultMappingCOntext;
 
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* MovePlayerAction;
+	UInputAction* MovePlayerAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* SprintAction;
+	UInputAction* SprintAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* LighterAction;
+	UInputAction* LighterAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* InteractAction;
+	UInputAction* InteractAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* CameraLookAction;
+	UInputAction* CameraLookAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* OpenHintAction;
+	UInputAction* OpenHintAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* PuaseAction;
+	UInputAction* PuaseAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* InventoryAction;
+	UInputAction* InventoryAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* NextInventoryItemAction;
+	UInputAction* NextInventoryItemAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* PrevInventoryItemAction;
+	UInputAction* PrevInventoryItemAction;
 
 	
 	void PlayerMovement(const FInputActionValue& value);

@@ -4,12 +4,13 @@
 
 
 #include "SpawnTiffany.h"
-
 #include "Components/BoxComponent.h"
 #include "Components/LightComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
+#include "Engine/PointLight.h"
+#include "Engine/TargetPoint.h"
+#include "TheRite/Characters/Alex.h"
 
 ASpawnTiffany::ASpawnTiffany()
 {

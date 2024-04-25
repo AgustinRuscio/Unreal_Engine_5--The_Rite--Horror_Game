@@ -5,10 +5,15 @@
 
 #include "Door.h"
 
+#include "Camera/CameraComponent.h"
+#include "TheRite/Widgets/LockedWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+#include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
 #include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "TheRite/AlexPlayerController.h"
 
 ADoor::ADoor()
 {

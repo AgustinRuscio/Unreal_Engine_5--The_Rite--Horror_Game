@@ -6,7 +6,10 @@
 #include "MakeTiffanyWalk.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Components/BoxComponent.h"
+#include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
 
 void AMakeTiffanyWalk::FirstTimeLineUpdate(float value)

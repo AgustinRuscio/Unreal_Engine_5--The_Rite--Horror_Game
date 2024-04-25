@@ -7,14 +7,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Characters/Tiffany.h"
 #include "MakeTiffanyWalk.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFinished);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStart);
+
+class ATiffany;
+class ALightsTheRite;
+class ATargetPoint;
+class UBoxComponent;
 
 UCLASS()
 class THERITE_API AMakeTiffanyWalk : public AActor

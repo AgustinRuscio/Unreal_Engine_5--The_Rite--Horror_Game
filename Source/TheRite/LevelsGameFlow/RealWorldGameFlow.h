@@ -6,15 +6,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/SpotLight.h"
-#include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/Candle.h"
-#include "TheRite/Characters/Alex.h"
-#include "TheRite/Characters/Tiffany.h"
-#include "TheRite/Interactuables/LockedDoor.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "RealWorldGameFlow.generated.h"
+
+class ATriggerVolume;
+class AAlex;
+class UTutorialWidget;
 
 UCLASS()
 class THERITE_API ARealWorldGameFlow : public AActor

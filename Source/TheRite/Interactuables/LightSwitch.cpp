@@ -4,6 +4,7 @@
 
 
 #include "LightSwitch.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Kismet/GameplayStatics.h"
 
 ALightSwitch::ALightSwitch()

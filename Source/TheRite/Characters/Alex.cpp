@@ -7,11 +7,21 @@
 
 #include "MathUtil.h"
 #include "Components/AudioComponent.h"
+#include "TheRite/AlexPlayerController.h"
+#include "TheRite/Components/TimerActionComponent.h"
+#include "TheRite/Interactuables/IInteractuable.h"
+#include "TheRite/Triggers/WrittingsDetector.h"
+#include "TheRite/Widgets/CenterDotWidget.h"
+#include "TheRite/Widgets/Inventory.h"
+#include "TheRite/Widgets/OpenInventory.h"
+#include "TheRite/Widgets/PauseMenuWidget.h"
+#include "Camera/CameraComponent.h"
+#include "Components/PointLightComponent.h"
+#include "TheRite/Interactuables/Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "TheRite/Interactuables/Door.h"
-#include "TheRite/Widgets/CenterDotWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
 
 AAlex::AAlex()
 {
@@ -57,16 +67,14 @@ void AAlex::OnJumpScare()
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
 		{
-			APlayerController* PlayerController = Cast<APlayerController>(MyController);
+			APlayerController* Controller = Cast<APlayerController>(MyController);
 			OnJumpscaredFinished.Broadcast();
 			ScreamerSkeleton->SetVisibility(false);
-			MyController->EnableInput(PlayerController);
+			MyController->EnableInput(Controller);
 		});
 		
 		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, timerDelegate, .7f, false);
 	}
-		//GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, this, &AAlex::TimeOver, .7f, false);
-
 }
 
 void AAlex::ForceDisableInput()
@@ -395,7 +403,7 @@ void AAlex::CheckLighterOn()
 		SetLighterAssetsVisibility(false);
 		
 		OnLighterAnimMontage.Broadcast();
-	}
+	}	
 }
 
 void AAlex::SetCameraStun(bool stun)

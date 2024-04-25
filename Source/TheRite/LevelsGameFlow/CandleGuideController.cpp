@@ -4,6 +4,8 @@
 
 
 #include "CandleGuideController.h"
+#include "TheRite/AmbientObjects/Candle.h"
+#include "TheRite/Interactuables/Interactor.h"
 
 ACandleGuideController::ACandleGuideController()
 {

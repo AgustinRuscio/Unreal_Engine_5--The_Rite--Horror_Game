@@ -4,8 +4,9 @@
 
 
 #include "SpectralObstacle.h"
-
+#include "NiagaraComponent.h"
 #include "VectorTypes.h"
+#include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 ASpectralObstacle::ASpectralObstacle()

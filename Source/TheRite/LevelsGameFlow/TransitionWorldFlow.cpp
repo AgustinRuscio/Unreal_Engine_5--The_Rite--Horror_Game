@@ -4,8 +4,12 @@
 
 
 #include "TransitionWorldFlow.h"
-
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/SpectralObstacle.h"
+#include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/Interactuables/RedDoor.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Interactuables/SpectralWrittings.h"
 
 ATransitionWorldFlow::ATransitionWorldFlow()
 {

@@ -6,10 +6,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "Components/PostProcessComponent.h"
 #include "GameFramework/Actor.h"
 #include "ProsProcessModifier.generated.h"
+
+class UPostProcessComponent;
 
 UCLASS()
 class THERITE_API AProsProcessModifier : public AActor

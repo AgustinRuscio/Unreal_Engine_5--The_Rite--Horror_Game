@@ -6,9 +6,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "SpawnTiffanyInTime.generated.h"
+
+class UBoxComponent;
 
 UCLASS()
 class THERITE_API ASpawnTiffanyInTime : public AActor

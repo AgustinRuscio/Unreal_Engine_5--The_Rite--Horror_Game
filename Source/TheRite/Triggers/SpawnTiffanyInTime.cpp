@@ -4,7 +4,6 @@
 
 
 #include "SpawnTiffanyInTime.h"
-
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"

@@ -7,11 +7,14 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Characters/Alex.h"
 #include "LockedDoor.generated.h"
 
 class UTimelineComponent;
+class UBoxComponent;
+class AAlex;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteraction);
 
 UCLASS()

@@ -4,7 +4,8 @@
 
 
 #include "AutomaticCloseDoorTrigger.h"
-
+#include "Engine/TriggerVolume.h"
+#include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
 AAutomaticCloseDoorTrigger::AAutomaticCloseDoorTrigger()

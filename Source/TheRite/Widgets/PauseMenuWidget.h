@@ -10,6 +10,7 @@
 #include "PauseMenuWidget.generated.h"
 
 class AAlex;
+
 UCLASS()
 class THERITE_API UPauseMenuWidget : public UUserWidget
 {

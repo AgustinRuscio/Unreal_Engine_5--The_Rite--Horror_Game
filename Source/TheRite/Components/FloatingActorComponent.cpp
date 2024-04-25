@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "FloatingActorComponent.h"
 #include "GameFramework/Actor.h"
 
@@ -99,12 +104,12 @@ void UFloatingActorComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	MovingTimeLine.TickTimeline(DeltaTime);
 }
 
-void UFloatingActorComponent::Activate()
+void UFloatingActorComponent::ActivateComponent()
 {
 	MovingTimeLine.PlayFromStart();
 }
 
-void UFloatingActorComponent::Stop()
+void UFloatingActorComponent::StopComponent()
 {
 	MovingTimeLine.Stop();
 }

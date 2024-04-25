@@ -4,6 +4,7 @@
 
 
 #include "LightsTheRite.h"
+#include "Components/SphereComponent.h"
 
 ALightsTheRite::ALightsTheRite()
 {

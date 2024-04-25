@@ -7,15 +7,18 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/BoxComponent.h"
-#include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
 #include "Components/TimelineComponent.h"
-#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "SpectralObstacle.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FObstacleDestroyed);
+
+
+class UBoxComponent;
+class UNiagaraComponent;
+class UMaterialInstance;
+class UMaterialInstanceDynamic;
+
 
 UCLASS()
 class THERITE_API ASpectralObstacle : public AInteractor

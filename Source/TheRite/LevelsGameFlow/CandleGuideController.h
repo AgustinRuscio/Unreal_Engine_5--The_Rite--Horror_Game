@@ -7,9 +7,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/Candle.h"
-#include "TheRite/Interactuables/Interactor.h"
 #include "CandleGuideController.generated.h"
+
+class ACandle;
+class AInteractor;
 
 UCLASS()
 class THERITE_API ACandleGuideController : public AActor

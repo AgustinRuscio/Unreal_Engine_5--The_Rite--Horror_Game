@@ -4,6 +4,7 @@
 
 
 #include "Statuette.h"
+#include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 AStatuette::AStatuette()

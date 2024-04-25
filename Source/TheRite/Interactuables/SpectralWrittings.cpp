@@ -4,12 +4,14 @@
 
 
 #include "SpectralWrittings.h"
-
+#include "Components/SphereComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/BoxComponent.h"
+#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "MathUtil.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Alex.h"
-#include "TheRite/LevelsGameFlow/ClockLevelGameFlow.h"
 
 void ASpectralWrittings::BeginPlay()
 {

@@ -6,11 +6,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "NiagaraSystem.h"
-#include "Engine/PointLight.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Interactor.h"
 #include "Candle.generated.h"
+
+
+class UNiagaraComponent;
+class UPointLightComponent;
 
 UCLASS()
 class THERITE_API ACandle : public AActor

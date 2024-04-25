@@ -5,6 +5,10 @@
 
 #include "Rite.h"
 
+#include "Components/PostProcessComponent.h"
+#include "Components/SphereComponent.h"
+#include "Clock.h"
+#include "Components/AudioComponent.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
