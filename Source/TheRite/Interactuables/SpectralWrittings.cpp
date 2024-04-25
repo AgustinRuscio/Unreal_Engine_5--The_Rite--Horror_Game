@@ -4,6 +4,8 @@
 
 
 #include "SpectralWrittings.h"
+
+#include "MathUtil.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Alex.h"
@@ -22,7 +24,16 @@ void ASpectralWrittings::BeginPlay()
 
 	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	Mesh->SetVisibility(false);
+	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),0);
+
+
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("FadeTick"));
+	FadeTimeLine.AddInterpFloat(FadeCurve, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("FadeFinished"));
+	FadeTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
 void ASpectralWrittings::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -41,6 +52,18 @@ void ASpectralWrittings::OnActorOverapFinished(UPrimitiveComponent* OverlappedCo
 	
 	bPlayerInside = false;
 	InsideActor = nullptr;
+}
+
+void ASpectralWrittings::FadeTick(float deltaSeconds)
+{
+	float value = FMathf::Lerp(0,0.7f,deltaSeconds);
+	
+	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),value);
+}
+
+void ASpectralWrittings::FadeFinished()
+{
+	bFading = false;
 }
 
 ASpectralWrittings::ASpectralWrittings()
@@ -75,13 +98,14 @@ void ASpectralWrittings::BeginDestroy()
 void ASpectralWrittings::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	FadeTimeLine.TickTimeline(DeltaSeconds);
 	
-	if(!bPlayerInside || bDiscovered) return;
+	if(!bPlayerInside || bDiscovered || bFading) return;
 	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());
 	
 	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
 	
-	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+	AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
 	
 	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
 }
@@ -91,19 +115,28 @@ bool ASpectralWrittings::GetDiscoverdStatus() const
 	return bDiscovered;
 }
 
-void ASpectralWrittings::Activate() const
+void ASpectralWrittings::Activate()
 {
 	if(bDiscovered) return;
+
+	bFading = true;
 	
-	Mesh->SetVisibility(true);
+	FadeTimeLine.Stop();
+	FadeTimeLine.PlayFromStart();
+	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
-void ASpectralWrittings::Deactivate() const
+void ASpectralWrittings::Deactivate()
 {
 	if(bDiscovered) return;
 	
-	Mesh->SetVisibility(false);
+	bFading = true;
+	FadeTimeLine.Stop();
+	LastAlphaValue = AlphaValue;
+
+	FadeTimeLine.ReverseFromEnd();
+	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -114,7 +147,7 @@ void ASpectralWrittings::EnableInteraction()
 
 void ASpectralWrittings::SetMaterialAlpha(float alpha)
 {
-	if(bDiscovered) return;
+	if(bDiscovered || bFading) return;
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),alpha);
 }
 
@@ -125,7 +158,6 @@ void ASpectralWrittings::Discovered()
 	
 	IdleAudio->DestroyComponent();
 	
-	Mesh->SetVisibility(true);
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 
 	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
@@ -133,7 +165,7 @@ void ASpectralWrittings::Discovered()
 
 void ASpectralWrittings::Interaction()
 {
-	if(bDiscovered || !bCanInteract) return;
+	if(bDiscovered || !bCanInteract ) return;
 	
 	Super::Interaction();
 	
@@ -145,7 +177,6 @@ void ASpectralWrittings::Interaction()
 	
 	IdleAudio->DestroyComponent();
 	
-	Mesh->SetVisibility(true);
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	
 	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);

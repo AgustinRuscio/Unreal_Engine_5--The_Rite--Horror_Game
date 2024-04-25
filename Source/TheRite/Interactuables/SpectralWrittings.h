@@ -10,6 +10,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/TimelineComponent.h"
 #include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "SpectralWrittings.generated.h"
 
@@ -45,12 +46,24 @@ private:
 	
 	bool bPlayerInside;
 	bool bReady = false;
+	bool bFading = false;
 
+	float LastAlphaValue;
+	float AlphaValue;
+	
 	AActor* InsideActor;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AProsProcessModifier* Gameflow;
-	
+
+	FTimeline FadeTimeLine;
+	UPROPERTY(EditAnywhere, Category="Settings")
+	UCurveFloat* FadeCurve;
+
+UFUNCTION()
+	void FadeTick(float deltaSeconds);
+UFUNCTION()
+	void FadeFinished();
 	
 public:
 	ASpectralWrittings();
@@ -66,13 +79,12 @@ public:
 	virtual void BeginPlay() override;
 	
 	bool GetDiscoverdStatus() const;
-	void Activate() const;
-	void Deactivate() const;
+	void Activate();
+	void Deactivate();
 
 	void EnableInteraction();
 	void SetMaterialAlpha(float alpha);
 
 	void Discovered();
-
 	virtual void Interaction() override;
 };
