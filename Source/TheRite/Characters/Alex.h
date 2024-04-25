@@ -120,6 +120,10 @@ private:
 	bool bCanSound = true;
 	bool bStun = false;
 
+	bool bOnEvent= false;
+	FVector2D VectorX;
+	FVector2D VectorY;
+	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	USoundBase* LighterCDSound;
 	
@@ -231,7 +235,6 @@ private:
 	void OpenInventory();
 
 	UFUNCTION()
-	
 	void MontageAnimOnOff();
 	
 	void LighterSoundTimer(float deltaTime);
@@ -313,6 +316,7 @@ public:
 	void ForceEnableInput();
 
 	
+	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	void RemoveFromInventory(FString itemName, PickableItemsID id);
 	
 	UCameraComponent* GetCamera() const;

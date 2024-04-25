@@ -141,6 +141,8 @@ public:
 	void SetPauseGame(bool PauseState);
 	void SetDoorMode(bool newMode);
 	void SetUIOnly(bool uiMode);
+	void SetEventInput();
+	void SetNormalInput();
 
 	void DisableInput(APlayerController* PlayerController) override;
 

@@ -5,6 +5,7 @@
 
 #include "Alex.h"
 
+#include "MathUtil.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -80,6 +81,40 @@ void AAlex::ForceEnableInput()
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
     
 	MyController->EnableInput(PlayerController);
+}
+
+void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY= 0, float maxY= 0)
+{
+	auto camera = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+	
+	if(onOff)
+	{
+		 MyController->SetEventInput();
+
+		VectorX.X = camera->ViewYawMax;
+		VectorX.Y = camera->ViewYawMin;
+		VectorY.Y = camera->ViewPitchMin;
+		VectorY.X = camera->ViewPitchMax;
+		
+		
+		camera->ViewYawMax = maxX;
+		camera->ViewYawMin = minX;
+		camera->ViewPitchMax = maxY;
+		camera->ViewPitchMin = minY;
+
+		UE_LOG(LogTemp, Warning, TEXT(" x %f"),camera->ViewRollMax);
+	}
+	else
+	{
+		bOnEvent = false;
+		MyController->SetNormalInput();
+
+		camera->ViewYawMax = VectorX.X;
+		camera->ViewYawMin = VectorX.Y;
+		camera->ViewPitchMin = VectorY.Y;
+		camera->ViewPitchMax = VectorY.X;
+	}
+
 }
 
 void AAlex::TimeOver()
@@ -275,6 +310,13 @@ void AAlex::MovePlayer(FVector2D vector)
 
 void AAlex::MoveCamera(FVector2D vector)
 {
+	if(bOnEvent)
+	{
+		vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
+		vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT(" x %f"), vector.X);
 	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
 }

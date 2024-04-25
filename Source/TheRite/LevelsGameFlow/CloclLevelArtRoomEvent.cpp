@@ -99,7 +99,7 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	if(!alex) return;
 	
 	Alex = alex;
-	Alex->SetCameraStun(true);
+	//Alex->SetCameraStun(true);
 
 	if(DoOnce != 0) return;
 
@@ -118,9 +118,7 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	PostProcess->AddOrUpdateBlendable(PostProcessMaterial1);
 	
 	Alex->CameraTargeting(StandTiffany->GetActorLocation());
-	
-	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->DisableInput(controller);
+	Alex->SetEventMode(true, -60,60,-20,20);
 	
 	ArtRoomDoor->SetLockedState(true);
 	ArtRoomDoor->HardClosing();
@@ -222,15 +220,14 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	ArtRoomDoor->SetLockedState(false);
 
 	OnArtRoomEventFinished.Broadcast();
-	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->EnableInput(controller);
 	
 	HearthBeatComponent->Stop();
 	HearthBeatComponent->DestroyComponent();
 	
 	StartTriggerBox->Destroy();
 	
-	Alex->SetCameraStun(false);
+	Alex->SetEventMode(false, 0,0,0,0);
+	//Alex->SetCameraStun(false);
 	
 	Destroy();
 }

@@ -180,6 +180,26 @@ void AAlexPlayerController::SetInventoryInputs()
 	}
 }
 
+void AAlexPlayerController::SetEventInput()
+{
+	UnbindActions();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
+	}
+}
+
+void AAlexPlayerController::SetNormalInput()
+{
+	BindActions();
+}
+
 void AAlexPlayerController::SetDoorInputs()
 {
 	UnbindActions();
@@ -261,7 +281,6 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI()):
 	BindActions(), SetInputMode(FInputModeGameOnly());
 }
-
 
 void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 {
