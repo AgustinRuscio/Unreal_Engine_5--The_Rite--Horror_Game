@@ -91,6 +91,13 @@ void AAlex::ForceEnableInput()
 	MyController->EnableInput(PlayerController);
 }
 
+void AAlex::ForceLighterOff()
+{
+	SetLighterAssetsVisibility(false);
+	bLighter = false;
+	MontageAnimOnOff();
+}
+
 void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY= 0, float maxY= 0)
 {
 	auto camera = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
@@ -580,7 +587,6 @@ void AAlex::ShowLighterReminder()
 		});
 		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
 	}
-		//GetWorldTimerManager().SetTimer(LighterReminderTimer, this, &AAlex::HideLighterReminder, 4.f, false);
 }
 
 void AAlex::HideLighterReminder()

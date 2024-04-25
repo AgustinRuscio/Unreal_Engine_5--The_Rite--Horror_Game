@@ -312,7 +312,7 @@ public:
 	void ForceDisableInput();
 	UFUNCTION()
 	void ForceEnableInput();
-
+	void ForceLighterOff();
 	
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	void RemoveFromInventory(FString itemName, PickableItemsID id);

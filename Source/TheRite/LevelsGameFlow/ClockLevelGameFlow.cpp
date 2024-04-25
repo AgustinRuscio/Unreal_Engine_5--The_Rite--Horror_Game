@@ -52,10 +52,7 @@ void AClockLevelGameFlow::BindPuzzleEvents()
 	HoursLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetHours);
 	
 }
-void AClockLevelGameFlow::CheckInteraction()
-{
-	
-}
+void AClockLevelGameFlow::CheckInteraction() { }
 
 void AClockLevelGameFlow::GetMinutes()
 {
@@ -135,6 +132,9 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	
 	DoOnceJumpscare++;
 	
+	Player->ForceLighterOff();
+	Player->SetPlayerStats(false, false);
+	
 	for (auto Element : LibraryLightsEvent)
 	{
 		Element->TurnOff();
@@ -144,7 +144,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 
 	RecordPlayer->PauseSong();
 
-	Player->SetPlayerStats(false, false);
 	
 	if(!GetWorldTimerManager().IsTimerActive(JumpscareHandleSecond))
 	{
@@ -270,6 +269,8 @@ void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor*
 	
 	Player->ForceTalk(OhFuckAlexTalk);
 	Player->ForceTurnLighterOn();
+	
+	Player->SetPlayerStats(true, false);
 	
 	EndGameTriggerVolumen->Destroy();
 }
