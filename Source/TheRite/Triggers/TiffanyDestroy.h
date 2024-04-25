@@ -6,11 +6,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Characters/Tiffany.h"
 #include "TiffanyDestroy.generated.h"
+
+class UBoxComponent;
+class ALightsTheRite;
+class ATiffany;
 
 UCLASS()
 class THERITE_API ATiffanyDestroy : public AActor

@@ -6,17 +6,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/TriggerVolume.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Door.h"
 #include "AutomaticCloseDoorTrigger.generated.h"
+
+class ATriggerVolume;
+class ADoor;
+
 
 UCLASS()
 class THERITE_API AAutomaticCloseDoorTrigger : public AActor
 {
 	GENERATED_BODY()
-
-
 private:
 
 	UPROPERTY(EditAnywhere, Category="My door")

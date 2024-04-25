@@ -6,21 +6,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Interactuables/Door.h"
 #include "Components/TimelineComponent.h"
-#include "Camera/CameraComponent.h"
-#include "Components/PointLightComponent.h"
-#include "Components/Widget.h"
+#include "TheRite/EnumsContainer.h"
 #include "GameFramework/Character.h"
-#include "TheRite/AlexPlayerController.h"
-#include "TheRite/Components/TimerActionComponent.h"
-#include "TheRite/Interactuables/IInteractuable.h"
-#include "TheRite/Interactuables/Letter.h"
-#include "TheRite/Triggers/WrittingsDetector.h"
-#include "TheRite/Widgets/CenterDotWidget.h"
-#include "TheRite/Widgets/Inventory.h"
-#include "TheRite/Widgets/OpenInventory.h"
-#include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Alex.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
@@ -29,6 +17,16 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
 
 class UInputMappingContext;
 class UInputAction;
+class UPointLightComponent;
+class UCameraComponent;
+class AWrittingsDetector;
+class UTimerActionComponent;
+class UPauseMenuWidget;
+class UTutorialWidget;
+class UOpenInventory;
+class UInventory;
+class UChangingdWidget;
+class UCenterDotWidget;
 
 UCLASS()
 class THERITE_API AAlex : public ACharacter
@@ -69,7 +67,7 @@ private:
 	
 	bool bCanInteract;
 
-	IIInteractuable* ActualInteractuable;
+	class IIInteractuable* ActualInteractuable;
 	FString RemovableName;
 	PickableItemsID RemovableID;
 	
@@ -130,7 +128,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	USoundBase* LighterOn;
 
-	UWidget* Hints;
+	class UWidget* Hints;
 	bool bHasHint;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
@@ -167,7 +165,7 @@ private:
 
 	bool bPauseFlip = true;
 
-	AAlexPlayerController* MyController;
+	class AAlexPlayerController* MyController;
 
 	
 	UPROPERTY(EditAnywhere, Category = "Camera Shake")
@@ -195,7 +193,7 @@ private:
 	FTimerHandle ConsumibleWidgetTimer;
 	
 	UPROPERTY(EditAnywhere, Category = "Camera")
-	UCurveFloat* EmptyCurve;
+	class UCurveFloat* EmptyCurve;
 	bool bInventoryFlip = true;
 
 	UFUNCTION()
@@ -250,7 +248,7 @@ private:
 	void InteractuableCheck();
 
 	bool IsDoorCheck(IIInteractuable* checked);
-	ADoor* DoorChecked;
+	class ADoor* DoorChecked;
 	bool bDoorWasLocked;
 
 

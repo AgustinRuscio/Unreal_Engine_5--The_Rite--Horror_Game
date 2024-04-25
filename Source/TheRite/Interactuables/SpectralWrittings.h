@@ -7,12 +7,14 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
-#include "Components/SphereComponent.h"
-#include "Components/AudioComponent.h"
-#include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
-#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "SpectralWrittings.generated.h"
+
+class UBoxComponent;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
+class AProsProcessModifier;
+class USphereComponent;
 
 UCLASS()
 class THERITE_API ASpectralWrittings : public AInteractor

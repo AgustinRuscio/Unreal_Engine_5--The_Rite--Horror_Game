@@ -4,9 +4,11 @@
 
 
 #include "RealWorldGameFlow.h"
-
-#include "Components/SpotLightComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/TriggerVolume.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+#include "TheRite/AlexPlayerController.h"
 
 
 ARealWorldGameFlow::ARealWorldGameFlow()

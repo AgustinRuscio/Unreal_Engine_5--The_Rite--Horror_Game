@@ -4,7 +4,9 @@
 
 
 #include "TiffanyDestroy.h"
-
+#include "TheRite/Characters/Tiffany.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "Components/BoxComponent.h"
 #include "TheRite/Characters/Alex.h"
 
 ATiffanyDestroy::ATiffanyDestroy()

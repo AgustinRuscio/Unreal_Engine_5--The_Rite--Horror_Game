@@ -7,7 +7,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/AudioComponent.h"
 #include "AmbientSoundPlayer.generated.h"
 
 
@@ -23,7 +22,7 @@ private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	USoundBase* CueToSound;
 
-	UAudioComponent* AudioComponent;
+	class UAudioComponent* AudioComponent;
 	
 	UFUNCTION()
 	void CreateAudio();

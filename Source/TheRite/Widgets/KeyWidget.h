@@ -7,9 +7,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/TextBlock.h"
 #include "KeyWidget.generated.h"
 
+class UTextBlock;
 
 UCLASS()
 class THERITE_API UKeyWidget : public UUserWidget

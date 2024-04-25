@@ -7,8 +7,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Statuette.h"
 #include "InOrdenSelectionPuzzleFlow.generated.h"
+
+class AStatuette;
+class AInteractor;
 
 UCLASS()
 class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor

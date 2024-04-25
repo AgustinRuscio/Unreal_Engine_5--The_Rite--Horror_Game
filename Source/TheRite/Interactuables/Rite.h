@@ -6,18 +6,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Clock.h"
 #include "Interactor.h"
-#include "LevelSequence.h"
-#include "Components/AudioComponent.h"
-#include "Components/PostProcessComponent.h"
-#include "Components/SphereComponent.h"
-#include "EnumsContainer.generated.h"
-#include "Engine/PostProcessVolume.h"
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClockGain);
+
+class ULevelSequence;
+class UAudioComponent;
+class USphereComponent;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
+class UPostProcessComponent;
+class AClock;
 
 UCLASS()
 class THERITE_API ARite : public AInteractor

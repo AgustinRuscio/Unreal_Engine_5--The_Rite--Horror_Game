@@ -7,10 +7,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Interactuables/Door.h"
-#include "Components/BoxComponent.h"
 #include "CloseDoor.generated.h"
+
+class UBoxComponent;
+class ALightsTheRite;
+class ADoor;
 
 UCLASS()
 class THERITE_API ACloseDoor : public AActor

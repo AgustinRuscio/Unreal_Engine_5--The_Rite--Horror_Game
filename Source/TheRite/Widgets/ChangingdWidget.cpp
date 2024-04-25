@@ -4,6 +4,8 @@
 
 
 #include "ChangingdWidget.h"
+#include "Components/TextBlock.h"
+#include "Components/Image.h"
 
 void UChangingdWidget::SetKeyMode(bool isGamepad)
 {

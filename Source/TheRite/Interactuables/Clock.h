@@ -7,9 +7,10 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "Clock.generated.h"
+
+class UPointLightComponent;
 
 struct ObjectData
 {
@@ -37,11 +38,7 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FName NextLevelName;
 	
-private:
 	void ClockReady();
-
-	//UPROPERTY(EditAnywhere, Category = "Rite Object")
-	//ARite* TheRite;
 
 protected:
 	

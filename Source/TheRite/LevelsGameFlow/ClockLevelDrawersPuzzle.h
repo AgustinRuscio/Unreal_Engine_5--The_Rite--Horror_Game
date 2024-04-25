@@ -6,17 +6,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "LevelSequence.h"
-#include "TheRite/Interactuables/Door.h"
-#include "TheRite/Interactuables/DoorKey.h"
-#include "TheRite/Interactuables/BaseDrawer.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "Engine/TargetPoint.h"
-#include "TheRite/Interactuables/SpectralObstacle.h"
-#include "TheRite/Interactuables/SpectralWrittings.h"
 #include "ClockLevelDrawersPuzzle.generated.h"
+
+
+class ASpectralWrittings;
+class ASpectralObstacle;
+class AInteractor;
 
 UCLASS()
 class THERITE_API AClockLevelDrawersPuzzle : public AActor
@@ -33,14 +29,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	ASpectralObstacle* DestroyableSpectralIbstacle;
-
 	
 	UFUNCTION()
 	void OnKeySpectralWrittingUsed(AInteractor* interactor);
-	
 
-
-	
 protected:
 	virtual void BeginPlay() override;
 

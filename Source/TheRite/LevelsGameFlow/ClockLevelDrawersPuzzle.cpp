@@ -4,11 +4,9 @@
 
 
 #include "ClockLevelDrawersPuzzle.h"
-
-#include "LevelSequenceActor.h"
-#include "LevelSequencePlayer.h"
-#include "TheRite/Characters/Alex.h"
-#include "Kismet/GameplayStatics.h"
+#include "TheRite/Interactuables/SpectralObstacle.h"
+#include "TheRite/Interactuables/SpectralWrittings.h"
+#include "TheRite/Interactuables/Interactor.h"
 
 AClockLevelDrawersPuzzle::AClockLevelDrawersPuzzle()
 {

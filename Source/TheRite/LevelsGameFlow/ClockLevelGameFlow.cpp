@@ -4,14 +4,29 @@
 
 
 #include "ClockLevelGameFlow.h"
-
+#include "CloclLevelArtRoomEvent.h"
 #include "Components/AudioComponent.h"
+#include "Engine/TargetPoint.h"
+#include "TheRite/Interactuables/Door.h"
+#include "TheRite/Interactuables/MinutesLetter.h"
+#include "TheRite/Interactuables/LockedDoor.h"
+#include "TheRite/Interactuables/HourLetter.h"
+#include "TheRite/Interactuables/DoorKey.h"
+#include "TheRite/Interactuables/RecordPlayer.h"
+#include "Engine/TriggerVolume.h"
+#include "Engine/TriggerBox.h"
+#include "Engine/BlockingVolume.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Characters/Tiffany.h"
+#include "TheRite/Triggers/MakeTiffanyWalk.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "Containers/Map.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/DoorKey.h"
+#include "TheRite/Interactuables/Letter.h"
 
 
 AClockLevelGameFlow::AClockLevelGameFlow()
@@ -39,32 +54,8 @@ void AClockLevelGameFlow::BindPuzzleEvents()
 }
 void AClockLevelGameFlow::CheckInteraction()
 {
-	//if(bMinutes && bHours) return;
-	//if(!bMinutes && ! bHours) return;
-
-
-	//TArray<ATargetPoint*> Waypoints;
-	//Waypoints.Add(TiffanySpawnPointOneItem);
-	//
-	//FVector const& position =TiffanySpawnPointOneItem->GetActorLocation();
-	//FRotator const& rotation =TiffanySpawnPointOneItem->GetActorRotation();
-	//
-	//auto tiff =GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
-
-	//
-	//tiff->SetActorLocation(position);
-	//tiff->SetActorRotation(rotation);
-	//
-	//MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
-	//MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	//MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	//MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
-	//
-	//tiff->SetWaypoints(Waypoints);
-	//tiff->SetHasToMove(true);
+	
 }
-
-
 
 void AClockLevelGameFlow::GetMinutes()
 {
@@ -116,7 +107,6 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 	if(HitCounterLibrary == 0)
 	{
 		Player->ForceTalk(SFX_Alex_IHateThatSong);
-//		Player->CameraTargeting(RecordPlayer->GetActorLocation());
 	}
 	else
 	{

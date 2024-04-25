@@ -4,7 +4,8 @@
 
 
 #include "DoorKey.h"
-
+#include "Door.h"
+#include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 ADoorKey::ADoorKey()
@@ -48,4 +49,3 @@ void ADoorKey::BeginPlay()
 {
 	Super::BeginPlay();
 }
-

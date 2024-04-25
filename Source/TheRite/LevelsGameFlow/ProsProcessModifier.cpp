@@ -4,6 +4,7 @@
 
 
 #include "ProsProcessModifier.h"
+#include "Components/PostProcessComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 

@@ -4,6 +4,7 @@
 
 
 #include "Interactor.h"
+#include "TheRite/Widgets/Inventory.h"
 
 AInteractor::AInteractor()
 {

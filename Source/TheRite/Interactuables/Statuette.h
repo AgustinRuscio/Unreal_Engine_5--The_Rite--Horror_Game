@@ -7,10 +7,11 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/PointLightComponent.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Statuette.generated.h"
+
+class UPointLightComponent;
 
 UCLASS()
 class THERITE_API AStatuette : public AInteractor
@@ -34,7 +35,7 @@ private:
 	FTimeline InteractionTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* TimeLineCurve;
+	class UCurveFloat* TimeLineCurve;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector MoveDir;

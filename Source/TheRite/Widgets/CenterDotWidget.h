@@ -7,9 +7,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
 #include "CenterDotWidget.generated.h"
 
+class UImage;
 
 UCLASS()
 class THERITE_API UCenterDotWidget : public UUserWidget

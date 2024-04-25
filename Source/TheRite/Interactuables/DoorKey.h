@@ -6,15 +6,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Door.h"
 #include "Interactor.h"
-#include "TheRite/EnumsContainer.h"
-#include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Widgets/KeyWidget.h"
 #include "DoorKey.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnKeyCollected);
+
+
+class UPointLightComponent;
+class ADoor;
 
 UCLASS()
 class THERITE_API ADoorKey : public AInteractor

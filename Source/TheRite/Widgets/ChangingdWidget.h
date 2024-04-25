@@ -8,9 +8,10 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
-#include "Components/TextBlock.h"
 #include "ChangingdWidget.generated.h"
+
+class UTextBlock;
+class UImage;
 
 UCLASS()
 class THERITE_API UChangingdWidget : public UUserWidget

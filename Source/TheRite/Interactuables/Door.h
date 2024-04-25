@@ -7,15 +7,15 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Widgets/LockedWidget.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "Door.generated.h"
 
 
 class AAlex;
+class UBoxComponent;
+class ULockedWidget;
+class UTutorialWidget;
 
 UCLASS()
 class THERITE_API ADoor : public AInteractor
@@ -66,7 +66,7 @@ private:
 	TSubclassOf<ULockedWidget> LockedUI;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UTutorialWidget> TutorialUI;
+	TSubclassOf<class UTutorialWidget> TutorialUI;
 	
 	UPROPERTY()
 	ULockedWidget* LockedWidget;

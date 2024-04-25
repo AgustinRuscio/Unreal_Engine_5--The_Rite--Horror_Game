@@ -4,6 +4,7 @@
 
 
 #include "CenterDotWidget.h"
+#include "Components/Image.h"
 
 void UCenterDotWidget::Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem)
 {

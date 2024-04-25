@@ -8,7 +8,6 @@
 #include "CoreMinimal.h"
 #include "IInteractuable.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Widgets/Inventory.h"
 #include "Interactor.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractionTrigger, AInteractor*, myself);

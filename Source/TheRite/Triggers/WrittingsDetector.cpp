@@ -4,6 +4,8 @@
 
 
 #include "WrittingsDetector.h"
+#include "Components/SphereComponent.h"
+#include "TheRite/Interactuables/SpectralWrittings.h"
 
 AWrittingsDetector::AWrittingsDetector()
 {

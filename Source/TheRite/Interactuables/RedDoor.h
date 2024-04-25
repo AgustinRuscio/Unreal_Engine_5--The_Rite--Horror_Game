@@ -7,11 +7,12 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "LevelSequence.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "Components/BoxComponent.h"
 #include "RedDoor.generated.h"
+
+class ULevelSequence;
+class UBoxComponent;
 
 UCLASS()
 class THERITE_API ARedDoor : public AInteractor

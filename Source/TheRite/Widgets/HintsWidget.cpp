@@ -4,6 +4,7 @@
 
 
 #include "HintsWidget.h"
+#include "Components/Image.h"
 
 void UHintsWidget::JoystickChecker()
 {

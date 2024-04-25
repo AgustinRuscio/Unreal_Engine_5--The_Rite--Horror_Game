@@ -6,10 +6,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "Components/SpotLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "LightsTheRite.generated.h"
+
+class UPointLightComponent;
+class USphereComponent;
 
 UCLASS()
 class THERITE_API ALightsTheRite : public AActor
@@ -25,8 +27,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* Mesh;
-
-
+	
 	float FirstPointIntensity;
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
 	float DefaultLightIntensity;

@@ -5,8 +5,17 @@
 
 #include "CloclLevelArtRoomEvent.h"
 
+#include "Components/SpotLightComponent.h"
 #include "Components/AudioComponent.h"
+#include "Animation/SkeletalMeshActor.h"
+#include "Engine/TargetPoint.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/Door.h"
+#include "Engine/SpotLight.h"
+#include "Components/PostProcessComponent.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
 
 ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()

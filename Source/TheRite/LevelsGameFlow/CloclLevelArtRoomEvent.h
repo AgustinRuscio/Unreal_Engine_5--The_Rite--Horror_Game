@@ -6,20 +6,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Animation/SkeletalMeshActor.h"
-#include "Components/PostProcessComponent.h"
-#include "Engine/SpotLight.h"
-#include "Engine/TargetPoint.h"
-#include "Engine/TriggerBox.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Interactuables/Door.h"
-#include "TheRite/Characters/Tiffany.h"
+#include "Components/TimelineComponent.h"
 #include "CloclLevelArtRoomEvent.generated.h"
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArtRoomClocklLevelStarted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArtRoomClocklLevelEnd);
+
+
+class ATriggerBox;
+class ASpotLight;
+class ASkeletalMeshActor;
+class UPostProcessComponent;
+//class FPostProcessVolumeProperties;
+class ATargetPoint;
+class ALightsTheRite;
+class ADoor;
+class AAlex;
+class ATiffany;
 
 UCLASS()
 class THERITE_API ACloclLevelArtRoomEvent : public AActor

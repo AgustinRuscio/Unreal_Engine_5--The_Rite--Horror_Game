@@ -4,7 +4,7 @@
 
 
 #include "Clock.h"
-
+#include "Components/PointLightComponent.h"
 
 AClock::AClock()
 {

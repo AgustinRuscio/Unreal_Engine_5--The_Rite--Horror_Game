@@ -7,6 +7,10 @@
 
 #include "Components/AudioComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "TheRite/AI/TiffanyController.h"
+#include "AIController.h"
+#include "Components/SphereComponent.h"
+#include "Engine/TargetPoint.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
@@ -27,8 +31,6 @@ ATiffany::ATiffany()
 	GetMesh()->SetMobility(EComponentMobility::Movable);
 	
 	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
-	
-	//AIControllerClass = DefaultAIController;
 }
 
 void ATiffany::Tick(float DeltaSeconds)
@@ -104,8 +106,6 @@ void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 			light->AggresiveMatterial();
 		}
 	}
-
-	//Player FlickerLighter
 }
 
 void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -133,6 +133,4 @@ void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 			light->NormalMatterial();
 		}
 	}
-	
-	//Player FlickerLighter
 }

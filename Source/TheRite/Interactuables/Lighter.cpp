@@ -4,7 +4,9 @@
 
 
 #include "Lighter.h"
-
+#include "TheRite/Widgets/TutorialWidget.h"
+#include "Components/PointLightComponent.h"
+#include "SpectralWrittings.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"

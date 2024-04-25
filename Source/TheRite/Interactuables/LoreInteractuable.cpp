@@ -4,7 +4,6 @@
 
 
 #include "LoreInteractuable.h"
-
 #include "Kismet/GameplayStatics.h"
 
 ALoreInteractuable::ALoreInteractuable()

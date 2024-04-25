@@ -7,6 +7,8 @@
 
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
 

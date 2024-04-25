@@ -9,8 +9,9 @@
 #include "Interactor.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "LightSwitch.generated.h"
+
+class ALightsTheRite;
 
 UCLASS()
 class THERITE_API ALightSwitch : public AInteractor
@@ -50,5 +51,4 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interaction() override;
-	
 };

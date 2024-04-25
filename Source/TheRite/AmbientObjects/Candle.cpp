@@ -36,5 +36,4 @@ void ACandle::TurnOff()
 
 	if(bWillSound)
 		UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
-	
 }
