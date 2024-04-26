@@ -7,7 +7,7 @@
 #include "TheRite/Interactuables/Statuette.h"
 #include "TheRite/Interactuables/Interactor.h"
 
-#define PRINT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
+#define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
 AInOrdenSelectionPuzzleFlow::AInOrdenSelectionPuzzleFlow()
 {
@@ -38,7 +38,7 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 	}
 
 	Destroy();
-	PRINT("Complete");
+	PRINTONVIEWPORT("Complete");
 }
 
 void AInOrdenSelectionPuzzleFlow::PuzzleFailure()
@@ -50,7 +50,7 @@ void AInOrdenSelectionPuzzleFlow::PuzzleFailure()
 		Element->RestoreInitialValues();
 	}
 	
-	PRINT("Failure");
+	PRINTONVIEWPORT("Failure");
 }
 
 void AInOrdenSelectionPuzzleFlow::BeginPlay()

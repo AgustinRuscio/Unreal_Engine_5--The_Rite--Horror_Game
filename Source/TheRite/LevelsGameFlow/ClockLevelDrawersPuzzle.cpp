@@ -18,7 +18,6 @@ void AClockLevelDrawersPuzzle::BeginPlay()
 	Super::BeginPlay();
 
 	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(this, &AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed);
-	
 }
 
 void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed(AInteractor* interactor)

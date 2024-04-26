@@ -4,12 +4,10 @@
 
 
 #include "LevelsGameState.h"
-#include "Serialization/BufferArchive.h"
 #include "SaveData.h"
 #include "Kismet/GameplayStatics.h"
-#define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
-
+#define PRINTING(X) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT(X)));
 
 void ALevelsGameState::BeginPlay()
 {
@@ -26,8 +24,8 @@ void ALevelsGameState::SaveData(float mouseSensitivity)
 	saveGameDataInstance->MouseSensitivity = mouseSensitivity;
 
 	UGameplayStatics::SaveGameToSlot(saveGameDataInstance, TEXT("SavedGame"), 0);
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Saved")));
 
+	PRINTING("Saved");
 }
 
 void ALevelsGameState::LoadData()
