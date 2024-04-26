@@ -200,6 +200,14 @@ void AAlexPlayerController::SetNormalInput()
 	BindActions();
 }
 
+void AAlexPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	//UGameViewportClient* Viewport = GetWorld()->GetGameViewport();
+	//Viewport->SetMouse(X, Y);
+}
+
 void AAlexPlayerController::SetDoorInputs()
 {
 	UnbindActions();
@@ -262,7 +270,7 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 	bShowMouseCursor = PauseState;
 	
 	if (PauseState)
-		SetInputMode(FInputModeGameAndUI());
+		SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
 	else
 		SetInputMode(FInputModeGameOnly());
 }
@@ -278,7 +286,7 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 	bShowMouseCursor = uiMode;
 	
 	uiMode ? 
-	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI()):
+	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways)):
 	BindActions(), SetInputMode(FInputModeGameOnly());
 }
 

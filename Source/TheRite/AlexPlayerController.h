@@ -148,6 +148,7 @@ public:
 	void SetEventInput();
 	void SetNormalInput();
 
+	virtual void Tick(float DeltaSeconds) override;
 	void DisableInput(APlayerController* PlayerController) override;
 
 	void EnableInput(APlayerController* PlayerController) override;
