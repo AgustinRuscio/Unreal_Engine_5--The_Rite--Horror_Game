@@ -463,18 +463,19 @@ void AAlex::CheckHolding(bool IsHolding)
 
 void AAlex::OpenPause()
 {
-	if(bPauseFlip)
-	{
+	//if(bPauseFlip)
+	//{
 		PauseWidget->SetVisibility(ESlateVisibility::Visible);
 		bPauseFlip = false;
-	}
-	else
-	{
-		PauseWidget->SetVisibility(ESlateVisibility::Hidden);
-		bPauseFlip = true;
-	}
+		MyController->SetPauseGame(true);
+	//}
+	//else
+	//{
+	//	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	//	bPauseFlip = true;
+	//	MyController->SetPauseGame(false);
+	//}
 	
-	MyController->SetPauseGame(!bPauseFlip);
 }
 
 void AAlex::OpenInventory()
@@ -766,5 +767,8 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AAlex::CallPauseFunc()
 {
-	OpenPause();
+	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	bPauseFlip = true;
+	MyController->SetPauseGame(false);
+	//OpenPause();
 }

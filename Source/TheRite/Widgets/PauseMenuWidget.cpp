@@ -19,4 +19,5 @@ void UPauseMenuWidget::NativeConstruct()
 void UPauseMenuWidget::OnResume()
 {
 	Player->CallPauseFunc();
+	
 }
