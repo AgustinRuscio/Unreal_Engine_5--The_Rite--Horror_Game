@@ -341,7 +341,7 @@ void AAlex::DoorMovement(FVector2D vector)
 	DoorFloat = vector.X * MyController->GetMouseSensitivity();
 }
 
-void AAlex::SetDraggingState(bool shouldCheck)
+void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 {
 	if(!bInventoryFlip) return;
 	
@@ -349,6 +349,12 @@ void AAlex::SetDraggingState(bool shouldCheck)
 		bIsDragging = bHoldingInteractBTN;
 	else
 		bIsDragging = false;
+
+
+	if(DoorChecked != door)
+	{
+		door->SetCanDragFalse();
+	}
 	
 	MyController->SetDoorMode(bIsDragging);
 }
@@ -442,7 +448,6 @@ void AAlex::Interaction()
 			});
 			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
 		}
-			//GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, this, &AAlex::CloseOpenInventoryWidget, 1.5f, false);
 	}
 }
 

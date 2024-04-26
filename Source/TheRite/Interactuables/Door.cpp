@@ -5,6 +5,7 @@
 
 #include "Door.h"
 
+#include "VectorTypes.h"
 #include "Camera/CameraComponent.h"
 #include "TheRite/Widgets/LockedWidget.h"
 #include "TheRite/Widgets/TutorialWidget.h"
@@ -200,17 +201,15 @@ void ADoor::CheckIfLookingDoor()
 
 		if(bHolding)
 		{
-			Player->SetDraggingState(true);
+			if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500) return;
+			
+			Player->SetDraggingState(true, this);
 			bcanDrag = Player->CheckCanDrag();
-			
-			
 		}
 		else
 		{
-			
-			Player->SetDraggingState(false);
-			bcanDrag = Player->CheckCanDrag();
-			
+			Player->SetDraggingState(false, this);
+			bcanDrag = false;
 		}
 	}
 	else
@@ -222,12 +221,14 @@ void ADoor::CheckIfLookingDoor()
 
 			if(bHolding)
 			{
-				Player->SetDraggingState(true);
+				if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500) return;
+				
+				Player->SetDraggingState(true,this);
 				bcanDrag = Player->CheckCanDrag();
 			}
 			else
 			{
-				Player->SetDraggingState(false);
+				Player->SetDraggingState(false, this);
 				bcanDrag = Player->CheckCanDrag();
 			
 				bWasLookingDoor = false;
@@ -235,6 +236,11 @@ void ADoor::CheckIfLookingDoor()
 		}
 	}
 	
+}
+
+void ADoor::SetCanDragFalse()
+{
+	bcanDrag = false;
 }
 
 void ADoor::BindTimeLines()
@@ -350,11 +356,6 @@ void ADoor::Tick(float DeltaTime)
 	CheckIfLookingDoor();
 }
 
-void ADoor::HideTutorial()
-{
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-}
-
 void ADoor::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);
@@ -365,7 +366,15 @@ void ADoor::Interaction()
 		TutorialWidget->SetVisibility(ESlateVisibility::Visible);
 		
 		if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
-			GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &ADoor::HideTutorial, 2.f, false);
+		{
+			FTimerDelegate timerDelegate;
+			timerDelegate.BindLambda([&]
+			{
+				TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+			});
+			
+			GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 2.f, false);
+		}
 	}
 	
 	

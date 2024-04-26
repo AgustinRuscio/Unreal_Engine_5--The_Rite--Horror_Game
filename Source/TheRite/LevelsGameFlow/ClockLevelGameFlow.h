@@ -6,10 +6,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/StaticMeshActor.h"
+//#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "Components/TimelineComponent.h"
-#include "TheRite/Interactuables/Interactor.h"
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
@@ -33,6 +32,7 @@ class ATriggerVolume;
 class ARecordPlayer;
 class ABlockingVolume;
 class ATriggerBox;
+class AInteractor;
 
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor

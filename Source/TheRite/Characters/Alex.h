@@ -27,6 +27,8 @@ class UOpenInventory;
 class UInventory;
 class UChangingdWidget;
 class UCenterDotWidget;
+class IIInteractuable;
+class ADoor;
 
 UCLASS()
 class THERITE_API AAlex : public ACharacter
@@ -67,7 +69,7 @@ private:
 	
 	bool bCanInteract;
 
-	class IIInteractuable* ActualInteractuable;
+	IIInteractuable* ActualInteractuable;
 	FString RemovableName;
 	PickableItemsID RemovableID;
 	
@@ -248,7 +250,7 @@ private:
 	void InteractuableCheck();
 
 	bool IsDoorCheck(IIInteractuable* checked);
-	class ADoor* DoorChecked;
+	ADoor* DoorChecked;
 	bool bDoorWasLocked;
 
 
@@ -288,7 +290,7 @@ public:
 
 	void CallPauseFunc();
 
-	void SetDraggingState(bool shouldCheck);
+	void SetDraggingState(bool shouldCheck, ADoor* Door);
 
 	void SetCameraStun(bool stun);
 	

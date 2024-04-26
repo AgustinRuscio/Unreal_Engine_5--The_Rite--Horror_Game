@@ -214,7 +214,6 @@ public:
 	ADoor();
 	virtual void Tick(float DeltaTime) override;
 
-	void HideTutorial();
 	virtual void Interaction() override;
 	
 	UFUNCTION()
@@ -235,6 +234,7 @@ public:
 	void SetDoorKeyValues(FString itemName, PickableItemsID id);
 	
 	bool IsLocked() const;
+	void SetCanDragFalse();
 	bool NeedKey() const;
 	bool KeyUnlocked() const;
 	void SetLockedState(bool lockednewState);

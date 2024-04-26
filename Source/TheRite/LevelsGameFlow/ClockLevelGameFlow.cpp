@@ -12,6 +12,7 @@
 #include "TheRite/Interactuables/HourLetter.h"
 #include "TheRite/Interactuables/DoorKey.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
 #include "Engine/TriggerBox.h"
 #include "Engine/BlockingVolume.h"
@@ -21,10 +22,8 @@
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "TheRite/Characters/Tiffany.h"
 #include "Containers/Map.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Interactuables/DoorKey.h"
 #include "TheRite/Interactuables/Letter.h"
 
 
@@ -40,8 +39,6 @@ void AClockLevelGameFlow::SetVariables()
 
 void AClockLevelGameFlow::BindPuzzleEvents()
 {
-	//OnPartOfClockGain.AddDynamic(this, &AClockLevelGameFlow::CheckInteraction);
-
 	GarageDoor->SetLockedState(true);
 	
 	TiffanyFirstLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::FirstLetterRead);
@@ -58,13 +55,11 @@ void AClockLevelGameFlow::GetMinutes()
 	MinutesCollected();
 	bLibraryPuzzleStarted = true;
 	bMinutes = true;
-	//OnPartOfClockGain.Broadcast();
 }
 
 void AClockLevelGameFlow::GetHours()
 {
 	bHours = true;
-	//OnPartOfClockGain.Broadcast();
 }
 
 void AClockLevelGameFlow::FirstLetterRead()
