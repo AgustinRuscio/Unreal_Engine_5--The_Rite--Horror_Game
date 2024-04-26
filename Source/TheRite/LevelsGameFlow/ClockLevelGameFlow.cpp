@@ -9,7 +9,6 @@
 #include "Engine/TargetPoint.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/MinutesLetter.h"
-#include "TheRite/Interactuables/LockedDoor.h"
 #include "TheRite/Interactuables/HourLetter.h"
 #include "TheRite/Interactuables/DoorKey.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
@@ -327,7 +326,7 @@ void AClockLevelGameFlow::BeginPlay()
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnLibraryKeyCollected);
 	
 	MakeTiffanyWalk->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
-	BigLockedDoor->OnInteraction.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
+	BigLockedDoor->OnInteractionTrigger.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
 
 	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
 	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
@@ -405,7 +404,7 @@ void AClockLevelGameFlow::OnWalkFinished()
 	ResetBlockingVolumenPosition();
 }
 
-void AClockLevelGameFlow::OnInteractionWithLockedDoor()
+void AClockLevelGameFlow::OnInteractionWithLockedDoor(AInteractor* Interactor)
 {
 	Player->ForceTalk(SFX_BigDoor);
 }

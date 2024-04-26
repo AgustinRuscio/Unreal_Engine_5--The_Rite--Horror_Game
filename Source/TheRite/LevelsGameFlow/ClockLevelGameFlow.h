@@ -9,6 +9,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "Components/TimelineComponent.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
@@ -27,7 +28,6 @@ class AMinutesLetter;
 class AHourLetter;
 class ALightsTheRite;
 class ABaseDrawer;
-class ALockedDoor;
 class ADoorKey;
 class ATriggerVolume;
 class ARecordPlayer;
@@ -138,7 +138,7 @@ private:
 	ATargetPoint* BlockingVolumeEntrancePosition;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects")
-	ALockedDoor* BigLockedDoor;
+	ADoor* BigLockedDoor;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Audio")
 	USoundBase* SFX_BigDoor;
@@ -312,7 +312,7 @@ private:
 	void OnWalkFinished();
 	
 	UFUNCTION()
-	void OnInteractionWithLockedDoor();
+	void OnInteractionWithLockedDoor(AInteractor* Interactor);
 
 	
 	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRot);

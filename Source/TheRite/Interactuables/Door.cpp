@@ -357,6 +357,8 @@ void ADoor::HideTutorial()
 
 void ADoor::Interaction()
 {
+	OnInteractionTrigger.Broadcast(this);
+	
 	if(bIsTutorialDoor && !bDoOnceTut)
 	{
 		bDoOnceTut = true;
