@@ -152,6 +152,8 @@ void AAlexPlayerController::BindActions()
 		enhantedComponent->BindAction(PuaseAction, ETriggerEvent::Started, this, &AAlexPlayerController::Paused);
 		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
 	}
+
+	SetInputMode(FInputModeGameOnly());
 }
 
 void AAlexPlayerController::UnbindActions()
@@ -178,6 +180,7 @@ void AAlexPlayerController::SetInventoryInputs()
 		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
 		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
 	}
+	SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
 }
 
 void AAlexPlayerController::SetEventInput()
@@ -286,8 +289,8 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 	bShowMouseCursor = uiMode;
 	
 	uiMode ? 
-	SetInventoryInputs(), SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways)):
-	BindActions(), SetInputMode(FInputModeGameOnly());
+	SetInventoryInputs():
+	BindActions();
 }
 
 void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
