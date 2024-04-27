@@ -480,6 +480,8 @@ void AAlex::OpenPause()
 
 void AAlex::OpenInventory()
 {
+	if(!bPauseFlip) return;
+	
 	if(bInventoryFlip)
 	{
 		InventoryWidget->SetVisibility(ESlateVisibility::Visible);

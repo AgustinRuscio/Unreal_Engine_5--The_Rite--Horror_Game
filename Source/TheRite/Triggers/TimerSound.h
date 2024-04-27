@@ -9,6 +9,8 @@
 #include "GameFramework/Actor.h"
 #include "TimerSound.generated.h"
 
+class AAlex;
+
 UCLASS()
 class THERITE_API ATimerSound : public AActor
 {
@@ -25,6 +27,9 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Sound Cd")
 	float MaxCooldDown;
 
+
+	AAlex* Player;
+	
 	UPROPERTY(EditAnywhere, Category= "Sound")
 	TArray<USoundBase*> PosibleSounds;
 	UPROPERTY(EditAnywhere, Category= "Sound")

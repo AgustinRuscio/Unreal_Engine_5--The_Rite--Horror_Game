@@ -29,7 +29,11 @@ ATimerSound::ATimerSound()
 void ATimerSound::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
 	ChangeCoolDown();
+	
 }
 
 void ATimerSound::Tick(float DeltaTime)
@@ -37,11 +41,9 @@ void ATimerSound::Tick(float DeltaTime)
 	Timer += DeltaTime;
 
 	if(Timer < CooldDown) return;
-
-	auto playerLocation = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
-
-	auto playerPosition = playerLocation->GetActorLocation() ;
-	auto forwardMinus = (playerLocation->GetActorLocation().X - 500);
+	
+	auto playerPosition = Player->GetActorLocation() ;
+	auto forwardMinus = (Player->GetActorLocation().X - 500);
 
 	auto audioPosition = FVector(forwardMinus, playerPosition.Y, playerPosition.Z);
 
