@@ -23,15 +23,6 @@ void AStatuette::BeginPlay()
 	
 	InitialLightIntensity = PointLight->Intensity;
 	PointLight->SetIntensity(0.0);
-
-	InitialObjectPosition = GetActorLocation();
-
-	
-	EndLocation = InitialObjectPosition + MoveDir;
-	
-	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("OpenTimelineUpdate"));
-	InteractionTimeLine.AddInterpFloat(TimeLineCurve, TimelineCallback);
 }
 
 void AStatuette::OpenTimeLineUpdate(float value)
@@ -44,16 +35,22 @@ void AStatuette::OpenTimeLineUpdate(float value)
 void AStatuette::Interaction()
 {	
 	if(!bCanInteract) return;
-	
-	bCanInteract = false;
-	
-	PointLight->SetIntensity(InitialLightIntensity);
 
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), InteractionSound, GetActorLocation());
-	InteractionTimeLine.PlayFromStart();
+	if(bFirstInteraction)
+	{
+		bCanInteract = false;
+	}
+	else
+	{
+		bCanInteract = false;
+		
+		PointLight->SetIntensity(InitialLightIntensity);
+
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), InteractionSound, GetActorLocation());
+		InteractionTimeLine.PlayFromStart();
+	}
 	
 	OnInteractionTrigger.Broadcast(this);
-
 }
 
 void AStatuette::Tick(float DeltaSeconds)
@@ -67,4 +64,29 @@ void AStatuette::RestoreInitialValues()
 	bCanInteract = true;
 	PointLight->SetIntensity(0.0);
 	InteractionTimeLine.ReverseFromEnd();
+}
+
+void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
+{
+	SetActorLocation(pos);
+	SetActorRotation(rot);
+	
+	InitialObjectPosition = GetActorLocation();
+	
+	EndLocation = InitialObjectPosition + MoveDir;
+	
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
+	InteractionTimeLine.AddInterpFloat(TimeLineCurve, TimelineCallback);
+	bFirstInteraction = false;
+}
+
+bool AStatuette::IsFirstInteraction() const
+{
+	return bFirstInteraction;
+}
+
+void AStatuette::EnableInteraction()
+{
+	bCanInteract = true;
 }

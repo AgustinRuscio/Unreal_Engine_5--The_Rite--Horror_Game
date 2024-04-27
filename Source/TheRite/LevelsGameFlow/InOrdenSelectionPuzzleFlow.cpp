@@ -4,6 +4,10 @@
 
 
 #include "InOrdenSelectionPuzzleFlow.h"
+
+#include "Engine/TargetPoint.h"
+#include "Kismet/GameplayStatics.h"
+#include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Statuette.h"
 #include "TheRite/Interactuables/Interactor.h"
 
@@ -17,12 +21,37 @@ AInOrdenSelectionPuzzleFlow::AInOrdenSelectionPuzzleFlow()
 
 void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 {
-	StatuettsAuxiliaryArray.Add(Cast<AStatuette>(currentStatuette));
+	auto CurrentStatuette = Cast<AStatuette>(currentStatuette);
 
-	if(StatuettsAuxiliaryArray.Num() == InGameStatuettes.Num())
+	if(StatuatteIndex == InGameStatuettes.Num()-1 && bEnableDoOnce)
 	{
-		CheckStatuetteOrder();
-		return;
+		for (auto Element : InGameStatuettes)
+		{
+			Element->EnableInteraction();
+		}
+		
+		bEnableDoOnce = false;
+	}
+	
+	if(CurrentStatuette->IsFirstInteraction())
+	{
+		CurrentStatuette->SetAltarPosition(AltarPositions[StatuatteIndex]->GetActorLocation(), AltarPositions[StatuatteIndex]->GetActorRotation());
+		++StatuatteIndex;
+	}
+	else
+	{
+		StatuettsAuxiliaryArray.Add(CurrentStatuette);
+		
+		if(StatuettsAuxiliaryArray.Num() == InGameStatuettes.Num())
+		{
+			CheckStatuetteOrder();
+		}
+		else
+		{
+			auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+
+			//player->ForceTalk(AlexAudio);
+		}
 	}
 }
 
@@ -61,4 +90,6 @@ void AInOrdenSelectionPuzzleFlow::BeginPlay()
 	{
 		Element->OnInteractionTrigger.AddDynamic(this, &AInOrdenSelectionPuzzleFlow::AddStatuette);
 	}
+
+	MaxStatuatte = InGameStatuettes.Num();
 }

@@ -19,7 +19,7 @@ class THERITE_API AStatuette : public AInteractor
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, meta=(bAllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(EditAnywhere)
@@ -35,22 +35,28 @@ private:
 	FTimeline InteractionTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
-	class UCurveFloat* TimeLineCurve;
+	UCurveFloat* TimeLineCurve;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector MoveDir;
+
+	bool bFirstInteraction = true;
 	
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
 	void OpenTimeLineUpdate(float value);
-	
 
 public:	
 	AStatuette();
+	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void Interaction() override;
-virtual void Tick(float DeltaSeconds) override;
+
 	void RestoreInitialValues();
+	void SetAltarPosition(FVector pos, FRotator rot);
+
+	bool IsFirstInteraction() const;
+	void EnableInteraction();
 };
