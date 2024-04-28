@@ -56,7 +56,7 @@ private:
 	AActor* InsideActor;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
-	AProsProcessModifier* Gameflow;
+	AProsProcessModifier* PostProcesModifierClass;
 
 	FTimeline FadeTimeLine;
 	UPROPERTY(EditAnywhere, Category="Settings")

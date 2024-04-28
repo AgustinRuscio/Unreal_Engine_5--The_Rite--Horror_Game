@@ -279,7 +279,7 @@ public:
 	AAlex();
 
 	
-	void SetPlayerStats(bool canRun, bool canUseLighter);
+	void SetPlayerOptions(bool canRun, bool canUseLighter);
 	
 	UPROPERTY(BlueprintReadOnly)
 	bool bLighter;

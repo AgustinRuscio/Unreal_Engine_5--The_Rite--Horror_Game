@@ -22,7 +22,7 @@ void ATransitionWorldFlow::BeginPlay()
 	Super::BeginPlay();
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
-	Player->SetPlayerStats(true, false);
+	Player->SetPlayerOptions(true, false);
 
 	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(this, &ATransitionWorldFlow::RedDoorOpen);
 }

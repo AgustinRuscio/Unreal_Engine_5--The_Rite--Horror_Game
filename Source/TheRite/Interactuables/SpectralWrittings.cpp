@@ -109,7 +109,7 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	
 	AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
 	
-	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
 }
 
 bool ASpectralWrittings::GetDiscoverdStatus() const
@@ -162,7 +162,7 @@ void ASpectralWrittings::Discovered()
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 
-	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
 }
 
 void ASpectralWrittings::Interaction()
@@ -181,5 +181,5 @@ void ASpectralWrittings::Interaction()
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	
-	Gameflow->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
 }

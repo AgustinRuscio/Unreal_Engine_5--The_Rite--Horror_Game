@@ -127,7 +127,7 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	DoOnceJumpscare++;
 	
 	Player->ForceLighterOff();
-	Player->SetPlayerStats(false, false);
+	Player->SetPlayerOptions(false, false);
 	
 	for (auto Element : LibraryLightsEvent)
 	{
@@ -160,7 +160,7 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 			
 						LibraryRoofLight->TurnOn();
 						Player->ForceTalk(AudioIShouldGetOutOfHere);
-						Player->SetPlayerStats(false, true);
+						Player->SetPlayerOptions(false, true);
 						IShouldGetOutOfHere = true;
 				});
 		
@@ -264,7 +264,7 @@ void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor*
 	Player->ForceTalk(OhFuckAlexTalk);
 	Player->ForceTurnLighterOn();
 	
-	Player->SetPlayerStats(true, false);
+	Player->SetPlayerOptions(true, false);
 	
 	EndGameTriggerVolumen->Destroy();
 }
@@ -311,7 +311,7 @@ void AClockLevelGameFlow::BeginPlay()
 	SetVariables();
 	BindPuzzleEvents();
 
-	Player->SetPlayerStats(false, true);
+	Player->SetPlayerOptions(false, true);
 
 	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);

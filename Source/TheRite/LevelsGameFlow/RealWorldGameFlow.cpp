@@ -64,7 +64,7 @@ void ARealWorldGameFlow::BeginPlay()
 	GetPlayer();
 	
 	Player->ForceTalk(FirstTalkAudio);
-	Player->SetPlayerStats(true, false);
+	Player->SetPlayerOptions(true, false);
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
 	
 

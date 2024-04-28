@@ -200,7 +200,7 @@ void AAlex::CreateWidgets()
 	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
 }
 
-void AAlex::SetPlayerStats(bool canRun, bool canUseLighter)
+void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter)
 {
 	bCanRun = canRun;
 	SetCanUseLigherState(canUseLighter);
