@@ -158,7 +158,7 @@ void ASpectralWrittings::Discovered()
 	bDiscovered= true;
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	IdleAudio->DestroyComponent();
+	IdleAudio->VolumeMultiplier = 0;
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 
@@ -177,7 +177,7 @@ void ASpectralWrittings::Interaction()
 	
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
 	
-	IdleAudio->DestroyComponent();
+	IdleAudio->VolumeMultiplier = 0;
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	
