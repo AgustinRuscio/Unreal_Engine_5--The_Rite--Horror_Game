@@ -8,26 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/CupidStatuette.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/DeathStatuette.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/MariaStatuette.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/VirginMaria1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/alas5_2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/low1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_TransitionToDiaryWorld.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionToDiaryWorld.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Voice/Alex/A_INeedToFindTheOthersFirst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materiales/Ns_Edege.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materiales/Ns_Edege.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_InOrdenSelectionPuzzleFlow.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_InOrdenSelectionPuzzleFlow.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Alex/NuevaTexturaAlex/M_AlexRopa.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Alex/NuevaTexturaAlex/M_AlexRopa.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_HeartBeat.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_HeartBeat.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_HeartBeatLoop.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_HeartBeatLoop.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,6 +326,9 @@
       <workItem from="1714274567846" duration="2471000" />
       <workItem from="1714277501867" duration="242000" />
       <workItem from="1714358341795" duration="3199000" />
+      <workItem from="1714364600684" duration="1013000" />
+      <workItem from="1714366539318" duration="564000" />
+      <workItem from="1714409371418" duration="1296000" />
     </task>
     <servers />
   </component>

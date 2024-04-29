@@ -46,12 +46,6 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 		{
 			CheckStatuetteOrder();
 		}
-		else
-		{
-			auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-
-			//player->ForceTalk(AlexAudio);
-		}
 	}
 }
 
