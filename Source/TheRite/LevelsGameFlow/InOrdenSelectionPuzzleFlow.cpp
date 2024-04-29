@@ -66,6 +66,7 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 		}
 	}
 
+	OnPuzzleFinished.Broadcast();
 	Destroy();
 	PRINTONVIEWPORT("Complete");
 }

@@ -42,7 +42,6 @@ void ASpectralObstacle::BeginPlay()
 void ASpectralObstacle::FirstTimelineFinished()
 {
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation());
-	UE_LOG(LogTemp, Error, TEXT("Time line finished"));
 	OnObstacleDestroy.Broadcast();
 	Destroy();
 }
@@ -51,7 +50,6 @@ void ASpectralObstacle::FirstTimeLineUpdate(float time)
 {
 	float value = FMathf::Lerp(1,2,time);
 	
-	UE_LOG(LogTemp, Error, TEXT("Tick %f"), value);
 	DynamicMaterial->SetScalarParameterValue("Corruption", value);
 }
 
@@ -62,8 +60,6 @@ void ASpectralObstacle::Tick(float DeltaSeconds)
 
 void ASpectralObstacle::ObstacleDestroy()
 {
-	
-	UE_LOG(LogTemp, Error, TEXT("Destroy Started"));
 	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
 	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestryoObject);
 }
@@ -71,5 +67,4 @@ void ASpectralObstacle::ObstacleDestroy()
 void ASpectralObstacle::DestryoObject(UNiagaraComponent* comp)
 {
 	FirstTimeLine.PlayFromStart();
-	UE_LOG(LogTemp, Error, TEXT("Time started"));
 }

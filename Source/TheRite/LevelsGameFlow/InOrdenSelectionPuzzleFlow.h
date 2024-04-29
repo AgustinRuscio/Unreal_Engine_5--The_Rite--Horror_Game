@@ -9,6 +9,9 @@
 #include "GameFramework/Actor.h"
 #include "InOrdenSelectionPuzzleFlow.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPuzzleFinished);
+
 class AStatuette;
 class AInteractor;
 class ATargetPoint;
@@ -45,4 +48,6 @@ public:
 	TArray<AStatuette*> InGameStatuettes;
 	
 	TArray<AStatuette*> StatuettsAuxiliaryArray;
+
+	FOnPuzzleFinished OnPuzzleFinished;
 };
