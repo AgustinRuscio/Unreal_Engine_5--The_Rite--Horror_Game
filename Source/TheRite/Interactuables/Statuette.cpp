@@ -90,3 +90,13 @@ void AStatuette::EnableInteraction()
 {
 	bCanInteract = true;
 }
+
+float AStatuette::GetDesiredRotation() const
+{
+	return DesireRotation;
+}
+
+float AStatuette::GetRotatioToAdd() const
+{
+	return RotationToAdd;
+}

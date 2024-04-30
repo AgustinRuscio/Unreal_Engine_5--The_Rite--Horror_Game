@@ -6,8 +6,7 @@
 #include "InOrdenSelectionPuzzleFlow.h"
 
 #include "Engine/TargetPoint.h"
-#include "Kismet/GameplayStatics.h"
-#include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/AltarWhell.h"
 #include "TheRite/Interactuables/Statuette.h"
 #include "TheRite/Interactuables/Interactor.h"
 
@@ -29,6 +28,11 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 		{
 			Element->EnableInteraction();
 		}
+
+		for (auto Element : AltarWhells)
+		{
+			Element->EnableInteraction();
+		}
 		
 		bEnableDoOnce = false;
 	}
@@ -36,10 +40,17 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 	if(CurrentStatuette->IsFirstInteraction())
 	{
 		CurrentStatuette->SetAltarPosition(AltarPositions[StatuatteIndex]->GetActorLocation(), AltarPositions[StatuatteIndex]->GetActorRotation());
+		AltarWhells[StatuatteIndex]->ASignValues(CurrentStatuette, CurrentStatuette->GetDesiredRotation(), CurrentStatuette->GetRotatioToAdd());
+
 		++StatuatteIndex;
 	}
 	else
 	{
+		for (auto Element : AltarWhells)
+		{
+			Element->DisableInteraction();
+		}
+		
 		StatuettsAuxiliaryArray.Add(CurrentStatuette);
 		
 		if(StatuettsAuxiliaryArray.Num() == InGameStatuettes.Num())
@@ -55,10 +66,22 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 	{
 		if((InGameStatuettes[i] != StatuettsAuxiliaryArray[i]))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Statuette"));
 			PuzzleFailure();
 			return;
 		}
 	}
+
+	for (auto Element : AltarWhells)
+	{
+		if(!Element->CheckRotation())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Whell"));
+			PuzzleFailure();
+			return;
+		}
+	}
+	
 
 	OnPuzzleFinished.Broadcast();
 	Destroy();
@@ -72,6 +95,11 @@ void AInOrdenSelectionPuzzleFlow::PuzzleFailure()
 	for (auto Element : InGameStatuettes)
 	{
 		Element->RestoreInitialValues();
+	}
+
+	for (auto Element : AltarWhells)
+	{
+		Element->EnableInteraction();
 	}
 	
 	PRINTONVIEWPORT("Failure");

@@ -418,16 +418,16 @@ void ADoor::Interaction()
 	if (DotProduct > 0.0f)
 	{
 		bIsPlayerForward = true;
-		UE_LOG(LogTemp, Warning, TEXT("Player is forward of the door"));
+		//UE_LOG(LogTemp, Warning, TEXT("Player is forward of the door"));
 	}
 	else if (DotProduct < 0.0f)
 	{
 		bIsPlayerForward = false;
-		UE_LOG(LogTemp, Warning, TEXT("Player is backward of the door"));
+		//UE_LOG(LogTemp, Warning, TEXT("Player is backward of the door"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player is exactly to the side of the door"));
+		//UE_LOG(LogTemp, Warning, TEXT("Player is exactly to the side of the door"));
 	}
 }
 

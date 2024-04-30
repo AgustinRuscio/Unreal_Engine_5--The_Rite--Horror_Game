@@ -116,8 +116,6 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 		camera->ViewYawMin = minX;
 		camera->ViewPitchMax = maxY;
 		camera->ViewPitchMin = minY;
-
-		UE_LOG(LogTemp, Warning, TEXT(" x %f"),camera->ViewRollMax);
 	}
 	else
 	{
@@ -331,7 +329,6 @@ void AAlex::MoveCamera(FVector2D vector)
 		vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT(" x %f"), vector.X);
 	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
 }

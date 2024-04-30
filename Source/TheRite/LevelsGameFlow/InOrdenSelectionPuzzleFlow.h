@@ -15,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPuzzleFinished);
 class AStatuette;
 class AInteractor;
 class ATargetPoint;
+class AAltarWhell;
 
 UCLASS()
 class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
@@ -24,7 +25,15 @@ class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
 private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	TArray<ATargetPoint*> AltarPositions;
+	
+	UPROPERTY(EditAnywhere, Category = "In game objects")
+	TArray<AStatuette*> InGameStatuettes;
+	
+	TArray<AStatuette*> StatuettsAuxiliaryArray;
 
+	UPROPERTY(EditAnywhere, Category = "In game objects")
+	TArray<AAltarWhell*> AltarWhells;
+	
 	int8 MaxStatuatte;
 	int8 StatuatteIndex;
 
@@ -38,16 +47,13 @@ private:
 
 	void CheckStatuetteOrder();
 	void PuzzleFailure();
+	
 protected:
 	virtual void BeginPlay() override;
 
 public:	
 	AInOrdenSelectionPuzzleFlow();
 
-	UPROPERTY(EditAnywhere, Category = "In game objects")
-	TArray<AStatuette*> InGameStatuettes;
-	
-	TArray<AStatuette*> StatuettsAuxiliaryArray;
 
 	FOnPuzzleFinished OnPuzzleFinished;
 };

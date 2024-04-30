@@ -41,6 +41,12 @@ private:
 	FVector MoveDir;
 
 	bool bFirstInteraction = true;
+
+
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float DesireRotation;
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float RotationToAdd;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -59,4 +65,7 @@ public:
 
 	bool IsFirstInteraction() const;
 	void EnableInteraction();
+
+	float GetDesiredRotation() const;
+	float GetRotatioToAdd() const;
 };
