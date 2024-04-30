@@ -73,7 +73,6 @@ void AMakeTiffanyWalk::SecondsTimelineFinished()
 	if(bSoundAfterEvent)
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_AfterEvent);
 	
-	UE_LOG(LogTemp, Error, TEXT("EA"));
 	OnFinishedEvent.Broadcast();
 	Destroy();
 }

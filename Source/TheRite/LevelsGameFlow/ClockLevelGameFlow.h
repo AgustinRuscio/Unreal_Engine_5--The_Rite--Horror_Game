@@ -6,7 +6,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "Components/TimelineComponent.h"
 #include "ClockLevelGameFlow.generated.h"
@@ -33,6 +32,7 @@ class ARecordPlayer;
 class ABlockingVolume;
 class ATriggerBox;
 class AInteractor;
+class AMoveTiffany;
 
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor
@@ -132,7 +132,7 @@ private:
 	ATargetPoint* TiffanySpawnPoint;
 
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
-	AMakeTiffanyWalk* MakeTiffanyWalk;
+	AMoveTiffany* MakeTiffanyWalk;
 	
 	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
 	ATargetPoint* BlockingVolumeEntrancePosition;

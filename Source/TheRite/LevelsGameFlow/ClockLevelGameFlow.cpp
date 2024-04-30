@@ -11,6 +11,7 @@
 #include "TheRite/Interactuables/MinutesLetter.h"
 #include "TheRite/Interactuables/HourLetter.h"
 #include "TheRite/Interactuables/DoorKey.h"
+#include "MoveTiffany.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
@@ -380,13 +381,13 @@ void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
 	
 	ATiffany* tiff = GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
 
-	MakeTiffanyWalk->KeyObtein(tiff);
-	tiff->SetHasToMove(true);
+	MakeTiffanyWalk->AsignTiffany(tiff);
+	//tiff->SetHasToMove(false);
 
-	TArray<ATargetPoint*> tiffWaypoints;
-	tiffWaypoints.Add(TiffanySpawnPoint);
-	
-	tiff->SetWaypoints(tiffWaypoints);
+	//TArray<ATargetPoint*> tiffWaypoints;
+	//tiffWaypoints.Add(TiffanySpawnPoint);
+	//
+	//tiff->SetWaypoints(tiffWaypoints);
 }
 
 void AClockLevelGameFlow::OnLibraryKeyCollected()
