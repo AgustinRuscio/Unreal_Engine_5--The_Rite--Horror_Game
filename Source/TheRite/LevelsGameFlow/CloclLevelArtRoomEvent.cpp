@@ -64,15 +64,6 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 	SecondTurnOnCallbackFinisehd.BindUFunction(this, FName("OnSecondTurnOnFinished"));
 	SecondTurnOffTimeLine.SetTimelineFinishedFunc(SecondTurnOnCallbackFinisehd);
 
-	//----- Third Light out
-	FOnTimelineFloat ThirdTurnOffCallbackUpdate;
-	ThirdTurnOffCallbackUpdate.BindUFunction(this, FName("DuringThirdTurnOffTick"));
-	ThirdTurnOffTimeLine.AddInterpFloat(TurnOffCurve, ThirdTurnOffCallbackUpdate);
-	
-	FOnTimelineEventStatic ThirdTurnOffCallbackFinisehd;
-	ThirdTurnOffCallbackFinisehd.BindUFunction(this, FName("OnThirdTurnOffFinished"));
-	ThirdTurnOffTimeLine.SetTimelineFinishedFunc(ThirdTurnOffCallbackFinisehd);
-
 	//----- Third Light on
 	FOnTimelineFloat ThirdTurnOnCallbackUpdate;
 	ThirdTurnOnCallbackUpdate.BindUFunction(this, FName("DuringThirdTurnOnTick"));
@@ -158,10 +149,10 @@ void ACloclLevelArtRoomEvent::OnFirstTurnOnFinished()
 	SpotLight->SpotLightComponent->SetIntensity(0);
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 
-	StandTiffany->SetActorLocation(RoomCenterTaregtPoint->GetActorLocation());
+	StandTiffany->SetActorLocation(CloserTargetPoint->GetActorLocation());
 
-	FloatingTiff1->GetSkeletalMeshComponent()->SetVisibility(true,false);
-	FloatingTiff2->GetSkeletalMeshComponent()->SetVisibility(true, false);
+	FloatingTiff3->GetSkeletalMeshComponent()->SetVisibility(true,false);
+	FloatingTiff4->GetSkeletalMeshComponent()->SetVisibility(true, false);
 
 	SecondTurnOffTimeLine.PlayFromStart();
 }
@@ -171,9 +162,9 @@ void ACloclLevelArtRoomEvent::DuringSecondTurnOnTick(float deltaTime) { }
 void ACloclLevelArtRoomEvent::OnSecondTurnOnFinished()
 {
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-	SpotLight->SpotLightComponent->SetIntensity(60);
+	SpotLight->SpotLightComponent->SetIntensity(0);
 
-	ThirdTurnOffTimeLine.PlayFromStart();
+	ThirdTurnOnTimeLine.PlayFromStart();
 }
 
 void ACloclLevelArtRoomEvent::DuringThirdTurnOffTick(float deltaTime) { }
@@ -255,8 +246,8 @@ void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
 	FirstTurnOffTimeLine.TickTimeline(DeltaTime);
 	FirstTurnOnTimeLine.TickTimeline(DeltaTime);
 	SecondTurnOffTimeLine.TickTimeline(DeltaTime);
-	SecondTurnOnTimeLine.TickTimeline(DeltaTime);
-	ThirdTurnOffTimeLine.TickTimeline(DeltaTime);
+	//SecondTurnOnTimeLine.TickTimeline(DeltaTime);
+	//ThirdTurnOffTimeLine.TickTimeline(DeltaTime);
 	ThirdTurnOnTimeLine.TickTimeline(DeltaTime);
 	LastTurnOffTimeLine.TickTimeline(DeltaTime);
 	LastTurnOnTimeLine.TickTimeline(DeltaTime);
