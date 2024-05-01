@@ -55,15 +55,6 @@ void AAlexPlayerController::DoorMoved(const FInputActionValue& value)
 	OnCameraMovedDoor.Broadcast(moveAxis);
 }
 
-void AAlexPlayerController::OpenHint(const FInputActionValue& value)
-{
-	OnOpenHint.Broadcast();
-}
-
-void AAlexPlayerController::CloseHint(const FInputActionValue& value)
-{
-	OnCloseHint.Broadcast();
-}
 
 void AAlexPlayerController::Paused(const FInputActionValue& value)
 {
@@ -101,6 +92,11 @@ void AAlexPlayerController::RecieveLoadedData(float newSensitivity)
 void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 {
 	OnPrevInventoryItem.Broadcast();
+}
+
+void AAlexPlayerController::BackFromFocus(const FInputActionValue& value)
+{
+	OnLeaveFocus.Broadcast();
 }
 
 
@@ -144,10 +140,6 @@ void AAlexPlayerController::BindActions()
 		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
 
 		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
-
-		enhantedComponent->BindAction(OpenHintAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::OpenHint);
-		enhantedComponent->BindAction(OpenHintAction, ETriggerEvent::Completed, this, &AAlexPlayerController::CloseHint);
-		enhantedComponent->BindAction(OpenHintAction, ETriggerEvent::Canceled, this, &AAlexPlayerController::CloseHint);
 		
 		enhantedComponent->BindAction(PuaseAction, ETriggerEvent::Started, this, &AAlexPlayerController::Paused);
 		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
@@ -203,6 +195,26 @@ void AAlexPlayerController::SetNormalInput()
 	BindActions();
 }
 
+void AAlexPlayerController::SetFocusInput()
+{
+	UnbindActions();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
+		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
+		
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AAlexPlayerController::InteractionPressed);
+		
+		enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::BackFromFocus);
+	}
+}
+
 void AAlexPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -250,8 +262,6 @@ AAlexPlayerController::~AAlexPlayerController()
 	OnHoldingBtn.Clear();
 	OnCameraMoved.Clear();
 	OnCameraMovedDoor.Clear();
-	OnOpenHint.Clear();
-	OnCloseHint.Clear();
 	OnPause.Clear();
 	OnInventory.Clear();
 	OnNextInventoryItem.Clear();

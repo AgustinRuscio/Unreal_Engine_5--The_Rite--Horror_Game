@@ -32,10 +32,6 @@ void AAltarWhell::MoveTimeLineFinisehd()
 	bCanInteract = true;
 }
 
-void AAltarWhell::DisableInteraction()
-{
-	bCanInteract = false;
-}
 
 void AAltarWhell::ASignValues(AStatuette* statuette, float desiredRotation, float rotationToAdd)
 {
@@ -66,7 +62,7 @@ void AAltarWhell::Tick(float DeltaTime)
 
 void AAltarWhell::Interaction()
 {
-	if(!bCanInteract) return;
+	if(!bCanInteract || !bStatuette) return;
 	
 	bCanInteract = false;
 	InteractionRotator = GetActorRotation();
@@ -81,12 +77,19 @@ bool AAltarWhell::CheckRotation()
 	
 	if(actualRoll == DesiredRotation) return true;
 	
-
 	return false;
 }
-
 
 void AAltarWhell::EnableInteraction()
 {
 	bCanInteract = true;
+}
+
+void AAltarWhell::DisableInteraction()
+{
+	bCanInteract = false;
+}
+void AAltarWhell::StatuetteReady()
+{
+	bStatuette = true;
 }

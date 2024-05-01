@@ -17,17 +17,23 @@ UCLASS()
 class THERITE_API UChangingdWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
+	
+private:
+	BYTE Index = 0;
+	void SetGamepadImages();
+	void SetKeyboardImages();
+	
 protected:
 	UPROPERTY(EditAnywhere)
-	UTexture* GamepadKeyImage;
+	TArray<UTexture*> GamepadKeyImage;
 	
 	UPROPERTY(EditAnywhere)
-	UTexture* KeyboardKeyImage;
+	TArray<UTexture*> KeyboardKeyImage;
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* DisplayImmage;
+	TArray<UImage*> DisplayImmages;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTextBlock* ChangingText;
 
@@ -35,4 +41,6 @@ public:
 	virtual void SetKeyMode(bool isGamepad);
 
 	void  SetChangingText(FText newText);
+
+	
 };

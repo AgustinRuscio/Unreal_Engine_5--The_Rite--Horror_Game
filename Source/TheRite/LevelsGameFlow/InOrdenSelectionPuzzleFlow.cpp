@@ -41,7 +41,8 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 	{
 		CurrentStatuette->SetAltarPosition(AltarPositions[StatuatteIndex]->GetActorLocation(), AltarPositions[StatuatteIndex]->GetActorRotation());
 		AltarWhells[StatuatteIndex]->ASignValues(CurrentStatuette, CurrentStatuette->GetDesiredRotation(), CurrentStatuette->GetRotatioToAdd());
-
+		AltarWhells[StatuatteIndex]->StatuetteReady();
+		
 		++StatuatteIndex;
 	}
 	else

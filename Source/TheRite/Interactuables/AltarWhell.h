@@ -21,10 +21,12 @@ class THERITE_API AAltarWhell : public AInteractor
 private:
 	float DesiredRotation;
 	float RotationToAdd;
+
+	bool bStatuette;
 	
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
-
+	
 	FTimeline MoveTimeLine;
 
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
@@ -53,6 +55,7 @@ public:
 	bool CheckRotation();
 	void EnableInteraction();
 	void DisableInteraction();
+	void StatuetteReady();
 
 	void ASignValues(AStatuette* Statuette, float DesiredRotation, float RotationToAdd);
 };

@@ -24,8 +24,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHoldingBTN, bool, IsHolding);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveCamera, FVector2D, input);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenHint);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCloseHint);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFocusBack);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPaused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventory);
@@ -75,7 +74,7 @@ private:
 	UInputAction* CameraLookAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	UInputAction* OpenHintAction;
+	UInputAction* BackAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputAction* PuaseAction;
@@ -103,13 +102,16 @@ private:
 	void CameraMoved(const FInputActionValue& value);
 	void DoorMoved(const FInputActionValue& value);
 
-	void OpenHint(const FInputActionValue& value);
-	void CloseHint(const FInputActionValue& value);
+	
 	
 	void Paused(const FInputActionValue& value);
 	void Inventory(const FInputActionValue& value);
 	void NextInventoryItem(const FInputActionValue& value);
+	void PrevInventoryItem(const FInputActionValue& value);
 
+	void BackFromFocus(const FInputActionValue& value);
+
+	
 	
 	bool bIsUsingGamepad;
 	
@@ -128,7 +130,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
 	UWidgetInteractionComponent* WidgetInteractionComponent;
 
-	void PrevInventoryItem(const FInputActionValue& value);
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
@@ -148,6 +149,8 @@ public:
 	void SetEventInput();
 	void SetNormalInput();
 
+	void SetFocusInput();
+
 	virtual void Tick(float DeltaSeconds) override;
 	void DisableInput(APlayerController* PlayerController) override;
 
@@ -158,7 +161,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetMouseSensitivity(float newSensitivity);
-	
+
 	FPlayerMovement OnPlayerMovement;
 	
 	FStopSprint OnStopSprint;
@@ -172,11 +175,9 @@ public:
 	FMoveCamera OnCameraMoved;
 	FMoveCamera OnCameraMovedDoor;
 
-	FOpenHint OnOpenHint;
-	FCloseHint OnCloseHint;
-
 	FPaused OnPause;
 	FInventory OnInventory;
+	FOnFocusBack OnLeaveFocus;
 	
 	FNextInventoryItem OnNextInventoryItem;
 	FPrevInventoryItem OnPrevInventoryItem;
@@ -185,4 +186,10 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FCheckKeyInputMode OnAnyKeyPressed;
+
+
+	
+
+
+
 };

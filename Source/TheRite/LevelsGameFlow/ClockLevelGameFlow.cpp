@@ -66,7 +66,6 @@ void AClockLevelGameFlow::GetHours()
 void AClockLevelGameFlow::FirstLetterRead()
 {
 	GarageDoor->SetLockedState(false);
-	Player->SetHintState(true);
 }
 
 void AClockLevelGameFlow::MinutesCollected()

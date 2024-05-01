@@ -9,6 +9,7 @@
 #include "Components/TimelineComponent.h"
 #include "TheRite/EnumsContainer.h"
 #include "GameFramework/Character.h"
+#include "TheRite/Interactuables/Altar.h"
 #include "Alex.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
@@ -28,6 +29,7 @@ class UInventory;
 class UChangingdWidget;
 class UCenterDotWidget;
 class IIInteractuable;
+class AAlexPlayerController;
 class ADoor;
 
 UCLASS()
@@ -68,6 +70,7 @@ private:
 
 	
 	bool bCanInteract;
+	bool bFocus;
 
 	IIInteractuable* ActualInteractuable;
 	FString RemovableName;
@@ -129,14 +132,16 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	USoundBase* LighterOn;
-
-	class UWidget* Hints;
-	bool bHasHint;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UCenterDotWidget> DotUI;
 	
 	UCenterDotWidget* DotWidget;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> AltarUI;
+	
+	UChangingdWidget* AltarWidget;
 	
 	UPROPERTY(EditAnywhere, Category = "Lighter values")
 	float RangeInteractuable;
@@ -167,7 +172,7 @@ private:
 
 	bool bPauseFlip = true;
 
-	class AAlexPlayerController* MyController;
+	AAlexPlayerController* MyController;
 
 	
 	UPROPERTY(EditAnywhere, Category = "Camera Shake")
@@ -271,6 +276,10 @@ private:
 	void CheckTimeWhileLighterOff(float deltaTime);
 	
 	FVector CameraLookTarget;
+	FVector LastCameraPos;
+	FRotator LastCameraRot;
+
+	
 	
 protected:
 	virtual void BeginPlay() override;
@@ -280,7 +289,7 @@ public:
 
 	
 	void SetPlayerOptions(bool canRun, bool canUseLighter);
-	
+
 	UPROPERTY(BlueprintReadOnly)
 	bool bLighter;
 	
@@ -303,8 +312,6 @@ public:
 
 	bool CheckCanDrag() const;
 	float GetDoorFloat() const;
-
-	void SetHintState(bool newHintState);
 	
 	void SetCanUseLigherState(bool lighterState);
 	void ForceTurnLighterOn();
@@ -318,6 +325,12 @@ public:
 	
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	void RemoveFromInventory(FString itemName, PickableItemsID id);
+
+
+	
+	void BackToNormalView();
+	void OnFocusMode(FVector NewCameraPos, FRotator NewCameraRor);
+	void MoveCamera(FVector NewCameraPos);
 	
 	UCameraComponent* GetCamera() const;
 	

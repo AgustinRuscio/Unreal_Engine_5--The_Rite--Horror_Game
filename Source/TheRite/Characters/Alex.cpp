@@ -21,6 +21,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "TheRite/Interactuables/Altar.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 
 AAlex::AAlex()
@@ -169,6 +170,12 @@ void AAlex::CreateWidgets()
 	DotWidget->AddToViewport(-1);
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 	
+
+	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
+	AltarWidget->AddToViewport(-1);
+	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
+	
+	
 	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
 	InventoryWidget->AddToViewport(0);
 	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -196,6 +203,7 @@ void AAlex::CreateWidgets()
 
 	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
 	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
+	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
 }
 
 void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter)
@@ -226,11 +234,6 @@ bool AAlex::CheckCanDrag() const
 float AAlex::GetDoorFloat() const
 {
 	return DoorFloat;
-}
-
-void AAlex::SetHintState(bool newHintState)
-{
-	bHasHint = newHintState;
 }
 
 void AAlex::SetCanUseLigherState(bool lighterState)
@@ -423,7 +426,7 @@ void AAlex::SetCameraStun(bool stun)
 
 void AAlex::Interaction()
 {
-	if(!bCanTalk || !bCanInteract) return;
+	if(!bCanTalk || !bCanInteract || bFocus) return;
 	
 	if(TalkSound != nullptr)
 		MakeTalk();
@@ -512,6 +515,40 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 
 		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
 	}
+}
+
+//----------------- Focus Mode Methods
+
+void AAlex::BackToNormalView()
+{
+	bFocus = false;
+	Camera->bUsePawnControlRotation = true;
+
+	Camera->SetWorldLocation(LastCameraPos);
+	Camera->SetWorldRotation(LastCameraRot);
+	
+	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
+	DotWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AAlex::OnFocusMode(FVector NewCameraPos, FRotator NewCameraRor)
+{
+	bFocus = true;
+	Camera->bUsePawnControlRotation = false;
+	
+	LastCameraPos = Camera->GetComponentLocation();
+	LastCameraRot = Camera->GetComponentRotation();
+	
+	Camera->SetWorldLocation(NewCameraPos);
+	Camera->SetWorldRotation(NewCameraRor);
+
+	AltarWidget->SetVisibility(ESlateVisibility::Visible);
+	DotWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AAlex::MoveCamera(FVector NewCameraPos)
+{
+	Camera->SetWorldLocation(NewCameraPos);
 }
 
 //-----------------------------------------------
@@ -611,6 +648,8 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 
 void AAlex::HeadBob()
 {
+	if(bFocus) return;
+	
 	if(bStun)
 	{
 		MyController->ClientStartCameraShake(CameraShakeStun);

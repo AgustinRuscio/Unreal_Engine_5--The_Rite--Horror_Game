@@ -7,12 +7,35 @@
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 
+void UChangingdWidget::SetGamepadImages()
+{
+	for (auto Element : DisplayImmages)
+	{
+		FSlateBrush Brush;
+		Brush.SetResourceObject(GamepadKeyImage[Index]);
+		Element->SetBrush(Brush);
+		++Index;
+	}
+}
+
+void UChangingdWidget::SetKeyboardImages()
+{
+	for (auto Element : DisplayImmages)
+	{
+		FSlateBrush Brush;
+		Brush.SetResourceObject(KeyboardKeyImage[Index]);
+		Element->SetBrush(Brush);
+		++Index;
+	}
+
+}
+
 void UChangingdWidget::SetKeyMode(bool isGamepad)
 {
-	FSlateBrush Brush;
-	Brush.SetResourceObject(isGamepad ? GamepadKeyImage : KeyboardKeyImage);
-
-	DisplayImmage->SetBrush(Brush);
+	isGamepad ? SetGamepadImages() : SetKeyboardImages();
+	
+	//Brush.SetResourceObject(isGamepad ? GamepadKeyImage : KeyboardKeyImage);
+	Index = 0;
 }
 
 void UChangingdWidget::SetChangingText(FText newText)
