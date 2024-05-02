@@ -8,43 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Fridge.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Fridge_Door.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Fireplace.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_chair.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_table.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/1/M_dining_room_chair1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/1/M_dining_room_chair1_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/1/dining_room_chair_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/1/dining_room_chair_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/1/dining_room_chair_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/2/M_dining_room_chair2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/2/M_dining_room_chair2_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/2/dining_room_chair_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/2/dining_room_chair_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/2/dining_room_chair_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/3/M_dining_room_chair3.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/3/M_dining_room_chair3_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/3/dining_room_chair_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/3/dining_room_chair_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Chair_Dinning_Room_Texture/3/dining_room_chair_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/FirePlace_Texture/Fireplace_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/FirePlace_Texture/Fireplace_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/FirePlace_Texture/Fireplace_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/FirePlace_Texture/M_Fireplace.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/FirePlace_Texture/M_Fireplace_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Table_Dinning_Rooom_Textures/M_Dining_room_table.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Table_Dinning_Rooom_Textures/M_Dining_room_table_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Table_Dinning_Rooom_Textures/dining_room_table_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Table_Dinning_Rooom_Textures/dining_room_table_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Table_Dinning_Rooom_Textures/dining_room_table_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture_4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/M_Furniture_4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/M_Furniture_4_Inst.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Coffee_table.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Coffee_table.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture2.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Grandfather_Clock_polySurface682.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Grandfather_Clock_polySurface682.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Fridge_polySurface17448.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Fridge_polySurface17470.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Fireplace.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Fireplace.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_chair.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_chair.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_table.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_table.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionsWorlds/TransitionWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionsWorlds/TransitionWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/Room/SC_RoomAmbience.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/Room/SC_RoomAmbience.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -415,6 +396,9 @@
       <workItem from="1714627065054" duration="818000" />
       <workItem from="1714628857511" duration="433000" />
       <workItem from="1714674698633" duration="2153000" />
+      <workItem from="1714682166454" duration="36000" />
+      <workItem from="1714682211462" duration="31000" />
+      <workItem from="1714682286949" duration="698000" />
     </task>
     <servers />
   </component>
