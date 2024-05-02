@@ -8,152 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/M_Telephone.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/Telephone_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/Telephone_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/Telephone_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/TutorialWheel_1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/TutorialWheel_1_Mat.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/TutorialWheel_2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/TutorialWheel_2_Mat.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld_Clock.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionsWorlds/TransitionWorld_Clock.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionsWorlds/TransitionWorld_Diary.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_SuddenAppearence.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Texturas/Extractor/M_AirStractor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Texturas/Extractor/M_AirStractor_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Texturas/Extractor/air_extractor_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Texturas/Extractor/air_extractor_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Texturas/Extractor/air_extractor_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/M_Telephone_Inst.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/SIN_UV/air_extractor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/SIN_UV/air_extractor.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/Telephone.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/ModelosSinUV/Telephone.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_AltarWhell.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_AltarWhell.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_SpectralObstacle.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Statuette.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Statuette.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_MoveTiffany.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_MoveTiffany.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_TransitionToDiaryWorld.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_TransitionToDiaryWorld.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/Blocking.umap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorld.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TheOtherWorld.umap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionToDiaryWorld.umap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/TransitionWorld.umap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AI/TiffanyController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AI/TiffanyController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AI/TiffanyController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AI/TiffanyController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AlexPlayerController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/AmbientSoundPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/AmbientSoundPlayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/AmbientSoundPlayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/AmbientSoundPlayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Candle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Candle.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Candle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Candle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Eye.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/Eye.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/HandLetter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/HandLetter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/HandLetter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/HandLetter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Components/FloatingActorComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Components/FloatingActorComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Components/FloatingActorComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Components/FloatingActorComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BaseDrawer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BaseDrawer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BaseDrawer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BaseDrawer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/DoorKey.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/HourLetter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/HourLetter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/HourLetter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/HourLetter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/IInteractuable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/IInteractuable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Interactor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Interactor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Interactor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Interactor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Letter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Letter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Letter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Letter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LightSwitch.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LightSwitch.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LightSwitch.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LightSwitch.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Lighter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Lighter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Lighter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Lighter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LockedDoor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LockedDoor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LockedDoor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LockedDoor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LoreInteractuable.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LoreInteractuable.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/LoreInteractuable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/LoreInteractuable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/MainPickable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/MainPickable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/MinutesLetter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/MinutesLetter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/MinutesLetter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/MinutesLetter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/RecordPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/RecordPlayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/RecordPlayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/RecordPlayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/RedDoor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/RedDoor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/RedDoor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/RedDoor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/BasePlayerSettingsSetter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/BasePlayerSettingsSetter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CandleGuideController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CandleGuideController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CandleGuideController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CandleGuideController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelDrawersPuzzle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelDrawersPuzzle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MoveTiffany.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MoveTiffany.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MoveTiffany.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MoveTiffany.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ProsProcessModifier.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/RealWorldGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/RealWorldGameFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/RealWorldGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/RealWorldGameFlow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionToDiaryWorld.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/TransitionWorldFlow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameState.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/TheRite.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/TheRite.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/AutomaticCloseDoorTrigger.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/AutomaticCloseDoorTrigger.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/AutomaticCloseDoorTrigger.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/AutomaticCloseDoorTrigger.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/MakeTiffanyWalk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/MakeTiffanyWalk.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/MakeTiffanyWalk.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/MakeTiffanyWalk.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffany.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffany.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffany.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffany.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffanyInTime.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffanyInTime.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffanyInTime.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/SpawnTiffanyInTime.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/TiffanyDestroy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/TiffanyDestroy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/TiffanyDestroy.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/TiffanyDestroy.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/TimerSound.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/TimerSound.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/TimerSound.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/TimerSound.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/CenterDotWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/CenterDotWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/CenterDotWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/CenterDotWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/ChangingdWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/HintsWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/HintsWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/HintsWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/HintsWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/Inventory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/KeyWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/KeyWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/KeyWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/KeyWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/WidgetsElements/OverlayInventoryActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/WidgetsElements/OverlayInventoryActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -522,6 +386,7 @@
       <workItem from="1714624801179" duration="165000" />
       <workItem from="1714625017122" duration="1445000" />
       <workItem from="1714627065054" duration="818000" />
+      <workItem from="1714628857511" duration="433000" />
     </task>
     <servers />
   </component>
