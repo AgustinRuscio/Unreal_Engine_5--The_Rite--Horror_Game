@@ -17,6 +17,10 @@ class THERITE_API AOverlayInventoryActor : public AActor
 {
 	GENERATED_BODY()
 	
+public:	
+	AOverlayInventoryActor();
+	virtual void BeginPlay() override;
+	
 private:
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* ItemMesh;
@@ -26,9 +30,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UPointLightComponent* PointLightComponent;
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AOverlayInventoryActor();
 };

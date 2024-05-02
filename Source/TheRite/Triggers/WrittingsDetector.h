@@ -17,30 +17,30 @@ class THERITE_API AWrittingsDetector : public AActor
 {
 	GENERATED_BODY()
 	
-private:
-	
-	bool bwrittingDetected;
-	bool bInteracionOn;
+public:
+	AWrittingsDetector();
+	virtual void Tick(float DeltaTime) override;
 
-	ASpectralWrittings* currentWritting;
-	
-	UPROPERTY(EditAnywhere)
-	USphereComponent* TriggerDetector;
+	void SetComponentSettings(float radius, FTransform transform);
+	void SetInteractionStatus(bool newStatus);
+
+private:
+	void ChangeCurrentWrittingAlpha();
+	void SetRadius(float newRadius);
+	void SetLocation(FTransform newLocation);
 
 	UFUNCTION()
 	void OnOverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	UFUNCTION()
 	void OnOverlapEnds(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	void SetRadius(float newRadius);
-	void SetLocation(FTransform newLocation);
 	
+private:
+	bool bwrittingDetected;
+	bool bInteracionOn;
 
-public:
-	AWrittingsDetector();
-	virtual void Tick(float DeltaTime) override;
-
-	void SetInteractionStatus(bool newStatus);
-	void SetComponentSettings(float radius, FTransform transform);
+	UPROPERTY(EditAnywhere)
+	USphereComponent* TriggerDetector;
+	
+	ASpectralWrittings* currentWritting;
 };

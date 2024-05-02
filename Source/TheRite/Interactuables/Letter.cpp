@@ -16,5 +16,6 @@ void ALetter::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);
 	OnAction.Broadcast();
+	
 	Destroy();
 }

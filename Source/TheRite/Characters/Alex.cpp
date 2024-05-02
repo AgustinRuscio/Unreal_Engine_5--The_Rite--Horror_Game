@@ -21,7 +21,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "TheRite/Interactuables/Altar.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 
 AAlex::AAlex()
@@ -51,8 +50,128 @@ AAlex::AAlex()
 	
 	Camera->SetupAttachment(GetMesh());
 	ScreamerSkeleton->SetupAttachment(Camera);
+}
 
+//---------------- Getter Methods
+bool AAlex::IsHoldInteractBTN() const
+{
+	return bHoldingInteractBTN;
+}
+
+bool AAlex::CheckCanDrag() const
+{
+	return bIsDragging;
+}
+
+float AAlex::GetDoorFloat() const
+{
+	return DoorFloat;
+}
+
+UCameraComponent* AAlex::GetCamera() const
+{
+	return Camera;
+}
+
+//---------------- System Class Methods
+void AAlex::BeginPlay()
+{
+	Super::BeginPlay();
 	
+	CreateWidgets();
+	LighterLight->SetVisibility(false);
+
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	
+	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
+	
+	CreateWritingDetector();
+	
+	BindTimeLineMethods();
+	
+	if(bCanUseLigher)
+		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
+}
+
+void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	MyController = Cast<AAlexPlayerController>(Controller);
+
+	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
+	
+	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+	MyController->OnCameraMovedDoor.AddDynamic(this, &AAlex::DoorMovement);
+	
+	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
+	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
+	
+	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
+	
+	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
+	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
+	
+	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
+	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+}
+
+void AAlex::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	TargetCameraTimeLine.TickTimeline(DeltaTime);
+
+	LighterSoundTimer(DeltaTime);
+	CheckLighterCooldDown(DeltaTime);
+	HeadBob();
+	InteractableCheck();
+}
+
+//---------------- Action Methods
+void AAlex::CameraTargeting(FVector Target)
+{
+	CameraLookTarget = Target;
+	TargetCameraTimeLine.PlayFromStart();
+}
+
+void AAlex::ForceTalk(USoundBase* Voice)
+{
+	if(!bCanTalk)
+		StopTalking();
+
+	TalkSound = Voice;
+	MakeTalk();
+}
+
+void AAlex::CallPauseFunc()
+{
+	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	bPauseFlip = true;
+	MyController->SetPauseGame(false);
+}
+
+void AAlex::ForceEnableInput()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+    
+	MyController->EnableInput(PlayerController);
+}
+void AAlex::ForceDisableInput()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(MyController);
+    
+	MyController->DisableInput(PlayerController);
+}
+
+void AAlex::ForceTurnLighterOn()
+{
+	bLighter = true;
+	CheckLighterOn();
+}
+
+void AAlex::ForceLighterOff()
+{
+	SetLighterAssetsVisibility(false);
+	bLighter = false;
+	MontageAnimOnOff();
 }
 
 void AAlex::OnJumpScare()
@@ -78,25 +197,58 @@ void AAlex::OnJumpScare()
 	}
 }
 
-void AAlex::ForceDisableInput()
+void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
-	APlayerController* PlayerController = Cast<APlayerController>(MyController);
-    
-	MyController->DisableInput(PlayerController);
+	InventoryWidget->RemoveItem(itemName, id);
+
+	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
+	
+	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
+	{
+		FTimerDelegate TimerDelegate;
+		TimerDelegate.BindLambda([&]
+		{
+			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+		});
+
+		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
+	}
 }
 
-void AAlex::ForceEnableInput()
+//---------------- Setter Methods
+void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter)
 {
-	APlayerController* PlayerController = Cast<APlayerController>(MyController);
-    
-	MyController->EnableInput(PlayerController);
+	bCanRun = canRun;
+	SetCanUseLighterState(canUseLighter);
 }
 
-void AAlex::ForceLighterOff()
+void AAlex::SetCanUseLighterState(bool lighterState)
 {
-	SetLighterAssetsVisibility(false);
-	bLighter = false;
-	MontageAnimOnOff();
+	bCanUseLigher = lighterState;
+}
+
+void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
+{
+	if(!bInventoryFlip) return;
+	
+	if(shouldCheck)
+		bIsDragging = bHoldingInteractBTN;
+	else
+		bIsDragging = false;
+
+
+	if(DoorChecked != door)
+	{
+		door->SetCanDragFalse();
+	}
+	
+	MyController->SetDoorMode(bIsDragging);
+}
+
+void AAlex::SetCameraStun(bool stun)
+{
+	bStun = stun;
 }
 
 void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY= 0, float maxY= 0)
@@ -105,7 +257,7 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 	
 	if(onOff)
 	{
-		 MyController->SetEventInput();
+		MyController->SetEventInput();
 
 		VectorX.X = camera->ViewYawMax;
 		VectorX.Y = camera->ViewYawMin;
@@ -131,394 +283,7 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 
 }
 
-void AAlex::TimeOver()
-{
-	APlayerController* PlayerController = Cast<APlayerController>(MyController);
-	OnJumpscaredFinished.Broadcast();
-	ScreamerSkeleton->SetVisibility(false);
-	MyController->EnableInput(PlayerController);
-}
-
-void AAlex::MakeTalk()
-{
-	bCanTalk = false;
-	
-	TempAudio = UGameplayStatics::SpawnSound2D(this, TalkSound);
-	TempAudio->OnAudioFinished.AddDynamic(this, &AAlex::OnAudioFinished);
-}
-
-void AAlex::OnAudioFinished()
-{
-	bCanTalk = true;
-	TempAudio = nullptr;
-}
-
-void AAlex::StopTalking()
-{
-	if(TempAudio!=nullptr)
-		TempAudio->Stop();
-}
-
-void AAlex::CreateWidgets()
-{
-	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
-	PauseWidget->AddToViewport(0);
-	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
-	PauseWidget->SetIsFocusable(true);
-
-	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
-	DotWidget->AddToViewport(-1);
-	DotWidget->SetVisibility(ESlateVisibility::Visible);
-	
-
-	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
-	AltarWidget->AddToViewport(-1);
-	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
-	
-	
-	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
-	InventoryWidget->AddToViewport(0);
-	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-	InventoryWidget->SetIsFocusable(true);
-
-	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
-	OpenInventoryWidget->AddToViewport(0);
-	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-	OpenInventoryWidget->SetIsFocusable(true);
-
-	LighterReminderWidget = CreateWidget<UTutorialWidget>(GetWorld(), LighterRecordatoryMenu);
-	LighterReminderWidget->AddToViewport(0);
-	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
-	LighterReminderWidget->SetIsFocusable(true);
-
-	
-	
-	ConsumibleItemWidget = CreateWidget<UChangingdWidget>(GetWorld(), ConsumibleItemMenu);
-	ConsumibleItemWidget->AddToViewport(0);
-	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
-	ConsumibleItemWidget->SetIsFocusable(true);
-	
-	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-
-	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
-	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
-	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
-}
-
-void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter)
-{
-	bCanRun = canRun;
-	SetCanUseLigherState(canUseLighter);
-}
-
-void AAlex::ForceTalk(USoundBase* Voice)
-{
-	if(!bCanTalk)
-		StopTalking();
-
-	TalkSound = Voice;
-	MakeTalk();
-}
-
-bool AAlex::IsHoldInteracBTN() const
-{
-	return bHoldingInteractBTN;
-}
-
-bool AAlex::CheckCanDrag() const
-{
-	return bIsDragging;
-}
-
-float AAlex::GetDoorFloat() const
-{
-	return DoorFloat;
-}
-
-void AAlex::SetCanUseLigherState(bool lighterState)
-{
-	bCanUseLigher = lighterState;
-}
-
-void AAlex::ForceTurnLighterOn()
-{
-	bLighter = true;
-	CheckLighterOn();
-}
-
-
-UCameraComponent* AAlex::GetCamera() const
-{
-	return Camera;
-}
-
-void AAlex::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	CreateWidgets();
-	LighterLight->SetVisibility(false);
-
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	
-	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
-
-	auto detector = GetWorld()->SpawnActor(DetectorSubclass);
-	WrittingsDetector = CastChecked<AWrittingsDetector>(detector);
-	WrittingsDetector->AttachToActor(Lighter->GetChildActor(), FAttachmentTransformRules::KeepRelativeTransform);
-	WrittingsDetector->SetComponentSettings(LighterLight->SourceRadius, LighterLight->GetRelativeTransform());
-	
-	BindTimeLineMethods();
-
-
-	if(bCanUseLigher)
-		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
-}
-
-void AAlex::BindTimeLineMethods()
-{
-	FOnTimelineFloat CameraTargetTick;
-	CameraTargetTick.BindUFunction(this, FName("CameraTargetTick"));
-	TargetCameraTimeLine.AddInterpFloat(EmptyCurve, CameraTargetTick);
-	
-	FOnTimelineEventStatic CameraTargettingFinished;
-	CameraTargettingFinished.BindUFunction(this, FName("CameraTargetFinished"));
-	TargetCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
-}
-
-void AAlex::CameraTargeting(FVector Target)
-{
-	CameraLookTarget = Target;
-	TargetCameraTimeLine.PlayFromStart();
-}
-
-void AAlex::CameraTargetTick(float time)
-{
-	FRotator targetParam =  UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CameraLookTarget);
-	
-	FRotator NewRotator = FMath::RInterpTo(MyController->GetControlRotation(),targetParam, GetWorld()->DeltaTimeSeconds, 2.0f);
-	
-	MyController->SetControlRotation(NewRotator);
-}
-
-void AAlex::CameraTargetFinished()
-{
-	CameraLookTarget = FVector::Zero();
-}
-
-void AAlex::MovePlayer(FVector2D vector)
-{
-	const FRotator moveRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
-
-	if(vector.X > 0.05f || vector.X < -0.05f)
-	{
-		const FVector directionVector = moveRotation.RotateVector(FVector::RightVector);
-		AddMovementInput(directionVector,vector.X);
-	}
-
-	if(vector.Y > 0.05f || vector.Y < -0.05f)
-	{
-		const FVector directionVector = moveRotation.RotateVector(FVector::ForwardVector);
-		AddMovementInput(directionVector, vector.Y);
-	}
-}
-
-void AAlex::MoveCamera(FVector2D vector)
-{
-	if(bOnEvent)
-	{
-		vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
-		vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
-	}
-
-	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
-	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
-}
-
-void AAlex::DoorMovement(FVector2D vector)
-{
-	DoorFloat = vector.X * MyController->GetMouseSensitivity();
-}
-
-void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
-{
-	if(!bInventoryFlip) return;
-	
-	if(shouldCheck)
-		bIsDragging = bHoldingInteractBTN;
-	else
-		bIsDragging = false;
-
-
-	if(DoorChecked != door)
-	{
-		door->SetCanDragFalse();
-	}
-	
-	MyController->SetDoorMode(bIsDragging);
-}
-
-void AAlex::StartSprint()
-{
-	if(!bCanRun) return;
-	
-	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
-}
-
-void AAlex::StopSprint()
-{
-	if(!bCanRun) return;
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-}
-
-
-void AAlex::TurnLigherIfPossible()
-{
-	if(!bCanUseLigher) return;
-	
-	CheckLighterOn();
-}
-
-void AAlex::CheckLighterOn()
-{
-	if(!bLighter)
-	{
-		if(!bLighterOnCD)
-		{
-			
-			UGameplayStatics::SpawnSound2D(this, LighterOn);
-			bLighter = true;
-
-			
-			SetLighterAssetsVisibility(true);
-			
-			OnLighterAnimMontage.Broadcast();
-		}
-		else
-		{
-			if(!bCanSound) return;
-			
-			UGameplayStatics::SpawnSound2D(this, LighterCDSound);
-			bCanSound = false;
-			bLighter = false;
-			
-			
-			SetLighterAssetsVisibility(false);
-			
-			OnLighterAnimMontage.Broadcast();
-		}
-	}
-	else
-	{
-		bLighter = false;
-		
-		SetLighterAssetsVisibility(false);
-		
-		OnLighterAnimMontage.Broadcast();
-	}	
-}
-
-void AAlex::SetCameraStun(bool stun)
-{
-	bStun = stun;
-}
-
-void AAlex::Interaction()
-{
-	if(!bCanTalk || !bCanInteract || bFocus) return;
-	
-	if(TalkSound != nullptr)
-		MakeTalk();
-
-	ActualInteractuable->Interaction();
-	
-	if(ActualInteractuable->IsPickable())
-	{
-		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
-
-		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
-		
-		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
-		{
-			FTimerDelegate TimerDelegate;
-			TimerDelegate.BindLambda([&]
-			{
-				OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-			});
-			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
-		}
-	}
-}
-
-void AAlex::CloseOpenInventoryWidget()
-{
-	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-}
-
-void AAlex::CheckHolding(bool IsHolding)
-{
-	bHoldingInteractBTN = IsHolding;
-}
-
-void AAlex::OpenPause()
-{
-	//if(bPauseFlip)
-	//{
-		PauseWidget->SetVisibility(ESlateVisibility::Visible);
-		bPauseFlip = false;
-		MyController->SetPauseGame(true);
-	//}
-	//else
-	//{
-	//	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
-	//	bPauseFlip = true;
-	//	MyController->SetPauseGame(false);
-	//}
-	
-}
-
-void AAlex::OpenInventory()
-{
-	if(!bPauseFlip) return;
-	
-	if(bInventoryFlip)
-	{
-		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
-		bInventoryFlip = false;
-		InventoryWidget->OnInventoryOpen();
-	}
-	else
-	{
-		InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-		bInventoryFlip = true;
-		InventoryWidget->OnInventoryClose();
-	}
-	
-	MyController->SetUIOnly(!bInventoryFlip);
-}
-
-void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
-{
-	InventoryWidget->RemoveItem(itemName, id);
-
-	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
-	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
-	
-	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
-	{
-		FTimerDelegate TimerDelegate;
-		TimerDelegate.BindLambda([&]
-		{
-			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
-		});
-
-		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
-	}
-}
-
-//----------------- Focus Mode Methods
-
+//----------------- View Methods
 void AAlex::BackToNormalView()
 {
 	bFocus = false;
@@ -551,184 +316,7 @@ void AAlex::MoveCamera(FVector NewCameraPos)
 	Camera->SetWorldLocation(NewCameraPos);
 }
 
-//-----------------------------------------------
-
-void AAlex::MontageAnimOnOff()
-{
-	if(bLighter)
-	{
-		PlayAnimMontage(LighterMontage);
-		LighterLight->SetVisibility(true);
-		FlamePlane->SetVisibility(true);
-	}
-	else
-	{
-		StopAnimMontage(LighterMontage);
-		LighterLight->SetVisibility(false);
-		FlamePlane->SetVisibility(false);
-	}
-}
-
-void AAlex::LighterSoundTimer(float deltaTime)
-{
-	AudioTimer = AudioTimer+deltaTime;
-	
-	if(AudioTimer < 2.05f)
-		return;
-
-	bCanSound = true;
-	AudioTimer = 0;
-}
-
-void AAlex::CheckLighterCooldDown(float deltaTime)
-{
-	if(bLighterOnCD)
-	{
-		LighterTimer += deltaTime;
-		
-		if(LighterTimer >= LighterCD)
-		{
-			bLighterOnCD = false;
-			LighterTimer = 0;
-		}
-		else
-			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
-	}
-	else
-	{
-		if(bLighter)
-		{
-			LighterTimer += deltaTime;
-
-			if(LighterTimer < MaxLighterTime) return;
-
-			bLighter = false;
-			
-			SetLighterAssetsVisibility(false);
-			
-			bLighterOnCD = true;
-			OnLighterAnimMontage.Broadcast();
-		}
-		else
-			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
-	}
-
-}
-
-void AAlex::ShowLighterReminder()
-{
-	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
-
-	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
-	{
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([&]
-		{
-			LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
-			TimerComponentForLighterDisplay->ActionFinished();
-		});
-		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
-	}
-}
-
-void AAlex::HideLighterReminder()
-{
-	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
-	TimerComponentForLighterDisplay->ActionFinished();
-}
-
-void AAlex::SetLighterAssetsVisibility(bool visibilityState)
-{
-	LighterLight->SetVisibility(visibilityState);
-	Lighter->SetVisibility(visibilityState);
-	FlamePlane->SetVisibility(visibilityState);
-	WrittingsDetector->SetInteractionStatus(visibilityState);
-}
-
-
-void AAlex::HeadBob()
-{
-	if(bFocus) return;
-	
-	if(bStun)
-	{
-		MyController->ClientStartCameraShake(CameraShakeStun);
-	}
-	else
-	{
-		if(GetVelocity().Length() > 0)
-		{
-			if(GetVelocity().Length() < 700)
-				MyController->ClientStartCameraShake(CameraShakeWalk);
-			else
-				MyController->ClientStartCameraShake(CameraShakeRun);
-		}
-		else
-			MyController->ClientStartCameraShake(CameraShakeIdle);
-	}
-	
-}
-
-void AAlex::InteractuableCheck()
-{
-	if(!bCanTalk)
-	{
-		DotWidget->Interact(false, false,true, false);
-	}
-	else
-	{
-		FVector Start = Camera->GetComponentToWorld().GetLocation();
-
-		FVector rot = Camera->GetComponentToWorld().GetRotation().GetForwardVector() * RangeInteractuable;
-		FVector End = Start + rot;
-
-		TArray<AActor*> IgnoredActors;
-		IgnoredActors.Add(this);
-
-		FHitResult OutHit;
-		
-		UKismetSystemLibrary::SphereTraceSingle(this,Start,End,7.5f,ETraceTypeQuery::TraceTypeQuery1,
-								false,IgnoredActors,EDrawDebugTrace::None, OutHit, true);
-
-		IIInteractuable* currentCheck = Cast<IIInteractuable>(OutHit.GetActor());
-
-		if(!currentCheck)
-		{
-			ActualInteractuable = nullptr;
-			TalkSound = nullptr;
-			bCanInteract = false;
-			
-			DotWidget->Interact(true, false,false, false);
-		}
-		else
-		{
-			ActualInteractuable = currentCheck;
-			
-				TalkSound = ActualInteractuable->GetSound();
-
-				if(IsDoorCheck(ActualInteractuable))
-				{
-					if(bDoorWasLocked)
-					{
-						bCanInteract = true;
-						DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
-					}	
-					else
-					{
-						bCanInteract = true;
-						DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
-					}
-				}
-				else
-				{
-					bCanInteract = true;
-					DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
-				}
-			
-		}
-	}
-}
-
+//---------------- Checker Methods
 bool AAlex::IsDoorCheck(IIInteractuable* checked)
 {
 	ADoor* currentCheck = Cast<ADoor>(checked);
@@ -771,42 +359,468 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 	}
 }
 
-void AAlex::Tick(float DeltaTime)
+void AAlex::CheckHolding(bool IsHolding)
 {
-	Super::Tick(DeltaTime);
-	TargetCameraTimeLine.TickTimeline(DeltaTime);
-
-	LighterSoundTimer(DeltaTime);
-	CheckLighterCooldDown(DeltaTime);
-	HeadBob();
-	InteractuableCheck();
+	bHoldingInteractBTN = IsHolding;
 }
 
-void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AAlex::InteractableCheck()
 {
-	MyController = Cast<AAlexPlayerController>(Controller);
+	if(!bCanTalk)
+	{
+		DotWidget->Interact(false, false,true, false);
+	}
+	else
+	{
+		FVector Start = Camera->GetComponentToWorld().GetLocation();
 
-	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
-	
-	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
-	MyController->OnCameraMovedDoor.AddDynamic(this, &AAlex::DoorMovement);
-	
-	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
-	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
-	
-	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
-	
-	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
-	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-	
-	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
-	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+		FVector rot = Camera->GetComponentToWorld().GetRotation().GetForwardVector() * RangeInteractuable;
+		FVector End = Start + rot;
+
+		TArray<AActor*> IgnoredActors;
+		IgnoredActors.Add(this);
+
+		FHitResult OutHit;
+		
+		UKismetSystemLibrary::SphereTraceSingle(this,Start,End,7.5f,ETraceTypeQuery::TraceTypeQuery1,
+								false,IgnoredActors,EDrawDebugTrace::None, OutHit, true);
+
+		IIInteractuable* currentCheck = Cast<IIInteractuable>(OutHit.GetActor());
+
+		if(!currentCheck)
+		{
+			ActualInteractuable = nullptr;
+			TalkSound = nullptr;
+			bCanInteract = false;
+			
+			DotWidget->Interact(true, false,false, false);
+		}
+		else
+		{
+			ActualInteractuable = currentCheck;
+			
+			TalkSound = ActualInteractuable->GetSound();
+
+			if(IsDoorCheck(ActualInteractuable))
+			{
+				if(bDoorWasLocked)
+				{
+					bCanInteract = true;
+					DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
+				}	
+				else
+				{
+					bCanInteract = true;
+					DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
+				}
+			}
+			else
+			{
+				bCanInteract = true;
+				DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
+			}
+			
+		}
+	}
 }
 
-void AAlex::CallPauseFunc()
+void AAlex::CheckLighterCooldDown(float deltaTime)
 {
+	if(bLighterOnCD)
+	{
+		LighterTimer += deltaTime;
+		
+		if(LighterTimer >= LighterCD)
+		{
+			bLighterOnCD = false;
+			LighterTimer = 0;
+		}
+		else
+			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
+	}
+	else
+	{
+		if(bLighter)
+		{
+			LighterTimer += deltaTime;
+
+			if(LighterTimer < MaxLighterTime) return;
+
+			bLighter = false;
+			
+			SetLighterAssetsVisibility(false);
+			
+			bLighterOnCD = true;
+			OnLighterAnimMontage.Broadcast();
+		}
+		else
+			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
+	}
+}
+
+//---------------- Initialization Methods
+void AAlex::CreateWritingDetector()
+{
+	WrittingsDetector = CastChecked<AWrittingsDetector>(GetWorld()->SpawnActor(DetectorSubclass));
+	WrittingsDetector->AttachToActor(Lighter->GetChildActor(), FAttachmentTransformRules::KeepRelativeTransform);
+	WrittingsDetector->SetComponentSettings(LighterLight->SourceRadius, LighterLight->GetRelativeTransform());
+}
+
+
+void AAlex::CreateWidgets()
+{
+	CreatePauseWidget();
+
+	CreateDotWidget();
+
+	CreateFocusWidget();
+
+	CreateInventoryWidget();
+	
+	CreateOpenInventoryWidget();
+	
+	CreateLighterReminderWidget();
+	
+
+
+	
+	
+	CreateConsumableWidget();
+	
+	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
+
+	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
+	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
+	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
+}
+
+void AAlex::CreatePauseWidget()
+{
+	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
+	PauseWidget->AddToViewport(0);
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
-	bPauseFlip = true;
-	MyController->SetPauseGame(false);
-	//OpenPause();
+	PauseWidget->SetIsFocusable(true);
+}
+
+void AAlex::CreateDotWidget()
+{
+	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
+	DotWidget->AddToViewport(-1);
+	DotWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AAlex::CreateFocusWidget()
+{
+	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
+	AltarWidget->AddToViewport(-1);
+	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AAlex::CreateInventoryWidget()
+{
+	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
+	InventoryWidget->AddToViewport(0);
+	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+	InventoryWidget->SetIsFocusable(true);
+}
+
+void AAlex::CreateOpenInventoryWidget()
+{
+	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
+	OpenInventoryWidget->AddToViewport(0);
+	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+	OpenInventoryWidget->SetIsFocusable(true);
+}
+
+void AAlex::CreateLighterReminderWidget()
+{
+	LighterReminderWidget = CreateWidget<UTutorialWidget>(GetWorld(), LighterRecordatoryMenu);
+	LighterReminderWidget->AddToViewport(0);
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+	LighterReminderWidget->SetIsFocusable(true);
+}
+
+void AAlex::CreateConsumableWidget()
+{
+	ConsumibleItemWidget = CreateWidget<UChangingdWidget>(GetWorld(), ConsumibleItemMenu);
+	ConsumibleItemWidget->AddToViewport(0);
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+	ConsumibleItemWidget->SetIsFocusable(true);
+}
+
+//---------------- Tick Methods
+void AAlex::HeadBob()
+{
+	if(bFocus) return;
+	
+	if(bStun)
+		MyController->ClientStartCameraShake(CameraShakeStun);
+	else
+	{
+		if(GetVelocity().Length() > 0)
+		{
+			if(GetVelocity().Length() < 700)
+				MyController->ClientStartCameraShake(CameraShakeWalk);
+			else
+				MyController->ClientStartCameraShake(CameraShakeRun);
+		}
+		else
+			MyController->ClientStartCameraShake(CameraShakeIdle);
+	}
+}
+
+void AAlex::CheckLighterOn()
+{
+	if(!bLighter)
+	{
+		if(!bLighterOnCD)
+		{
+			
+			UGameplayStatics::SpawnSound2D(this, LighterOn);
+			bLighter = true;
+
+			
+			SetLighterAssetsVisibility(true);
+			
+			OnLighterAnimMontage.Broadcast();
+		}
+		else
+		{
+			if(!bCanSound) return;
+			
+			UGameplayStatics::SpawnSound2D(this, LighterCDSound);
+			bCanSound = false;
+			bLighter = false;
+			
+			
+			SetLighterAssetsVisibility(false);
+			
+			OnLighterAnimMontage.Broadcast();
+		}
+	}
+	else
+	{
+		bLighter = false;
+		
+		SetLighterAssetsVisibility(false);
+		
+		OnLighterAnimMontage.Broadcast();
+	}	
+}
+
+//---------------- Input Methods
+void AAlex::MovePlayer(FVector2D vector)
+{
+	const FRotator moveRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
+
+	if(vector.X > 0.05f || vector.X < -0.05f)
+	{
+		const FVector directionVector = moveRotation.RotateVector(FVector::RightVector);
+		AddMovementInput(directionVector,vector.X);
+	}
+
+	if(vector.Y > 0.05f || vector.Y < -0.05f)
+	{
+		const FVector directionVector = moveRotation.RotateVector(FVector::ForwardVector);
+		AddMovementInput(directionVector, vector.Y);
+	}
+}
+
+void AAlex::MoveCamera(FVector2D vector)
+{
+	if(bOnEvent)
+	{
+		vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
+		vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
+	}
+
+	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
+	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
+}
+
+void AAlex::Interaction()
+{
+	if(!bCanTalk || !bCanInteract || bFocus) return;
+	
+	if(TalkSound != nullptr)
+		MakeTalk();
+
+	ActualInteractuable->Interaction();
+	
+	if(ActualInteractuable->IsPickable())
+	{
+		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
+
+		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		
+		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
+		{
+			FTimerDelegate TimerDelegate;
+			TimerDelegate.BindLambda([&]
+			{
+				OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+			});
+			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
+		}
+	}
+}
+
+void AAlex::StartSprint()
+{
+	if(!bCanRun) return;
+	
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+}
+
+void AAlex::StopSprint()
+{
+	if(!bCanRun) return;
+	
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void AAlex::TurnLigherIfPossible()
+{
+	if(!bCanUseLigher) return;
+	
+	CheckLighterOn();
+}
+
+void AAlex::DoorMovement(FVector2D vector)
+{
+	DoorFloat = vector.X * MyController->GetMouseSensitivity();
+}
+
+void AAlex::OpenPause()
+{
+	PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	bPauseFlip = false;
+	MyController->SetPauseGame(true);
+}
+
+void AAlex::OpenInventory()
+{
+	if(!bPauseFlip) return;
+	
+	if(bInventoryFlip)
+	{
+		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		bInventoryFlip = false;
+		InventoryWidget->OnInventoryOpen();
+	}
+	else
+	{
+		InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+		bInventoryFlip = true;
+		InventoryWidget->OnInventoryClose();
+	}
+	
+	MyController->SetUIOnly(!bInventoryFlip);
+}
+
+//---------------- Lighter Methods
+
+void AAlex::MontageAnimOnOff()
+{
+	if(bLighter)
+	{
+		PlayAnimMontage(LighterMontage);
+		LighterLight->SetVisibility(true);
+		FlamePlane->SetVisibility(true);
+	}
+	else
+	{
+		StopAnimMontage(LighterMontage);
+		LighterLight->SetVisibility(false);
+		FlamePlane->SetVisibility(false);
+	}
+}
+
+void AAlex::LighterSoundTimer(float deltaTime)
+{
+	AudioTimer = AudioTimer+deltaTime;
+	
+	if(AudioTimer < 2.05f)
+		return;
+
+	bCanSound = true;
+	AudioTimer = 0;
+}
+
+void AAlex::SetLighterAssetsVisibility(bool visibilityState)
+{
+	LighterLight->SetVisibility(visibilityState);
+	Lighter->SetVisibility(visibilityState);
+	FlamePlane->SetVisibility(visibilityState);
+	WrittingsDetector->SetInteractionStatus(visibilityState);
+}
+
+void AAlex::ShowLighterReminder()
+{
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
+
+	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
+	{
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([&]
+		{
+			LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+			TimerComponentForLighterDisplay->ActionFinished();
+		});
+		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
+	}
+}
+
+void AAlex::HideLighterReminder()
+{
+	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
+	TimerComponentForLighterDisplay->ActionFinished();
+}
+
+//---------------- Audio Methods
+void AAlex::MakeTalk()
+{
+	bCanTalk = false;
+	
+	TempAudio = UGameplayStatics::SpawnSound2D(this, TalkSound);
+	TempAudio->OnAudioFinished.AddDynamic(this, &AAlex::OnAudioFinished);
+}
+
+void AAlex::OnAudioFinished()
+{
+	bCanTalk = true;
+	TempAudio = nullptr;
+}
+
+void AAlex::StopTalking()
+{
+	if(TempAudio!=nullptr)
+		TempAudio->Stop();
+}
+
+//---------------- TimeLine
+void AAlex::BindTimeLineMethods()
+{
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("CameraTargetTick"));
+	TargetCameraTimeLine.AddInterpFloat(EmptyCurve, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("CameraTargetFinished"));
+	TargetCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+}
+
+void AAlex::CameraTargetTick(float time)
+{
+	FRotator targetParam =  UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CameraLookTarget);
+	
+	FRotator NewRotator = FMath::RInterpTo(MyController->GetControlRotation(),targetParam, GetWorld()->DeltaTimeSeconds, 2.0f);
+	
+	MyController->SetControlRotation(NewRotator);
+}
+
+void AAlex::CameraTargetFinished()
+{
+	CameraLookTarget = FVector::Zero();
 }

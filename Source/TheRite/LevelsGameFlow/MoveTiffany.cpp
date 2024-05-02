@@ -21,52 +21,26 @@ AMoveTiffany::AMoveTiffany()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AMoveTiffany::OnOverlapBegin);
 }
 
-void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AMoveTiffany::BeginPlay()
 {
-	if(!Cast<AAlex>(OtherActor)) return;
+	Super::BeginPlay();
 
-	if(!bActionReady) return;
-	if(DoOnce > 0) return;
-
-	++DoOnce;
-	OnStartEvent.Broadcast();
-
-	Player->ForceLighterOff();
-	Player->SetPlayerOptions(false, false);
-	
-	UGameplayStatics::SpawnSound2D(this, SFXHeartBeat);
-	UGameplayStatics::SpawnSound2D(this, SFXTiffanyNear);
-	
-	FTimerDelegate FirstTurnOff;
-	FirstTurnOff.BindLambda([&]
-	{
-		Tiffany->SetActorLocation(Target->GetActorLocation());
-		Tiffany->SetActorRotation(Target->GetActorRotation());
-		
-		if (!GetWorldTimerManager().IsTimerActive(FirstTurnLightsOn))
-		{
-			GetWorldTimerManager().SetTimer(FirstTurnLightsOn, this, &AMoveTiffany::FirstTurnOn, .75f, false);
-		}
-		
-	});
-
-	for (auto Element : OtherLights)
-	{
-		Element->TurnOff();
-	}
-	
-	if (!GetWorldTimerManager().IsTimerActive(FirstTurnLightsOff))
-	{
-		GetWorldTimerManager().SetTimer(FirstTurnLightsOff, FirstTurnOff, 2.f, false);
-	}
+	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
+void AMoveTiffany::AsignTiffany(ATiffany* newTiff)
+{
+	Tiffany = newTiff;
+	bActionReady = true;
+}
+
+//---------------- Timelines Methods
 void AMoveTiffany::FirstTurnOn()
 {
 	if(InGameSportLight)
 	{
-		InGameSportLight->GetLightComponent()->SetIntensity(0.75f);
+		InGameSportLight->GetLightComponent()->SetIntensity(SpotLightIntensity);
+		
 	}
 	else
 	{
@@ -75,9 +49,12 @@ void AMoveTiffany::FirstTurnOn()
 			Element->TurnOn();
 		}
 	}
+
+	if(SuddenSound)
+		UGameplayStatics::SpawnSound2D(GetWorld(), SuddenSound);
 	
 	if(!GetWorldTimerManager().IsTimerActive(SecondTurnLightsOff))
-		GetWorldTimerManager().SetTimer(SecondTurnLightsOff, this, &AMoveTiffany::SecondTurnOff, 1, false);
+		GetWorldTimerManager().SetTimer(SecondTurnLightsOff, this, &AMoveTiffany::SecondTurnOff, .75f, false);
 }
 
 void AMoveTiffany::SecondTurnOff()
@@ -123,15 +100,44 @@ void AMoveTiffany::SecondTurnOn()
 	Destroy();
 }
 
-void AMoveTiffany::BeginPlay()
+//----------------
+void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Super::BeginPlay();
+	if(!Cast<AAlex>(OtherActor)) return;
 
-	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-}
+	if(!bActionReady) return;
+	if(DoOnce > 0) return;
 
-void AMoveTiffany::AsignTiffany(ATiffany* newTiff)
-{
-	Tiffany = newTiff;
-	bActionReady = true;
+	++DoOnce;
+	OnStartEvent.Broadcast();
+
+	Player->ForceLighterOff();
+	Player->SetPlayerOptions(false, false);
+	
+	UGameplayStatics::SpawnSound2D(this, SFXHeartBeat);
+	UGameplayStatics::SpawnSound2D(this, SFXTiffanyNear);
+	
+	FTimerDelegate FirstTurnOff;
+	FirstTurnOff.BindLambda([&]
+	{
+		Tiffany->SetActorLocation(Target->GetActorLocation());
+		Tiffany->SetActorRotation(Target->GetActorRotation());
+		
+		if (!GetWorldTimerManager().IsTimerActive(FirstTurnLightsOn))
+		{
+			GetWorldTimerManager().SetTimer(FirstTurnLightsOn, this, &AMoveTiffany::FirstTurnOn, .75f, false);
+		}
+		
+	});
+
+	for (auto Element : OtherLights)
+	{
+		Element->TurnOff();
+	}
+	
+	if (!GetWorldTimerManager().IsTimerActive(FirstTurnLightsOff))
+	{
+		GetWorldTimerManager().SetTimer(FirstTurnLightsOff, FirstTurnOff, 2.f, false);
+	}
 }

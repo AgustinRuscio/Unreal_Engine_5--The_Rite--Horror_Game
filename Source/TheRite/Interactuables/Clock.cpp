@@ -26,9 +26,14 @@ AClock::~AClock()
 	OnInteractionTrigger.Clear();
 }
 
+void AClock::BeginPlay()
+{
+	Super::BeginPlay();
+	AudioToPlay = Sound;
+}
+
 void AClock::Interaction()
 {
-	//ClockReady();
 	OnInteractionTrigger.Broadcast(this);
 
 	Destroy();
@@ -37,17 +42,4 @@ void AClock::Interaction()
 FName AClock::GetObjectData()
 {
 	return NextLevelName;
-}
-
-void AClock::BeginPlay()
-{
-	Super::BeginPlay();
-	AudioToPlay = Sound;
-}
-
-void AClock::ClockReady()
-{
-	//TheRite->SetClockReady();
-	//TheRite->OnClockGain.Broadcast();
-	//Destroy();
 }

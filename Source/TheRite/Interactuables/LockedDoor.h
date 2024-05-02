@@ -21,28 +21,37 @@ UCLASS()
 class THERITE_API ALockedDoor : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ALockedDoor();
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void Interaction() override;
+
+private:
+//---------------- FeedBack Methods
+	UFUNCTION()
+	void ItsLocked();
+	
+	UFUNCTION()
+	void OnAudioFinished();
+
+//---------------- TimeLine Methods
+	void BindTimelines();
+	
+	UFUNCTION()
+	void TimeLineUpdate(float time);
+	
+	UFUNCTION()
+	void TimelineFinished();
+
+public:	
+	UPROPERTY(BlueprintAssignable, Category = "Interaction Delegate")
+	FOnInteraction OnInteraction;
 	
 private:
-	//--------------Mesh Compoenents
-	UPROPERTY(EditAnywhere, Category = "Mesh")
-	UStaticMeshComponent* DoorItself;
-	
-	UPROPERTY(EditAnywhere, Category = "Mesh")
-	UStaticMeshComponent* Latch;
-
-	UPROPERTY(EditAnywhere, Category = "Mesh")
-	UBoxComponent* BoxCollision;
-	//--------------Audio Compoenents
-	
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* DoorLockedSFX;
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* AudioInteractionDone;
-
-	UAudioComponent* tempAudioComponent;
-	
-	AAlex* Player;
-	
 	bool bCanSoundItsLocked = true;
 	
 	UPROPERTY(EditAnywhere, Category= "States")
@@ -52,43 +61,37 @@ private:
 	bool bHasInteraction = true;
 	
 	bool bInteractionDone;
-
+	
 	float SoundTimer;
 
 	UPROPERTY(EditAnywhere, Category= "CD sound")
 	float SoundCD = 60.0f;
 	
-
-	//--------------Functions
-	UFUNCTION()
-	void ItsLocked();
-	
-	UFUNCTION()
-	void OnAudioFinished();
-
 	float CurveFloat;
-protected:
-	virtual void BeginPlay() override;
 	
-	UFUNCTION()
-	void TimeLineUpdate(float time);
+	//--------------Mesh Compoenents
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UStaticMeshComponent* DoorItself;
 	
-	UFUNCTION()
-	void TimelineFinished();
-	//--------------TimeLine Compoenents
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UStaticMeshComponent* Latch;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UBoxComponent* BoxCollision;
+	
+	//--------------Audio Compoenents
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundBase* DoorLockedSFX;
+	
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundBase* AudioInteractionDone;
+
+	UAudioComponent* tempAudioComponent;
 	
 	FTimeline MyTimeline;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* MyFloatCurve;
-
-
-public:	
-	ALockedDoor();
-	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(BlueprintAssignable, Category = "Interaction Delegate")
-	FOnInteraction OnInteraction;
 	
-	virtual void Interaction() override;
+	AAlex* Player;
 };

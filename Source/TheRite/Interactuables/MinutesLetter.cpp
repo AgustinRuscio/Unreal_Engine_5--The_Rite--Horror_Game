@@ -17,5 +17,6 @@ void AMinutesLetter::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);
 	OnAction.Broadcast();
+	
 	Destroy();
 }

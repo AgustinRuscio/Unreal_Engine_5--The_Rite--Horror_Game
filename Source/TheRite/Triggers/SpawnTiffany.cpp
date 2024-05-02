@@ -45,11 +45,3 @@ void ASpawnTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	
 	Destroy();
 }
-
-void ASpawnTiffany::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-

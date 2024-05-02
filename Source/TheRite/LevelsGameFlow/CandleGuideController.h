@@ -16,23 +16,25 @@ UCLASS()
 class THERITE_API ACandleGuideController : public AActor
 {
 	GENERATED_BODY()
+
+public:	
+	ACandleGuideController();
+	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void GuideChange(AInteractor* interactor);
+
+	void TurnOffPrevCandles();
+	void TurnOnNextCandles();
 	
 private:	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInteractor* MyInteractor;
-
-	UFUNCTION()
-	void GuideChange(AInteractor* interactor);
 
 	UPROPERTY(EditAnywhere, Category= "States")
 	TArray<ACandle*> PlaceGuideCandles;
 	
 	UPROPERTY(EditAnywhere, Category= "States")
 	TArray<ACandle*> NextPlaceGuideCandles;
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ACandleGuideController();
 };

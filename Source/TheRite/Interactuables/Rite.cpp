@@ -33,6 +33,21 @@ ARite::ARite()
 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverapFinished);
 }
 
+//---------------- System Class Methods
+void ARite::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CheckAudio();
+	
+	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
+	OriginalPostProcessValues = PostProcessComponent->GetProperties();
+	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
+	bReady = true;
+
+	CurrentMainObject->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+}
+
 void ARite::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -47,23 +62,6 @@ void ARite::Tick(float DeltaSeconds)
 
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
-}
-
-void ARite::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	//OnClockGain.AddDynamic(this, &ARite::CheckAudio);
-	//OnClockGain.Broadcast();
-
-	CheckAudio();
-	
-	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
-	OriginalPostProcessValues = PostProcessComponent->GetProperties();
-	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
-	bReady = true;
-
-	CurrentMainObject->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
 }
 
 void ARite::Interaction()

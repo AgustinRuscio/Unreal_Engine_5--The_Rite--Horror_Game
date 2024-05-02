@@ -26,6 +26,11 @@ ALightsTheRite::ALightsTheRite()
 	Sphere->SetupAttachment(NewRootComponent);
 }
 
+bool ALightsTheRite::IsLightOn()
+{
+	return PointLight->Intensity > 0;
+}
+
 void ALightsTheRite::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,6 +38,7 @@ void ALightsTheRite::BeginPlay()
 	FirstPointIntensity= PointLight->Intensity;
 }
 
+//---------------- Material Setter Methods
 void ALightsTheRite::AggresiveMatterial()
 {
 	PointLight->SetLightFunctionMaterial(AggresiveMaterial);
@@ -43,6 +49,7 @@ void ALightsTheRite::NormalMatterial()
 	PointLight->SetLightFunctionMaterial(NormalMaterial);
 }
 
+//---------------- State Changer Methods
 void ALightsTheRite::TurnOff()
 {
 	PointLight->SetIntensity(0.0f);
@@ -51,9 +58,4 @@ void ALightsTheRite::TurnOff()
 void ALightsTheRite::TurnOn()
 {
 	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
-}
-
-bool ALightsTheRite::IsLightOn()
-{
-	return PointLight->Intensity > 0;
 }

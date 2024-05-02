@@ -12,6 +12,187 @@
 
 #define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
+AAlexPlayerController::AAlexPlayerController()
+{
+	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
+	WidgetInteractionComponent->SetupAttachment(RootComponent);
+
+	gs = Cast<ALevelsGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	
+	if(gs)
+		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
+}
+
+AAlexPlayerController::~AAlexPlayerController()
+{
+	OnPlayerMovement.Clear();
+	OnStopSprint.Clear();
+	OnStartSprint.Clear();
+	OnLighter.Clear();
+	OnInteractionPressed.Clear();
+	OnHoldingBtn.Clear();
+	OnCameraMoved.Clear();
+	OnCameraMovedDoor.Clear();
+	OnPause.Clear();
+	OnInventory.Clear();
+	OnNextInventoryItem.Clear();
+	OnPrevInventoryItem.Clear();
+	OnKeyPressed.Clear();
+	OnAnyKeyPressed.Clear();
+}
+
+//---------------- Getter Methods
+bool AAlexPlayerController::GetIsUsingGamepad() const
+{
+	return bIsUsingGamepad;
+}
+
+float AAlexPlayerController::GetMouseSensitivity() const
+{
+	return MouseSensitivity;
+}
+
+void AAlexPlayerController::BeginPlay()
+{
+	bEnableClickEvents = true; 
+	bEnableMouseOverEvents = true;
+	
+	BindActions();
+}
+
+//---------------- Actions Methods
+void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
+{
+	Super::EnableInput(PlayerController);
+	SetIgnoreLookInput(false);
+	SetIgnoreMoveInput(false);
+}
+
+void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
+{
+	Super::DisableInput(PlayerController);
+	SetIgnoreLookInput(true);
+	SetIgnoreMoveInput(true);
+}
+
+void AAlexPlayerController::SetNormalInput()
+{
+	BindActions();
+}
+
+void AAlexPlayerController::SetPauseGame(bool PauseState)
+{
+	SetPause(PauseState);
+	bShowMouseCursor = PauseState;
+	
+	if (PauseState)
+		SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
+	else
+		SetInputMode(FInputModeGameOnly());
+}
+
+void AAlexPlayerController::SetDoorMode(bool newMode)
+{
+	newMode ?
+		SetDoorInputs() : BindActions();
+	
+}
+void AAlexPlayerController::SetUIOnly(bool uiMode)
+{
+	bShowMouseCursor = uiMode;
+	
+	uiMode ? 
+	SetInventoryInputs():
+	BindActions();
+}
+
+void AAlexPlayerController::SetEventInput()
+{
+	UnbindActions();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
+	}
+}
+
+void AAlexPlayerController::SetFocusInput()
+{
+	UnbindActions();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
+		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
+		
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AAlexPlayerController::InteractionPressed);
+		
+		enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::BackFromFocus);
+	}
+}
+
+//----------------
+void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
+{
+	MouseSensitivity = newSensitivity;
+}
+
+bool AAlexPlayerController::GetIsGamepad() const
+{
+	return bIsUsingGamepad;
+}
+
+//---------------- Binding Methods
+void AAlexPlayerController::BindActions()
+{
+	UnbindActions();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
+	
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->BindAction(MovePlayerAction, ETriggerEvent::Triggered ,this, &AAlexPlayerController::PlayerMovement);
+		
+		enhantedComponent->BindAction(SprintAction, ETriggerEvent::Triggered ,this, &AAlexPlayerController::StartSprint);
+		enhantedComponent->BindAction(SprintAction, ETriggerEvent::Completed ,this, &AAlexPlayerController::StopSprint);
+
+		enhantedComponent->BindAction(LighterAction, ETriggerEvent::Started, this, &AAlexPlayerController::LighterOn);
+
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AAlexPlayerController::InteractionPressed);
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::HoldingBTN);
+		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
+
+		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
+		
+		enhantedComponent->BindAction(PuaseAction, ETriggerEvent::Started, this, &AAlexPlayerController::Paused);
+		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
+	}
+
+	SetInputMode(FInputModeGameOnly());
+}
+
+void AAlexPlayerController::UnbindActions()
+{
+	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		enhantedComponent->ClearActionBindings();
+	}
+}
+
+//---------------- Input Methods
 void AAlexPlayerController::PlayerMovement(const FInputActionValue& value)
 {
 	FVector2D moveAxis = value.Get<FVector2D>();
@@ -66,28 +247,10 @@ void AAlexPlayerController::Inventory(const FInputActionValue& value)
 	OnInventory.Broadcast();
 }
 
-
 void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 {
 	OnNextInventoryItem.Broadcast();
 }
-
-void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
-{
-	bIsUsingGamepad = bIsGamepad;
-	OnKeyPressed.Broadcast(bIsGamepad);
-}
-
-bool AAlexPlayerController::GetIsGamepad() const
-{
-	return bIsUsingGamepad;
-}
-
-void AAlexPlayerController::RecieveLoadedData(float newSensitivity)
-{
-	MouseSensitivity = newSensitivity;
-}
-
 
 void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 {
@@ -97,63 +260,6 @@ void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 void AAlexPlayerController::BackFromFocus(const FInputActionValue& value)
 {
 	OnLeaveFocus.Broadcast();
-}
-
-
-void AAlexPlayerController::BeginPlay()
-{
-	bEnableClickEvents = true; 
-	bEnableMouseOverEvents = true;
-	
-	BindActions();
-}
-
-
-
-void AAlexPlayerController::LoadValues()
-{
-	auto saveData = gs->GetSaveData();
-	MouseSensitivity = saveData.MouseSensitivity;
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(" Mouse sens: %f"),MouseSensitivity ));
-}
-
-void AAlexPlayerController::BindActions()
-{
-	UnbindActions();
-	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-    
-	Subsystem->ClearAllMappings();
-	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
-	
-	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
-	{
-		enhantedComponent->BindAction(MovePlayerAction, ETriggerEvent::Triggered ,this, &AAlexPlayerController::PlayerMovement);
-		
-		enhantedComponent->BindAction(SprintAction, ETriggerEvent::Triggered ,this, &AAlexPlayerController::StartSprint);
-		enhantedComponent->BindAction(SprintAction, ETriggerEvent::Completed ,this, &AAlexPlayerController::StopSprint);
-
-		enhantedComponent->BindAction(LighterAction, ETriggerEvent::Started, this, &AAlexPlayerController::LighterOn);
-
-		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AAlexPlayerController::InteractionPressed);
-		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::HoldingBTN);
-		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
-
-		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
-		
-		enhantedComponent->BindAction(PuaseAction, ETriggerEvent::Started, this, &AAlexPlayerController::Paused);
-		enhantedComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &AAlexPlayerController::Inventory);
-	}
-
-	SetInputMode(FInputModeGameOnly());
-}
-
-void AAlexPlayerController::UnbindActions()
-{
-	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
-	{
-		enhantedComponent->ClearActionBindings();
-	}
 }
 
 void AAlexPlayerController::SetInventoryInputs()
@@ -172,55 +278,8 @@ void AAlexPlayerController::SetInventoryInputs()
 		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
 		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
 	}
+	
 	SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
-}
-
-void AAlexPlayerController::SetEventInput()
-{
-	UnbindActions();
-	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-    
-	Subsystem->ClearAllMappings();
-	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
-
-	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
-	{
-		enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
-	}
-}
-
-void AAlexPlayerController::SetNormalInput()
-{
-	BindActions();
-}
-
-void AAlexPlayerController::SetFocusInput()
-{
-	UnbindActions();
-	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-    
-	Subsystem->ClearAllMappings();
-	Subsystem->AddMappingContext(DefaultMappingCOntext, 0);
-
-	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
-	{
-		enhantedComponent->BindAction(PrevInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::PrevInventoryItem);
-		enhantedComponent->BindAction(NextInventoryItemAction, ETriggerEvent::Started, this, &AAlexPlayerController::NextInventoryItem);
-		
-		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AAlexPlayerController::InteractionPressed);
-		
-		enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::BackFromFocus);
-	}
-}
-
-void AAlexPlayerController::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	
-	//UGameViewportClient* Viewport = GetWorld()->GetGameViewport();
-	//Viewport->SetMouse(X, Y);
 }
 
 void AAlexPlayerController::SetDoorInputs()
@@ -241,88 +300,21 @@ void AAlexPlayerController::SetDoorInputs()
 	}
 }
 
-AAlexPlayerController::AAlexPlayerController()
-{
-	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
-	WidgetInteractionComponent->SetupAttachment(RootComponent);
-
-	gs = Cast<ALevelsGameState>(UGameplayStatics::GetGameState(GetWorld()));
-	
-	if(gs)
-		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
-}
-
-AAlexPlayerController::~AAlexPlayerController()
-{
-	OnPlayerMovement.Clear();
-	OnStopSprint.Clear();
-	OnStartSprint.Clear();
-	OnLighter.Clear();
-	OnInteractionPressed.Clear();
-	OnHoldingBtn.Clear();
-	OnCameraMoved.Clear();
-	OnCameraMovedDoor.Clear();
-	OnPause.Clear();
-	OnInventory.Clear();
-	OnNextInventoryItem.Clear();
-	OnPrevInventoryItem.Clear();
-	OnKeyPressed.Clear();
-	OnAnyKeyPressed.Clear();
-}
-
-
-bool AAlexPlayerController::GetIsUsingGamepad() const
-{
-	return bIsUsingGamepad;
-}
-
-
-void AAlexPlayerController::SetPauseGame(bool PauseState)
-{
-	SetPause(PauseState);
-	bShowMouseCursor = PauseState;
-	
-	if (PauseState)
-		SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
-	else
-		SetInputMode(FInputModeGameOnly());
-}
-
-void AAlexPlayerController::SetDoorMode(bool newMode)
-{
-	newMode ?
-		SetDoorInputs() : BindActions();
-	
-}
-void AAlexPlayerController::SetUIOnly(bool uiMode)
-{
-	bShowMouseCursor = uiMode;
-	
-	uiMode ? 
-	SetInventoryInputs():
-	BindActions();
-}
-
-void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
-{
-	Super::DisableInput(PlayerController);
-	SetIgnoreLookInput(true);
-	SetIgnoreMoveInput(true);
-}
-
-void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
-{
-	Super::EnableInput(PlayerController);
-	SetIgnoreLookInput(false);
-	SetIgnoreMoveInput(false);
-}
-
-float AAlexPlayerController::GetMouseSensitivity() const
-{
-	return MouseSensitivity;
-}
-
-void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
+//---------------- Loading Methods
+void AAlexPlayerController::RecieveLoadedData(float newSensitivity)
 {
 	MouseSensitivity = newSensitivity;
+}
+
+void AAlexPlayerController::LoadValues()
+{
+	auto saveData = gs->GetSaveData();
+	MouseSensitivity = saveData.MouseSensitivity;
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(" Mouse sens: %f"),MouseSensitivity ));
+}
+
+void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
+{
+	bIsUsingGamepad = bIsGamepad;
+	OnKeyPressed.Broadcast(bIsGamepad);
 }

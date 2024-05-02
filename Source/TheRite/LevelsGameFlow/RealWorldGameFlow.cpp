@@ -16,6 +16,28 @@ ARealWorldGameFlow::ARealWorldGameFlow()
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ARealWorldGameFlow::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PlayerMethods();
+	CreateWidgets();
+	
+	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
+	
+
+	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
+		GetWorldTimerManager().SetTimer(ShowFirstTutorialWidget, this, &ARealWorldGameFlow::ShowingFirstTutorialWidget, 3.0f, false);
+}
+
+void ARealWorldGameFlow::PlayerMethods()
+{
+	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+	Player->ForceTalk(FirstTalkAudio);
+	Player->SetPlayerOptions(true, false);
+}
+
+//---------------- Widgets Methods
 void ARealWorldGameFlow::CreateWidgets()
 {
 	FirstTutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), FirstTutorialMenu);
@@ -35,41 +57,6 @@ void ARealWorldGameFlow::CreateWidgets()
 		alexController->OnKeyPressed.AddDynamic(SecondTutorialWidget, &UTutorialWidget::SetKeyMode);
 		alexController->OnKeyPressed.AddDynamic(FirstTutorialWidget, &UTutorialWidget::SetKeyMode);
 	}
-	
-}
-
-
-void ARealWorldGameFlow::GetPlayer()
-{
-	auto const tempSearch = UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass());
-	Player = CastChecked<AAlex>(tempSearch);
-}
-
-void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor))return;
-
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
-	KnockTrigger->Destroy();
-}
-
-
-
-void ARealWorldGameFlow::BeginPlay()
-{
-	Super::BeginPlay();
-
-	CreateWidgets();
-	
-	GetPlayer();
-	
-	Player->ForceTalk(FirstTalkAudio);
-	Player->SetPlayerOptions(true, false);
-	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
-	
-
-	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
-		GetWorldTimerManager().SetTimer(ShowFirstTutorialWidget, this, &ARealWorldGameFlow::ShowingFirstTutorialWidget, 3.0f, false);
 }
 
 void ARealWorldGameFlow::ShowingFirstTutorialWidget()
@@ -100,3 +87,11 @@ void ARealWorldGameFlow::HidingSecondTutorialWidget()
 	SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 	
+
+void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor))return;
+
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
+	KnockTrigger->Destroy();
+}

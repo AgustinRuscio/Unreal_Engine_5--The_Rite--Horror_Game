@@ -16,31 +16,31 @@ class THERITE_API UHintsWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void MakeVisible();
+
 private:
+	void JoystickChecker();
+	void TimerChecker(float deltaTime);
+	
+public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category= "Widget Components")
+	UImage* KeyImage;
+	
+private:
+	bool bIsOn;
+	bool bJoystick;
+
+	UPROPERTY(EditAnywhere, Category= "States")
+	float TimerCD = 7.0f;
+	float Timer = 0.0f;
+	
 	UPROPERTY(EditAnywhere, Category= "Textures")
 	UTexture2D* SquareTexture;
 	
 	UPROPERTY(EditAnywhere, Category= "Textures")
 	UTexture2D* MTexture;
-
-	bool bIsOn;
-	bool bJoystick;
-
-	float Timer = 0.0f;
-	
-	UPROPERTY(EditAnywhere, Category= "States")
-	float TimerCD = 7.0f;
-	
-	void JoystickChecker();
-	void TimerChecker(float deltaTime);
-	
-public:
-	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category= "Widget Components")
-	UImage* KeyImage;
-
-	UFUNCTION(BlueprintCallable)
-	void MakeVisible();
-	
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };

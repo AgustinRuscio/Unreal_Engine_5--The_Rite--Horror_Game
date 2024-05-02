@@ -20,10 +20,15 @@ class THERITE_API ATransitionWorldFlow : public AActor
 {
 	GENERATED_BODY()
 	
+public:	
+	ATransitionWorldFlow();
+	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void RedDoorOpen(AInteractor* interactor);
+	
 private:	
-
-	AAlex* Player;
-
 	UPROPERTY(EditAnywhere, Category = "States")
 	ARedDoor* RedDoor;
 
@@ -32,13 +37,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralObstacle* RedDoorObstacle;
-
-	UFUNCTION()
-	void RedDoorOpen(AInteractor* interactor);
 	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ATransitionWorldFlow();
+	AAlex* Player;
 };

@@ -17,33 +17,13 @@ UCLASS()
 class THERITE_API ALightsTheRite : public AActor
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY()
-	USphereComponent* Sphere;
-
-	UPROPERTY(EditAnywhere, Category= "Lights")
-	UPointLightComponent* PointLight;
-
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* Mesh;
-	
-	float FirstPointIntensity;
-	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
-	float DefaultLightIntensity;
-
-	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* NormalMaterial;
-	
-	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* AggresiveMaterial;
-	
-protected:
-	virtual void BeginPlay() override;
 
 public:
 	ALightsTheRite();
-
+	bool IsLightOn();
+	
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void AggresiveMatterial();
 	
@@ -55,6 +35,25 @@ public:
 	
 	UFUNCTION()
 	void TurnOn();
+	
+private:
+	float FirstPointIntensity;
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
+	float DefaultLightIntensity;
+	
+	UPROPERTY(EditAnywhere, Category= "Mesh")
+	UStaticMeshComponent* Mesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Lights")
+	UPointLightComponent* PointLight;
+	
+	UPROPERTY()
+	USphereComponent* Sphere;
+	
+	UPROPERTY(EditAnywhere, Category= "Materials")
+	UMaterialInterface* NormalMaterial;
+	
+	UPROPERTY(EditAnywhere, Category= "Materials")
+	UMaterialInterface* AggresiveMaterial;
 
-	bool IsLightOn();
 };

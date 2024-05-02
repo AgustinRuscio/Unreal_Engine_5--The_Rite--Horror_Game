@@ -12,12 +12,10 @@ void UPauseMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	auto character = UGameplayStatics::GetActorOfClass(this, AAlex::StaticClass());
-	Player = Cast<AAlex>(character);
+	Player = Cast<AAlex>( UGameplayStatics::GetActorOfClass(this, AAlex::StaticClass()));
 }
 
 void UPauseMenuWidget::OnResume()
 {
 	Player->CallPauseFunc();
-	
 }

@@ -18,33 +18,39 @@ UCLASS()
 class THERITE_API AAutomaticCloseDoorTrigger : public AActor
 {
 	GENERATED_BODY()
-private:
 
-	UPROPERTY(EditAnywhere, Category="My door")
-	ADoor* DoorToClose;
+public:	
+	AAutomaticCloseDoorTrigger();
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+private:
+	void BindTriggers();
+	
+//---------------- Timelines Methods
+	void BinddTimeLinesMethods();
+	
+	UFUNCTION()
+	void OnTimerFinished();
+	
+//---------------- Collider Methods
+	UFUNCTION()
+	void CheckActorIn(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void CheckActorOut(AActor* OverlappedActor, AActor* OtherActor);
+	
+private:
+	bool playerInside;
 
 	UPROPERTY(EditAnywhere, Category="Trigger")
 	ATriggerVolume* RoomTrigger;
-
-	bool playerInside;
 
 	FTimeline CloseDoorTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category="Curves")
 	UCurveFloat* CloseDoorCurve;
 	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AAutomaticCloseDoorTrigger();
-	virtual void Tick(float DeltaTime) override;
-
-private:
-	UFUNCTION()
-	void CheckActorIn(AActor* OverlappedActor, AActor* OtherActor);
-	UFUNCTION()
-	void CheckActorOut(AActor* OverlappedActor, AActor* OtherActor);
-	UFUNCTION()
-	void OnTimerFinished();
+	UPROPERTY(EditAnywhere, Category="My door")
+	ADoor* DoorToClose;
 };

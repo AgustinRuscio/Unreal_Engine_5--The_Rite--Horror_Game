@@ -16,13 +16,39 @@ class AStatuette;
 UCLASS()
 class THERITE_API AAltarWhell : public AInteractor
 {
-	GENERATED_BODY()
+ 	GENERATED_BODY()
+	
+public:
+	AAltarWhell();
+	bool CheckRotation();
+	
+	virtual void Tick(float DeltaTime) override;
+	virtual void BeginPlay() override;
+
+	virtual void Interaction() override;
+	
+	void EnableInteraction();
+	void DisableInteraction();
+	void StatuetteReady();
+
+	void ASignValues(AStatuette* Statuette, float DesiredRotation, float RotationToAdd);
+	
+private:
+	void BindTimeLines();
+	UFUNCTION()
+	void MoveTimeLineTick(float deltaSeconds);
+	
+	UFUNCTION()
+	void MoveTimeLineFinisehd();
 	
 private:
 	float DesiredRotation;
 	float RotationToAdd;
 
 	bool bStatuette;
+	
+	FRotator InteractionRotator;
+	FRotator StatuateRotator;
 	
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
@@ -31,31 +57,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UCurveFloat* CurveFloat;
-
-	FRotator InteractionRotator;
-	FRotator StatuateRotator;
-
+	
 	AStatuette* Statuette;
-	
-	UFUNCTION()
-	void MoveTimeLineTick(float deltaSeconds);
-	
-	UFUNCTION()
-	void MoveTimeLineFinisehd();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AAltarWhell();
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void Interaction() override;
-
-	bool CheckRotation();
-	void EnableInteraction();
-	void DisableInteraction();
-	void StatuetteReady();
-
-	void ASignValues(AStatuette* Statuette, float DesiredRotation, float RotationToAdd);
 };

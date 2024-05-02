@@ -13,7 +13,7 @@
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
-//--------------------- Class methods
+//--------------------- System Class methods
 AAltar::AAltar()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -30,31 +30,16 @@ void AAltar::BeginPlay()
 	BindTimeLine();
 }
 
-void AAltar::BindTimeLine()
-{
-	FOnTimelineFloat CameraTargetTick;
-	CameraTargetTick.BindUFunction(this, FName("MoveCameraTick"));
-	MoveCameraTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
-	
-	FOnTimelineEventStatic CameraTargettingFinished;
-	CameraTargettingFinished.BindUFunction(this, FName("MoveCameraFinished"));
-	MoveCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
-}
-
-
 void AAltar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	MoveCameraTimeLine.TickTimeline(DeltaTime);
 }
 
-//------------------------------------
-
 //--------------------- Focus methods
-
 void AAltar::Interaction()
 {
-	if(bIsFocus) return;
+	if(bIsFocus || !bCanInteract) return;
 	
 	bIsFocus = true;
 	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorLocation(), CameraPos[WhellIndex]->GetActorRotation());
@@ -71,6 +56,11 @@ void AAltar::Interaction()
 	{
 		Element->EnableInteraction();
 	}
+}
+
+void AAltar::DisableAltarInteraction()
+{
+	bCanInteract = false;
 }
 
 void AAltar::LeaveFocus()
@@ -94,7 +84,30 @@ void AAltar::LeaveFocus()
 	}
 }
 
-//------------------------------------
+//--------------------- TimeLine methods
+
+void AAltar::BindTimeLine()
+{
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("MoveCameraTick"));
+	MoveCameraTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("MoveCameraFinished"));
+	MoveCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+}
+
+void AAltar::MoveCameraTick(float deltaSecinds)
+{
+	auto newX = FMath::Lerp(cameraPos, CameraPos[WhellIndex]->GetActorLocation(), deltaSecinds);
+	
+	Player->MoveCamera(newX);
+}
+
+void AAltar::MoveCameraFinished()
+{
+	bCanInteract = true;
+}
 
 //--------------------- Objects methods
 
@@ -103,6 +116,18 @@ void AAltar::WhellInteraction()
 	if(!bCanInteract) return;
 	
 	Whells[WhellIndex]->Interaction();
+}
+
+void AAltar::PrevWhell()
+{
+	if(!bCanInteract) return;
+	
+	--WhellIndex;
+
+	if(WhellIndex < 0)
+		WhellIndex = Whells.Num()-1;
+	
+	ChangeCameraPosition();
 }
 
 void AAltar::NextWhell()
@@ -117,42 +142,9 @@ void AAltar::NextWhell()
 	ChangeCameraPosition();
 }
 
-
-void AAltar::PrevWhell()
-{
-	if(!bCanInteract) return;
-	
-	--WhellIndex;
-
-	if(WhellIndex < 0)
-		WhellIndex = Whells.Num()-1;
-	
-	ChangeCameraPosition();
-}
-
-
 void AAltar::ChangeCameraPosition()
 {
 	bCanInteract = false;
 	cameraPos = Player->GetCamera()->GetComponentLocation();
 	MoveCameraTimeLine.PlayFromStart();
 }
-
-//------------------------------------
-
-//--------------------- TimeLine methods
-
-void AAltar::MoveCameraTick(float deltaSecinds)
-{
-	auto newX = FMath::Lerp(cameraPos, CameraPos[WhellIndex]->GetActorLocation(), deltaSecinds);
-	
-	FVector newPos = FVector(cameraPos.X, cameraPos.Y, cameraPos.Z);
-
-	Player->MoveCamera(newX);
-}
-
-void AAltar::MoveCameraFinished()
-{
-	bCanInteract = true;
-}
-//------------------------------------

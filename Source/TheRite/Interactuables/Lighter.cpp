@@ -4,11 +4,11 @@
 
 
 #include "Lighter.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "Components/PointLightComponent.h"
 #include "SpectralWrittings.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Characters/Alex.h"
 
 ALighter::ALighter()
@@ -25,34 +25,17 @@ ALighter::ALighter()
 	PointLight->SetupAttachment(LighterBody);
 }
 
-void ALighter::TurnTutorialOff()
-{
-	
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	
-	Destroy();
-}
-
+//---------------- System Class Methods
 void ALighter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialMenu);
-	TutorialWidget->AddToViewport(0);
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	TutorialWidget->SetIsFocusable(true);
+	CreateWidgets();
 
-	auto controller = GetWorld()->GetFirstPlayerController();
+	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	
-	if(auto alexController = Cast<AAlexPlayerController>(controller))
-	{
+	if(alexController)
 		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
-	}
-}
-
-void ALighter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ALighter::Interaction()
@@ -74,4 +57,19 @@ void ALighter::Interaction()
 	
 	if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHanlde))
 		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 4.f, false);
+}
+
+void ALighter::CreateWidgets()
+{
+	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialMenu);
+	TutorialWidget->AddToViewport(0);
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+	TutorialWidget->SetIsFocusable(true);
+}
+
+void ALighter::TurnTutorialOff()
+{
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+	
+	Destroy();
 }

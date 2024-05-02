@@ -9,13 +9,17 @@
 
 #define PRINTING(X) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT(X)));
 
+FSaveGameData ALevelsGameState::GetSaveData() const
+{
+	return GameData;
+}
+
 void ALevelsGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	LoadData();
 }
-
 
 void ALevelsGameState::SaveData(float mouseSensitivity)
 {
@@ -42,9 +46,4 @@ void ALevelsGameState::LoadData()
 	OnGameLoaded.Broadcast();
 	
 	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
-}
-
-FSaveGameData ALevelsGameState::GetSaveData() const
-{
-	return GameData;
 }

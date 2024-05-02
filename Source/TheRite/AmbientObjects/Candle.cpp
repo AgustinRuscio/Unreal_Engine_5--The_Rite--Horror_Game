@@ -22,6 +22,13 @@ ACandle::ACandle()
 	SmokeParticles->SetupAttachment(Mesh);
 }
 
+void ACandle::BeginPlay()
+{
+	Super::BeginPlay();
+
+	bStartsTurnedOn ? TurnOn() : TurnOff();
+}
+
 void ACandle::TurnOn()
 {
 	PointLight->SetVisibility(true);

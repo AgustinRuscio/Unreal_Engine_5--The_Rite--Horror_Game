@@ -38,14 +38,7 @@ void ADoorKey::Interaction()
 	Destroy();
 }
 
-
 void ADoorKey::SetDoor(ADoor* NewDoor)
 {
 	MyDoor = NewDoor;
-}
-
-
-void ADoorKey::BeginPlay()
-{
-	Super::BeginPlay();
 }

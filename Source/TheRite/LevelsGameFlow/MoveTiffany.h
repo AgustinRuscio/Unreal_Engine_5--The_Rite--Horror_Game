@@ -23,20 +23,58 @@ UCLASS()
 class THERITE_API AMoveTiffany : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	AMoveTiffany();
+	virtual void BeginPlay() override;
+
+	void AsignTiffany(ATiffany* newTiff);
 	
 private:
+//---------------- Timelines Methods
+	UFUNCTION()
+	void FirstTurnOn();
+	
+	UFUNCTION()
+	void SecondTurnOff();
+	
+	UFUNCTION()
+	void SecondTurnOn();
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+public:
+	FOnMoveFinished OnFinishedEvent;
+	FOnMoveStart OnStartEvent;
+	
+private:
 	bool bActionReady;
 	int8 DoOnce;
+
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float SpotLightIntensity = .3f;
 	
-	ATiffany* Tiffany;
-
-	UPROPERTY(EditAnywhere, Category="Tiffany")
-	ATargetPoint* Target;
-
+	//-------- Colliders
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* Box;
 
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SFXHeartBeat;
+
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SFXTiffanyNear;
+	
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SuddenSound;
+
+	//-------- Target point
+	UPROPERTY(EditAnywhere, Category="TargetPoint")
+	ATargetPoint* Target;
+
+	//-------- Timelines
 	FTimerHandle FirstTurnLightsOff;
 	FTimerHandle FirstTurnLightsOn;
 	FTimerHandle FirstWait;
@@ -44,37 +82,13 @@ private:
 	FTimerHandle SecondTurnLightsOff;
 	FTimerHandle SecondTurnLightsOn;
 	
-	UPROPERTY(EditAnywhere, Category="Tiffany")
-	USoundBase* SFXHeartBeat;
-
-	UPROPERTY(EditAnywhere, Category="Tiffany")
-	USoundBase* SFXTiffanyNear;
-	
+	//-------- Lights
 	UPROPERTY(EditAnywhere, Category="Ambient")
 	TArray<ALightsTheRite*> OtherLights;
 
 	UPROPERTY(EditAnywhere, Category="Ambient")
 	ASpotLight* InGameSportLight;
 
+	ATiffany* Tiffany;
 	AAlex* Player;
-	
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void FirstTurnOn();
-	UFUNCTION()
-	void SecondTurnOff();
-	UFUNCTION()
-	void SecondTurnOn();
-
-public:
-	virtual void BeginPlay() override;
-	AMoveTiffany();
-
-	void AsignTiffany(ATiffany* newTiff);
-
-	FOnMoveFinished OnFinishedEvent;
-	FOnMoveStart OnStartEvent;
 };

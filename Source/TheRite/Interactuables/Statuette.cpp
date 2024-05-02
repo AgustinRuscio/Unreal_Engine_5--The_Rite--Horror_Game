@@ -17,6 +17,23 @@ AStatuette::AStatuette()
 	PointLight->SetupAttachment(StaticMesh);
 }
 
+//---------------- Getter Methods
+bool AStatuette::IsFirstInteraction() const
+{
+	return bFirstInteraction;
+}
+
+float AStatuette::GetDesiredRotation() const
+{
+	return DesireRotation;
+}
+
+float AStatuette::GetRotatioToAdd() const
+{
+	return RotationToAdd;
+}
+
+//---------------- System Class Methods
 void AStatuette::BeginPlay()
 {
 	Super::BeginPlay();
@@ -25,11 +42,10 @@ void AStatuette::BeginPlay()
 	PointLight->SetIntensity(0.0);
 }
 
-void AStatuette::OpenTimeLineUpdate(float value)
+void AStatuette::Tick(float DeltaSeconds)
 {
-	FVector values = FMath::Lerp(InitialObjectPosition,EndLocation, value);
-	
-	SetActorLocation(values);
+	Super::Tick(DeltaSeconds);
+	InteractionTimeLine.TickTimeline(DeltaSeconds);
 }
 
 void AStatuette::Interaction()
@@ -37,9 +53,7 @@ void AStatuette::Interaction()
 	if(!bCanInteract) return;
 
 	if(bFirstInteraction)
-	{
 		bCanInteract = false;
-	}
 	else
 	{
 		bCanInteract = false;
@@ -53,10 +67,10 @@ void AStatuette::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 }
 
-void AStatuette::Tick(float DeltaSeconds)
+//---------------- Action Methods
+void AStatuette::EnableInteraction()
 {
-	Super::Tick(DeltaSeconds);
-	InteractionTimeLine.TickTimeline(DeltaSeconds);
+	bCanInteract = true;
 }
 
 void AStatuette::RestoreInitialValues()
@@ -75,28 +89,21 @@ void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
 	
 	EndLocation = InitialObjectPosition + MoveDir;
 	
-	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
-	InteractionTimeLine.AddInterpFloat(TimeLineCurve, TimelineCallback);
+	BindTimeLine();
 	bFirstInteraction = false;
 }
 
-bool AStatuette::IsFirstInteraction() const
+//---------------- TimeLine Methods
+void AStatuette::BindTimeLine()
 {
-	return bFirstInteraction;
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
+	InteractionTimeLine.AddInterpFloat(TimeLineCurve, TimelineCallback);
 }
 
-void AStatuette::EnableInteraction()
+void AStatuette::OpenTimeLineUpdate(float value)
 {
-	bCanInteract = true;
-}
-
-float AStatuette::GetDesiredRotation() const
-{
-	return DesireRotation;
-}
-
-float AStatuette::GetRotatioToAdd() const
-{
-	return RotationToAdd;
+	FVector values = FMath::Lerp(InitialObjectPosition,EndLocation, value);
+	
+	SetActorLocation(values);
 }

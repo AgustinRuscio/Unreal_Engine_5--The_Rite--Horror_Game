@@ -16,44 +16,51 @@ class AStatuette;
 class AInteractor;
 class ATargetPoint;
 class AAltarWhell;
+class AAltar;
 
 UCLASS()
 class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	AInOrdenSelectionPuzzleFlow();
 	
+	virtual void BeginPlay() override;
+
 private:
-	UPROPERTY(EditAnywhere, Category="Settings")
-	TArray<ATargetPoint*> AltarPositions;
+	//---------------- Check puzzle Methods
+	bool CheckStatuttes();
+	bool CheckRotation();
 	
-	UPROPERTY(EditAnywhere, Category = "In game objects")
-	TArray<AStatuette*> InGameStatuettes;
-	
-	TArray<AStatuette*> StatuettsAuxiliaryArray;
-
-	UPROPERTY(EditAnywhere, Category = "In game objects")
-	TArray<AAltarWhell*> AltarWhells;
-	
-	int8 MaxStatuatte;
-	int8 StatuatteIndex;
-
-	UPROPERTY(EditAnywhere, Category="Settings")
-	USoundBase* AlexAudio;
-	
-	bool bEnableDoOnce = true;
+	void CheckStatuetteOrder();
+	void PuzzleFailure();
 	
 	UFUNCTION()
 	void AddStatuette(AInteractor* currentStatuette);
 
-	void CheckStatuetteOrder();
-	void PuzzleFailure();
-	
-protected:
-	virtual void BeginPlay() override;
-
 public:	
-	AInOrdenSelectionPuzzleFlow();
-
-
 	FOnPuzzleFinished OnPuzzleFinished;
+	
+private:
+	bool bEnableDoOnce = true;
+
+	int8 MaxStatuatte;
+	int8 StatuatteIndex;
+	
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* AlexAudio;
+	
+	UPROPERTY(EditAnywhere, Category="TargetPoints")
+	TArray<ATargetPoint*> AltarPositions;
+	
+	UPROPERTY(EditAnywhere, Category = "Puzzle objects")
+	TArray<AAltarWhell*> AltarWhells;
+	
+	UPROPERTY(EditAnywhere, Category = "Puzzle objects")
+	TArray<AStatuette*> InGameStatuettes;
+	TArray<AStatuette*> StatuettsAuxiliaryArray;
+
+	UPROPERTY(EditAnywhere, Category = "Puzzle objects")
+	AAltar* Altar;
 };

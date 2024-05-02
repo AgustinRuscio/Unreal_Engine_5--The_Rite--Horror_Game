@@ -10,6 +10,17 @@
 #include "Components/Image.h"
 #include "Styling/SlateBrush.h"
 
+//---------------- Inventory setter Methods
+void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
+{
+	BTN_NextItem = Next;
+	BTN_PrevItem = Prev;
+	TextBlockName = textBlock;
+	OverlayImage = imageToDisplay;
+	
+	BTN_NextItem->OnClicked.AddDynamic(this, &UInventory::ShowNextItem);
+	BTN_PrevItem->OnClicked.AddDynamic(this, &UInventory::ShowPrevItem);
+}
 
 void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 {
@@ -18,7 +29,6 @@ void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 		if(Element.Key == itemName)
 			return;
 	}
-
 	
 	TPair<FString, UMaterialInterface*> addedPair;
 	
@@ -45,17 +55,7 @@ void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 	}
 }
 
-void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
-{
-	BTN_NextItem = Next;
-	BTN_PrevItem = Prev;
-	TextBlockName = textBlock;
-	OverlayImage = imageToDisplay;
-	
-	BTN_NextItem->OnClicked.AddDynamic(this, &UInventory::ShowNextItem);
-	BTN_PrevItem->OnClicked.AddDynamic(this, &UInventory::ShowPrevItem);
-}
-
+//---------------- Actions Methods
 void UInventory::OnInventoryOpen()
 {
 	if(AllItems.Num() == 0)
@@ -119,6 +119,7 @@ void UInventory::ShowPrevItem()
 {
 	if(AllItems.Num() == 0)
 		return;
+
 	
 	index--;
 	

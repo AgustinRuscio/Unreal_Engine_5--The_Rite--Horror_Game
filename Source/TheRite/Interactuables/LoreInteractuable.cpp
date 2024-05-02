@@ -18,5 +18,6 @@ ALoreInteractuable::ALoreInteractuable()
 void ALoreInteractuable::Interaction()
 {
 	Super::Interaction();
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), AudioToPlay);
 }

@@ -10,12 +10,6 @@
 ATransitionToDiaryWorld::ATransitionToDiaryWorld()
 {
  	PrimaryActorTick.bCanEverTick = true;
-
-}
-
-void ATransitionToDiaryWorld::OnPuzzleFinished()
-{
-	Obstacle->ObstacleDestroy();
 }
 
 void ATransitionToDiaryWorld::BeginPlay()
@@ -23,4 +17,9 @@ void ATransitionToDiaryWorld::BeginPlay()
 	Super::BeginPlay();
 	
 	InOrderPuzzleFlow->OnPuzzleFinished.AddDynamic(this, &ATransitionToDiaryWorld::OnPuzzleFinished);
+}
+
+void ATransitionToDiaryWorld::OnPuzzleFinished()
+{
+	Obstacle->ObstacleDestroy();
 }

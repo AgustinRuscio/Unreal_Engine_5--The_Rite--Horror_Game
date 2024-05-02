@@ -9,52 +9,67 @@
 void UCenterDotWidget::Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem)
 {
 	if(LockedDoor)
-	{
-		CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-		InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-		MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-		Talking->SetVisibility(ESlateVisibility::Hidden);
-		ClosedDoor->SetVisibility(ESlateVisibility::Visible);
-	}
+		SetLockedDoorImage();
 	else
 	{
 		if(Wait)
-		{
-			CompleteCircle->SetVisibility(ESlateVisibility::Visible);
-			InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-			MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-			Talking->SetVisibility(ESlateVisibility::Visible);
-			ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
-		}
+			SetWaitImage();
 		else
 		{
 			if(Visible)
-			{
-				CompleteCircle->SetVisibility(ESlateVisibility::Visible);
-				InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-				MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-				Talking->SetVisibility(ESlateVisibility::Hidden);
-				ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
-			}
+				SetVisibleImage();
 			else
 			{
 				if(MainItem)
-				{
-					CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-					InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-					MainInteractCircle->SetVisibility(ESlateVisibility::Visible);
-					Talking->SetVisibility(ESlateVisibility::Hidden);
-					ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
-				}
+					SetMainObjectImage();
 				else
-				{
-					CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-					InteractCircle->SetVisibility(ESlateVisibility::Visible);
-					MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-					Talking->SetVisibility(ESlateVisibility::Hidden);
-					ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
-				}
+					SetDefaultImage();
 			}
 		}
 	}
+}
+
+void UCenterDotWidget::SetLockedDoorImage()
+{
+	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
+	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	Talking->SetVisibility(ESlateVisibility::Hidden);
+	ClosedDoor->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UCenterDotWidget::SetWaitImage()
+{
+	CompleteCircle->SetVisibility(ESlateVisibility::Visible);
+	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	Talking->SetVisibility(ESlateVisibility::Visible);
+	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UCenterDotWidget::SetVisibleImage()
+{
+	CompleteCircle->SetVisibility(ESlateVisibility::Visible);
+	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	Talking->SetVisibility(ESlateVisibility::Hidden);
+	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UCenterDotWidget::SetMainObjectImage()
+{
+	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
+	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractCircle->SetVisibility(ESlateVisibility::Visible);
+	Talking->SetVisibility(ESlateVisibility::Hidden);
+	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UCenterDotWidget::SetDefaultImage()
+{
+	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
+	InteractCircle->SetVisibility(ESlateVisibility::Visible);
+	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
+	Talking->SetVisibility(ESlateVisibility::Hidden);
+	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
 }

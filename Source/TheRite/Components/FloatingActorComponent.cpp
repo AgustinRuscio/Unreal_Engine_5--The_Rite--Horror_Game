@@ -11,6 +11,40 @@ UFloatingActorComponent::UFloatingActorComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UFloatingActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	MovingTimeLine.TickTimeline(DeltaTime);
+}
+
+void UFloatingActorComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	BindTimeLine();
+
+	MyOwnerActor = GetOwner();
+	
+	StartLocation = MyOwnerActor->GetActorLocation();
+	EndLocation = StartLocation + AddingVector;
+	
+	if(bAutoStart)
+		MovingTimeLine.PlayFromStart();
+}
+
+//---------------- State Methods
+void UFloatingActorComponent::ActivateComponent()
+{
+	MovingTimeLine.PlayFromStart();
+}
+
+void UFloatingActorComponent::StopComponent()
+{
+	MovingTimeLine.Stop();
+}
+
+//---------------- TimeLine Methods
 void UFloatingActorComponent::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -79,37 +113,4 @@ void UFloatingActorComponent::OnMovementFinished()
 			}
 		}
 	}
-}
-
-void UFloatingActorComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	BindTimeLine();
-
-	MyOwnerActor = GetOwner();
-	
-	StartLocation = MyOwnerActor->GetActorLocation();
-	EndLocation = StartLocation + AddingVector;
-	
-	if(bAutoStart)
-	{
-		MovingTimeLine.PlayFromStart();
-	}
-}
-
-void UFloatingActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	MovingTimeLine.TickTimeline(DeltaTime);
-}
-
-void UFloatingActorComponent::ActivateComponent()
-{
-	MovingTimeLine.PlayFromStart();
-}
-
-void UFloatingActorComponent::StopComponent()
-{
-	MovingTimeLine.Stop();
 }

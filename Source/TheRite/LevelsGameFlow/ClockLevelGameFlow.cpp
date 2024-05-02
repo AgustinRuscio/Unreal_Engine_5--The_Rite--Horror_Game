@@ -33,9 +33,65 @@ AClockLevelGameFlow::AClockLevelGameFlow()
  	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AClockLevelGameFlow::SetVariables()
+//---------------- System Class Methods
+void AClockLevelGameFlow::BeginPlay()
 {
+	Super::BeginPlay();
+
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+	Player->SetPlayerOptions(false, true);
+	
+	BindTimeLineMethods();
+	
+	SetAudioSettings();
+	
+	BindPuzzleEvents();
+	BindEvents();
+	
+	SetStartTiffany();
+}
+
+void AClockLevelGameFlow::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	JumpscareSecondTimeLine.TickTimeline(DeltaTime);
+	
+	MakeTiffanyTalk(DeltaTime);
+	MakeBreath(DeltaTime);
+}
+
+//---------------- Initialize Methods
+void AClockLevelGameFlow::SetAudioSettings()
+{
+	AmbientMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
+	StressSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), StressSound);
+	VoicesSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), VoicesSound);
+
+	AmbientMusicOriginalVolumen = AmbientMusic->GetVolumeMultiplier();
+	StressSoundOriginalVolumen = StressSound->GetVolumeMultiplier();
+	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
+}
+
+void AClockLevelGameFlow::SetStartTiffany()
+{
+	TArray<ATargetPoint*> Waypoints;
+	Waypoints.Add(StartTiffanySpawnPoint);
+	
+	FVector const& position = StartTiffanySpawnPoint->GetActorLocation();
+	FRotator const& rotation = StartTiffanySpawnPoint->GetActorRotation();
+	
+	auto tiff =GetWorld()->SpawnActor<ATiffany>(TiffanyClassForSpawning, position, rotation);
+	
+	tiff->SetActorLocation(position);
+	tiff->SetActorRotation(rotation);
+	tiff->SetWaypoints(Waypoints);
+	tiff->SetHasToMove(true);
+	
+	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
+	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
 }
 
 void AClockLevelGameFlow::BindPuzzleEvents()
@@ -47,10 +103,55 @@ void AClockLevelGameFlow::BindPuzzleEvents()
 	MinutesLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetMinutes);
 
 	HoursLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetHours);
-	
-}
-void AClockLevelGameFlow::CheckInteraction() { }
 
+	
+	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
+	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+
+	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
+	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
+	LibraryTriggerVolumenJumpScaredReady->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscareReady);
+}
+
+void AClockLevelGameFlow::BindEvents()
+{
+	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
+	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnLibraryKeyCollected);
+	
+	HallKeyEventMoveTiffanyTrigger->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
+	BigLockedDoor->OnInteractionTrigger.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
+	
+	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
+	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
+	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
+}
+
+//---------------- Tick Methods
+void AClockLevelGameFlow::MakeTiffanyTalk(float time)
+{
+	if(TiffanyTalkTimer > TiffanyTalkCD)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyTalkCue);
+		TiffanyTalkCD = FMath::RandRange(60.0f, 120.0f);
+		TiffanyTalkTimer = 0;
+	}
+	else
+		TiffanyTalkTimer += time;
+}
+
+void AClockLevelGameFlow::MakeBreath(float time)
+{
+	if(BreathTimer > BreathCD)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyBreathkCue);
+		BreathCD = FMath::RandRange(25.0f, 190.0f);
+		BreathTimer = 0;
+	}
+	else
+		BreathTimer += time;
+}
+
+//---------------- Letters Methods
 void AClockLevelGameFlow::GetMinutes()
 {
 	MinutesCollected();
@@ -84,11 +185,119 @@ void AClockLevelGameFlow::MinutesCollected()
 	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
 
+//---------------- Audio Methods
+void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()
+{
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundOriginalVolumen);
+}
+
+void AClockLevelGameFlow::VoicesSoundIncrease()
+{
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 20);
+}
+
 void AClockLevelGameFlow::OnSoundPaused()
 {
 	HitCounterLibrary = 1;
 }
 
+//---------------- Blocking volumen Methods
+void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
+{
+	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
+
+	if(NewRotation != FRotator::ZeroRotator)
+		BlockingVolume->SetActorRotation(NewRotation);
+}
+
+void AClockLevelGameFlow::ResetBlockingVolumenPosition()
+{
+	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation->GetActorLocation(),false,
+		nullptr, ETeleportType::TeleportPhysics);
+}
+
+//---------------- Spawn Methods
+void AClockLevelGameFlow::SpawnPlanksOnDoor()
+{
+	for (auto Element : PlanksToBeSpawnOnTiffanyWalk)
+	{
+		Element->FindComponentByClass<UStaticMeshComponent>()->SetVisibility(true);
+	}
+}
+
+void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
+{
+	FVector const& position = HallKeyEventTiffanySpawnPoint->GetActorLocation();
+	FRotator const& rotation = HallKeyEventTiffanySpawnPoint->GetActorRotation();
+	
+	ATiffany* tiff = GetWorld()->SpawnActor<ATiffany>(TiffanyClassForSpawning, position, rotation);
+
+	HallKeyEventMoveTiffanyTrigger->AsignTiffany(tiff);
+}
+
+//---------------- Interaction Methods
+void AClockLevelGameFlow::OnLibraryKeyCollected()
+{
+	PlaceBlockingVolumen(BlockingVolumeLibraryEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
+}
+
+void AClockLevelGameFlow::OnWalkFinished()
+{
+	ResetBlockingVolumenPosition();
+}
+
+void AClockLevelGameFlow::OnInteractionWithLockedDoor(AInteractor* Interactor)
+{
+	Player->ForceTalk(SFX_BigDoor);
+}
+
+void AClockLevelGameFlow::OnJumpscareFinished()
+{
+	ResetBlockingVolumenPosition();
+	
+	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
+	
+	LibraryDoor->SetLockedState(false);
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOn();
+	}
+	
+	LibraryRoofLight->TurnOn();
+	
+	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
+}
+
+//---------------- TimeLine Methods
+void AClockLevelGameFlow::BindTimeLineMethods()
+{
+	FOnTimelineFloat SecondJumpscareTimelineCallback;
+	SecondJumpscareTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
+	JumpscareSecondTimeLine.AddInterpFloat(JumpscareSecondTimeLineCurve, SecondJumpscareTimelineCallback);
+	
+	FOnTimelineEventStatic SecondJumpscareTimeLineCallbackFinished;
+	SecondJumpscareTimeLineCallbackFinished.BindUFunction(this, FName("OnSecondJumpscareTimelineFinished"));
+	JumpscareSecondTimeLine.SetTimelineFinishedFunc(SecondJumpscareTimeLineCallbackFinished);
+}
+
+void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
+{
+	
+	LibraryTriggerVolumenFirst->Destroy();
+	LibraryTriggerVolumenJumpScared->Destroy();
+
+	ResetBlockingVolumenPosition();
+
+	for (auto Element : LibraryLightsEvent)
+	{
+		Element->TurnOn();
+	}
+	
+	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
+}
+
+//---------------- Bind Colliders Methods
 void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -118,8 +327,6 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 	}
 }
 
-
-//--------- JUMPSCARE
 void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bLibraryJumpScaredReady || DoOnceJumpscare > 0) return;
@@ -194,51 +401,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, 
 	Player->OnJumpScare();
 }
 
-void AClockLevelGameFlow::OnFirstJumpscareTimelineFinished()
-{
-	for (auto Element : LibraryLightsEvent)
-	{
-		Element->TurnOff();
-	}
-
-	JumpscareSecondTimeLine.PlayFromStart();
-}
-
-void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
-{
-	
-	LibraryTriggerVolumenFirst->Destroy();
-	LibraryTriggerVolumenJumpScared->Destroy();
-
-	ResetBlockingVolumenPosition();
-
-	for (auto Element : LibraryLightsEvent)
-	{
-		Element->TurnOn();
-	}
-	
-	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
-}
-
-
-void AClockLevelGameFlow::OnJumpscareFinished()
-{
-	ResetBlockingVolumenPosition();
-	
-	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
-	
-	LibraryDoor->SetLockedState(false);
-
-	for (auto Element : LibraryLightsEvent)
-	{
-		Element->TurnOn();
-	}
-	
-	LibraryRoofLight->TurnOn();
-	
-	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
-}
-
 void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bMinutes || !bHours)return;
@@ -284,184 +446,4 @@ void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor,
 	GarageDoor->SetLockedState(true);
 	GarageDoor->HardClosing();
 	CloseGaregeDoorTriggerVolumen->Destroy();
-}
-
-void AClockLevelGameFlow::OnDrawerTimelineFinished()
-{
-	for (auto Element : Lights)
-	{
-		Element->NormalMatterial();
-	}
-}
-
-
-void AClockLevelGameFlow::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimLinemethods();
-	
-	AmbientMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
-	StressSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), StressSound);
-	VoicesSoundMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), VoicesSound);
-
-	AmbientMusicOriginalVolumen = AmbientMusic->GetVolumeMultiplier();
-	StressSoundOriginalVolumen = StressSound->GetVolumeMultiplier();
-	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
-	
-	SetVariables();
-	BindPuzzleEvents();
-
-	Player->SetPlayerOptions(false, true);
-
-	
-	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	
-	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
-	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::OnLibraryKeyCollected);
-	
-	MakeTiffanyWalk->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
-	BigLockedDoor->OnInteractionTrigger.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
-
-	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
-	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
-	LibraryTriggerVolumenJumpScaredReady->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscareReady);
-	
-	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
-	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
-	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
-
-
-
-	TArray<ATargetPoint*> Waypoints;
-	Waypoints.Add(TiffanySpawnPointOneItem);
-	
-	FVector const& position =TiffanySpawnPointOneItem->GetActorLocation();
-	FRotator const& rotation =TiffanySpawnPointOneItem->GetActorRotation();
-	
-	auto tiff =GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
-
-	
-	tiff->SetActorLocation(position);
-	tiff->SetActorRotation(rotation);
-	
-	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
-	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
-	
-	tiff->SetWaypoints(Waypoints);
-	tiff->SetHasToMove(true);
-
-}
-
-void AClockLevelGameFlow::VoicesSoundIncrease()
-{
-	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 20);
-}
-
-void AClockLevelGameFlow::SpawnPlanksOnDoor()
-{
-	for (auto Element : PlanksToBeSpawnOnTiffanyWalk)
-	{
-		Element->FindComponentByClass<UStaticMeshComponent>()->SetVisibility(true);
-	}
-}
-
-void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()
-{
-	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundOriginalVolumen);
-}
-
-void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
-{
-	FVector const& position = TiffanySpawnPoint->GetActorLocation();
-	FRotator const& rotation = TiffanySpawnPoint->GetActorRotation();
-	
-	ATiffany* tiff = GetWorld()->SpawnActor<ATiffany>(MidTiff, position, rotation);
-
-	MakeTiffanyWalk->AsignTiffany(tiff);
-	//tiff->SetHasToMove(false);
-
-	//TArray<ATargetPoint*> tiffWaypoints;
-	//tiffWaypoints.Add(TiffanySpawnPoint);
-	//
-	//tiff->SetWaypoints(tiffWaypoints);
-}
-
-void AClockLevelGameFlow::OnLibraryKeyCollected()
-{
-	PlaceBlockingVolumen(BlockingVolumeEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
-}
-
-void AClockLevelGameFlow::OnWalkFinished()
-{
-	ResetBlockingVolumenPosition();
-}
-
-void AClockLevelGameFlow::OnInteractionWithLockedDoor(AInteractor* Interactor)
-{
-	Player->ForceTalk(SFX_BigDoor);
-}
-
-void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
-{
-	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
-
-	if(NewRotation != FRotator::ZeroRotator)
-		BlockingVolume->SetActorRotation(NewRotation);
-}
-
-void AClockLevelGameFlow::ResetBlockingVolumenPosition()
-{
-	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation->GetActorLocation(),false,
-		nullptr, ETeleportType::TeleportPhysics);
-}
-
-void AClockLevelGameFlow::MakeTiffanyTalk(float time)
-{
-	if(TiffanyTalkTimer > TiffanyTalkCD)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyTalkCue);
-		TiffanyTalkCD = FMath::RandRange(60.0f, 120.0f);
-		TiffanyTalkTimer = 0;
-	}
-	else
-		TiffanyTalkTimer += time;
-}
-
-auto AClockLevelGameFlow::MakeBreath(float time) -> void
-{
-	if(BreathTimer > BreathCD)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), TiffanyBreathkCue);
-		BreathCD = FMath::RandRange(25.0f, 190.0f);
-		BreathTimer = 0;
-	}
-	else
-		BreathTimer += time;
-}
-
-
-void AClockLevelGameFlow::BindTimLinemethods()
-{
-	//------Seconds Library
-	FOnTimelineFloat SecondJumpscareTimelineCallback;
-	SecondJumpscareTimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
-	JumpscareSecondTimeLine.AddInterpFloat(JumpscareSecondTimeLineCurve, SecondJumpscareTimelineCallback);
-	
-	FOnTimelineEventStatic SecondJumpscareTimeLineCallbackFinished;
-	SecondJumpscareTimeLineCallbackFinished.BindUFunction(this, FName("OnSecondJumpscareTimelineFinished"));
-	JumpscareSecondTimeLine.SetTimelineFinishedFunc(SecondJumpscareTimeLineCallbackFinished);
-}
-
-
-void AClockLevelGameFlow::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	
-	JumpscareSecondTimeLine.TickTimeline(DeltaTime);
-	
-	MakeTiffanyTalk(DeltaTime);
-	MakeBreath(DeltaTime);
 }

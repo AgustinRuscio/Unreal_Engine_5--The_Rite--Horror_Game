@@ -22,55 +22,19 @@ UCLASS()
 class THERITE_API AMakeTiffanyWalk : public AActor
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY(EditAnywhere)
-	UBoxComponent* Box;
+
+public:
+	AMakeTiffanyWalk();
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void KeyObtein(ATiffany* newTiff);
 
-
-	UPROPERTY()
-	ATiffany* Tiffany;
-
-	UPROPERTY(EditAnywhere, Category="Tiffany")
-	ATargetPoint* Target;
-
-	UPROPERTY()
-	TArray<ALightsTheRite*> Lights;
+private:
+//---------------- TimeLine Methods
+	void BindTimeLines();
 	
-	UPROPERTY(EditAnywhere, Category="Ambient")
-	TArray<ALightsTheRite*> OtherLights;
-	
-	UPROPERTY(EditAnywhere, Category="SFX")
-	USoundBase* SFXHeartBeat;
-	
-	UPROPERTY(EditAnywhere, Category="SFX")
-	USoundBase* SFXTiffanyNear;
-	
-	UPROPERTY(EditAnywhere, Category="SFX")
-	USoundBase* SFX_AfterEvent;
-
-	
-	FTimeline FirstTimeLine;
-	
-	FTimeline SecondsTimeLine;
-	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* BothTimeLineCurve;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bKeyReady;
-	bool bReady;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bSoundAfterEvent;
-
-	int8 DoOnce;
-	int8 DoOnceTimeLine = 0;
-
 	UFUNCTION()
 	void FirstTimeLineUpdate(float value);
 
@@ -84,20 +48,57 @@ private:
 	UFUNCTION()
 	void SecondsTimelineFinished();
 
-void BindTimeLines();
-
-protected:
-	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 public:	
-	AMakeTiffanyWalk();
-
-	UFUNCTION()
-	void KeyObtein(ATiffany* newTiff);
-	
-	virtual void Tick(float DeltaTime) override;
-
 	FOnFinished OnFinishedEvent;
 	FOnFinished OnStartEvent;
-};
+	
+private:
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bKeyReady;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bSoundAfterEvent;
+	
+	bool bReady;
 
+	int8 DoOnce;
+	int8 DoOnceTimeLine = 0;
+
+
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* Box;
+
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SFXHeartBeat;
+	
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SFXTiffanyNear;
+	
+	UPROPERTY(EditAnywhere, Category="Audio")
+	USoundBase* SFX_AfterEvent;
+
+	//-------- Target Point
+	UPROPERTY(EditAnywhere, Category="Target")
+	ATargetPoint* MoveTarget;
+
+	//-------- TimeLines
+	FTimeline FirstTimeLine;
+	FTimeline SecondsTimeLine;
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* BothTimeLineCurve;
+	
+	//-------- Lights
+	UPROPERTY(EditAnywhere, Category="Lighst")
+	TArray<ALightsTheRite*> OtherLights;
+	TArray<ALightsTheRite*> Lights;
+	
+	UPROPERTY()
+	ATiffany* Tiffany;
+};

@@ -17,6 +17,24 @@ ASpawnTiffanyInTime::ASpawnTiffanyInTime()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ASpawnTiffanyInTime::OnOverlapBegin);
 }
 
+void ASpawnTiffanyInTime::Tick(float DeltaTime)
+{
+	if(!bAlexInsede) return;
+
+	if(!SetTimer(DeltaTime)) return;
+
+	Timer = 0;
+	UGameplayStatics::SpawnSound2D(this, TiffanyTalk);
+}
+
+bool ASpawnTiffanyInTime::SetTimer(float DeltaTime)
+{
+	Timer += DeltaTime;
+
+	return Timer > TimerCD;
+}
+
+//---------------- Bind Colliders Methods
 void ASpawnTiffanyInTime::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -33,22 +51,4 @@ void ASpawnTiffanyInTime::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
 	
 	bAlexInsede = false;
 	Timer = 0;
-}
-
-
-void ASpawnTiffanyInTime::Tick(float DeltaTime)
-{
-	if(!bAlexInsede) return;
-
-	if(!SetTimer(DeltaTime)) return;
-
-	Timer = 0;
-	UGameplayStatics::SpawnSound2D(this, TiffanyTalk);
-}
-
-bool ASpawnTiffanyInTime::SetTimer(float DeltaTime)
-{
-	Timer += DeltaTime;
-
-	return Timer > TimerCD;
 }

@@ -14,15 +14,15 @@ AProsProcessModifier::AProsProcessModifier()
 
 }
 
-void AProsProcessModifier::ModifyPostProcessValues(FName& parameterName, float value)
-{
-	DynamicMaterialPostProcess->SetScalarParameterValue(parameterName, value);
-}
-
 void AProsProcessModifier::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	DynamicMaterialPostProcess = UMaterialInstanceDynamic::Create(PostProcesVHSdMaterial, this);
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterialPostProcess);
+}
+
+void AProsProcessModifier::ModifyPostProcessValues(FName& parameterName, float value)
+{
+	DynamicMaterialPostProcess->SetScalarParameterValue(parameterName, value);
 }

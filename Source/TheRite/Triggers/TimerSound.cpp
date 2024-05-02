@@ -7,6 +7,28 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 
+ATimerSound::ATimerSound()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+void ATimerSound::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
+	ChangeCoolDown();
+}
+
+void ATimerSound::Tick(float DeltaTime)
+{
+	Timer += DeltaTime;
+
+	if(Timer < CooldDown) return;
+	
+	SpawnAudio();
+}
 
 USoundBase* ATimerSound::CurrentAudio() const
 {
@@ -21,27 +43,8 @@ void ATimerSound::ChangeCoolDown()
 	CooldDown = FMath::RandRange(MinCoolDown, MaxCooldDown);
 }
 
-ATimerSound::ATimerSound()
+void ATimerSound::SpawnAudio()
 {
- 	PrimaryActorTick.bCanEverTick = true;
-}
-
-void ATimerSound::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	
-	ChangeCoolDown();
-	
-}
-
-void ATimerSound::Tick(float DeltaTime)
-{
-	Timer += DeltaTime;
-
-	if(Timer < CooldDown) return;
-	
 	auto playerPosition = Player->GetActorLocation() ;
 	auto forwardMinus = (Player->GetActorLocation().X - 500);
 

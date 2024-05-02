@@ -17,20 +17,18 @@ class THERITE_API ATransitionToDiaryWorld : public AActor
 {
 	GENERATED_BODY()
 	
-private:	
+public:	
+	ATransitionToDiaryWorld();
+	virtual void BeginPlay() override;
 
+private:
+	UFUNCTION()
+	void OnPuzzleFinished();
+	
+private:	
 	UPROPERTY(EditAnywhere)
 	AInOrdenSelectionPuzzleFlow* InOrderPuzzleFlow;
 
 	UPROPERTY(EditAnywhere)
 	ASpectralObstacle* Obstacle;
-	
-	UFUNCTION()
-	void OnPuzzleFinished();
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ATransitionToDiaryWorld();
 };

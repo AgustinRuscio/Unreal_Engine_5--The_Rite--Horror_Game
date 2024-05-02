@@ -22,19 +22,27 @@ void ACandleGuideController::BeginPlay()
 
 void ACandleGuideController::GuideChange(AInteractor* interactor)
 {
-	if(PlaceGuideCandles.Num() > 0)
-	{
-		for (auto Element : PlaceGuideCandles)
-		{
-			Element->TurnOff();
-		}
-	}
+	TurnOffPrevCandles();
 
-	if(NextPlaceGuideCandles.Num() > 0)
+	TurnOnNextCandles();
+}
+
+void ACandleGuideController::TurnOffPrevCandles()
+{
+	if(PlaceGuideCandles.Num() == 0) return;
+	
+	for (auto Element : PlaceGuideCandles)
 	{
-		for (auto Element : NextPlaceGuideCandles)
-		{
-			Element->TurnOn();
-		}
+		Element->TurnOff();
+	}
+}
+
+void ACandleGuideController::TurnOnNextCandles()
+{
+	if(NextPlaceGuideCandles.Num() == 0) return;
+
+	for (auto Element : NextPlaceGuideCandles)
+	{
+		Element->TurnOn();
 	}
 }

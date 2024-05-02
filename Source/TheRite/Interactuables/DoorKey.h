@@ -20,9 +20,21 @@ UCLASS()
 class THERITE_API ADoorKey : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ADoorKey();
+	
+	virtual void Interaction() override;
+	
+	void SetDoor(ADoor* NewDoor);
+
+public:	
+	FOnKeyCollected OnKeyCollected;
 	
 private:
-
+	UPROPERTY(EditAnywhere, Category= "States")
+	bool bKeyReady;
+	
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* KeyMesh;
 
@@ -37,19 +49,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "My Door")
 	ADoor* MyDoor;
-
-	UPROPERTY(EditAnywhere, Category= "States")
-	bool bKeyReady;
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ADoorKey();
-	
-	virtual void Interaction() override;
-	
-	void SetDoor(ADoor* NewDoor);
-	
-	FOnKeyCollected OnKeyCollected;
 };

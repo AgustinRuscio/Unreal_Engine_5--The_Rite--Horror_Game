@@ -29,53 +29,14 @@ ALockedDoor::ALockedDoor()
 	bInteractionDone = false;
 }
 
-void ALockedDoor::TimeLineUpdate(float time)
-{
-	float rollValue = FMath::Lerp(0.0f,5.0f, time);
-
-	FRotator rotator = FRotator(0,rollValue,0);
-		
-	DoorItself->SetRelativeRotation(rotator);
-}
-
-void ALockedDoor::TimelineFinished() { }
-
-
+//---------------- System Class Methods
 void ALockedDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("TimeLineUpdate"));
-
-	FOnTimelineEventStatic TimelineFinishedCallback;
-	TimelineFinishedCallback.BindUFunction(this, FName("TimelineFinished"));
-
-	MyTimeline.AddInterpFloat(MyFloatCurve, TimelineCallback);
-	MyTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
+	BindTimelines();
 	
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
-}
-
-void ALockedDoor::ItsLocked()
-{
-	if(AudioToPlay != nullptr)
-	{
-		Player->ForceTalk(AudioToPlay);
-	}
-
-	tempAudioComponent = UGameplayStatics::SpawnSound2D(this, DoorLockedSFX);
-	tempAudioComponent->OnAudioFinished.AddDynamic(this, &ALockedDoor::OnAudioFinished);
-
-	if(!bCanSoundItsLocked)
-		bCanSound = true;
-
-	MyTimeline.PlayFromStart();
-}
-
-void ALockedDoor::OnAudioFinished()
-{
-	bCanSound = true;
 }
 
 void ALockedDoor::Tick(float DeltaTime)
@@ -114,3 +75,49 @@ void ALockedDoor::Interaction()
 	
 	OnInteraction.Broadcast();
 }
+
+//---------------- FeedBack Methods
+void ALockedDoor::ItsLocked()
+{
+	if(AudioToPlay != nullptr)
+	{
+		Player->ForceTalk(AudioToPlay);
+	}
+
+	tempAudioComponent = UGameplayStatics::SpawnSound2D(this, DoorLockedSFX);
+	tempAudioComponent->OnAudioFinished.AddDynamic(this, &ALockedDoor::OnAudioFinished);
+
+	if(!bCanSoundItsLocked)
+		bCanSound = true;
+
+	MyTimeline.PlayFromStart();
+}
+
+void ALockedDoor::OnAudioFinished()
+{
+	bCanSound = true;
+}
+
+//---------------- TimeLine Methods
+void ALockedDoor::BindTimelines()
+{
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("TimeLineUpdate"));
+
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	TimelineFinishedCallback.BindUFunction(this, FName("TimelineFinished"));
+
+	MyTimeline.AddInterpFloat(MyFloatCurve, TimelineCallback);
+	MyTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
+}
+
+void ALockedDoor::TimeLineUpdate(float time)
+{
+	float rollValue = FMath::Lerp(0.0f,5.0f, time);
+
+	FRotator rotator = FRotator(0,rollValue,0);
+		
+	DoorItself->SetRelativeRotation(rotator);
+}
+
+void ALockedDoor::TimelineFinished() { }

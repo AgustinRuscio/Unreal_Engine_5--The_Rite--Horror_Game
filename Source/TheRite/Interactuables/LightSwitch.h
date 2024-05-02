@@ -17,10 +17,34 @@ UCLASS()
 class THERITE_API ALightSwitch : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ALightSwitch();
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void Interaction() override;
+
+private:
+//---------------- TimeLine Methods
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void SwitchTimeLineTick(float time);
+	
+	UFUNCTION()
+	void SwitchTimeLineFinished();
 	
 private:	
+	bool bFlipFlop = false;
+	
+	UPROPERTY(EditAnywhere, Category = "State")
+	bool bAnimReady = true;
+	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* WallBlockModel;
+	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SwitchModel;
 	
@@ -31,24 +55,4 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Time Line")
 	UCurveFloat* EmptyCurve;
-	
-	bool bFlipFlop = false;
-	
-	UPROPERTY(EditAnywhere, Category = "State")
-	bool bAnimReady = true;
-
-	UFUNCTION()
-	void SwitchTimeLineTick(float time);
-	UFUNCTION()
-	void SwitchTimeLineFinished();
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ALightSwitch();
-	
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void Interaction() override;
 };

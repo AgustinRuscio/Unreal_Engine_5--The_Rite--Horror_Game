@@ -16,30 +16,30 @@ class THERITE_API ATimerSound : public AActor
 {
 	GENERATED_BODY()
 	
-private:	
-
-	float Timer;
-
-	float CooldDown;
-	
-	UPROPERTY(EditAnywhere, Category= "Sound Cd")
-	float MinCoolDown;
-	UPROPERTY(EditAnywhere, Category= "Sound Cd")
-	float MaxCooldDown;
-
-
-	AAlex* Player;
-	
-	UPROPERTY(EditAnywhere, Category= "Sound")
-	TArray<USoundBase*> PosibleSounds;
-	UPROPERTY(EditAnywhere, Category= "Sound")
-	USoundAttenuation* FxAttenuation;
-	
-	USoundBase* CurrentAudio() const;
-	void ChangeCoolDown();
-	
 public:
 	ATimerSound();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	USoundBase* CurrentAudio() const;
+	void ChangeCoolDown();
+	void SpawnAudio();
+	
+private:	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	float MinCoolDown;
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	float MaxCooldDown;
+
+	float Timer;
+	float CooldDown;
+	
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	TArray<USoundBase*> PosibleSounds;
+	
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	USoundAttenuation* FxAttenuation;
+	
+	AAlex* Player;
 };

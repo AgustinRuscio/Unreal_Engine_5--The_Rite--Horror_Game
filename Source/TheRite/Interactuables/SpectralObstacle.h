@@ -24,20 +24,46 @@ UCLASS()
 class THERITE_API ASpectralObstacle : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ASpectralObstacle();
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+	
+//---------------- Destroy Methods
+	UFUNCTION()
+	void DestryoObject(UNiagaraComponent* comp);
+	void ObstacleDestroy();
+
+private:
+//---------------- TimeLines Methods
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void FirstTimeLineUpdate(float time);
+	
+	UFUNCTION()
+	void FirstTimelineFinished();
+	
+public:	
+	FObstacleDestroyed OnObstacleDestroy;
 	
 private:
+	UStaticMeshComponent* ParentStaticMesh;
+	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	UBoxComponent* BoxCollider;
-	UPROPERTY(EditAnywhere, Category = "Construction")
-	UNiagaraComponent* NiagaraSystemComponent;
-
+	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	USoundBase* SpectralSound;
 
-	UStaticMeshComponent* ParentStaticMesh;
+	//-------- Feedback
 	UPROPERTY(EditAnywhere, Category = "Construction")
-	AActor* ParentActor;
-
+	UNiagaraComponent* NiagaraSystemComponent;
+	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	UMaterialInstance* Mat;
 	
@@ -48,20 +74,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
 	
-public:	
-	ASpectralObstacle();
-	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void FirstTimelineFinished();
-	UFUNCTION()
-	void FirstTimeLineUpdate(float time);
-
-	virtual void Tick(float DeltaSeconds) override;
-	
-	UFUNCTION()
-	void DestryoObject(UNiagaraComponent* comp);
-	void ObstacleDestroy();
-
-	FObstacleDestroyed OnObstacleDestroy;
+	UPROPERTY(EditAnywhere, Category = "Construction")
+	AActor* ParentActor;
 };

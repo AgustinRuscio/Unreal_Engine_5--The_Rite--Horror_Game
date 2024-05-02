@@ -46,17 +46,110 @@ class THERITE_API AAlexPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-private:
+public:
+	AAlexPlayerController();
+	~AAlexPlayerController();
 
+//---------------- Getter Methods
+	bool GetIsUsingGamepad() const;
+	
+	UFUNCTION(BlueprintCallable)
+	float GetMouseSensitivity() const;
+	
+	virtual void BeginPlay() override;
+	
+//---------------- Actions Methods
+	void EnableInput(APlayerController* PlayerController) override;
+	void DisableInput(APlayerController* PlayerController) override;
+	
+	void SetNormalInput();
+	void SetPauseGame(bool PauseState);
+	void SetDoorMode(bool newMode);
+	void SetUIOnly(bool uiMode);
+	void SetEventInput();
+	void SetFocusInput();
+	
+	UFUNCTION(BlueprintCallable)
+	void SetMouseSensitivity(float newSensitivity);
+	
+private:
+	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	bool GetIsGamepad() const;
+
+//---------------- Binding Methods
+	void BindActions();
+	void UnbindActions();
+
+	
+//---------------- Input Methods
+	void PlayerMovement(const FInputActionValue& value);
+	
+	void StartSprint(const FInputActionValue& value);
+	void StopSprint(const FInputActionValue& value);
+
+	void LighterOn(const FInputActionValue& value);
+	
+	void InteractionPressed(const FInputActionValue& value);
+	void HoldingBTN(const FInputActionValue& value);
+
+	void CameraMoved(const FInputActionValue& value);
+	void DoorMoved(const FInputActionValue& value);
+
+	void Paused(const FInputActionValue& value);
+	void Inventory(const FInputActionValue& value);
+	void NextInventoryItem(const FInputActionValue& value);
+	void PrevInventoryItem(const FInputActionValue& value);
+	void BackFromFocus(const FInputActionValue& value);
+	
+	void SetInventoryInputs();
+	void SetDoorInputs();
+	
+//---------------- Loading Methods
+	UFUNCTION()
+	void RecieveLoadedData(float newSensitivity);
+	UFUNCTION()
+	void LoadValues();
+
+	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	void SetIsGamepad(const bool bIsGamepad);
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
+	UWidgetInteractionComponent* WidgetInteractionComponent;
+	
+	FPlayerMovement OnPlayerMovement;
+	
+	FStopSprint OnStopSprint;
+	FStartSprint OnStartSprint;
+
+	FTurnLighterOn OnLighter;
+
+	FInteractionPressed OnInteractionPressed;
+	FHoldingBTN OnHoldingBtn;
+
+	FMoveCamera OnCameraMoved;
+	FMoveCamera OnCameraMovedDoor;
+
+	FPaused OnPause;
+	FInventory OnInventory;
+	FOnFocusBack OnLeaveFocus;
+	
+	FNextInventoryItem OnNextInventoryItem;
+	FPrevInventoryItem OnPrevInventoryItem;
+
+	FCheckInputMode OnKeyPressed;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FCheckKeyInputMode OnAnyKeyPressed;
+	
+private:
+	bool bIsUsingGamepad;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float MouseSensitivity = 1.f;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	ALevelsGameState* GameState;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingCOntext;
-
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputAction* MovePlayerAction;
@@ -88,108 +181,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputAction* PrevInventoryItemAction;
 
-	
-	void PlayerMovement(const FInputActionValue& value);
-	
-	void StartSprint(const FInputActionValue& value);
-	void StopSprint(const FInputActionValue& value);
-
-	void LighterOn(const FInputActionValue& value);
-	
-	void InteractionPressed(const FInputActionValue& value);
-	void HoldingBTN(const FInputActionValue& value);
-
-	void CameraMoved(const FInputActionValue& value);
-	void DoorMoved(const FInputActionValue& value);
-
-	
-	
-	void Paused(const FInputActionValue& value);
-	void Inventory(const FInputActionValue& value);
-	void NextInventoryItem(const FInputActionValue& value);
-	void PrevInventoryItem(const FInputActionValue& value);
-
-	void BackFromFocus(const FInputActionValue& value);
-
-	
-	
-	bool bIsUsingGamepad;
-	
-	UFUNCTION(BlueprintCallable, Category="Gamepad")
-	void SetIsGamepad(const bool bIsGamepad);
-	
-	UFUNCTION(BlueprintCallable, Category="Gamepad")
-	bool GetIsGamepad() const;
-
-	UFUNCTION()
-	void RecieveLoadedData(float newSensitivity);
-
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	ALevelsGameState* GameState;
 	ALevelsGameState* gs;
-	
-protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
-	UWidgetInteractionComponent* WidgetInteractionComponent;
-
-	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void LoadValues();
-	void BindActions();
-	void UnbindActions();
-	void SetInventoryInputs();
-	void SetDoorInputs();
-
-public:
-	AAlexPlayerController();
-	~AAlexPlayerController();
-	bool GetIsUsingGamepad() const;
-	void SetPauseGame(bool PauseState);
-	void SetDoorMode(bool newMode);
-	void SetUIOnly(bool uiMode);
-	void SetEventInput();
-	void SetNormalInput();
-
-	void SetFocusInput();
-
-	virtual void Tick(float DeltaSeconds) override;
-	void DisableInput(APlayerController* PlayerController) override;
-
-	void EnableInput(APlayerController* PlayerController) override;
-
-	UFUNCTION(BlueprintCallable)
-	float GetMouseSensitivity() const;
-
-	UFUNCTION(BlueprintCallable)
-	void SetMouseSensitivity(float newSensitivity);
-
-	FPlayerMovement OnPlayerMovement;
-	
-	FStopSprint OnStopSprint;
-	FStartSprint OnStartSprint;
-
-	FTurnLighterOn OnLighter;
-
-	FInteractionPressed OnInteractionPressed;
-	FHoldingBTN OnHoldingBtn;
-
-	FMoveCamera OnCameraMoved;
-	FMoveCamera OnCameraMovedDoor;
-
-	FPaused OnPause;
-	FInventory OnInventory;
-	FOnFocusBack OnLeaveFocus;
-	
-	FNextInventoryItem OnNextInventoryItem;
-	FPrevInventoryItem OnPrevInventoryItem;
-
-	FCheckInputMode OnKeyPressed;
-	
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FCheckKeyInputMode OnAnyKeyPressed;
-
-
-	
-
-
-
 };

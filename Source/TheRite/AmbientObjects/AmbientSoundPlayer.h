@@ -14,23 +14,23 @@ UCLASS()
 class THERITE_API AAmbientSoundPlayer : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	AAmbientSoundPlayer();
+	~AAmbientSoundPlayer();
+	
+	virtual void BeginPlay() override;
+	
+private:
+	UFUNCTION()
+	void CreateAudio();
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Settings")
-	bool isTwoDimentional;
+	bool IsTwoDimentional;
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	USoundBase* CueToSound;
 
-	class UAudioComponent* AudioComponent;
-	
-	UFUNCTION()
-	void CreateAudio();
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AAmbientSoundPlayer();
-	~AAmbientSoundPlayer();
+	UAudioComponent* AudioComponent;
 };

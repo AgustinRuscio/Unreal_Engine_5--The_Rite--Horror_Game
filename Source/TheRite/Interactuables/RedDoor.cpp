@@ -20,24 +20,38 @@ ARedDoor::ARedDoor()
 	CreateEditorComponents();
 }
 
-void ARedDoor::BindTimeLines()
+//---------------- System Class Methods
+void ARedDoor::BeginPlay()
 {
-	FOnTimelineFloat LatchAnimTimelineCallback;
-	LatchAnimTimelineCallback.BindUFunction(this, FName("LatchAnimTimeLineUpdate"));
-	TimeLineLatchAnim.AddInterpFloat(ItsLockedCurve, LatchAnimTimelineCallback);
-	
-	FOnTimelineFloat OpenTimelineCallback;
-	OpenTimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
-	TimeLineOpenDoor.AddInterpFloat(CurveOpenDoor, OpenTimelineCallback);
-	
-	FOnTimelineEventStatic OpenTimelineFinishedCallback;
-	OpenTimelineFinishedCallback.BindUFunction(this, FName("OpenTimelineFinished"));
-	TimeLineOpenDoor.SetTimelineFinishedFunc(OpenTimelineFinishedCallback);
+	Super::BeginPlay();
+	BindTimeLines();
+}
 
+void ARedDoor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	TimeLineOpenDoor.TickTimeline(DeltaTime);
+	FadeTimeLine.TickTimeline(DeltaTime);
+	TimeLineLatchAnim.TickTimeline(DeltaTime);
+}
 
-	FOnTimelineEventStatic FadeFinishedCallback;
-	FadeFinishedCallback.BindUFunction(this, FName("FadeTimelineFinished"));
-	FadeTimeLine.SetTimelineFinishedFunc(FadeFinishedCallback);
+void ARedDoor::Interaction()
+{
+	if(!bCanInteract) return;
+	if(bAlreadyOpen) return;
+
+	Super::Interaction();
+	
+	bAlreadyOpen = true;
+	GetWorld()->GetFirstPlayerController()->GetPawn()->DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	
+	TimeLineLatchAnim.PlayFromStart();
+	UGameplayStatics::PlaySound2D(GetWorld(), SFXDoor);
+
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->DisableInput(controller);
+	
+	TimeLineOpenDoor.Play();
 }
 
 void ARedDoor::CreateEditorComponents()
@@ -73,6 +87,33 @@ void ARedDoor::CreateEditorComponents()
 	BoxCollision->SetupAttachment(DoorItself);
 }
 
+void ARedDoor::ChangeLevel()
+{
+	UGameplayStatics::OpenLevel(this, NextLevelName);
+}
+
+//---------------- TimeLines Methods
+void ARedDoor::BindTimeLines()
+{
+	FOnTimelineFloat LatchAnimTimelineCallback;
+	LatchAnimTimelineCallback.BindUFunction(this, FName("LatchAnimTimeLineUpdate"));
+	TimeLineLatchAnim.AddInterpFloat(ItsLockedCurve, LatchAnimTimelineCallback);
+	
+	FOnTimelineFloat OpenTimelineCallback;
+	OpenTimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
+	TimeLineOpenDoor.AddInterpFloat(CurveOpenDoor, OpenTimelineCallback);
+	
+	FOnTimelineEventStatic OpenTimelineFinishedCallback;
+	OpenTimelineFinishedCallback.BindUFunction(this, FName("OpenTimelineFinished"));
+	TimeLineOpenDoor.SetTimelineFinishedFunc(OpenTimelineFinishedCallback);
+
+
+	FOnTimelineEventStatic FadeFinishedCallback;
+	FadeFinishedCallback.BindUFunction(this, FName("FadeTimelineFinished"));
+	FadeTimeLine.SetTimelineFinishedFunc(FadeFinishedCallback);
+}
+
+
 void ARedDoor::OpenTimeLineUpdate(float value)
 {
 	float Yaw = FMath::Lerp(0,90, value);
@@ -84,6 +125,13 @@ void ARedDoor::OpenTimelineFinished()
 {
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFXRedDoor);
 	FadeTimeLine.Play();
+}
+
+void ARedDoor::LatchAnimTimeLineUpdate(float value)
+{
+	float lerpValue = FMath::Lerp(5, 50, value);
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
 }
 
 void ARedDoor::FadeTimelineFinished()
@@ -101,49 +149,4 @@ void ARedDoor::FadeTimelineFinished()
 	player->OnFinished.AddDynamic(this, &ARedDoor::ChangeLevel);
 	
 	player->Play();
-}
-
-void ARedDoor::LatchAnimTimeLineUpdate(float value)
-{
-	float lerpValue = FMath::Lerp(5, 50, value);
-	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
-	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
-}
-
-void ARedDoor::ChangeLevel()
-{
-	UGameplayStatics::OpenLevel(this, NextLevelName);
-}
-
-void ARedDoor::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimeLines();
-}
-
-void ARedDoor::Interaction()
-{
-	if(!bCanInteract) return;
-	if(bAlreadyOpen) return;
-
-	Super::Interaction();
-	
-	bAlreadyOpen = true;
-	GetWorld()->GetFirstPlayerController()->GetPawn()->DisableInput(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	
-	TimeLineLatchAnim.PlayFromStart();
-	UGameplayStatics::PlaySound2D(GetWorld(), SFXDoor);
-
-	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->DisableInput(controller);
-	
-	TimeLineOpenDoor.Play();
-}
-
-void ARedDoor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	TimeLineOpenDoor.TickTimeline(DeltaTime);
-	FadeTimeLine.TickTimeline(DeltaTime);
-	TimeLineLatchAnim.TickTimeline(DeltaTime);
 }

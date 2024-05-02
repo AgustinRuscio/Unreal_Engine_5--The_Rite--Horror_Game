@@ -17,6 +17,10 @@ class THERITE_API UKeyWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void SetKeyZoneText(FString newZone);
+	
+public:
 	UPROPERTY(BlueprintReadWrite)
 	FString ZoneText;
 	UPROPERTY(EditAnywhere)
@@ -24,7 +28,4 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTextBlock* TextComponent;
-	
-	UFUNCTION(BlueprintCallable)
-	void SetKeyZoneText(FString newZone);
 };

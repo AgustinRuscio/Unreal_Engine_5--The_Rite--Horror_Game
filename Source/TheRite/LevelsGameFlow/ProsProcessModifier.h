@@ -15,20 +15,18 @@ UCLASS()
 class THERITE_API AProsProcessModifier : public AActor
 {
 	GENERATED_BODY()
+
+public:	
+	AProsProcessModifier();
+	virtual void BeginPlay() override;
+
+	void ModifyPostProcessValues(FName& parameterName, float value);
 	
 private:	
-
 	UPROPERTY(EditAnywhere, Category = "Post process event")
 	UMaterialInterface* PostProcesVHSdMaterial;
 	UMaterialInstanceDynamic* DynamicMaterialPostProcess;
 
 	UPROPERTY(EditAnywhere, Category = "Post process event")
 	UPostProcessComponent* PostProcessComponent;
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AProsProcessModifier();
-
-	void ModifyPostProcessValues(FName& parameterName, float value);
 };

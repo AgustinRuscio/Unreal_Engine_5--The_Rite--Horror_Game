@@ -17,5 +17,4 @@ class THERITE_API AMainPickable : public AInteractor
 	
 public:	
 	AMainPickable();
-
 };

@@ -16,9 +16,27 @@ AAutomaticCloseDoorTrigger::AAutomaticCloseDoorTrigger()
 void AAutomaticCloseDoorTrigger::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	BindTriggers();
+
+	BinddTimeLinesMethods();
+}
+
+void AAutomaticCloseDoorTrigger::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	CloseDoorTimeLine.TickTimeline(DeltaTime);
+}
+
+void AAutomaticCloseDoorTrigger::BindTriggers()
+{
 	RoomTrigger->OnActorBeginOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorIn);
 	RoomTrigger->OnActorEndOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorOut);
+}
 
+//---------------- Timelines Methods
+void AAutomaticCloseDoorTrigger::BinddTimeLinesMethods()
+{
 	FOnTimelineFloat CloseDoorTimeLienTick;
 	CloseDoorTimeLienTick.BindUFunction(this, FName(""));
 	CloseDoorTimeLine.AddInterpFloat(CloseDoorCurve, CloseDoorTimeLienTick);
@@ -28,12 +46,14 @@ void AAutomaticCloseDoorTrigger::BeginPlay()
 	CloseDoorTimeLine.SetTimelineFinishedFunc(FirstTurnOnCallbackFinished);
 }
 
-void AAutomaticCloseDoorTrigger::Tick(float DeltaTime)
+void AAutomaticCloseDoorTrigger::OnTimerFinished()
 {
-	Super::Tick(DeltaTime);
-	CloseDoorTimeLine.TickTimeline(DeltaTime);
+	if(playerInside) return;
+
+	DoorToClose->AutomaticClose();
 }
 
+//---------------- Collider Methods
 void AAutomaticCloseDoorTrigger::CheckActorIn(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -51,9 +71,3 @@ void AAutomaticCloseDoorTrigger::CheckActorOut(AActor* OverlappedActor, AActor* 
 	CloseDoorTimeLine.PlayFromStart();
 }
 
-void AAutomaticCloseDoorTrigger::OnTimerFinished()
-{
-	if(playerInside) return;
-
-	DoorToClose->AutomaticClose();
-}

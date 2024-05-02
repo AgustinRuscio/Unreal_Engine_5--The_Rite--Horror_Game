@@ -18,9 +18,16 @@ UCLASS()
 class THERITE_API AClockLevelDrawersPuzzle : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	AClockLevelDrawersPuzzle();
+	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void OnKeySpectralWrittingUsed(AInteractor* interactor);
 	
 private:
-
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	ASpectralWrittings* KeySpectralWrittings;
 
@@ -29,13 +36,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	ASpectralObstacle* DestroyableSpectralIbstacle;
-	
-	UFUNCTION()
-	void OnKeySpectralWrittingUsed(AInteractor* interactor);
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AClockLevelDrawersPuzzle();
 };

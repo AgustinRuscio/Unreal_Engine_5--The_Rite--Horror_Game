@@ -10,6 +10,17 @@ UTimerActionComponent::UTimerActionComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTimerActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	RunTimer(DeltaTime);
+}
+
+void UTimerActionComponent::ActionFinished()
+{
+	bShowLighterOff = true;
+	Timer = 0;
+}
 
 void UTimerActionComponent::RunTimer(float deltaTime)
 {
@@ -22,22 +33,4 @@ void UTimerActionComponent::RunTimer(float deltaTime)
 		bShowLighterOff = false;
 		TimerReach.Broadcast();
 	}
-}
-
-void UTimerActionComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-
-void UTimerActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	RunTimer(DeltaTime);
-}
-
-void UTimerActionComponent::ActionFinished()
-{
-	bShowLighterOff = true;
-	Timer = 0;
 }

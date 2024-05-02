@@ -7,15 +7,6 @@
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-
-
-void AAmbientSoundPlayer::BeginPlay()
-{
-	Super::BeginPlay();
-
-	CreateAudio();
-}
-
 AAmbientSoundPlayer::AAmbientSoundPlayer()
 {
 	bAllowTickBeforeBeginPlay = true;
@@ -28,12 +19,19 @@ AAmbientSoundPlayer::~AAmbientSoundPlayer()
 		AudioComponent->OnAudioFinished.Clear();
 }
 
+void AAmbientSoundPlayer::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CreateAudio();
+}
+
 void AAmbientSoundPlayer::CreateAudio()
 {
 	if(AudioComponent != nullptr)
 		AudioComponent->OnAudioFinished.Clear();
 
-	if(isTwoDimentional)
+	if(IsTwoDimentional)
 		AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), CueToSound);
 	else
 		AudioComponent = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), CueToSound, GetActorLocation());

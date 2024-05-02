@@ -20,42 +20,29 @@ UCLASS()
 class THERITE_API AAltar : public AInteractor
 {
 	GENERATED_BODY()
+
+
+public:
+	AAltar();
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void Interaction() override;
+
+	void DisableAltarInteraction();
 	
 private:
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* StaticMesh;
+	UFUNCTION()
+	void LeaveFocus();
 	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	TArray<AAltarWhell*> Whells;
-
-	bool bIsFocus;
-
-	int WhellIndex = 0;
-
-	AAlex* Player;
-
-	void ChangeCameraPosition();
-
-	FVector3d ActualCamaraPos;
-	FVector3d NextCamaraPos;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	TArray<ATargetPoint*> CameraPos;
-
-	FVector cameraPos;
+	void BindTimeLine();
 	
-	FTimeline MoveCameraTimeLine;
-	
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	UCurveFloat* CurveFloat;
-
 	UFUNCTION()
 	void MoveCameraTick(float deltaSecinds);
+	
 	UFUNCTION()
 	void MoveCameraFinished();
 	
-	UFUNCTION()
-	void LeaveFocus();
 	UFUNCTION()
 	void WhellInteraction();
 
@@ -65,16 +52,31 @@ private:
 	UFUNCTION()
 	void NextWhell();
 
-	void BindTimeLine();
+	void ChangeCameraPosition();
+
+private:
+	bool bIsFocus;
+
+	int WhellIndex = 0;
 	
-protected:
-	virtual void BeginPlay() override;
+	FVector cameraPos;
+	
+	FVector3d ActualCamaraPos;
+	FVector3d NextCamaraPos;
+	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* StaticMesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	TArray<AAltarWhell*> Whells;
 
-public:	
-	AAltar();
-	virtual void Tick(float DeltaTime) override;
+	FTimeline MoveCameraTimeLine;
 
-	virtual void Interaction() override;
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	UCurveFloat* CurveFloat;
 
-
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	TArray<ATargetPoint*> CameraPos;
+	
+	AAlex* Player;
 };

@@ -28,8 +28,31 @@ void ASpectralObstacle::BeginPlay()
 	DynamicMaterial = UMaterialInstanceDynamic::Create(Mat, this);
 	ParentStaticMesh->SetMaterial(0, DynamicMaterial);
 
+	BindTimeLines();
+}
+
+void ASpectralObstacle::Tick(float DeltaSeconds)
+{
+	FirstTimeLine.TickTimeline(DeltaSeconds);
+}
+
+//---------------- Destroy Methods
+void ASpectralObstacle::DestryoObject(UNiagaraComponent* comp)
+{
+	FirstTimeLine.PlayFromStart();
+}
+
+void ASpectralObstacle::ObstacleDestroy()
+{
+	UGameplayStatics::SpawnSound2D(GetWorld(), SpectralSound);
 	
-	//------------------- Open Time line
+	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
+	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestryoObject);
+}
+
+//---------------- TimeLines Methods
+void ASpectralObstacle::BindTimeLines()
+{
 	FOnTimelineFloat TimelineCallback;
 	TimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
 	FirstTimeLine.AddInterpFloat(BothTimeLineCurve, TimelineCallback);
@@ -39,13 +62,6 @@ void ASpectralObstacle::BeginPlay()
 	FirstTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
 }
 
-void ASpectralObstacle::FirstTimelineFinished()
-{
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation());
-	OnObstacleDestroy.Broadcast();
-	Destroy();
-}
-
 void ASpectralObstacle::FirstTimeLineUpdate(float time)
 {
 	float value = FMathf::Lerp(1,2,time);
@@ -53,18 +69,8 @@ void ASpectralObstacle::FirstTimeLineUpdate(float time)
 	DynamicMaterial->SetScalarParameterValue("Corruption", value);
 }
 
-void ASpectralObstacle::Tick(float DeltaSeconds)
+void ASpectralObstacle::FirstTimelineFinished()
 {
-	FirstTimeLine.TickTimeline(DeltaSeconds);
-}
-
-void ASpectralObstacle::ObstacleDestroy()
-{
-	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
-	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestryoObject);
-}
-
-void ASpectralObstacle::DestryoObject(UNiagaraComponent* comp)
-{
-	FirstTimeLine.PlayFromStart();
+	OnObstacleDestroy.Broadcast();
+	Destroy();
 }

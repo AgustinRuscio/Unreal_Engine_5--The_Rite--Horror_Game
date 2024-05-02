@@ -16,16 +16,17 @@ UCLASS()
 class THERITE_API AHourLetter : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	AHourLetter();
+	
+	virtual void Interaction() override;
+	
+public:	
+	UPROPERTY(BlueprintAssignable, Category = "Action")
+	FActioning OnAction;
 	
 private:
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* LetterMesh;
-
-public:	
-	AHourLetter();
-	
-	virtual void Interaction() override;
-
-	UPROPERTY(BlueprintAssignable, Category = "Action")
-	FActioning OnAction;
 };

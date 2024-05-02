@@ -21,120 +21,55 @@ UCLASS()
 class THERITE_API ADoor : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ADoor();
+
+//---------------- Getter Methods
+	bool IsLocked() const;
+	bool NeedKey() const;
+	bool KeyUnlocked() const;
 	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void Interaction() override;
+
+//---------------- Action Door Methods
+	UFUNCTION()
+	void ObteinKey();
+	
+	UFUNCTION()
+	void Open();
+	
+	UFUNCTION()
+	void Close();
+
+	UFUNCTION()
+	void HardClosing();
+	
+	void AutomaticClose();
+	
+//---------------- Setter Methods
+	void SetDoorKeyValues(FString itemName, PickableItemsID id);
+	void SetCanDragFalse();
+	void SetLockedState(bool lockednewState);
+
 private:
-	//-------- Mesh
-	
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	UStaticMeshComponent* DoorItself;
-	
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	UStaticMeshComponent* BaseFront;
-	
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	UStaticMeshComponent* BaseBack;
+//---------------- Initializer Methods
+	void CreateWidgets();
+	void InitializeNeededValues();
+//---------------- Tutorial Methods
+	void SetTutorialDoor();
+	void TutorialInteraction();
 
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	USkeletalMeshComponent* LatchFront;
-	
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	USkeletalMeshComponent* LatchBack;
+//---------------- Checker Methods
+	void HoldingTimerRunner(float DeltaTime);
+	void CheckCanSound(float DeltaTime);
 
-	UPROPERTY(EditAnywhere, Category = "Door mesh")
-	UBoxComponent* BoxCollision;
+	void CheckPlayerForward();
+	void CheckLocked();
 
-	AAlex* Player;
-
-	//-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorUnlocked;
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorClinck;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXVoiceLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorSlam;
-	
-	//--------- Widget
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ULockedWidget> LockedUI;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UTutorialWidget> TutorialUI;
-	
-	UPROPERTY()
-	ULockedWidget* LockedWidget;
-	UPROPERTY()
-	UTutorialWidget* TutorialWidget;
-
-	FTimerHandle TutorialTimerHandle;
-
-	bool bDoOnceTut;
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	bool bIsTutorialDoor = false;
-	
-	//---- General
-	UPROPERTY(EditAnywhere, Category= "States")
-	bool bFrontOpen;
-	
-	bool bFlipFlop = true;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bIsLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bNeedKey;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bKeyUnlocked;
-	
-	UPROPERTY(EditAnywhere, Category = "States")
-	bool bCanSoundItsLocked;
-	
-	bool bHolding;
-	bool bIsLookingDoor;
-	bool bWasLookingDoor;
-	bool bcanDrag;
-	bool bIsPlayerForward;
-	
-	int8 FirstTimeKeySound = 0;
-	int8 AudioCounterItsLocked = 0;
-
-	UPROPERTY(EditAnywhere, Category= "Open angle")
-	float FrontAngle;
-	
-	UPROPERTY(EditAnywhere, Category= "Open angle")
-	float Sensitivity;
-	
-	float ItsLockedTimer;
-	
-	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
-	float ItsLockedCD = 60;
-
-	float DoorTimer;
-	
-	float FirstYawrotation;
-	float MaxYawrotation;
-	
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	float DoorOpenOffsetCD;
-	//---- Functions
-	
-	UFUNCTION()
-	void ItsLocked();
-
-	UFUNCTION()
-	void LatchAnim();
-
-
-	UFUNCTION()
-	void LatchHolding(bool isOppening);
 	
 	UFUNCTION()
 	void CheckDragDoor();
@@ -142,30 +77,19 @@ private:
 	UFUNCTION()
 	void CheckIfLookingDoor();
 
+//---------------- FeedBack Methods
+	UFUNCTION()
+	void ItsLocked();
+
+	UFUNCTION()
+	void LatchAnim();
+	
+	UFUNCTION()
+	void LatchHolding(bool isOppening);
+
+//---------------- TimeLines Methods
 	void BindTimeLines();
-
-	//--------- Time Line
-	FTimeline TimeLineOpenDoor;
-	
-	FTimeline TimeLineItsLocked;
-	
-	FTimeline TimeLineLatchAnim;
-	FTimeline TimeLineLatchHold;
-	
-	FTimeline TimeLineHardClosing;
-
-	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* CurveOpenDoor;
-	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* HardClosingCurve;
-	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* LatchHoldCurve;
-	
-	UPROPERTY(EditAnywhere, Category = "Timeline")
-	UCurveFloat* ItsLockedCurve;
+	void RunTimeLinesTick(float DeltaTime);
 
 	
 	UFUNCTION()
@@ -202,40 +126,135 @@ private:
 	UFUNCTION()
 	void HardClosingTimelineFinished();
 
+private:
+	UPROPERTY(EditAnywhere, Category= "States")
+	bool bFrontOpen;
+	
+	bool bFlipFlop = true;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bIsLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bNeedKey;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bKeyUnlocked;
+	
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bCanSoundItsLocked;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	bool bIsTutorialDoor = false;
+	
+	bool bHolding;
+	bool bIsLookingDoor;
+	bool bWasLookingDoor;
+	bool bcanDrag;
+	bool bIsPlayerForward;
+	bool bDoOnceTut;
+	
+	int8 FirstTimeKeySound = 0;
+	int8 AudioCounterItsLocked = 0;
+
+	UPROPERTY(EditAnywhere, Category= "Open angle")
+	float FrontAngle;
+	
+	UPROPERTY(EditAnywhere, Category= "Open angle")
+	float Sensitivity;
+	
+	float ItsLockedTimer;
+	
+	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
+	float ItsLockedCD = 60;
+
+	float DoorTimer;
+	
+	float FirstYawrotation;
+	float MaxYawrotation;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	float DoorOpenOffsetCD;
+	
+	
 	FRotator InitialRot;
 	FRotator CurrentRot;
 	
 	FString keyName;
 	PickableItemsID keyId;
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	ADoor();
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void Interaction() override;
 	
-	UFUNCTION()
-	void Open();
+	//-------- Mesh
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	UStaticMeshComponent* DoorItself;
 	
-	UFUNCTION()
-	void Close();
-
-	void AutomaticClose();
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	UStaticMeshComponent* BaseFront;
 	
-	UFUNCTION()
-	void HardClosing();
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	UStaticMeshComponent* BaseBack;
 
-	UFUNCTION()
-	void ObteinKey();
-
-
-	void SetDoorKeyValues(FString itemName, PickableItemsID id);
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	USkeletalMeshComponent* LatchFront;
 	
-	bool IsLocked() const;
-	void SetCanDragFalse();
-	bool NeedKey() const;
-	bool KeyUnlocked() const;
-	void SetLockedState(bool lockednewState);
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	USkeletalMeshComponent* LatchBack;
+
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	UBoxComponent* BoxCollision;
+
+
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorUnlocked;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorClinck;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXVoiceLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorSlam;
+	
+	//--------- Widget
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ULockedWidget> LockedUI;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UTutorialWidget> TutorialUI;
+	
+	UPROPERTY()
+	ULockedWidget* LockedWidget;
+	UPROPERTY()
+	UTutorialWidget* TutorialWidget;
+
+	//--------- Time Line
+	FTimerHandle TutorialTimerHandle;
+	
+	FTimeline TimeLineOpenDoor;
+	
+	FTimeline TimeLineItsLocked;
+	
+	FTimeline TimeLineLatchAnim;
+	FTimeline TimeLineLatchHold;
+	
+	FTimeline TimeLineHardClosing;
+
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* CurveOpenDoor;
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* HardClosingCurve;
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* LatchHoldCurve;
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* ItsLockedCurve;
+	
+	AAlex* Player;
 };
