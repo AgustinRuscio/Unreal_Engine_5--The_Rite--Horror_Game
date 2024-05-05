@@ -8,24 +8,90 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture_4.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/Furniture_4_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/M_Furniture_4.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_4_Textures/M_Furniture_4_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture9.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Furniture_5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_5_Textures/Furniture5_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_5_Textures/Furniture5_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_5_Textures/Furniture5_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_5_Textures/Furniture_5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_5_Textures/Furniture_5_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_7_Texture/Furniture7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_7_Texture/Furniture7_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_7_Texture/Furniture7_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_7_Texture/Furniture7_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_7_Texture/Furniture7_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_8_Texture/Furniture8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_8_Texture/Furniture8_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_8_Texture/Furniture8_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_8_Texture/Furniture8_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_8_Texture/Furniture8_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_9_Texture/Furniture9_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_9_Texture/Furniture9_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_9_Texture/Furniture9_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_9_Texture/Furniture_9.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_9_Texture/Furniture_9_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Altar_Wheel.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/CupidStatuette.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/M_altar_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/M_altar.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/altar.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/CupidStatuette.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/M_cupid.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/M_cupid_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/cupid_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/cupid_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/cupid_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/M_Death.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/M_Virgin_Corruption_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/M_Virgin_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/M_Virgin.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/virgin_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/virgin_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/virgin_OcclusionRoughnessMetallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Virgin.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/13_12_WrittingClue.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/2003_Writtib.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/December_WrittingClue.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_13_12_WrittingClue.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_13_12_WrittingClue_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_2003Clue.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_2003Clue_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_DecemberClue.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/Clues/M_DecemberClue_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Coffee_table.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Coffee_table.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Copa3.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Furniture2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Grandfather_Clock_polySurface682.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/Grandfather_Clock_polySurface682.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Fireplace.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/Fireplace.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_chair.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_chair.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_table.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Model/dining_room_table.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/NewBottles_Whisky5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/001LIVINGROOM/NewBottles_Whisky5.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/cuadroNuevo2/lienzo3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/cuadroNuevo2/lienzo3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/CupidStatuette.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Key_Mat.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Key_Mat.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Altar.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Altar.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_AltarWhell.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_AltarWhell.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Statuette.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Statuette.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_InOrdenSelectionPuzzleFlow.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_InOrdenSelectionPuzzleFlow.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/Room/SC_RoomAmbience.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/Room/SC_RoomAmbience.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,29 +111,14 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/AltarWhell.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/BasePlayerSettingsSetter.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -399,6 +450,10 @@
       <workItem from="1714682166454" duration="36000" />
       <workItem from="1714682211462" duration="31000" />
       <workItem from="1714682286949" duration="698000" />
+      <workItem from="1714683340927" duration="3068000" />
+      <workItem from="1714753577792" duration="1935000" />
+      <workItem from="1714779211889" duration="1985000" />
+      <workItem from="1714936549710" duration="5960000" />
     </task>
     <servers />
   </component>

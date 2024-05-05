@@ -18,7 +18,6 @@ AAltar::AAltar()
 {
  	PrimaryActorTick.bCanEverTick = true;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	
 }
 
 void AAltar::BeginPlay()
@@ -84,33 +83,7 @@ void AAltar::LeaveFocus()
 	}
 }
 
-//--------------------- TimeLine methods
-
-void AAltar::BindTimeLine()
-{
-	FOnTimelineFloat CameraTargetTick;
-	CameraTargetTick.BindUFunction(this, FName("MoveCameraTick"));
-	MoveCameraTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
-	
-	FOnTimelineEventStatic CameraTargettingFinished;
-	CameraTargettingFinished.BindUFunction(this, FName("MoveCameraFinished"));
-	MoveCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
-}
-
-void AAltar::MoveCameraTick(float deltaSecinds)
-{
-	auto newX = FMath::Lerp(cameraPos, CameraPos[WhellIndex]->GetActorLocation(), deltaSecinds);
-	
-	Player->MoveCamera(newX);
-}
-
-void AAltar::MoveCameraFinished()
-{
-	bCanInteract = true;
-}
-
 //--------------------- Objects methods
-
 void AAltar::WhellInteraction()
 {
 	if(!bCanInteract) return;
@@ -147,4 +120,28 @@ void AAltar::ChangeCameraPosition()
 	bCanInteract = false;
 	cameraPos = Player->GetCamera()->GetComponentLocation();
 	MoveCameraTimeLine.PlayFromStart();
+}
+
+//--------------------- TimeLine methods
+void AAltar::BindTimeLine()
+{
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("MoveCameraTick"));
+	MoveCameraTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("MoveCameraFinished"));
+	MoveCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+}
+
+void AAltar::MoveCameraTick(float deltaSecinds)
+{
+	auto newX = FMath::Lerp(cameraPos, CameraPos[WhellIndex]->GetActorLocation(), deltaSecinds);
+	
+	Player->MoveCamera(newX);
+}
+
+void AAltar::MoveCameraFinished()
+{
+	bCanInteract = true;
 }

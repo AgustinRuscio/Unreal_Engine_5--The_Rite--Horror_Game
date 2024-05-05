@@ -75,7 +75,8 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 	{
 		Element->DisableInteraction();
 	}
-Altar->DisableAltarInteraction();
+
+	Altar->DisableAltarInteraction();
 	Destroy();
 	PRINTONVIEWPORT("Complete");
 }

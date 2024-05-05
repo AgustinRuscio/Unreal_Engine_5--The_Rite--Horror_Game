@@ -16,9 +16,11 @@ AAltarWhell::AAltarWhell()
 
 bool AAltarWhell::CheckRotation()
 {
-	float actualRoll = GetActorRotation().Roll;
-	
-	if(actualRoll == DesiredRotation) return true;
+	float actualRoll = Statuette->GetRotation().Yaw;
+
+	UE_LOG(LogTemp, Warning, TEXT("Actual Rotation: %f, Desire Rotation: %f"), actualRoll, DesiredRotation);
+
+	return  actualRoll == DesiredRotation;
 	
 	return false;
 }
@@ -84,14 +86,13 @@ void AAltarWhell::BindTimeLines()
 
 void AAltarWhell::MoveTimeLineTick(float deltaSeconds)
 {
-	auto newRoll = FMathf::Lerp(InteractionRotator.Roll, InteractionRotator.Roll + RotationToAdd, deltaSeconds);
-	FRotator newRotator = FRotator(InteractionRotator.Pitch, InteractionRotator.Yaw, newRoll);
+	auto newPich = FMathf::Lerp(InteractionRotator.Pitch, InteractionRotator.Pitch + RotationToAdd, deltaSeconds);
 
 
 	auto newStatuetteRoll = FMathf::Lerp(StatuateRotator.Yaw, StatuateRotator.Yaw + RotationToAdd, deltaSeconds);
 	FRotator newStatuetteRotator = FRotator(StatuateRotator.Pitch, newStatuetteRoll, StatuateRotator.Roll);
 
-	SetActorRotation(newRotator);
+	SetActorRotation(FRotator(newPich, InteractionRotator.Yaw,  InteractionRotator.Roll));
 	Statuette->SetActorRotation(newStatuetteRotator);
 }
 

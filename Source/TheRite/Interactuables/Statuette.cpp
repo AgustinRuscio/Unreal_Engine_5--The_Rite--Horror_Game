@@ -33,6 +33,11 @@ float AStatuette::GetRotatioToAdd() const
 	return RotationToAdd;
 }
 
+FRotator AStatuette::GetRotation() const
+{
+	return GetActorRotation();
+}
+
 //---------------- System Class Methods
 void AStatuette::BeginPlay()
 {

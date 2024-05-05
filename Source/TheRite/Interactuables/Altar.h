@@ -24,25 +24,20 @@ class THERITE_API AAltar : public AInteractor
 
 public:
 	AAltar();
+
+//--------------------- System Class methods
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
 	virtual void Interaction() override;
 
+//--------------------- Focus methods
 	void DisableAltarInteraction();
 	
 private:
 	UFUNCTION()
 	void LeaveFocus();
 	
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void MoveCameraTick(float deltaSecinds);
-	
-	UFUNCTION()
-	void MoveCameraFinished();
-	
+//--------------------- Objects methods
 	UFUNCTION()
 	void WhellInteraction();
 
@@ -53,6 +48,15 @@ private:
 	void NextWhell();
 
 	void ChangeCameraPosition();
+	
+//--------------------- TimeLine methods
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void MoveCameraTick(float deltaSecinds);
+	
+	UFUNCTION()
+	void MoveCameraFinished();
 
 private:
 	bool bIsFocus;

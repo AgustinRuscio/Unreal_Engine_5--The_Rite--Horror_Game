@@ -25,6 +25,7 @@ public:
 	bool IsFirstInteraction() const;
 	float GetDesiredRotation() const;
 	float GetRotatioToAdd() const;
+	FRotator GetRotation() const;
 	
 //---------------- System Class Methods
 	virtual void BeginPlay() override;
