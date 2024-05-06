@@ -95,7 +95,7 @@ void AMoveTiffany::SecondTurnOn()
 	}
 
 	
-	Player->SetPlayerOptions(false, true);
+	Player->SetPlayerOptions(false, true, true);
 	OnFinishedEvent.Broadcast();
 	Destroy();
 }
@@ -113,7 +113,7 @@ void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	OnStartEvent.Broadcast();
 
 	Player->ForceLighterOff();
-	Player->SetPlayerOptions(false, false);
+	Player->SetPlayerOptions(false, false, false);
 	
 	UGameplayStatics::SpawnSound2D(this, SFXHeartBeat);
 	UGameplayStatics::SpawnSound2D(this, SFXTiffanyNear);

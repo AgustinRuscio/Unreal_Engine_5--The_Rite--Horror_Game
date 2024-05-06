@@ -72,7 +72,7 @@ public:
 	void RemoveFromInventory(FString itemName, PickableItemsID id);
 	
 //---------------- Setter Methods
-	void SetPlayerOptions(bool canRun, bool canUseLighter);
+	void SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder);
 	void SetCanUseLighterState(bool lighterState);
 	
 	void SetDraggingState(bool shouldCheck, ADoor* Door);
@@ -182,6 +182,7 @@ public:
 private:
 	//UPROPERTY(EditAnywhere, Category = "Lighter values")
 	bool bCanUseLigher;
+	bool bShowLighterReminder;
 	bool bCanRun = true;
 	bool bCanTalk = true;
 	bool bCanSound = true;

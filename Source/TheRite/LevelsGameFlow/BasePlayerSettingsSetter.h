@@ -27,6 +27,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "Player Settings for use of lighter in begin play"))
 	bool bWilUseLighter;
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "Player Settings for show the lighter use reminder begin play"))
+	bool bWilShowLighterReminder;
 	
 	AAlex* Player;
 };

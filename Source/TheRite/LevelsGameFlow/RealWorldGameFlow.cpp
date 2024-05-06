@@ -34,7 +34,7 @@ void ARealWorldGameFlow::PlayerMethods()
 {
 	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	Player->ForceTalk(FirstTalkAudio);
-	Player->SetPlayerOptions(true, false);
+	Player->SetPlayerOptions(true, false, false);
 }
 
 //---------------- Widgets Methods

@@ -42,7 +42,7 @@ private:
 	UFUNCTION()
 	void NeedleInteraction();
 
-	
+	void ChangeNeedle();
 	void CheckNeedlesPosition();
 //--------------------- TimeLine methods
 	void BindTimeLine();
@@ -57,19 +57,46 @@ private:
 private:
 	bool bIsFocus;
 	bool bReadyToUse;
-	
-	int8 CurrentNeedle = 0;
+	bool TimeLineMooving = false;
 
+	UPROPERTY(EditAnywhere, Category="Setting")
+	float DesireHourRotation;
+
+	
+	UPROPERTY(EditAnywhere, Category="Setting")
+	FRotator RotationToAdd;
+
+	UPROPERTY(EditAnywhere, Category="Setting")
+	float DesireMinutesRotation;
+
+	
+	int8 CurrentNeedle = 0; 
+
+	FRotator InitialNeedleRotation;
+	FRotator EndNeedleRotation = FRotator(16,04,03);
 	//-------- Mesh / Colliders
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BigClockMesh;
 	
-	//UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	//UStaticMeshComponent* HourNeedleMesh;
-	//
-	//UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	//UStaticMeshComponent* MinuturesNeedleMesh;
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* HourNeedleMesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* MinuturesNeedleMesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* CenterMesh;
 
+	TArray<UStaticMeshComponent*> AllNeedles;
+	UStaticMeshComponent* CurrentSelected;
+	
+	//-------- Target Points
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	UMaterialInterface* SelectedNeedleMaterial;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	UMaterialInterface* NeedlebaseMaterial;
+	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere)
 	ATargetPoint* NewCameraPosition;
@@ -79,15 +106,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	UCurveFloat* CurveFloat;
-	
-	//-------- Lights
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UPointLightComponent* MinutesPointLight;
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UPointLightComponent* HoursPointLight;
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UPointLightComponent* CenterPointLight;
-
 	
 	AAlex* Player;
 };

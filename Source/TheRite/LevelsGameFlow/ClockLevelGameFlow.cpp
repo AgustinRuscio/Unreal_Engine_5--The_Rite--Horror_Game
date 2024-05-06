@@ -39,7 +39,7 @@ void AClockLevelGameFlow::BeginPlay()
 	Super::BeginPlay();
 
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
-	Player->SetPlayerOptions(false, true);
+	//Player->SetPlayerOptions(false, true);
 	
 	BindTimeLineMethods();
 	
@@ -334,7 +334,7 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	DoOnceJumpscare++;
 	
 	Player->ForceLighterOff();
-	Player->SetPlayerOptions(false, false);
+	Player->SetPlayerOptions(false, false, true);
 	
 	for (auto Element : LibraryLightsEvent)
 	{
@@ -367,8 +367,10 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 			
 						LibraryRoofLight->TurnOn();
 						Player->ForceTalk(AudioIShouldGetOutOfHere);
-						Player->SetPlayerOptions(false, true);
-						IShouldGetOutOfHere = true;
+						Player->SetPlayerOptions(false, true, true);
+						OnJumpscareFinished();
+					LibraryTriggerVolumenJumpScaredReady->Destroy();
+						//IShouldGetOutOfHere = true;
 				});
 		
 				GetWorldTimerManager().SetTimer(JumpscareHandleFirst,timerDelegate, 3.f, false);
@@ -426,7 +428,7 @@ void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor*
 	Player->ForceTalk(OhFuckAlexTalk);
 	Player->ForceTurnLighterOn();
 	
-	Player->SetPlayerOptions(true, false);
+	Player->SetPlayerOptions(true, false, false);
 	
 	EndGameTriggerVolumen->Destroy();
 }

@@ -44,7 +44,7 @@ void ALighter::Interaction()
 	
 	auto Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
-	Player->SetPlayerOptions(true, true);
+	Player->SetPlayerOptions(true, true, true);
 
 	KeySpectralWritting->EnableInteraction();
 	TutorialWidget->SetVisibility(ESlateVisibility::Visible);

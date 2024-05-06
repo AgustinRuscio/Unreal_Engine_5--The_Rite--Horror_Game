@@ -18,5 +18,5 @@ void ABasePlayerSettingsSetter::BeginPlay()
 
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-	Player->SetPlayerOptions(bWillRun, bWilUseLighter);
+	Player->SetPlayerOptions(bWillRun, bWilUseLighter, bWilShowLighterReminder);
 }

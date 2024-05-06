@@ -85,8 +85,8 @@ void AAltarWhell::MoveTimeLineTick(float deltaSeconds)
 	auto newPich = FMathf::Lerp(InteractionRotator.Pitch, InteractionRotator.Pitch + RotationToAdd, deltaSeconds);
 
 
-	auto newStatuetteRoll = FMathf::Lerp(StatuateRotator.Yaw, StatuateRotator.Yaw + RotationToAdd, deltaSeconds);
-	FRotator newStatuetteRotator = FRotator(StatuateRotator.Pitch, newStatuetteRoll, StatuateRotator.Roll);
+	auto newStatuetteYaw = FMathf::Lerp(StatuateRotator.Yaw, StatuateRotator.Yaw + RotationToAdd, deltaSeconds);
+	FRotator newStatuetteRotator = FRotator(StatuateRotator.Pitch, newStatuetteYaw, StatuateRotator.Roll);
 
 	SetActorRotation(FRotator(newPich, InteractionRotator.Yaw,  InteractionRotator.Roll));
 	Statuette->SetActorRotation(newStatuetteRotator);

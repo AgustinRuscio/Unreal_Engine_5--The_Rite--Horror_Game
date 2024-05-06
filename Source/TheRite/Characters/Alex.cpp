@@ -89,7 +89,7 @@ void AAlex::BeginPlay()
 	
 	BindTimeLineMethods();
 	
-	if(bCanUseLigher)
+	if(bCanUseLigher && bShowLighterReminder)
 		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
 }
 
@@ -217,10 +217,11 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 }
 
 //---------------- Setter Methods
-void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter)
+void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder)
 {
 	bCanRun = canRun;
 	SetCanUseLighterState(canUseLighter);
+	bShowLighterReminder = showLighterReminder;
 }
 
 void AAlex::SetCanUseLighterState(bool lighterState)
