@@ -17,12 +17,8 @@ AAltarWhell::AAltarWhell()
 bool AAltarWhell::CheckRotation()
 {
 	float actualRoll = Statuette->GetRotation().Yaw;
-
-	UE_LOG(LogTemp, Warning, TEXT("Actual Rotation: %f, Desire Rotation: %f"), actualRoll, DesiredRotation);
-
-	return  actualRoll == DesiredRotation;
 	
-	return false;
+	return  actualRoll == DesiredRotation;
 }
 
 //---------------- System Class Methods
