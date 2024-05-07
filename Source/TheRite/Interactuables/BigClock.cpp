@@ -107,7 +107,7 @@ void ABigClock::PrevNeedle()
 	
 	CurrentNeedle--;
 
-	if(CurrentNeedle < AllNeedles.Num())
+	if(CurrentNeedle < 0)
 		CurrentNeedle = AllNeedles.Num()-1;
 
 	ChangeNeedle();
@@ -163,6 +163,16 @@ void ABigClock::ChangeNeedle()
 
 void ABigClock::CheckNeedlesPosition()
 {
+	
+	UE_LOG(LogTemp, Warning, TEXT("Testeo"));
+	UE_LOG(LogTemp, Warning, TEXT("Minutes Pitch: %f   Desired  %f"), MinuturesNeedleMesh->GetComponentRotation().Pitch, DesireMinutesRotation);
+	UE_LOG(LogTemp, Warning, TEXT("Hours Pitch: %f   Desired  %f"), HourNeedleMesh->GetComponentRotation().Pitch, DesireHourRotation);
+
+	//if(Checkear que haya obtenido los dos horarios)
+	//{
+	//	
+	//}
+	
 	
 	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation || HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation) return;
 

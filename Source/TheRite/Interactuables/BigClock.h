@@ -7,10 +7,12 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/PointLightComponent.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "BigClock.generated.h"
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClockPuzzleFinished);
 
 class AAlex;
 class ATargetPoint;
