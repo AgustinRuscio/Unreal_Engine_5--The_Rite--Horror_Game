@@ -369,7 +369,7 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 						Player->ForceTalk(AudioIShouldGetOutOfHere);
 						Player->SetPlayerOptions(false, true, true);
 						OnJumpscareFinished();
-					LibraryTriggerVolumenJumpScaredReady->Destroy();
+						LibraryTriggerVolumenJumpScaredReady->Destroy();
 						//IShouldGetOutOfHere = true;
 				});
 		

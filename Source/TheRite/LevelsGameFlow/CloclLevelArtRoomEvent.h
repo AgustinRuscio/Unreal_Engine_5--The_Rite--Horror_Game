@@ -144,8 +144,13 @@ private:
 	//-------- Target point
 	FTimeline FirstTurnOffTimeLine;
 	FTimeline FirstTurnOnTimeLine;
+	
 	FTimeline SecondTurnOffTimeLine;
+	FTimeline SecondTurnOnTimeLine;
+	
+	FTimeline ThirdTurnOffTimeLine;
 	FTimeline ThirdTurnOnTimeLine;
+	
 	FTimeline LastTurnOffTimeLine;
 	FTimeline LastTurnOnTimeLine;
 
