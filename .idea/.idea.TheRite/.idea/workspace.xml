@@ -8,16 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/aSpectralWrittings_Mary.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_BaseColor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_BaseColor.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_Normal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_Normal.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_OcclusionRoughnessMetallic.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Altar/Texture/altar_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Mary.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Mary.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Mary_Mat.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/SpectralWrittings/SpectralWrittings_Mary_Mat.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -385,6 +377,7 @@
       <workItem from="1715035049365" duration="991000" />
       <workItem from="1715036519879" duration="1125000" />
       <workItem from="1715047491389" duration="4024000" />
+      <workItem from="1715052629310" duration="337000" />
     </task>
     <servers />
   </component>
