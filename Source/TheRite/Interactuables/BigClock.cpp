@@ -4,8 +4,6 @@
 
 
 #include "BigClock.h"
-
-#include "MathUtil.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
@@ -28,7 +26,7 @@ ABigClock::ABigClock()
 	HourNeedleMesh->SetupAttachment(BigClockMesh);
 	MinuturesNeedleMesh->SetupAttachment(BigClockMesh);
 	CenterMesh->SetupAttachment(BigClockMesh);
-
+	
 	AllNeedles.Add(CenterMesh);
 	AllNeedles.Add(HourNeedleMesh);
 	AllNeedles.Add(MinuturesNeedleMesh);
@@ -55,16 +53,9 @@ void ABigClock::Interaction()
 
 	if(bIsFocus || !bCanInteract) return;
 
-	if(bReadyToUse)
-	{
-		Player->ForceTalk(AudioToPlay);
-		return;
-	}
-
 	CurrentSelected = AllNeedles[CurrentNeedle];
 	AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
 
-	bIsFocus = true;
 	Player->OnFocusMode(NewCameraPosition->GetActorLocation(), NewCameraPosition->GetActorRotation());
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -74,6 +65,8 @@ void ABigClock::Interaction()
 	controller->OnNextInventoryItem.AddDynamic(this, &ABigClock::NextNeedle);
 	controller->OnInteractionPressed.AddDynamic(this, &ABigClock::NeedleInteraction);
 	controller->OnLeaveFocus.AddDynamic(this, &ABigClock::LeaveFocus);
+	
+	bIsFocus = true;
 }
 
 void ABigClock::SetReadyToUse()
@@ -163,21 +156,21 @@ void ABigClock::ChangeNeedle()
 
 void ABigClock::CheckNeedlesPosition()
 {
-	
 	UE_LOG(LogTemp, Warning, TEXT("Testeo"));
 	UE_LOG(LogTemp, Warning, TEXT("Minutes Pitch: %f   Desired  %f"), MinuturesNeedleMesh->GetComponentRotation().Pitch, DesireMinutesRotation);
 	UE_LOG(LogTemp, Warning, TEXT("Hours Pitch: %f   Desired  %f"), HourNeedleMesh->GetComponentRotation().Pitch, DesireHourRotation);
 
-	//if(Checkear que haya obtenido los dos horarios)
-	//{
-	//	
-	//}
+	if(!bReadyToUse)
+	{
+		Player->ForceTalk(AudioToPlay);
+		return;
+	}
 	
-	
-	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation || HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation) return;
+	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation ||
+		HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation) return;
 
 	OnClockPuzzleCompleted.Broadcast();
-	//EndGmae
+	LeaveFocus();
 	UE_LOG(LogTemp, Warning, TEXT("Es"));
 	
 }

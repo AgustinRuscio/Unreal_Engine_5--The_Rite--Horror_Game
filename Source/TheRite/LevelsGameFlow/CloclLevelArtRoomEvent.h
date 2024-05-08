@@ -176,7 +176,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	ASpotLight* SpotLight;
 	
-
 	UPROPERTY(EditAnywhere, Category = "Door")
 	ADoor* ArtRoomDoor;
 

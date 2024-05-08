@@ -33,6 +33,7 @@ class ABlockingVolume;
 class ATriggerBox;
 class AInteractor;
 class AMoveTiffany;
+class ABigClock;
 
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor
@@ -63,11 +64,16 @@ private:
 	
 	UFUNCTION()
 	void GetHours();
+
+	void CheckLetters();
 	
 	UFUNCTION()
 	void FirstLetterRead();
 
 	void MinutesCollected();
+
+	UFUNCTION()
+	void EndGame();
 	
 //---------------- Audio Methods
 	UFUNCTION()
@@ -332,6 +338,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Tiffany")
 	ATiffany* LibraryTiffany;
+	
+	UPROPERTY(EditAnywhere, Category = "Clock")
+	ABigClock* BigClock;
 	
 	AAlex* Player;
 };
