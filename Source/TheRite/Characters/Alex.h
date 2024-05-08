@@ -45,6 +45,8 @@ public:
 	bool CheckCanDrag() const;
 	
 	float GetDoorFloat() const;
+	float GetInteractionRange() const;
+	
 	UCameraComponent* GetCamera() const;
 	
 //---------------- System Class Methods

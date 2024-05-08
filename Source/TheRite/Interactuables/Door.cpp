@@ -327,7 +327,7 @@ void ADoor::CheckIfLookingDoor()
 	
 	FVector Start = Player->GetCamera()->GetComponentLocation();
 	
-	FVector distace = Player->GetActorForwardVector() * 300;
+	FVector distace = Player->GetActorForwardVector() * Player->GetInteractionRange();
 	FVector End = Start + distace;
 
 	FHitResult HitResult;

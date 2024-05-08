@@ -68,6 +68,11 @@ float AAlex::GetDoorFloat() const
 	return DoorFloat;
 }
 
+float AAlex::GetInteractionRange() const
+{
+	return RangeInteractuable;
+}
+
 UCameraComponent* AAlex::GetCamera() const
 {
 	return Camera;

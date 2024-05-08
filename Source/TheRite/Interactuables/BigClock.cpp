@@ -176,6 +176,7 @@ void ABigClock::CheckNeedlesPosition()
 	
 	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation || HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation) return;
 
+	OnClockPuzzleCompleted.Broadcast();
 	//EndGmae
 	UE_LOG(LogTemp, Warning, TEXT("Es"));
 	

@@ -54,7 +54,8 @@ private:
 	
 	UFUNCTION()
 	void MoveNeedleTimeLineFinished();
-	
+public:
+	FOnClockPuzzleFinished OnClockPuzzleCompleted;
 	
 private:
 	bool bIsFocus;
