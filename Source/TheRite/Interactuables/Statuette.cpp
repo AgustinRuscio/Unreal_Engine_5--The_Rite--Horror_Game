@@ -12,9 +12,6 @@ AStatuette::AStatuette()
  	PrimaryActorTick.bCanEverTick = true;
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	PointLight = CreateDefaultSubobject<UPointLightComponent>("PoinLight");
-	
-	PointLight->SetupAttachment(StaticMesh);
 }
 
 //---------------- Getter Methods
@@ -43,8 +40,6 @@ void AStatuette::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	InitialLightIntensity = PointLight->Intensity;
-	PointLight->SetIntensity(0.0);
 }
 
 void AStatuette::Tick(float DeltaSeconds)
@@ -63,8 +58,6 @@ void AStatuette::Interaction()
 	{
 		bCanInteract = false;
 		
-		PointLight->SetIntensity(InitialLightIntensity);
-
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), InteractionSound, GetActorLocation());
 		InteractionTimeLine.PlayFromStart();
 	}
@@ -81,7 +74,6 @@ void AStatuette::EnableInteraction()
 void AStatuette::RestoreInitialValues()
 {
 	bCanInteract = true;
-	PointLight->SetIntensity(0.0);
 	InteractionTimeLine.ReverseFromEnd();
 }
 

@@ -64,9 +64,6 @@ private:
 	UPROPERTY(EditAnywhere, meta=(bAllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
 
-	UPROPERTY(EditAnywhere)
-	UPointLightComponent* PointLight;
-
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	USoundBase* InteractionSound;
 
