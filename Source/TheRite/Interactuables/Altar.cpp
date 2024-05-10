@@ -41,10 +41,10 @@ void AAltar::Interaction()
 	if(bIsFocus || !bCanInteract) return;
 	
 	bIsFocus = true;
-	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorLocation(), CameraPos[WhellIndex]->GetActorRotation());
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
+
 
 	controller->OnPrevInventoryItem.AddDynamic(this, &AAltar::PrevWhell);
 	controller->OnNextInventoryItem.AddDynamic(this, &AAltar::NextWhell);
@@ -55,6 +55,8 @@ void AAltar::Interaction()
 	{
 		Element->EnableInteraction();
 	}
+	
+	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorLocation(), CameraPos[WhellIndex]->GetActorRotation());
 }
 
 void AAltar::DisableAltarInteraction()

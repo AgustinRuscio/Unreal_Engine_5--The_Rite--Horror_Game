@@ -60,6 +60,7 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	
 	Alex->CameraTargeting(StandTiffany->GetActorLocation());
 	Alex->SetEventMode(true, -60,60,-20,20);
+	Alex->ForceLighterOff();
 	
 	ArtRoomDoor->SetLockedState(true);
 	ArtRoomDoor->HardClosing();

@@ -294,9 +294,9 @@ void ADoor::CheckDragDoor()
 	else
 	{
 		if(bIsPlayerForward)
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat ,0));
+			DoorItself->AddLocalRotation(FRotator(0, DoorFloat  * -1,0));
 		else
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat * -1,0));
+			DoorItself->AddLocalRotation(FRotator(0, DoorFloat,0));
 	}
 			
 	float DoorCurrentYaw = DoorItself->GetRelativeRotation().Yaw;

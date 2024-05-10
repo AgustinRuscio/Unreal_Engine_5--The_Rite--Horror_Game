@@ -294,9 +294,10 @@ void AAlex::BackToNormalView()
 {
 	bFocus = false;
 	Camera->bUsePawnControlRotation = true;
-
 	Camera->SetWorldLocation(LastCameraPos);
 	Camera->SetWorldRotation(LastCameraRot);
+	
+	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
 	
 	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
@@ -306,6 +307,8 @@ void AAlex::OnFocusMode(FVector NewCameraPos, FRotator NewCameraRor)
 {
 	bFocus = true;
 	Camera->bUsePawnControlRotation = false;
+
+	MyController->OnCameraMoved.RemoveDynamic(this, &AAlex::MoveCamera);
 	
 	LastCameraPos = Camera->GetComponentLocation();
 	LastCameraRot = Camera->GetComponentRotation();
