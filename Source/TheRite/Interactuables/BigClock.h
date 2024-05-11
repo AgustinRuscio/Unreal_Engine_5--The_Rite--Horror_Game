@@ -7,8 +7,8 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
+#include "Components/TimelineComponent.h"
 #include "BigClock.generated.h"
 
 
@@ -62,21 +62,23 @@ private:
 	bool bReadyToUse;
 	bool TimeLineMooving = false;
 
-	UPROPERTY(EditAnywhere, Category="Setting")
+	int8 CurrentNeedle = 0;
+	
+	UPROPERTY(EditAnywhere, Category = "Setting")
 	float DesireHourRotation;
 
-	
-	UPROPERTY(EditAnywhere, Category="Setting")
-	FRotator RotationToAdd;
-
-	UPROPERTY(EditAnywhere, Category="Setting")
+	UPROPERTY(EditAnywhere, Category = "Setting")
 	float DesireMinutesRotation;
-
 	
-	int8 CurrentNeedle = 0; 
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	FRotator RotationToAdd;
 
 	FRotator InitialNeedleRotation;
 	FRotator EndNeedleRotation = FRotator(16,04,03);
+
+	FRotator LastMinutesRot = FRotator(16,04,03);
+	FRotator LastHourRot = FRotator(16,04,03);
+	
 	//-------- Mesh / Colliders
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BigClockMesh;
@@ -92,6 +94,16 @@ private:
 
 	TArray<UStaticMeshComponent*> AllNeedles;
 	UStaticMeshComponent* CurrentSelected;
+
+	//-------- Audios
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_NeeddleMoving;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_ClockLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_PuzzleComplete;
 	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere, Category= "Settings")

@@ -131,19 +131,50 @@ void ABigClock::NeedleInteraction()
 	else
 	{
 		TimeLineMooving = true;
-
+		
 		if(EndNeedleRotation == FRotator(16,04,03))
 		{
-			InitialNeedleRotation = AllNeedles[CurrentNeedle]->GetComponentRotation();
-			EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+			auto bIsMinute = AllNeedles[CurrentNeedle] == MinuturesNeedleMesh;
+			
+			if(bIsMinute)
+			{
+				if(LastMinutesRot == FRotator(16,04,03))
+				{
+					InitialNeedleRotation = AllNeedles[CurrentNeedle]->GetComponentRotation();
+					EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+				}
+				else
+				{
+					InitialNeedleRotation = LastMinutesRot;
+					EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+				}
+			}
+			else
+			{
+				if(LastHourRot == FRotator(16,04,03))
+				{
+					InitialNeedleRotation = AllNeedles[CurrentNeedle]->GetComponentRotation();
+					EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+				}
+				else
+				{
+					InitialNeedleRotation = LastHourRot;
+					EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+				}
+			}
+			
+			MoveNeedleTimeLine.PlayFromStart();
+
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_NeeddleMoving, GetActorLocation());
 		}
 		else
 		{
 			InitialNeedleRotation = EndNeedleRotation;
 			EndNeedleRotation = InitialNeedleRotation + RotationToAdd;
+			
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_NeeddleMoving, GetActorLocation());
+			MoveNeedleTimeLine.PlayFromStart();
 		}
-
-		MoveNeedleTimeLine.PlayFromStart();
 	}
 }
 
@@ -167,12 +198,18 @@ void ABigClock::CheckNeedlesPosition()
 	}
 	
 	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation ||
-		HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation) return;
-
+		HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation)
+	{
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_ClockLocked,GetActorLocation());
+		return;
+	}
+	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_PuzzleComplete, GetActorLocation());
+	
 	OnClockPuzzleCompleted.Broadcast();
 	LeaveFocus();
-	UE_LOG(LogTemp, Warning, TEXT("Es"));
 	
+	UE_LOG(LogTemp, Warning, TEXT("Es"));
 }
 
 //--------------------- TimeLine methods
@@ -198,6 +235,11 @@ void ABigClock::MoveNeedleTimeLineFinished()
 {
 	if(EndNeedleRotation.Pitch == 360)
 		EndNeedleRotation = FRotator(0,EndNeedleRotation.Yaw, EndNeedleRotation.Roll);
-			
+
+	
+	AllNeedles[CurrentNeedle] == MinuturesNeedleMesh ?
+		LastMinutesRot = EndNeedleRotation :
+		LastHourRot = EndNeedleRotation;
+	
 	TimeLineMooving = false;
 }
