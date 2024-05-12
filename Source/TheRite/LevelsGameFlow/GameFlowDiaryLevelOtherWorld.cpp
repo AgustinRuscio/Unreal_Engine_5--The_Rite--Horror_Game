@@ -41,9 +41,14 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 		Element->TurnOff();
 	}
 	
-	for (auto Element : Light_EndGame)
+	for (auto Element : Lights_SpotLightEndGame)
 	{
 		Element->GetLightComponent()->SetIntensity(20);
+	}
+	
+	for (auto Element : Lights_Altar)
+	{
+		Element->GetLightComponent()->SetIntensity(0);
 	}
 
 	Doors_BathRoom->SetLockedState(true);
@@ -72,7 +77,7 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 
-	for (auto Element : Light_EndGame)
+	for (auto Element : Lights_SpotLightEndGame)
 	{
 		Element->GetLightComponent()->SetIntensity(0);
 	}

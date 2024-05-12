@@ -47,7 +47,9 @@ private:
 	TArray<ALightsTheRite*> InGameLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ASpotLight*> Light_EndGame;
+	TArray<ASpotLight*> Lights_SpotLightEndGame;
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<ASpotLight*> Lights_Altar;
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInOrdenSelectionPuzzleFlow* InOrderPOuzzleController;
