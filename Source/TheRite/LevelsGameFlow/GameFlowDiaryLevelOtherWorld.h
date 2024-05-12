@@ -7,10 +7,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "GameFlowDiaryLevelOtherWorld.generated.h"
 
 class AInOrdenSelectionPuzzleFlow;
 class ATriggerBox;
+class ASpotLight;
 class AAlex;
 class ADoor;
 
@@ -29,11 +31,35 @@ private:
 	void EndGame();
 
 	void BindTriggers();
+	void BindMethods();
+	void InitializeValues();
+	
 public:	
 
 private:
-	
 
+	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
+	USoundBase* SFX_LastAudio;
+	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
+	USoundBase* SFX_LightsOut;
+
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<ALightsTheRite*> InGameLights;
+
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<ASpotLight*> Light_EndGame;
+	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInOrdenSelectionPuzzleFlow* InOrderPOuzzleController;
+
+	UPROPERTY(EditAnywhere, Category= "Doors")
+	
+	ADoor* Doors_BathRoom;
+	UPROPERTY(EditAnywhere, Category= "Doors")
+	
+	ADoor* Doors_BedRoom;
+	UPROPERTY(EditAnywhere, Category= "Doors")
+	ADoor* Doors_EndGame;
+
+	AAlex* Player;
 };
