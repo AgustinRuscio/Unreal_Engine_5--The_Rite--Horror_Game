@@ -8,12 +8,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/DoorsKitchenBelow/KitchenDrawer.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/DoorsKitchenBelow/KitchenBelowDoor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/DoorsKitchenBelow/KitchenBelowDoor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP1/KitchenBelowWithoutSink.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP1/KitchenBelowWithoutSink.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP2/KitchenBelowP2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP2/KitchenBelowP2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP2/KitchenBelowPart2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/KitchenBelowP2/KitchenBelowPart2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/SIN_UV/curtain_SIN_UVS.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/SIN_UV/curtain_SIN_UVS.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/Bathroom_1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/Bathroom_1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/Bathroom_furniture_polySurface17657.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/Bathroom_furniture_polySurface17657.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bathtub.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bathtub.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bidet.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bidet.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/electric_thermos.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/electric_thermos.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/cuadroEnmarcado/CUADRO_ENMARCADO1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/cuadroEnmarcado/CUADRO_ENMARCADO1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/WallsWithoutBorder/WallsWhite/ParedesSinBordesVersionBlanca_Pared34.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/WallsWithoutBorder/WallsWhite/ParedesSinBordesVersionBlanca_Pared34.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/ColumnWithBorders.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/ColumnWithBorders.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/M_WallBorderTrim5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/M_WallBorderTrim5.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/WallBorderTrim5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/WallBorderTrim5.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/WallDoorWithBorder.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/WallDoorWithBorder.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Door.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/CloclLevelArtRoomEvent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/New/RealWorld/BedRoom.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/New/RealWorld/BedRoom.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +38,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://1" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
@@ -85,9 +98,9 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Usuario\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Usuario\\AppData\\Local\\Symbols\\src&quot;
+      &quot;C:\\Users\\Agustin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Agustin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Agustin\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
 }</component>
@@ -393,6 +406,9 @@
       <workItem from="1715308557148" duration="460000" />
       <workItem from="1715345466072" duration="2634000" />
       <workItem from="1715348195064" duration="510000" />
+      <workItem from="1715466332479" duration="599000" />
+      <workItem from="1715467487980" duration="801000" />
+      <workItem from="1715469553350" duration="3747000" />
     </task>
     <servers />
   </component>
