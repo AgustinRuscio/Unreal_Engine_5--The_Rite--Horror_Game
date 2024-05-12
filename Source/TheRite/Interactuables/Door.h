@@ -179,6 +179,9 @@ private:
 	
 	FRotator InitialRot;
 	FRotator CurrentRot;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	FRotator CloseRotation;
 	
 	FString keyName;
 	PickableItemsID keyId;

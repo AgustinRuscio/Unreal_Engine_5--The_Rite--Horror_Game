@@ -481,8 +481,8 @@ void ADoor::OpenCloseTimelineFinished()
 
 void ADoor::ItLockedTimeLineUpdate(float value)
 {
-	float TargetYaw = InitialRot.Yaw + 5.0f;
-	float NewYaw = FMath::Lerp(InitialRot.Yaw, TargetYaw, value);
+	float TargetYaw = CloseRotation.Yaw + 5.0f;
+	float NewYaw = FMath::Lerp(CloseRotation.Yaw, TargetYaw, value);
 
 	DoorItself->SetRelativeRotation(FRotator(0, NewYaw, 0));
 }
@@ -520,8 +520,8 @@ void ADoor::LatchHoldTimelineFinished() { }
 
 void ADoor::HardClosingTimeLineUpdate(float value)
 {
-	float lerpValue = FMath::Lerp(CurrentRot.Yaw,InitialRot.Yaw, value);
-	DoorItself->SetRelativeRotation(FRotator(0,lerpValue, 0));
+	auto lerpValue = FMath::Lerp(CurrentRot,CloseRotation, value);
+	DoorItself->SetRelativeRotation(FRotator(lerpValue));
 }
 
 void ADoor::HardClosingTimelineFinished()
