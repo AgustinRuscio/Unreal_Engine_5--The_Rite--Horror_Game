@@ -8,13 +8,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Voice/Alex/A_INeedHerDiaryFirst.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_GameFlowDiaryLevelOtherWorld.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_GameFlowDiaryLevelOtherWorld.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Localization/Game_Gather.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/Game.manifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.archive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/en/Game.locres" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.archive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Localization/Game/es/Game.locres" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/M_TocadiscosNEW.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Tocadiscos/New/M_TocadiscosNEW.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBooks.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBooks.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -411,6 +419,9 @@
       <workItem from="1715492467045" duration="496000" />
       <workItem from="1715546788512" duration="3911000" />
       <workItem from="1715552213643" duration="661000" />
+      <workItem from="1715559712735" duration="632000" />
+      <workItem from="1715562690483" duration="1215000" />
+      <workItem from="1715564614995" duration="1627000" />
     </task>
     <servers />
   </component>
