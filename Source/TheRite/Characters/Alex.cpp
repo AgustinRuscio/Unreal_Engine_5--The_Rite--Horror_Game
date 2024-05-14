@@ -63,6 +63,11 @@ bool AAlex::CheckCanDrag() const
 	return bIsDragging;
 }
 
+bool AAlex::GetFocusingState() const
+{
+	return bFocusing;
+}
+
 float AAlex::GetDoorFloat() const
 {
 	return DoorFloat;
@@ -123,7 +128,8 @@ void AAlex::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	TargetCameraTimeLine.TickTimeline(DeltaTime);
-
+	FocusCameraTimeLine.TickTimeline(DeltaTime);
+	
 	LighterSoundTimer(DeltaTime);
 	CheckLighterCooldDown(DeltaTime);
 	HeadBob();
@@ -290,32 +296,34 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 }
 
 //----------------- View Methods
-void AAlex::BackToNormalView()
+void AAlex::BackToNormalView(FTransform FromTransform)
 {
 	bFocus = false;
 	Camera->bUsePawnControlRotation = true;
-	Camera->SetWorldLocation(LastCameraPos);
-	Camera->SetWorldRotation(LastCameraRot);
 	
 	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+	FocusCamTransform = FromTransform;
+	
+	FocusCameraTimeLine.ReverseFromEnd();
 	
 	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
-void AAlex::OnFocusMode(FVector NewCameraPos, FRotator NewCameraRor)
+void AAlex::OnFocusMode(FTransform newTransform)
 {
 	bFocus = true;
+	bFocusing = true;
+	
 	Camera->bUsePawnControlRotation = false;
 
 	MyController->OnCameraMoved.RemoveDynamic(this, &AAlex::MoveCamera);
 	
-	LastCameraPos = Camera->GetComponentLocation();
-	LastCameraRot = Camera->GetComponentRotation();
+	LastCamTransform = Camera->GetComponentTransform();
+	FocusCamTransform = newTransform;
 	
-	Camera->SetWorldLocation(NewCameraPos);
-	Camera->SetWorldRotation(NewCameraRor);
-
+	FocusCameraTimeLine.PlayFromStart();
+	
 	AltarWidget->SetVisibility(ESlateVisibility::Visible);
 	DotWidget->SetVisibility(ESlateVisibility::Hidden);
 }
@@ -370,6 +378,8 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 
 void AAlex::CheckHolding(bool IsHolding)
 {
+	if(bFocusing) return;
+	
 	bHoldingInteractBTN = IsHolding;
 }
 
@@ -621,6 +631,8 @@ void AAlex::CheckLighterOn()
 //---------------- Input Methods
 void AAlex::MovePlayer(FVector2D vector)
 {
+	if(bFocusing) return;
+	
 	const FRotator moveRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
 
 	if(vector.X > 0.05f || vector.X < -0.05f)
@@ -638,6 +650,8 @@ void AAlex::MovePlayer(FVector2D vector)
 
 void AAlex::MoveCamera(FVector2D vector)
 {
+	if(bFocusing) return;
+	
 	if(bOnEvent)
 	{
 		vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
@@ -650,7 +664,7 @@ void AAlex::MoveCamera(FVector2D vector)
 
 void AAlex::Interaction()
 {
-	if(!bCanTalk || !bCanInteract || bFocus) return;
+	if(!bCanTalk || !bCanInteract || bFocus || bFocusing) return;
 	
 	if(TalkSound != nullptr)
 		MakeTalk();
@@ -677,32 +691,36 @@ void AAlex::Interaction()
 
 void AAlex::StartSprint()
 {
-	if(!bCanRun) return;
+	if(!bCanRun || bFocusing) return;
 	
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
 void AAlex::StopSprint()
 {
-	if(!bCanRun) return;
+	if(!bCanRun || bFocusing) return;
 	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AAlex::TurnLigherIfPossible()
 {
-	if(!bCanUseLigher) return;
+	if(!bCanUseLigher || bFocusing) return;
 	
 	CheckLighterOn();
 }
 
 void AAlex::DoorMovement(FVector2D vector)
 {
+	if(bFocusing) return;
+	
 	DoorFloat = vector.X * MyController->GetMouseSensitivity();
 }
 
 void AAlex::OpenPause()
 {
+	if(bFocusing) return;
+	
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
@@ -710,7 +728,7 @@ void AAlex::OpenPause()
 
 void AAlex::OpenInventory()
 {
-	if(!bPauseFlip) return;
+	if(!bPauseFlip || bFocusing) return;
 	
 	if(bInventoryFlip)
 	{
@@ -732,6 +750,8 @@ void AAlex::OpenInventory()
 
 void AAlex::MontageAnimOnOff()
 {
+	if(bFocusing) return;
+	
 	if(bLighter)
 	{
 		PlayAnimMontage(LighterMontage);
@@ -811,6 +831,7 @@ void AAlex::StopTalking()
 //---------------- TimeLine
 void AAlex::BindTimeLineMethods()
 {
+	//--- Targetting
 	FOnTimelineFloat CameraTargetTick;
 	CameraTargetTick.BindUFunction(this, FName("CameraTargetTick"));
 	TargetCameraTimeLine.AddInterpFloat(EmptyCurve, CameraTargetTick);
@@ -818,6 +839,15 @@ void AAlex::BindTimeLineMethods()
 	FOnTimelineEventStatic CameraTargettingFinished;
 	CameraTargettingFinished.BindUFunction(this, FName("CameraTargetFinished"));
 	TargetCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+
+	//--- Focusing
+	FOnTimelineFloat CamFocusingTick;
+	CamFocusingTick.BindUFunction(this, FName("CameraFocusTick"));
+	FocusCameraTimeLine.AddInterpFloat(CurveFloat_FocusCamera, CamFocusingTick);
+	
+	FOnTimelineEventStatic CameraFocusingFinished;
+	CameraFocusingFinished.BindUFunction(this, FName("CameraFocusFinished"));
+	FocusCameraTimeLine.SetTimelineFinishedFunc(CameraFocusingFinished);
 }
 
 void AAlex::CameraTargetTick(float time)
@@ -832,4 +862,18 @@ void AAlex::CameraTargetTick(float time)
 void AAlex::CameraTargetFinished()
 {
 	CameraLookTarget = FVector::Zero();
+}
+
+void AAlex::CameraFocusTick(float time)
+{
+	auto ewTransform = FMath::Lerp(LastCamTransform.GetLocation(), FocusCamTransform.GetLocation(), time);
+	auto ewRot = FMath::Lerp(LastCamTransform.GetRotation(), FocusCamTransform.GetRotation(), time);
+
+	Camera->SetWorldLocation(ewTransform);
+	Camera->SetWorldRotation(ewRot);
+}
+
+void AAlex::CameraFocusFinished()
+{
+	bFocusing = false;
 }

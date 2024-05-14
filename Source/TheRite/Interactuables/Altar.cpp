@@ -56,7 +56,7 @@ void AAltar::Interaction()
 		Element->EnableInteraction();
 	}
 	
-	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorLocation(), CameraPos[WhellIndex]->GetActorRotation());
+	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform());
 }
 
 void AAltar::DisableAltarInteraction()
@@ -66,10 +66,10 @@ void AAltar::DisableAltarInteraction()
 
 void AAltar::LeaveFocus()
 {
-	if(!bCanInteract) return;
+	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	bIsFocus = false;
-	Player->BackToNormalView();
+	Player->BackToNormalView(CameraPos[WhellIndex]->GetActorTransform());
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
@@ -88,14 +88,14 @@ void AAltar::LeaveFocus()
 //--------------------- Objects methods
 void AAltar::WhellInteraction()
 {
-	if(!bCanInteract) return;
+	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	Whells[WhellIndex]->Interaction();
 }
 
 void AAltar::PrevWhell()
 {
-	if(!bCanInteract) return;
+	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	--WhellIndex;
 
@@ -107,7 +107,7 @@ void AAltar::PrevWhell()
 
 void AAltar::NextWhell()
 {
-	if(!bCanInteract) return;
+	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	++WhellIndex;
 	

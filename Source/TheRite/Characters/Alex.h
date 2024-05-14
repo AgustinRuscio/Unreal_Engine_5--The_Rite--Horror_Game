@@ -43,6 +43,7 @@ public:
 //---------------- Getter Methods
 	bool IsHoldInteractBTN() const;
 	bool CheckCanDrag() const;
+	bool GetFocusingState() const;
 	
 	float GetDoorFloat() const;
 	float GetInteractionRange() const;
@@ -83,8 +84,8 @@ public:
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	
 //---------------- View Methods
-	void BackToNormalView();
-	void OnFocusMode(FVector NewCameraPos, FRotator NewCameraRor);
+	void BackToNormalView(FTransform FromTransform);
+	void OnFocusMode(FTransform NewTransform);
 	void MoveCamera(FVector NewCameraPos);
 
 	
@@ -173,6 +174,12 @@ private:
 	UFUNCTION()
 	void CameraTargetFinished();
 
+	UFUNCTION()
+	void CameraFocusTick(float time);
+	
+	UFUNCTION()
+	void CameraFocusFinished();
+	
 public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bLighter;
@@ -189,6 +196,7 @@ private:
 	bool bCanTalk = true;
 	bool bCanSound = true;
 	bool bCanInteract = false;
+	bool bFocusing = false;
 	
 	bool bFocus = false;
 	bool bStun = false;
@@ -228,8 +236,9 @@ private:
 	FVector2D VectorY;
 
 	FVector CameraLookTarget;
-	FVector LastCameraPos;
-	FRotator LastCameraRot;
+
+	FTransform LastCamTransform;
+	FTransform FocusCamTransform;
 
 	//-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh")
@@ -286,9 +295,13 @@ private:
 	FTimerHandle ConsumibleWidgetTimer;
 
 	FTimeline TargetCameraTimeLine;
+	FTimeline FocusCameraTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "TimeLine")
 	UCurveFloat* EmptyCurve;
+	
+	UPROPERTY(EditAnywhere, Category = "TimeLine")
+	UCurveFloat* CurveFloat_FocusCamera;
 
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category = "Lights")
