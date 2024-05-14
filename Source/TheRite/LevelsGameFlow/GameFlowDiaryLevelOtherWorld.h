@@ -38,7 +38,11 @@ private:
 	void InitializeValues();
 
 	UFUNCTION()
-	void a(AActor* OverlappedActor, AActor* OtherActor);
+	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
 public:	
 
 private:
@@ -46,9 +50,13 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_LivingRoomEvent;
 	
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	ATriggerVolume* TriggerVolume_KitchenEvent;
+	
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
 	USoundBase* SFX_LastAudio;
+	
 	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
 	USoundBase* SFX_LightsOut;
 
@@ -61,21 +69,20 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_Altar;
-
-	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ALightsTheRite*> Lights_LivingEvent;
 	
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ARectLight*> Lights_OtherLivingEvent;
 
 	//-------- Timers
 	FTimerHandle Timer_LivingRoomEvent;
+	FTimerHandle Timer_KitchenEvent;
 	
 	//-------- In game Meshes
 	
 	UPROPERTY(EditAnywhere, Category = "Meshes")
-	TArray<ASkeletalMeshActor*> Skeletals_Sofa;
-
+	TArray<ASkeletalMeshActor*> Skeletals_LivingRoomEvet;
+	UPROPERTY(EditAnywhere, Category = "Meshes")
+	TArray<ASkeletalMeshActor*> Skeletals_KitchenEvet;
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInOrdenSelectionPuzzleFlow* InOrderPOuzzleController;

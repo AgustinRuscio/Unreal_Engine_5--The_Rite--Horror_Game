@@ -25,3 +25,19 @@ enum class LevelObjectType : uint8
 	Diary,
 	Picture
 };
+
+UENUM(BlueprintType)
+enum class HouseZone : uint8
+{
+	ArtRoom,
+	Garage,
+	Library,
+	TCorridor,
+	Hall,
+	LivingRoom,
+	Kitchen,
+	DiningRoom,
+	LCorridor,
+	BathRoom,
+	BedRoom
+};

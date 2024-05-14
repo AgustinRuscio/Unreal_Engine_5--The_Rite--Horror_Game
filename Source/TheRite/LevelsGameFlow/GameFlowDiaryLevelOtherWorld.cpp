@@ -68,7 +68,8 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 
 void AGameFlowDiaryLevelOtherWorld::BindTriggers()
 {
-	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::a);
+	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
+	TriggerVolume_KitchenEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap);
 }
 
 void AGameFlowDiaryLevelOtherWorld::BindMethods()
@@ -86,12 +87,13 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 	}
 }
 
-void AGameFlowDiaryLevelOtherWorld::a(AActor* OverlappedActor, AActor* OtherActor)
+void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
 
-	for (auto Element : Lights_LivingEvent)
+	for (auto Element : Lights_AllLights)
 	{
+		if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
 		Element->TurnOff();
 	}
 
@@ -100,7 +102,7 @@ void AGameFlowDiaryLevelOtherWorld::a(AActor* OverlappedActor, AActor* OtherActo
 		Element->Destroy();
 	}
 	
-	for (auto Element : Skeletals_Sofa)
+	for (auto Element : Skeletals_LivingRoomEvet)
 	{
 		Element->Destroy();
 	}
@@ -111,8 +113,9 @@ void AGameFlowDiaryLevelOtherWorld::a(AActor* OverlappedActor, AActor* OtherActo
 
 		OnTimerCompleted.BindLambda([&]
 		{
-			for (auto Element : Lights_LivingEvent)
+			for (auto Element : Lights_AllLights)
 			{
+				if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
 				Element->TurnOn();
 			}
 		});
@@ -120,4 +123,35 @@ void AGameFlowDiaryLevelOtherWorld::a(AActor* OverlappedActor, AActor* OtherActo
 	}
 	
 	TriggerVolume_LivingRoomEvent->Destroy();
+}
+
+void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	for (auto Element : Lights_AllLights)
+	{
+		if(Element->GetLightZone() != HouseZone::Kitchen) continue;
+		Element->TurnOff();
+	}
+	
+	for (auto Element : Skeletals_KitchenEvet)
+	{
+		Element->Destroy();
+	}
+
+	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_KitchenEvent))
+	{
+		FTimerDelegate OnTimerCompleted;
+
+		OnTimerCompleted.BindLambda([&]
+		{
+			for (auto Element : Lights_AllLights)
+			{
+				if(Element->GetLightZone() != HouseZone::Kitchen) continue;
+				Element->TurnOn();
+			}
+		});
+		GetWorld()->GetTimerManager().SetTimer(Timer_KitchenEvent, OnTimerCompleted, 1.5f, false);
+	}
+	
+	TriggerVolume_KitchenEvent->Destroy();
 }

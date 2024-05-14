@@ -31,6 +31,11 @@ bool ALightsTheRite::IsLightOn()
 	return PointLight->Intensity > 0;
 }
 
+HouseZone ALightsTheRite::GetLightZone()
+{
+	return LightHouseZone;
+}
+
 void ALightsTheRite::BeginPlay()
 {
 	Super::BeginPlay();
