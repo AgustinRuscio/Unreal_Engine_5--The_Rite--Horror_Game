@@ -14,6 +14,7 @@
 #include "TheRite/Interactuables/DoorKey.h"
 #include "MoveTiffany.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
+#include "Engine/StaticMeshActor.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
 #include "Engine/TriggerBox.h"
@@ -41,6 +42,12 @@ void AClockLevelGameFlow::BeginPlay()
 
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	//Player->SetPlayerOptions(false, true);
+
+	for (auto Element : Walls_EndGameWall)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(false);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	}
 	
 	BindTimeLineMethods();
 	
@@ -175,7 +182,13 @@ void AClockLevelGameFlow::CheckLetters()
 {
 	if(!bHours || !bMinutes) return;
 
-	UE_LOG(LogTemp, Warning, TEXT("both"));
+	for (auto Element : Walls_EndGameWall)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndProbe);
+	}
+	
+	EndGame();
 	BigClock->SetReadyToUse();
 }
 
@@ -204,26 +217,27 @@ void AClockLevelGameFlow::EndGame()
 {
 	LibraryDoor->SetLockedState(true);
 	ArtRoomDoor->SetLockedState(true);
-	LibraryDoor->HardClosing();
-	ArtRoomDoor->HardClosing();
+	
+	//LibraryDoor->HardClosing();
+	//ArtRoomDoor->HardClosing();
 
-	for (auto Element : Lights)
-	{
-		Element->TurnOff();
-		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
-	}
+	//for (auto Element : Lights)
+	//{
+	//	Element->TurnOff();
+	//	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
+	//}
 
-	for (auto Element : ActorTobeDestroyOnEndgame)
-	{
-		Element->Destroy();
-	}
+	//for (auto Element : ActorTobeDestroyOnEndgame)
+	//{
+	//	Element->Destroy();
+	//}
 	
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
+	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
 	
-	Player->ForceTalk(OhFuckAlexTalk);
-	Player->ForceTurnLighterOn();
+	//Player->ForceTalk(OhFuckAlexTalk);
+	//Player->ForceTurnLighterOn();
 	
-	Player->SetPlayerOptions(true, false, false);
+	//Player->SetPlayerOptions(true, false, false);
 	
 	EndGameTriggerVolumen->Destroy();
 }

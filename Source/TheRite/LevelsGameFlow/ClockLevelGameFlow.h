@@ -34,6 +34,7 @@ class ATriggerBox;
 class AInteractor;
 class AMoveTiffany;
 class ABigClock;
+class AStaticMeshActor;
 
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor
@@ -185,6 +186,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
 	ATriggerVolume* LibraryTriggerVolumenJumpScaredReady;
+
+	UPROPERTY(EditAnywhere, Category = "Walls")
+	TArray<AStaticMeshActor*> Walls_EndGameWall;
 	
 	//-------- Audio
 	UAudioComponent* AmbientMusicCompoenent;

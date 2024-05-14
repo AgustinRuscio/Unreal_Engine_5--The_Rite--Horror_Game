@@ -63,22 +63,32 @@ bool AInOrdenSelectionPuzzleFlow::CheckRotation()
 
 void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 {
-	if(!CheckStatuttes() || !CheckRotation())
+	if (!GetWorldTimerManager().IsTimerActive(OffSetInteraction))
 	{
-		PuzzleFailure();
-		return;
-	}
+		FTimerDelegate timerDelegate;
+		
+		timerDelegate.BindLambda([&]
+		{
+			if(!CheckStatuttes() || !CheckRotation())
+			{
+				PuzzleFailure();
+				return;
+			}
 	
-	OnPuzzleFinished.Broadcast();
+			OnPuzzleFinished.Broadcast();
 
-	for (auto Element : AltarWhells)
-	{
-		Element->DisableInteraction();
+			for (auto Element : AltarWhells)
+			{
+				Element->DisableInteraction();
+			}
+
+			Altar->DisableAltarInteraction();
+			Destroy();
+			PRINTONVIEWPORT("Complete");
+		});
+			
+		GetWorldTimerManager().SetTimer(OffSetInteraction, timerDelegate, 1.f, false);
 	}
-
-	Altar->DisableAltarInteraction();
-	Destroy();
-	PRINTONVIEWPORT("Complete");
 }
 
 void AInOrdenSelectionPuzzleFlow::PuzzleFailure()

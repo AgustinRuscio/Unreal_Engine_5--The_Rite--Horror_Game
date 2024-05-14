@@ -47,6 +47,8 @@ private:
 
 	int8 MaxStatuatte;
 	int8 StatuatteIndex;
+
+	FTimerHandle OffSetInteraction;
 	
 	UPROPERTY(EditAnywhere, Category="Audio")
 	USoundBase* AlexAudio;
