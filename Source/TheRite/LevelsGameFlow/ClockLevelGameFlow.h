@@ -18,7 +18,6 @@ class ACloclLevelArtRoomEvent;
 class UAudioComponent;
 class ATargetPoint;
 class ATiffany;
-class AMakeTiffanyWalk;
 class AAlex;
 class ADoor;
 class ALetter;
@@ -50,7 +49,6 @@ public:
 private:
 //---------------- Initialize Methods
 	void SetAudioSettings();
-	void SetStartTiffany();
 	void BindPuzzleEvents();
 	void BindEvents();
 
@@ -175,9 +173,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Colliders")
 	AMoveTiffany* HallKeyEventMoveTiffanyTrigger;
 	
-	UPROPERTY(EditAnywhere, Category = "Colliders")
-	AMakeTiffanyWalk* MakeTiffanyWalkBetweenDoors;
-	
 	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
 	ATriggerBox* LibraryTriggerVolumenFirst;
 	
@@ -261,9 +256,6 @@ private:
 	//-------- Taregt Points
 	UPROPERTY(EditAnywhere, Category = "Target Points")
 	ATargetPoint* BlockingVolumeOriginalLocation;
-	
-	UPROPERTY(EditAnywhere, Category = "Target Points")
-	ATargetPoint* StartTiffanySpawnPoint;
 	
 	UPROPERTY(EditAnywhere, Category = "Target Points: Library")
 	ATargetPoint* HallKeyEventTiffanySpawnPoint;

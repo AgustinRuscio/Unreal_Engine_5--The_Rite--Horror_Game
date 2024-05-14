@@ -21,7 +21,6 @@
 #include "Engine/BlockingVolume.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
-#include "TheRite/Triggers/MakeTiffanyWalk.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -55,8 +54,6 @@ void AClockLevelGameFlow::BeginPlay()
 	
 	BindPuzzleEvents();
 	BindEvents();
-	
-	SetStartTiffany();
 }
 
 void AClockLevelGameFlow::Tick(float DeltaTime)
@@ -79,27 +76,6 @@ void AClockLevelGameFlow::SetAudioSettings()
 	AmbientMusicOriginalVolumen = AmbientMusic->GetVolumeMultiplier();
 	StressSoundOriginalVolumen = StressSound->GetVolumeMultiplier();
 	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
-}
-
-void AClockLevelGameFlow::SetStartTiffany()
-{
-	TArray<ATargetPoint*> Waypoints;
-	Waypoints.Add(StartTiffanySpawnPoint);
-	
-	FVector const& position = StartTiffanySpawnPoint->GetActorLocation();
-	FRotator const& rotation = StartTiffanySpawnPoint->GetActorRotation();
-	
-	auto tiff =GetWorld()->SpawnActor<ATiffany>(TiffanyClassForSpawning, position, rotation);
-	
-	tiff->SetActorLocation(position);
-	tiff->SetActorRotation(rotation);
-	tiff->SetWaypoints(Waypoints);
-	tiff->SetHasToMove(true);
-	
-	MakeTiffanyWalkBetweenDoors->KeyObtein(tiff);
-	MakeTiffanyWalkBetweenDoors->OnStartEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
-	MakeTiffanyWalkBetweenDoors->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::SpawnPlanksOnDoor);
 }
 
 void AClockLevelGameFlow::BindPuzzleEvents()
