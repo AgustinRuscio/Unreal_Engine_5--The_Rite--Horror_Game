@@ -124,7 +124,7 @@ private:
 	void HardClosingTimeLineUpdate(float value);
 	
 	UFUNCTION()
-	void HardClosingTimelineFinished();
+	void HardClosingTielineFinished();
 
 private:
 	UPROPERTY(EditAnywhere, Category= "States")
@@ -168,6 +168,8 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
 	float ItsLockedCD = 60;
 
+	float curretnYaw;
+	
 	float DoorTimer;
 	
 	float FirstYawrotation;

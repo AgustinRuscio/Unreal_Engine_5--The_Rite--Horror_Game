@@ -99,6 +99,8 @@ void ADoor::Tick(float DeltaTime)
 void ADoor::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);
+
+	curretnYaw = GetActorRotation().Yaw;
 	
 	TutorialInteraction();
 	
@@ -164,11 +166,11 @@ void ADoor::InitializeNeededValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
-	FirstYawrotation = DoorItself->GetRelativeRotation().Yaw;
+	FirstYawrotation = GetActorRotation().Yaw;
 	MaxYawrotation = bFrontOpen ? FirstYawrotation + FrontAngle : FirstYawrotation - FrontAngle;
 	
-	InitialRot = DoorItself->GetRelativeRotation();
-	CurrentRot = DoorItself->GetRelativeRotation();
+	InitialRot =GetActorRotation();
+	CurrentRot =GetActorRotation();
 }
 
 //---------------- Tutorial Methods
@@ -227,7 +229,7 @@ void ADoor::CheckCanSound(float DeltaTime)
 
 void ADoor::CheckPlayerForward()
 {
-	FVector DooraLocation = DoorItself->GetComponentLocation();
+	FVector DooraLocation = GetActorLocation();
 
 	FVector PlayerLocation = Player->GetActorLocation();
 
@@ -236,7 +238,7 @@ void ADoor::CheckPlayerForward()
 	PlayerDirection.Normalize();
 
 	FRotator DoorRotation = GetActorRotation();
-	FVector DooraForwardVector = DoorItself->GetComponentLocation().RightVector;
+	FVector DooraForwardVector = GetActorLocation().RightVector;
 	
 	FVector forwatdRoated = DoorRotation.RotateVector(DooraForwardVector);
 	
@@ -283,38 +285,60 @@ void ADoor::CheckDragDoor()
 	if(DoorTimer < DoorOpenOffsetCD) return;
 	
 	float DoorFloat = Player->GetDoorFloat();
-
+	float preSum = 0;
+	
 	if(bFrontOpen)
 	{
 		if(bIsPlayerForward)
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat * -1,0));
-		else
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat,0));
-	}
-	else
-	{
-		if(bIsPlayerForward)
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat  * -1,0));
-		else
-			DoorItself->AddLocalRotation(FRotator(0, DoorFloat,0));
-	}
+		{
+			preSum = curretnYaw + DoorFloat * -1;
 			
-	float DoorCurrentYaw = DoorItself->GetRelativeRotation().Yaw;
-		
-	if(bFrontOpen)
-	{
-		if(DoorCurrentYaw > MaxYawrotation)
-			DoorItself->SetRelativeRotation(FRotator(0, MaxYawrotation,0));
-		else if(DoorCurrentYaw < FirstYawrotation)
-			DoorItself->SetRelativeRotation(FRotator(0, FirstYawrotation,0));
+			if(preSum  >= MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else if(preSum  < FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+		else
+		{
+			preSum = curretnYaw+ DoorFloat;
+			
+			if(preSum >= MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else if(preSum  < FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else
+				curretnYaw = preSum;
+		}
 	}
 	else
 	{
-		if(DoorCurrentYaw > FirstYawrotation)
-			DoorItself->SetRelativeRotation(FRotator(0, FirstYawrotation,0));
-		else if(DoorCurrentYaw < MaxYawrotation)
-			DoorItself->SetRelativeRotation(FRotator(0, MaxYawrotation,0));
+		if(bIsPlayerForward)
+		{
+			preSum = curretnYaw + DoorFloat;
+			
+			if (preSum >= FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else if (preSum < MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+		else
+		{
+			preSum = curretnYaw + DoorFloat * -1;
+			
+			if(preSum >= FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else if(preSum < MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else
+				curretnYaw = preSum;
+		}
 	}
+	
+	SetActorRotation(FRotator(GetActorRotation().Pitch, curretnYaw, GetActorRotation().Roll));
 }
 
 void ADoor::CheckIfLookingDoor()
@@ -452,7 +476,7 @@ void ADoor::BindTimeLines()
 	TimeLineHardClosing.AddInterpFloat(HardClosingCurve, HardClosingTimelineCallback);
 	
 	FOnTimelineEventStatic HardClosingTimelineFinishedCallback;
-	HardClosingTimelineFinishedCallback.BindUFunction(this, FName("HardClosingTimelineFinished"));
+	HardClosingTimelineFinishedCallback.BindUFunction(this, FName("HardClosingTielineFinished"));
 	TimeLineHardClosing.SetTimelineFinishedFunc(HardClosingTimelineFinishedCallback);
 }
 
@@ -470,12 +494,12 @@ void ADoor::OpenCloseTimeLineUpdate(float value)
 {
 	float newRoll = FMath::Lerp(0,90, value);
 	
-	DoorItself->SetRelativeRotation(FRotator(0,newRoll, 0));
+	SetActorRotation(FRotator(0,newRoll, 0));
 }
 
 void ADoor::OpenCloseTimelineFinished()
 {
-	CurrentRot = DoorItself->GetRelativeRotation();
+	CurrentRot =GetActorRotation();
 }
 
 
@@ -484,7 +508,7 @@ void ADoor::ItLockedTimeLineUpdate(float value)
 	float TargetYaw = CloseRotation.Yaw + 5.0f;
 	float NewYaw = FMath::Lerp(CloseRotation.Yaw, TargetYaw, value);
 
-	DoorItself->SetRelativeRotation(FRotator(0, NewYaw, 0));
+	SetActorRotation(FRotator(0, NewYaw, 0));
 }
 
 void ADoor::ItLockedTimelineFinished()
@@ -493,7 +517,7 @@ void ADoor::ItLockedTimelineFinished()
 	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
 	++AudioCounterItsLocked;
 	
-	CurrentRot = DoorItself->GetRelativeRotation();
+	CurrentRot = GetActorRotation();
 }
 
 
@@ -521,10 +545,10 @@ void ADoor::LatchHoldTimelineFinished() { }
 void ADoor::HardClosingTimeLineUpdate(float value)
 {
 	auto lerpValue = FMath::Lerp(CurrentRot,CloseRotation, value);
-	DoorItself->SetRelativeRotation(FRotator(lerpValue));
+	SetActorRotation(FRotator(lerpValue));
 }
 
-void ADoor::HardClosingTimelineFinished()
+void ADoor::HardClosingTielineFinished()
 {
-	CurrentRot = DoorItself->GetRelativeRotation();
+	CurrentRot = GetActorRotation();
 }

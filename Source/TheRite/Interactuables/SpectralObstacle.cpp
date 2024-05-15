@@ -26,8 +26,8 @@ void ASpectralObstacle::BeginPlay()
 	ParentStaticMesh = Cast<UStaticMeshComponent>(ParentActor->GetComponentByClass(UStaticMeshComponent::StaticClass()));
 
 	DynamicMaterial = UMaterialInstanceDynamic::Create(Mat, this);
+	
 	if(!Cast<UMaterialInstanceDynamic>(ParentStaticMesh->GetMaterial(0)))
-
 	ParentStaticMesh->SetMaterial(0, DynamicMaterial);
 
 	BindTimeLines();
