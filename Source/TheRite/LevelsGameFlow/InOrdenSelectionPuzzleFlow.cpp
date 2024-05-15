@@ -87,7 +87,7 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 			PRINTONVIEWPORT("Complete");
 		});
 			
-		GetWorldTimerManager().SetTimer(OffSetInteraction, timerDelegate, 1.f, false);
+		GetWorldTimerManager().SetTimer(OffSetInteraction, timerDelegate, 1.5f, false);
 	}
 }
 

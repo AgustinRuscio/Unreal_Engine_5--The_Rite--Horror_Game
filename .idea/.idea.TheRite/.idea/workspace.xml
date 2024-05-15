@@ -8,16 +8,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Alex/NewModel/Idle_Skeleton_Sequence1.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/LittleDesk/M_LittleDesk_CORRUPTION_2.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/Cupido_Interaction_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/Cupido_Interaction_Emissive.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death_Interaction_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death_Interaction_Emissive.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/M_Death_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/M_Virgin_CORRUPTION.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/M_Virgin_CORRUPTION_Inst1.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/virgin_Interaction_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/virgin_Interaction_Emissive.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/M_LightFlicker_aggresive.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/M_LightFlicker_aggresive.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/M_cupid.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Cupid/M_cupid.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/Death.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/M_Death.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Death/M_Death.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/M_Virgin_Corruption_Inst.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/M_Virgin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/PuzzleStatuatte/Virgin/Texture/M_Virgin.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/EnumsContainer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/EnumsContainer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralObstacle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Statuette.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +39,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -422,6 +437,10 @@
       <workItem from="1715652192540" duration="2199000" />
       <workItem from="1715655275376" duration="2817000" />
       <workItem from="1715695097814" duration="1947000" />
+      <workItem from="1715697564932" duration="242000" />
+      <workItem from="1715721920806" duration="2539000" />
+      <workItem from="1715724558187" duration="356000" />
+      <workItem from="1715737710966" duration="1542000" />
     </task>
     <servers />
   </component>

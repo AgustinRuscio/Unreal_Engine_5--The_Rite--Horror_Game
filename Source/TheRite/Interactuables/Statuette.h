@@ -11,7 +11,8 @@
 #include "GameFramework/Pawn.h"
 #include "Statuette.generated.h"
 
-class UPointLightComponent;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
 
 UCLASS()
 class THERITE_API AStatuette : public AInteractor
@@ -67,7 +68,11 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	USoundBase* InteractionSound;
 
+	UMaterialInterface* Material;
+	UMaterialInstanceDynamic* DynamicMaterial;
+	
 	FTimeline InteractionTimeLine;
+
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* TimeLineCurve;

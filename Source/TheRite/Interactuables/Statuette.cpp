@@ -4,7 +4,7 @@
 
 
 #include "Statuette.h"
-#include "Components/PointLightComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "Kismet/GameplayStatics.h"
 
 AStatuette::AStatuette()
@@ -39,7 +39,12 @@ FRotator AStatuette::GetRotation() const
 void AStatuette::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Material = StaticMesh->GetMaterial(0);
+	DynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
+	StaticMesh->SetMaterial(0, DynamicMaterial);
 	
+	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),1);
 }
 
 void AStatuette::Tick(float DeltaSeconds)
@@ -53,7 +58,10 @@ void AStatuette::Interaction()
 	if(!bCanInteract) return;
 
 	if(bFirstInteraction)
+	{
 		bCanInteract = false;
+		DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),0);
+	}
 	else
 	{
 		bCanInteract = false;
@@ -101,6 +109,9 @@ void AStatuette::BindTimeLine()
 void AStatuette::OpenTimeLineUpdate(float value)
 {
 	FVector values = FMath::Lerp(InitialObjectPosition,EndLocation, value);
+	auto matValue = FMath::Lerp(0,1, value);
+
+	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),matValue);
 	
 	SetActorLocation(values);
 }
