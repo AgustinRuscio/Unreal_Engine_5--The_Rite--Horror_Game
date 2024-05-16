@@ -20,6 +20,7 @@ AGameFlowDiaryLevelOtherWorld::AGameFlowDiaryLevelOtherWorld()
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//---------------- System Class Methods
 void AGameFlowDiaryLevelOtherWorld::BeginPlay()
 {
 	Super::BeginPlay();
@@ -29,10 +30,33 @@ void AGameFlowDiaryLevelOtherWorld::BeginPlay()
 	BindMethods();
 }
 
+//---------------- Initialize Methods
 void AGameFlowDiaryLevelOtherWorld::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void AGameFlowDiaryLevelOtherWorld::BindTriggers()
+{
+	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
+	TriggerVolume_KitchenEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap);
+}
+
+void AGameFlowDiaryLevelOtherWorld::BindMethods()
+{
+	InOrderPOuzzleController->OnPuzzleFinished.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::EndGame);
+}
+
+void AGameFlowDiaryLevelOtherWorld::InitializeValues()
+{
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+
+	for (auto Element : Lights_SpotLightEndGame)
+	{
+		Element->GetLightComponent()->SetIntensity(0);
+	}
+}
+
 
 void AGameFlowDiaryLevelOtherWorld::EndGame()
 {
@@ -66,48 +90,18 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 	Player->SetPlayerOptions(true, false, false);
 }
 
-void AGameFlowDiaryLevelOtherWorld::BindTriggers()
-{
-	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
-	TriggerVolume_KitchenEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap);
-}
-
-void AGameFlowDiaryLevelOtherWorld::BindMethods()
-{
-	InOrderPOuzzleController->OnPuzzleFinished.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::EndGame);
-}
-
-void AGameFlowDiaryLevelOtherWorld::InitializeValues()
-{
-	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-
-	for (auto Element : Lights_SpotLightEndGame)
-	{
-		Element->GetLightComponent()->SetIntensity(0);
-	}
-}
-
+//---------------- Bind Colliders Methods
 void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
-
+	
 	for (auto Element : Lights_AllLights)
 	{
 		if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
-		Element->TurnOff();
+		Element->TurnOn();
 	}
 
-	for (auto Element : Lights_OtherLivingEvent)
-	{
-		Element->Destroy();
-	}
-	
-	for (auto Element : Skeletals_LivingRoomEvet)
-	{
-		Element->Destroy();
-	}
-	
-	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent))
+	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent0))
 	{
 		FTimerDelegate OnTimerCompleted;
 
@@ -116,10 +110,36 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 			for (auto Element : Lights_AllLights)
 			{
 				if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
-				Element->TurnOn();
+				Element->TurnOff();
+			}
+
+			for (auto Element : Lights_OtherLivingEvent)
+			{
+				Element->Destroy();
+			}
+	
+			for (auto Element : Skeletals_LivingRoomEvet)
+			{
+				Element->Destroy();
+			}
+			
+			if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent1))
+			{
+				FTimerDelegate OnSecondTimerCompleted;
+				OnSecondTimerCompleted.BindLambda([&]
+				{
+					for (auto Element : Lights_AllLights)
+					{
+						if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
+						Element->TurnOn();
+					}
+				});
+				
+			GetWorld()->GetTimerManager().SetTimer(Timer_LivingRoomEvent1, OnSecondTimerCompleted, 1.5f, false);
 			}
 		});
-		GetWorld()->GetTimerManager().SetTimer(Timer_LivingRoomEvent, OnTimerCompleted, 1.5f, false);
+		
+		GetWorld()->GetTimerManager().SetTimer(Timer_LivingRoomEvent0, OnTimerCompleted, 0.9f, false);
 	}
 	
 	TriggerVolume_LivingRoomEvent->Destroy();

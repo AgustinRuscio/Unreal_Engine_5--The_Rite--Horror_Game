@@ -85,7 +85,6 @@ void AClockLevelGameFlow::BindPuzzleEvents()
 	TiffanyFirstLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::FirstLetterRead);
 	
 	MinutesLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetMinutes);
-
 	HoursLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetHours);
 
 	
@@ -105,7 +104,7 @@ void AClockLevelGameFlow::BindEvents()
 	HallKeyEventMoveTiffanyTrigger->OnFinishedEvent.AddDynamic(this, &AClockLevelGameFlow::OnWalkFinished);
 	BigLockedDoor->OnInteractionTrigger.AddDynamic(this, &AClockLevelGameFlow::OnInteractionWithLockedDoor);
 	
-	EndGameTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginEndGame);
+	Trigger_LockEndGameDoors->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginLockDoorsEndGame);
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 
@@ -164,7 +163,6 @@ void AClockLevelGameFlow::CheckLetters()
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndProbe);
 	}
 	
-	EndGame();
 	BigClock->SetReadyToUse();
 }
 
@@ -189,33 +187,36 @@ void AClockLevelGameFlow::MinutesCollected()
 	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
 
-void AClockLevelGameFlow::EndGame()
+void AClockLevelGameFlow::LockDoorsEndGame()
 {
 	LibraryDoor->SetLockedState(true);
 	ArtRoomDoor->SetLockedState(true);
 	
-	//LibraryDoor->HardClosing();
-	//ArtRoomDoor->HardClosing();
+	LibraryDoor->HardClosing();
+	ArtRoomDoor->HardClosing();
+	
+	Trigger_LockEndGameDoors->Destroy();
+}
 
-	//for (auto Element : Lights)
-	//{
-	//	Element->TurnOff();
-	//	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
-	//}
+void AClockLevelGameFlow::EndGame()
+{
+	for (auto Element : Lights)
+	{
+		Element->TurnOff();
+		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
+	}
 
-	//for (auto Element : ActorTobeDestroyOnEndgame)
-	//{
-	//	Element->Destroy();
-	//}
+	for (auto Element : ActorTobeDestroyOnEndgame)
+	{
+		Element->Destroy();
+	}
 	
-	//UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
 	
-	//Player->ForceTalk(OhFuckAlexTalk);
-	//Player->ForceTurnLighterOn();
+	Player->ForceTalk(OhFuckAlexTalk);
+	Player->ForceTurnLighterOn();
 	
-	//Player->SetPlayerOptions(true, false, false);
-	
-	EndGameTriggerVolumen->Destroy();
+	Player->SetPlayerOptions(true, false, false);
 }
 
 //---------------- Audio Methods
@@ -436,11 +437,11 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, 
 	Player->OnJumpScare();
 }
 
-void AClockLevelGameFlow::OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor)
+void AClockLevelGameFlow::OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bMinutes || !bHours) return;
 
-	EndGame();
+	LockDoorsEndGame();
 }
 
 void AClockLevelGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)

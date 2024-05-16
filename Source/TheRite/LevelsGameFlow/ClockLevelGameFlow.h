@@ -72,6 +72,9 @@ private:
 	void MinutesCollected();
 
 	UFUNCTION()
+	void LockDoorsEndGame();
+	
+	UFUNCTION()
 	void EndGame();
 	
 //---------------- Audio Methods
@@ -125,7 +128,7 @@ private:
 	void OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor);
 
 	UFUNCTION()
-	void OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor);
+	void OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor);
 	
 	UFUNCTION()
 	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
@@ -168,7 +171,7 @@ private:
 	ATriggerBox* CloseGaregeDoorTriggerVolumen;
 	
 	UPROPERTY(EditAnywhere, Category = "Colliders")
-	ATriggerBox* EndGameTriggerVolumen;
+	ATriggerBox* Trigger_LockEndGameDoors;
 	
 	UPROPERTY(EditAnywhere, Category = "Colliders")
 	AMoveTiffany* HallKeyEventMoveTiffanyTrigger;

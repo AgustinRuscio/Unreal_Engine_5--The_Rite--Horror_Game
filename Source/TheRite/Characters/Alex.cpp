@@ -155,6 +155,7 @@ void AAlex::ForceTalk(USoundBase* Voice)
 void AAlex::CallPauseFunc()
 {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+
 	bPauseFlip = true;
 	MyController->SetPauseGame(false);
 }
@@ -299,9 +300,6 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 void AAlex::BackToNormalView(FTransform FromTransform)
 {
 	bFocus = false;
-	Camera->bUsePawnControlRotation = true;
-	
-	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
 	FocusCamTransform = FromTransform;
 	
 	FocusCameraTimeLine.ReverseFromEnd();
@@ -517,7 +515,7 @@ void AAlex::CreateWidgets()
 void AAlex::CreatePauseWidget()
 {
 	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
-	PauseWidget->AddToViewport(0);
+	PauseWidget->AddToViewport(2);
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 	PauseWidget->SetIsFocusable(true);
 }
@@ -525,14 +523,14 @@ void AAlex::CreatePauseWidget()
 void AAlex::CreateDotWidget()
 {
 	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
-	DotWidget->AddToViewport(-1);
+	DotWidget->AddToViewport(0);
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
 void AAlex::CreateFocusWidget()
 {
 	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
-	AltarWidget->AddToViewport(-1);
+	AltarWidget->AddToViewport(1);
 	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
@@ -541,7 +539,7 @@ void AAlex::CreateInventoryWidget()
 	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
 	InventoryWidget->AddToViewport(0);
 	InventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-	InventoryWidget->SetIsFocusable(true);
+	InventoryWidget->SetIsFocusable(false);
 }
 
 void AAlex::CreateOpenInventoryWidget()
@@ -549,7 +547,7 @@ void AAlex::CreateOpenInventoryWidget()
 	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
 	OpenInventoryWidget->AddToViewport(0);
 	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-	OpenInventoryWidget->SetIsFocusable(true);
+	OpenInventoryWidget->SetIsFocusable(false);
 }
 
 void AAlex::CreateLighterReminderWidget()
@@ -722,6 +720,7 @@ void AAlex::OpenPause()
 	if(bFocusing) return;
 	
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
 }
@@ -876,4 +875,9 @@ void AAlex::CameraFocusTick(float time)
 void AAlex::CameraFocusFinished()
 {
 	bFocusing = false;
+	if(bFocus) return;
+	
+	Camera->bUsePawnControlRotation = true;
+	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+	
 }

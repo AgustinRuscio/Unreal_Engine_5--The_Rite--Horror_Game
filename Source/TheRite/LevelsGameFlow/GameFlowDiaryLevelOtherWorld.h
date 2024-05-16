@@ -23,20 +23,23 @@ class THERITE_API AGameFlowDiaryLevelOtherWorld : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	AGameFlowDiaryLevelOtherWorld();
+//---------------- System Class Methods
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	UFUNCTION()
-	void EndGame();
-
+//---------------- Initialize Methods
 	UFUNCTION()
 	void BindTriggers();
 	void BindMethods();
 	void InitializeValues();
+	
+	UFUNCTION()
+	void EndGame();
 
+//---------------- Bind Colliders Methods
 	UFUNCTION()
 	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
@@ -74,7 +77,9 @@ private:
 	TArray<ARectLight*> Lights_OtherLivingEvent;
 
 	//-------- Timers
-	FTimerHandle Timer_LivingRoomEvent;
+	FTimerHandle Timer_LivingRoomEvent0;
+	FTimerHandle Timer_LivingRoomEvent1;
+	
 	FTimerHandle Timer_KitchenEvent;
 	
 	//-------- In game Meshes

@@ -39,7 +39,11 @@ public:
 	void TurnOn();
 	
 private:
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off"))
+	bool bWillStartOff;
+	
 	float FirstPointIntensity;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
 	float DefaultLightIntensity;
 

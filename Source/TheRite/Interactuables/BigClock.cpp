@@ -49,7 +49,7 @@ void ABigClock::Tick(float DeltaTime)
 
 void ABigClock::Interaction()
 {
-	Super::Interaction();
+	//Super::Interaction();
 
 	if(bIsFocus || !bCanInteract) return;
 
@@ -187,10 +187,6 @@ void ABigClock::ChangeNeedle()
 
 void ABigClock::CheckNeedlesPosition()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Testeo"));
-	UE_LOG(LogTemp, Warning, TEXT("Minutes Pitch: %f   Desired  %f"), MinuturesNeedleMesh->GetComponentRotation().Pitch, DesireMinutesRotation);
-	UE_LOG(LogTemp, Warning, TEXT("Hours Pitch: %f   Desired  %f"), HourNeedleMesh->GetComponentRotation().Pitch, DesireHourRotation);
-
 	if(!bReadyToUse)
 	{
 		Player->ForceTalk(AudioToPlay);
@@ -209,7 +205,7 @@ void ABigClock::CheckNeedlesPosition()
 	OnClockPuzzleCompleted.Broadcast();
 	LeaveFocus();
 	
-	UE_LOG(LogTemp, Warning, TEXT("Es"));
+	bCanInteract = false;
 }
 
 //--------------------- TimeLine methods

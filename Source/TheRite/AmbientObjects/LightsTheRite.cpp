@@ -20,10 +20,11 @@ ALightsTheRite::ALightsTheRite()
 	Sphere->SetSphereRadius(177.0f);
 	
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
-
-
+	
 	PointLight->SetupAttachment(NewRootComponent);
 	Sphere->SetupAttachment(NewRootComponent);
+
+	
 }
 
 bool ALightsTheRite::IsLightOn()
@@ -39,8 +40,11 @@ HouseZone ALightsTheRite::GetLightZone()
 void ALightsTheRite::BeginPlay()
 {
 	Super::BeginPlay();
-
-	FirstPointIntensity= PointLight->Intensity;
+	
+	if(bWillStartOff)
+		PointLight->SetIntensity(0);
+	
+	FirstPointIntensity = PointLight->Intensity;
 }
 
 //---------------- Material Setter Methods
