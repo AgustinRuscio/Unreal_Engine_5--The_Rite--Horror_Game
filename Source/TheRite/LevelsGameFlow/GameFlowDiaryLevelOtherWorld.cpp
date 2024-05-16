@@ -13,6 +13,7 @@
 #include "Animation/SkeletalMeshActor.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Characters/Alex.h"
 
 AGameFlowDiaryLevelOtherWorld::AGameFlowDiaryLevelOtherWorld()
@@ -40,6 +41,7 @@ void AGameFlowDiaryLevelOtherWorld::BindTriggers()
 {
 	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
 	TriggerVolume_KitchenEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap);
+	TriggerVolume_DinningEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap);
 }
 
 void AGameFlowDiaryLevelOtherWorld::BindMethods()
@@ -55,6 +57,13 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 	{
 		Element->GetLightComponent()->SetIntensity(0);
 	}
+
+	for (auto Element : Skeletals_DinningRoomEvet)
+	{
+		Element->GetSkeletalMeshComponent()->SetVisibility(false);
+	}
+	
+	InteractorEventDinningRoom->OnInteractionTrigger.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab);
 }
 
 
@@ -88,6 +97,16 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 	
 	Player->ForceTurnLighterOn();
 	Player->SetPlayerOptions(true, false, false);
+}
+
+void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
+{
+	bEventReadyDinningRoom = true;
+
+	for (auto Element : Skeletals_DinningRoomEvet)
+	{
+		Element->GetSkeletalMeshComponent()->SetVisibility(true);
+	}
 }
 
 //---------------- Bind Colliders Methods
@@ -147,6 +166,8 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 
 void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
+	if(!Cast<AAlex>(OtherActor)) return;
+	
 	for (auto Element : Lights_AllLights)
 	{
 		if(Element->GetLightZone() != HouseZone::Kitchen) continue;
@@ -174,4 +195,38 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 	}
 	
 	TriggerVolume_KitchenEvent->Destroy();
+}
+
+void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor) || !bEventReadyDinningRoom) return;
+	
+	for (auto Element : Lights_AllLights)
+	{
+		if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
+		Element->TurnOff();
+	}
+	
+	for (auto Element : Skeletals_DinningRoomEvet)
+	{
+		Element->Destroy();
+	}
+	
+	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_DinningRoomEvent))
+	{
+		FTimerDelegate OnTimerCompleted;
+
+		OnTimerCompleted.BindLambda([&]
+		{
+			for (auto Element : Lights_AllLights)
+			{
+				if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
+				Element->TurnOn();
+			}
+		});
+		
+		GetWorld()->GetTimerManager().SetTimer(Timer_DinningRoomEvent, OnTimerCompleted, 1.5f, false);
+	}
+
+	TriggerVolume_DinningEvent->Destroy();
 }

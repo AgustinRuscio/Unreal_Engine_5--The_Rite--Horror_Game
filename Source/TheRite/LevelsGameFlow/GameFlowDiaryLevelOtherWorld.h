@@ -17,6 +17,7 @@ class ATriggerVolume;
 class ARectLight;
 class ASkeletalMeshActor;
 class ALightsTheRite;
+class AInteractor;
 
 UCLASS()
 class THERITE_API AGameFlowDiaryLevelOtherWorld : public AActor
@@ -39,6 +40,9 @@ private:
 	UFUNCTION()
 	void EndGame();
 
+	UFUNCTION()
+	void DinningRoomObjectEventGrab(AInteractor* a);
+	
 //---------------- Bind Colliders Methods
 	UFUNCTION()
 	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
@@ -46,24 +50,32 @@ private:
 	UFUNCTION()
 	void OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
+	UFUNCTION()
+	void OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
 public:	
 
 private:
-	//-------- Colliders
+	bool bEventReadyDinningRoom;
+	
+//-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_LivingRoomEvent;
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_KitchenEvent;
 	
-	//-------- Audio
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	ATriggerVolume* TriggerVolume_DinningEvent;
+	
+//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
 	USoundBase* SFX_LastAudio;
 	
 	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
 	USoundBase* SFX_LightsOut;
 
-	//-------- Lights
+//-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ALightsTheRite*> Lights_AllLights;
 
@@ -76,30 +88,44 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ARectLight*> Lights_OtherLivingEvent;
 
-	//-------- Timers
+//-------- Timers
 	FTimerHandle Timer_LivingRoomEvent0;
 	FTimerHandle Timer_LivingRoomEvent1;
 	
 	FTimerHandle Timer_KitchenEvent;
 	
-	//-------- In game Meshes
+	FTimerHandle Timer_DinningRoomEvent;
 	
+//---------------------------------------- In game Objects
+	
+//-------- Meshes
 	UPROPERTY(EditAnywhere, Category = "Meshes")
 	TArray<ASkeletalMeshActor*> Skeletals_LivingRoomEvet;
+	
 	UPROPERTY(EditAnywhere, Category = "Meshes")
 	TArray<ASkeletalMeshActor*> Skeletals_KitchenEvet;
+
+	UPROPERTY(EditAnywhere, Category = "Meshes")
+	TArray<ASkeletalMeshActor*> Skeletals_DinningRoomEvet;
 	
+//-------- Flows
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInOrdenSelectionPuzzleFlow* InOrderPOuzzleController;
 
+//-------- Doors
 	UPROPERTY(EditAnywhere, Category= "Doors")
-	
 	ADoor* Doors_BathRoom;
-	UPROPERTY(EditAnywhere, Category= "Doors")
 	
+	UPROPERTY(EditAnywhere, Category= "Doors")
 	ADoor* Doors_BedRoom;
+	
 	UPROPERTY(EditAnywhere, Category= "Doors")
 	ADoor* Doors_EndGame;
 
+//-------- Interactors
+	UPROPERTY(EditAnywhere, Category= "Interacors")
+	AInteractor* InteractorEventDinningRoom;
+	
+//-------- Others
 	AAlex* Player;
 };

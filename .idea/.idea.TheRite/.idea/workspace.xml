@@ -8,19 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/RenderTarget/RT_OtherWorldDiary.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Models/Tiffany/NewTiffany/Tiffany_Sit1.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_BigClock.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_BigClock.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Alex.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/ClockLevelGameFlow.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowDiaryLevelOtherWorld.h" afterDir="false" />
     </list>
@@ -39,14 +29,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://4" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
@@ -448,6 +431,9 @@
       <workItem from="1715819998376" duration="6263000" />
       <workItem from="1715831449377" duration="255000" />
       <workItem from="1715838686935" duration="140000" />
+      <workItem from="1715839065513" duration="806000" />
+      <workItem from="1715875124661" duration="2688000" />
+      <workItem from="1715883142994" duration="4019000" />
     </task>
     <servers />
   </component>
