@@ -141,6 +141,8 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 			{
 				Element->Destroy();
 			}
+
+			UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNearEvent);
 			
 			if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent1))
 			{
@@ -179,6 +181,8 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 		Element->Destroy();
 	}
 
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNearEvent);
+	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_KitchenEvent))
 	{
 		FTimerDelegate OnTimerCompleted;
@@ -211,6 +215,8 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 	{
 		Element->Destroy();
 	}
+	
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNearEvent);
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_DinningRoomEvent))
 	{

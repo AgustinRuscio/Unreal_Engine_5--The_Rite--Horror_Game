@@ -69,7 +69,13 @@ private:
 	ATriggerVolume* TriggerVolume_DinningEvent;
 	
 //-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_TiffanyNearEvent;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_SuddenEvent;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_LastAudio;
 	
 	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
