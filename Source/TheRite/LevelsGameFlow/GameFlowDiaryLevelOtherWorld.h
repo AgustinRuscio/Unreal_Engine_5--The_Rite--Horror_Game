@@ -57,6 +57,9 @@ public:
 
 private:
 	bool bEventReadyDinningRoom;
+	bool bLivingRoomEventDone = false;
+	bool bKitchenEventDone = false;
+	bool bDinningRoomEventDone = false;
 	
 //-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")

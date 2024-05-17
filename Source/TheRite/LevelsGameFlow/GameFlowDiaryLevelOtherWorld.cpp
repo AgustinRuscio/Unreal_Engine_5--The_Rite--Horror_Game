@@ -101,6 +101,8 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 
 void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 {
+	if(bDinningRoomEventDone) return;
+	
 	bEventReadyDinningRoom = true;
 
 	for (auto Element : Skeletals_DinningRoomEvet)
@@ -112,7 +114,8 @@ void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 //---------------- Bind Colliders Methods
 void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(!Cast<AAlex>(OtherActor)) return;
+	if(!Cast<AAlex>(OtherActor) || bLivingRoomEventDone) return;
+	bLivingRoomEventDone = true;
 	
 	for (auto Element : Lights_AllLights)
 	{
@@ -168,7 +171,9 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 
 void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(!Cast<AAlex>(OtherActor)) return;
+	if(!Cast<AAlex>(OtherActor) || bKitchenEventDone) return;
+
+	bKitchenEventDone = true;
 	
 	for (auto Element : Lights_AllLights)
 	{
@@ -203,7 +208,9 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 
 void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(!Cast<AAlex>(OtherActor) || !bEventReadyDinningRoom) return;
+	if(!Cast<AAlex>(OtherActor) || !bEventReadyDinningRoom || bDinningRoomEventDone) return;
+
+	bDinningRoomEventDone = true;
 	
 	for (auto Element : Lights_AllLights)
 	{

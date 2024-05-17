@@ -60,11 +60,7 @@ void AStatuette::Interaction()
 	{
 		bCanInteract = false;
 		
-		StaticMesh->SetMaterial(0, DynamicMaterial);
 		DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),0);
-
-		if(Material->GetName().Contains("CORRUPTION"))
-			DynamicMaterial->SetScalarParameterValue("Corruption", 2);
 	}
 	else
 	{
@@ -115,7 +111,6 @@ void AStatuette::OpenTimeLineUpdate(float value)
 	FVector values = FMath::Lerp(InitialObjectPosition,EndLocation, value);
 	auto matValue = FMath::Lerp(0,1, value);
 
-	StaticMesh->SetMaterial(0, DynamicMaterial);
 	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),matValue);
 	
 	SetActorLocation(values);

@@ -26,7 +26,7 @@ void ASpectralObstacle::BeginPlay()
 	ParentStaticMesh = Cast<UStaticMeshComponent>(ParentActor->GetComponentByClass(UStaticMeshComponent::StaticClass()));
 	DynamicMaterial = UMaterialInstanceDynamic::Create(Mat, this);
 	ParentStaticMesh->SetMaterial(0, DynamicMaterial);
-
+	
 	BindTimeLines();
 }
 
@@ -65,7 +65,6 @@ void ASpectralObstacle::FirstTimeLineUpdate(float time)
 {
 	float value = FMathf::Lerp(1,2,time);
 	
-	ParentStaticMesh->SetMaterial(0, DynamicMaterial);
 	DynamicMaterial->SetScalarParameterValue("Corruption", value);
 }	
 
