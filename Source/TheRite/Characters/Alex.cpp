@@ -55,6 +55,7 @@ AAlex::AAlex()
 //---------------- Getter Methods
 bool AAlex::IsHoldInteractBTN() const
 {
+	
 	return bHoldingInteractBTN;
 }
 
@@ -250,7 +251,7 @@ void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 	else
 		bIsDragging = false;
 
-
+		
 	if(DoorChecked != door)
 	{
 		door->SetCanDragFalse();
@@ -377,7 +378,7 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 void AAlex::CheckHolding(bool IsHolding)
 {
 	if(bFocusing) return;
-	
+				
 	bHoldingInteractBTN = IsHolding;
 }
 
@@ -497,10 +498,6 @@ void AAlex::CreateWidgets()
 	CreateOpenInventoryWidget();
 	
 	CreateLighterReminderWidget();
-	
-
-
-	
 	
 	CreateConsumableWidget();
 	
@@ -879,5 +876,4 @@ void AAlex::CameraFocusFinished()
 	
 	Camera->bUsePawnControlRotation = true;
 	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
-	
 }

@@ -91,6 +91,9 @@ void ADoor::Tick(float DeltaTime)
 	CheckCanSound(DeltaTime);
 
 	HoldingTimerRunner(DeltaTime);
+
+	
+	bHolding = Player->IsHoldInteractBTN();
 	
 	CheckDragDoor();
 	CheckIfLookingDoor();
@@ -361,14 +364,13 @@ void ADoor::CheckIfLookingDoor()
 	bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 								 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
 								 false, IgnoredActors,
-								EDrawDebugTrace::None,HitResult, false);
+								EDrawDebugTrace::ForDuration,HitResult, false, FLinearColor::Red, FLinearColor::Green, 1.f);
 	
 	if(hit && HitResult.GetActor() == this )
 	{		
 		bIsLookingDoor = true;
 		bWasLookingDoor = true;
 		
-		bHolding = Player->IsHoldInteractBTN();
 
 		if(bHolding)
 		{
@@ -378,31 +380,29 @@ void ADoor::CheckIfLookingDoor()
 			bcanDrag = Player->CheckCanDrag();
 		}
 		else
-		{
+		{	
 			Player->SetDraggingState(false, this);
 			bcanDrag = false;
+			bWasLookingDoor = false;
 		}
 	}
 	else
 	{
 		bIsLookingDoor = false;
-		
-		if(bWasLookingDoor)
+
+		if(bHolding)
 		{
-			if(bHolding)
+			if(bWasLookingDoor)
 			{
-				if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500) return;
-				
 				Player->SetDraggingState(true,this);
 				bcanDrag = Player->CheckCanDrag();
 			}
-			else
-			{
-				Player->SetDraggingState(false, this);
-				bcanDrag = Player->CheckCanDrag();
-			
-				bWasLookingDoor = false;
-			}
+		}
+		else
+		{
+			Player->SetDraggingState(false, this);
+			bcanDrag = false;
+			bWasLookingDoor = false;
 		}
 	}
 }
