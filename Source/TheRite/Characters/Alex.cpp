@@ -135,10 +135,6 @@ void AAlex::Tick(float DeltaTime)
 	CheckLighterCooldDown(DeltaTime);
 	HeadBob();
 	InteractableCheck();
-
-	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Red, FString::Printf(TEXT("bFocus %d"), bFocus));
-	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Green, FString::Printf(TEXT("bFocusing %d"), bFocusing));
-	
 }
 
 //---------------- Action Methods

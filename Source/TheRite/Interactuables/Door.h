@@ -127,6 +127,9 @@ private:
 	void HardClosingTielineFinished();
 
 private:
+	
+	UPROPERTY(EditAnywhere, Category= "States")
+	bool DEBUGGING;
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool bFrontOpen;
 	
@@ -184,6 +187,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FRotator CloseRotation;
+	FRotator CurrentRotation;
 	
 	FString keyName;
 	PickableItemsID keyId;

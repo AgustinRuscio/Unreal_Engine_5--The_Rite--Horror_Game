@@ -96,6 +96,12 @@ void ADoor::Tick(float DeltaTime)
 	
 	CheckDragDoor();
 	CheckIfLookingDoor();
+
+	if (DEBUGGING)
+	{
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bHolding %d"), bHolding));
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bcanDrag %d"), bcanDrag));
+	}
 }
 
 void ADoor::Interaction()
@@ -119,11 +125,13 @@ void ADoor::ObteinKey()
 
 void ADoor::Open()
 {
+	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.PlayFromStart();
 }
 
 void ADoor::Close()
 {
+	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 }
 
@@ -135,6 +143,7 @@ void ADoor::HardClosing()
 
 void ADoor::AutomaticClose()
 {
+	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
 }
@@ -491,9 +500,9 @@ void ADoor::RunTimeLinesTick(float DeltaTime)
 
 void ADoor::OpenCloseTimeLineUpdate(float value)
 {
-	float newRoll = FMath::Lerp(0,90, value);
+	auto newRot = FMath::Lerp(CloseRotation,CurrentRotation, value);
 	
-	SetActorRotation(FRotator(0,newRoll, 0));
+	SetActorRotation(newRot);
 }
 
 void ADoor::OpenCloseTimelineFinished()
