@@ -92,7 +92,6 @@ void ADoor::Tick(float DeltaTime)
 
 	HoldingTimerRunner(DeltaTime);
 
-	
 	bHolding = Player->IsHoldInteractBTN();
 	
 	CheckDragDoor();

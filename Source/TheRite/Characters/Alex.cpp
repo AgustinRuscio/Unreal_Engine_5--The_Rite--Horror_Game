@@ -135,6 +135,10 @@ void AAlex::Tick(float DeltaTime)
 	CheckLighterCooldDown(DeltaTime);
 	HeadBob();
 	InteractableCheck();
+
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Red, FString::Printf(TEXT("bFocus %d"), bFocus));
+	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Green, FString::Printf(TEXT("bFocusing %d"), bFocusing));
+	
 }
 
 //---------------- Action Methods
@@ -244,7 +248,11 @@ void AAlex::SetCanUseLighterState(bool lighterState)
 
 void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 {
-	if(!bInventoryFlip) return;
+	if(!bInventoryFlip || bFocus || bFocusing)
+	{
+		
+		return;
+	}
 	
 	if(shouldCheck)
 		bIsDragging = bHoldingInteractBTN;
@@ -301,6 +309,7 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 void AAlex::BackToNormalView(FTransform FromTransform)
 {
 	bFocus = false;
+	bFocusing = true;
 	FocusCamTransform = FromTransform;
 	
 	FocusCameraTimeLine.ReverseFromEnd();
@@ -377,7 +386,7 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 
 void AAlex::CheckHolding(bool IsHolding)
 {
-	if(bFocusing) return;
+	if(bFocusing  || bFocus) return;
 				
 	bHoldingInteractBTN = IsHolding;
 }
@@ -566,7 +575,7 @@ void AAlex::CreateConsumableWidget()
 //---------------- Tick Methods
 void AAlex::HeadBob()
 {
-	if(bFocus) return;
+	if(bFocus || bFocusing) return;
 	
 	if(bStun)
 		MyController->ClientStartCameraShake(CameraShakeStun);
@@ -626,7 +635,7 @@ void AAlex::CheckLighterOn()
 //---------------- Input Methods
 void AAlex::MovePlayer(FVector2D vector)
 {
-	if(bFocusing) return;
+	if(bFocusing || bFocus) return;
 	
 	const FRotator moveRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
 
@@ -645,7 +654,7 @@ void AAlex::MovePlayer(FVector2D vector)
 
 void AAlex::MoveCamera(FVector2D vector)
 {
-	if(bFocusing) return;
+	if(bFocusing || bFocus) return;
 	
 	if(bOnEvent)
 	{
@@ -686,35 +695,35 @@ void AAlex::Interaction()
 
 void AAlex::StartSprint()
 {
-	if(!bCanRun || bFocusing) return;
+	if(!bCanRun || bFocusing || bFocus) return;
 	
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
 void AAlex::StopSprint()
 {
-	if(!bCanRun || bFocusing) return;
+	if(!bCanRun || bFocusing || bFocus) return;
 	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AAlex::TurnLigherIfPossible()
 {
-	if(!bCanUseLigher || bFocusing) return;
+	if(!bCanUseLigher || bFocusing || bFocus) return;
 	
 	CheckLighterOn();
 }
 
 void AAlex::DoorMovement(FVector2D vector)
 {
-	if(bFocusing) return;
+	if(bFocusing || bFocus) return;
 	
 	DoorFloat = vector.X * MyController->GetMouseSensitivity();
 }
 
 void AAlex::OpenPause()
 {
-	if(bFocusing) return;
+	if(bFocusing || bFocus) return;
 	
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
 	
@@ -724,7 +733,7 @@ void AAlex::OpenPause()
 
 void AAlex::OpenInventory()
 {
-	if(!bPauseFlip || bFocusing) return;
+	if(!bPauseFlip || bFocusing || bFocus) return;
 	
 	if(bInventoryFlip)
 	{
@@ -746,7 +755,7 @@ void AAlex::OpenInventory()
 
 void AAlex::MontageAnimOnOff()
 {
-	if(bFocusing) return;
+	if(bFocusing || bFocus) return;
 	
 	if(bLighter)
 	{
