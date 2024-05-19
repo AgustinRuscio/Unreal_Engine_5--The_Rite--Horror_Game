@@ -244,11 +244,8 @@ void AAlex::SetCanUseLighterState(bool lighterState)
 
 void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 {
-	if(!bInventoryFlip || bFocus || bFocusing)
-	{
-		
+	if(!bInventoryFlip || bFocus || bFocusing || bOnEvent)
 		return;
-	}
 	
 	if(shouldCheck)
 		bIsDragging = bHoldingInteractBTN;
@@ -272,9 +269,12 @@ void AAlex::SetCameraStun(bool stun)
 void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY= 0, float maxY= 0)
 {
 	auto camera = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+	bOnEvent = onOff;
 	
 	if(onOff)
 	{
+		//bOnEvent = true;
 		MyController->SetEventInput();
 
 		VectorX.X = camera->ViewYawMax;
@@ -290,7 +290,7 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 	}
 	else
 	{
-		bOnEvent = false;
+		//bOnEvent = false;
 		MyController->SetNormalInput();
 
 		camera->ViewYawMax = VectorX.X;
@@ -652,11 +652,11 @@ void AAlex::MoveCamera(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
 	
-	if(bOnEvent)
-	{
-		vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
-		vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
-	}
+	//if(bOnEvent)
+	//{
+	//	vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
+	//	vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
+	//}
 
 	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
