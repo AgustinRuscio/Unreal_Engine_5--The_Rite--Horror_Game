@@ -93,10 +93,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_Altar;
-	
-	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ARectLight*> Lights_OtherLivingEvent;
-
 //-------- Timers
 	FTimerHandle Timer_LivingRoomEvent0;
 	FTimerHandle Timer_LivingRoomEvent1;

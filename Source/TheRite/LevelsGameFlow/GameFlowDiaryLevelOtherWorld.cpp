@@ -134,11 +134,6 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 				if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
 				Element->TurnOff();
 			}
-
-			for (auto Element : Lights_OtherLivingEvent)
-			{
-				Element->Destroy();
-			}
 	
 			for (auto Element : Skeletals_LivingRoomEvet)
 			{
