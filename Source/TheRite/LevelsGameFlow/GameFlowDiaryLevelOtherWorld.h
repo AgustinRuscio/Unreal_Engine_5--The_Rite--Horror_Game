@@ -89,6 +89,9 @@ private:
 	TArray<ALightsTheRite*> Lights_AllLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<ASpotLight*> Lights_DinningEventLights;
+	
+	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_SpotLightEndGame;
 	
 	UPROPERTY(EditAnywhere, Category="Lights")

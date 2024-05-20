@@ -122,7 +122,7 @@ void ABigClock::NextNeedle()
 
 void ABigClock::NeedleInteraction()
 {
-	if(TimeLineMooving || Player->GetFocusingState()) return;
+	if(TimeLineMooving || Player->GetFocusingState() || !bCanInteract) return;
 	
 	if(AllNeedles[CurrentNeedle] == CenterMesh)
 	{
@@ -190,6 +190,19 @@ void ABigClock::CheckNeedlesPosition()
 	if(!bReadyToUse)
 	{
 		Player->ForceTalk(AudioToPlay);
+		bCanInteract = false;
+
+		if(!GetWorld()->GetTimerManager().IsTimerActive(WaitForAudioTimer))
+		{
+			FTimerDelegate OnAudioFinished;
+			OnAudioFinished.BindLambda([&]
+			{
+				bCanInteract = true;
+			});
+			
+			GetWorld()->GetTimerManager().SetTimer(WaitForAudioTimer, OnAudioFinished,AudioToPlay->Duration,false);
+		}
+		
 		return;
 	}
 	

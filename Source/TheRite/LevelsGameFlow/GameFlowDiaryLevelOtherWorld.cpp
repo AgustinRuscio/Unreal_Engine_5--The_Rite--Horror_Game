@@ -62,7 +62,11 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 	{
 		Element->GetSkeletalMeshComponent()->SetVisibility(false);
 	}
-	
+
+	for (auto Element : Lights_DinningEventLights)
+	{
+		Element->GetLightComponent()->SetIntensity(0);
+	}
 	InteractorEventDinningRoom->OnInteractionTrigger.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab);
 }
 
@@ -108,6 +112,16 @@ void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 	for (auto Element : Skeletals_DinningRoomEvet)
 	{
 		Element->GetSkeletalMeshComponent()->SetVisibility(true);
+	}
+
+	for (auto Element : Lights_DinningEventLights)
+	{
+		Element->GetLightComponent()->SetIntensity(20);
+	}
+	for (auto Element : Lights_AllLights)
+	{
+		if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
+		Element->TurnOff();
 	}
 }
 
@@ -180,7 +194,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 	{
 		Element->Destroy();
 	}
-
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNearEvent);
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_KitchenEvent))
@@ -207,10 +221,9 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 
 	bDinningRoomEventDone = true;
 	
-	for (auto Element : Lights_AllLights)
+	for (auto Element : Lights_DinningEventLights)
 	{
-		if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
-		Element->TurnOff();
+		Element->Destroy();
 	}
 	
 	for (auto Element : Skeletals_DinningRoomEvet)

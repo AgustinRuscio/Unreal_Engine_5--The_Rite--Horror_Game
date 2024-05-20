@@ -117,6 +117,8 @@ private:
 	ATargetPoint* NewCameraPosition;
 	
 	//-------- Time Line
+	FTimerHandle WaitForAudioTimer;
+	
 	FTimeline MoveNeedleTimeLine;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
