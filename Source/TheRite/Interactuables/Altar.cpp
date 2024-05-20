@@ -69,7 +69,7 @@ void AAltar::LeaveFocus()
 	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	bIsFocus = false;
-	Player->BackToNormalView(CameraPos[WhellIndex]->GetActorTransform());
+	Player->BackToNormalView(CameraPos[WhellIndex]->GetActorTransform(), ExittingVector);
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();

@@ -84,7 +84,7 @@ public:
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	
 //---------------- View Methods
-	void BackToNormalView(FTransform FromTransform);
+	void BackToNormalView(FTransform FromTransform, FVector ExitingVector);
 	void OnFocusMode(FTransform NewTransform);
 	void MoveCamera(FVector NewCameraPos);
 

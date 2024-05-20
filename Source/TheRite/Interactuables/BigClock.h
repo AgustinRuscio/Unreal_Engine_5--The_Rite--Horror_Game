@@ -71,6 +71,9 @@ private:
 	float DesireMinutesRotation;
 	
 	UPROPERTY(EditAnywhere, Category = "Setting")
+	FVector ExittingVector;
+	
+	UPROPERTY(EditAnywhere, Category = "Setting")
 	FRotator RotationToAdd;
 
 	FRotator InitialNeedleRotation;
@@ -82,6 +85,9 @@ private:
 	//-------- Mesh / Colliders
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BigClockMesh;
+
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* ClockPendulum;
 	
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* HourNeedleMesh;

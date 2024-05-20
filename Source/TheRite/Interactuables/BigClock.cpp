@@ -18,14 +18,16 @@ ABigClock::ABigClock()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	BigClockMesh = CreateDefaultSubobject<UStaticMeshComponent>("Clock Mesh");
+	ClockPendulum = CreateDefaultSubobject<UStaticMeshComponent>("Pendulum Mesh");
 	
 	HourNeedleMesh = CreateDefaultSubobject<UStaticMeshComponent>("Hour needle Mesh");
 	MinuturesNeedleMesh = CreateDefaultSubobject<UStaticMeshComponent>("Minutes Needle Mesh");
-	CenterMesh= CreateDefaultSubobject<UStaticMeshComponent>("Center Mesh");
+	CenterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Center Mesh");
 	
 	HourNeedleMesh->SetupAttachment(BigClockMesh);
 	MinuturesNeedleMesh->SetupAttachment(BigClockMesh);
 	CenterMesh->SetupAttachment(BigClockMesh);
+	ClockPendulum->SetupAttachment(BigClockMesh);
 	
 	AllNeedles.Add(CenterMesh);
 	AllNeedles.Add(HourNeedleMesh);
@@ -79,7 +81,7 @@ void ABigClock::LeaveFocus()
 	if(!bCanInteract || TimeLineMooving || Player->GetFocusingState()) return;
 	
 	bIsFocus = false;
-	Player->BackToNormalView(NewCameraPosition->GetActorTransform());
+	Player->BackToNormalView(NewCameraPosition->GetActorTransform(), ExittingVector);
 
 	AllNeedles[CurrentNeedle]->SetMaterial(0, NeedlebaseMaterial);
 	

@@ -62,6 +62,9 @@ private:
 	bool bIsFocus;
 
 	int WhellIndex = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	FVector ExittingVector;
 	
 	FVector cameraPos;
 	

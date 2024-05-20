@@ -48,7 +48,7 @@ AAlex::AAlex()
 
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
 	
-	Camera->SetupAttachment(GetMesh());
+	Camera->SetupAttachment(GetMesh(), "head");
 	ScreamerSkeleton->SetupAttachment(Camera);
 }
 
@@ -298,13 +298,15 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 		camera->ViewPitchMin = VectorY.Y;
 		camera->ViewPitchMax = VectorY.X;
 	}
-
 }
 
 //----------------- View Methods
-void AAlex::BackToNormalView(FTransform FromTransform)
+void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector)
 {
 	bFocus = false;
+	SetActorLocation(FVector(FromTransform.GetLocation().X + ExitingVector.X, FromTransform.GetLocation().Y + ExitingVector.Y, GetActorLocation().Z + ExitingVector.Z));
+	Camera->SetWorldRotation(FromTransform.GetRotation().Rotator());
+	
 	bFocusing = true;
 	FocusCamTransform = FromTransform;
 	
@@ -316,6 +318,8 @@ void AAlex::BackToNormalView(FTransform FromTransform)
 
 void AAlex::OnFocusMode(FTransform newTransform)
 {
+	ForceLighterOff();
+	
 	bFocus = true;
 	bFocusing = true;
 	
@@ -867,11 +871,19 @@ void AAlex::CameraTargetFinished()
 
 void AAlex::CameraFocusTick(float time)
 {
-	auto ewTransform = FMath::Lerp(LastCamTransform.GetLocation(), FocusCamTransform.GetLocation(), time);
-	auto ewRot = FMath::Lerp(LastCamTransform.GetRotation(), FocusCamTransform.GetRotation(), time);
-
+	auto ewTransform = FMath::Lerp(GetMesh()->GetSocketLocation("head"), FocusCamTransform.GetLocation(), time);
 	Camera->SetWorldLocation(ewTransform);
-	Camera->SetWorldRotation(ewRot);
+
+	if(bFocus)
+	{
+		auto ewRot = FMath::Lerp(LastCamTransform.GetRotation().Rotator(), FocusCamTransform.GetRotation().Rotator(), time);
+		Camera->SetWorldRotation(ewRot);
+	}
+	else
+	{
+		//auto ewRot = FMath::Lerp(LastCamTransform.GetRotation().Rotator(), FocusCamTransform.GetRotation().Rotator(), time);
+		//Camera->SetWorldRotation(ewRot);
+	}
 }
 
 void AAlex::CameraFocusFinished()
