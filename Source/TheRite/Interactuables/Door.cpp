@@ -17,6 +17,8 @@
 #include "TheRite/AlexPlayerController.h"
 #include "Blueprint/UserWidget.h"
 
+#define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
+
 ADoor::ADoor()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -368,32 +370,49 @@ void ADoor::CheckIfLookingDoor()
 	FHitResult HitResult;
 
 	TArray<AActor*> IgnoredActors;
+	IgnoredActors.Add(Player);
 
 	bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 								 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
 								 false, IgnoredActors, EDrawDebugTrace::None,HitResult,false);
+	
 	//bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 	//						 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
 	//						 false, IgnoredActors,
 	//						EDrawDebugTrace::ForDuration,HitResult, false, FLinearColor::Red, FLinearColor::Green, 1.f);
 	
 	
-	if(hit && HitResult.GetActor() == this )
+	if(hit && HitResult.GetActor() == this)
 	{		
 		bIsLookingDoor = true;
 		bWasLookingDoor = true;
 		
-
+		if(DEBUGGING)
+			PRINTONVIEWPORT("Was looking")
+		
 		if(bHolding)
 		{
-			if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500) return;
-			
+			if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500)
+			{
+				if(DEBUGGING)
+					PRINTONVIEWPORT("Lejos")
+
+				return;
+			}
+
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Looking and holding")
+
 			Player->SetDraggingState(true, this);
 			bcanDrag = Player->CheckCanDrag();
 		}
 		else
 		{	
 			Player->SetDraggingState(false, this);
+			
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Looking but no holding")
+			
 			bcanDrag = false;
 			bWasLookingDoor = false;
 		}
@@ -402,16 +421,25 @@ void ADoor::CheckIfLookingDoor()
 	{
 		bIsLookingDoor = false;
 
+		if(DEBUGGING)
+			PRINTONVIEWPORT("Wasnt looking")
+		
 		if(bHolding)
 		{
 			if(bWasLookingDoor)
 			{
+				if(DEBUGGING)
+					PRINTONVIEWPORT("Was holding when quit looking")
+				
 				Player->SetDraggingState(true,this);
 				bcanDrag = Player->CheckCanDrag();
 			}
 		}
 		else
 		{
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Wasten holding")
+			
 			Player->SetDraggingState(false, this);
 			bcanDrag = false;
 			bWasLookingDoor = false;

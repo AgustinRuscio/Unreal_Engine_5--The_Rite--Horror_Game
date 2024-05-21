@@ -127,9 +127,9 @@ private:
 	void HardClosingTielineFinished();
 
 private:
-	
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool DEBUGGING;
+	
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool bFrontOpen;
 	
