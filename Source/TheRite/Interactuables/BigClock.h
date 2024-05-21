@@ -97,9 +97,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* MinuturesNeedleMesh;
-	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* CenterMesh;
 
 	TArray<UStaticMeshComponent*> AllNeedles;
 	UStaticMeshComponent* CurrentSelected;
@@ -127,6 +124,7 @@ private:
 	
 	//-------- Time Line
 	FTimerHandle WaitForAudioTimer;
+	FTimerHandle a;
 	
 	FTimeline MoveNeedleTimeLine;
 

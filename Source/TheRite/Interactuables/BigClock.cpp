@@ -22,14 +22,11 @@ ABigClock::ABigClock()
 	
 	HourNeedleMesh = CreateDefaultSubobject<UStaticMeshComponent>("Hour needle Mesh");
 	MinuturesNeedleMesh = CreateDefaultSubobject<UStaticMeshComponent>("Minutes Needle Mesh");
-	CenterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Center Mesh");
 	
 	HourNeedleMesh->SetupAttachment(BigClockMesh);
 	MinuturesNeedleMesh->SetupAttachment(BigClockMesh);
-	CenterMesh->SetupAttachment(BigClockMesh);
 	ClockPendulum->SetupAttachment(BigClockMesh);
-	
-	AllNeedles.Add(CenterMesh);
+
 	AllNeedles.Add(HourNeedleMesh);
 	AllNeedles.Add(MinuturesNeedleMesh);
 }
@@ -54,7 +51,7 @@ void ABigClock::Interaction()
 	//Super::Interaction();
 
 	if(bIsFocus || !bCanInteract) return;
-
+	
 	CurrentSelected = AllNeedles[CurrentNeedle];
 	AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
 
@@ -69,6 +66,8 @@ void ABigClock::Interaction()
 	controller->OnLeaveFocus.AddDynamic(this, &ABigClock::LeaveFocus);
 	
 	bIsFocus = true;
+	
+	CheckNeedlesPosition();
 }
 
 void ABigClock::SetReadyToUse()
@@ -126,12 +125,6 @@ void ABigClock::NeedleInteraction()
 {
 	if(TimeLineMooving || Player->GetFocusingState() || !bCanInteract) return;
 	
-	if(AllNeedles[CurrentNeedle] == CenterMesh)
-	{
-		CheckNeedlesPosition();
-	}
-	else
-	{
 		TimeLineMooving = true;
 		
 		if(EndNeedleRotation == FRotator(16,04,03))
@@ -177,7 +170,6 @@ void ABigClock::NeedleInteraction()
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_NeeddleMoving, GetActorLocation());
 			MoveNeedleTimeLine.PlayFromStart();
 		}
-	}
 }
 
 void ABigClock::ChangeNeedle()
@@ -193,7 +185,6 @@ void ABigClock::CheckNeedlesPosition()
 	{
 		Player->ForceTalk(AudioToPlay);
 		bCanInteract = false;
-
 		if(!GetWorld()->GetTimerManager().IsTimerActive(WaitForAudioTimer))
 		{
 			FTimerDelegate OnAudioFinished;
@@ -208,10 +199,13 @@ void ABigClock::CheckNeedlesPosition()
 		return;
 	}
 	
-	if(MinuturesNeedleMesh->GetComponentRotation().Pitch !=  DesireMinutesRotation ||
-		HourNeedleMesh->GetComponentRotation().Pitch !=  DesireHourRotation)
+	const float Tolerance = 0.001f;
+	
+	if (FMath::Abs(MinuturesNeedleMesh->GetComponentRotation().Pitch - DesireMinutesRotation) > Tolerance ||
+		FMath::Abs(HourNeedleMesh->GetComponentRotation().Pitch - DesireHourRotation) > Tolerance)
 	{
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_ClockLocked,GetActorLocation());
+		
 		return;
 	}
 	
@@ -253,4 +247,6 @@ void ABigClock::MoveNeedleTimeLineFinished()
 		LastHourRot = EndNeedleRotation;
 	
 	TimeLineMooving = false;
+	
+	CheckNeedlesPosition();
 }
