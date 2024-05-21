@@ -301,12 +301,14 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 }
 
 //----------------- View Methods
-void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector)
+void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation)
 {
 	bFocus = false;
 	SetActorLocation(FVector(FromTransform.GetLocation().X + ExitingVector.X, FromTransform.GetLocation().Y + ExitingVector.Y, GetActorLocation().Z + ExitingVector.Z));
-	Camera->SetWorldRotation(FromTransform.GetRotation().Rotator());
+	SetActorRotation(ExitingRotation);
+	Rot = ExitingRotation;
 	
+	Camera->RemoveFromRoot();
 	bFocusing = true;
 	FocusCamTransform = FromTransform;
 	
@@ -316,13 +318,13 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector)
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
-void AAlex::OnFocusMode(FTransform newTransform)
+void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
 {
 	ForceLighterOff();
 	
 	bFocus = true;
 	bFocusing = true;
-	
+
 	Camera->bUsePawnControlRotation = false;
 
 	MyController->OnCameraMoved.RemoveDynamic(this, &AAlex::MoveCamera);
@@ -331,7 +333,7 @@ void AAlex::OnFocusMode(FTransform newTransform)
 	FocusCamTransform = newTransform;
 	
 	FocusCameraTimeLine.PlayFromStart();
-	
+
 	AltarWidget->SetVisibility(ESlateVisibility::Visible);
 	DotWidget->SetVisibility(ESlateVisibility::Hidden);
 }
@@ -881,16 +883,18 @@ void AAlex::CameraFocusTick(float time)
 	}
 	else
 	{
-		//auto ewRot = FMath::Lerp(LastCamTransform.GetRotation().Rotator(), FocusCamTransform.GetRotation().Rotator(), time);
-		//Camera->SetWorldRotation(ewRot);
+		auto ewRot = FMath::Lerp(Rot, FocusCamTransform.GetRotation().Rotator(), time);
+		Camera->SetWorldRotation(ewRot);
 	}
 }
 
 void AAlex::CameraFocusFinished()
 {
 	bFocusing = false;
+	
 	if(bFocus) return;
 	
+	MyController->SetControlRotation(Rot);
 	Camera->bUsePawnControlRotation = true;
 	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
 }

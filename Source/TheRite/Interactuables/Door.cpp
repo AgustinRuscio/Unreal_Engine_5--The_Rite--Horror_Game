@@ -371,8 +371,12 @@ void ADoor::CheckIfLookingDoor()
 
 	bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 								 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
-								 false, IgnoredActors,
-								EDrawDebugTrace::ForDuration,HitResult, false, FLinearColor::Red, FLinearColor::Green, 1.f);
+								 false, IgnoredActors, EDrawDebugTrace::None,HitResult,false);
+	//bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
+	//						 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
+	//						 false, IgnoredActors,
+	//						EDrawDebugTrace::ForDuration,HitResult, false, FLinearColor::Red, FLinearColor::Green, 1.f);
+	
 	
 	if(hit && HitResult.GetActor() == this )
 	{		

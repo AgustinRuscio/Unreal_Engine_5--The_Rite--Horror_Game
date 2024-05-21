@@ -66,6 +66,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Setting")
 	FVector ExittingVector;
 	
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	FRotator ExittingRotation;
+	
 	FVector cameraPos;
 	
 	FVector3d ActualCamaraPos;

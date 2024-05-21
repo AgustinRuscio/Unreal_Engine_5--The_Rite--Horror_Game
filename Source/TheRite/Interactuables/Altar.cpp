@@ -56,7 +56,7 @@ void AAltar::Interaction()
 		Element->EnableInteraction();
 	}
 	
-	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform());
+	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform(), ExittingRotation);
 }
 
 void AAltar::DisableAltarInteraction()
@@ -69,7 +69,7 @@ void AAltar::LeaveFocus()
 	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	bIsFocus = false;
-	Player->BackToNormalView(CameraPos[WhellIndex]->GetActorTransform(), ExittingVector);
+	Player->BackToNormalView(CameraPos[WhellIndex]->GetActorTransform(), ExittingVector, ExittingRotation);
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();

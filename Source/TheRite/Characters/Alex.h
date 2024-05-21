@@ -84,8 +84,8 @@ public:
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
 	
 //---------------- View Methods
-	void BackToNormalView(FTransform FromTransform, FVector ExitingVector);
-	void OnFocusMode(FTransform NewTransform);
+	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
+	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation);
 	void MoveCamera(FVector NewCameraPos);
 
 	
@@ -236,7 +236,8 @@ private:
 	FVector2D VectorY;
 
 	FVector CameraLookTarget;
-
+	FRotator Rot;
+	
 	FTransform LastCamTransform;
 	FTransform FocusCamTransform;
 
@@ -293,6 +294,7 @@ private:
 	FTimerHandle OpeninventorywidgetTimerHandle;
 	FTimerHandle LighterReminderTimer;
 	FTimerHandle ConsumibleWidgetTimer;
+	FTimerHandle aa;
 
 	FTimeline TargetCameraTimeLine;
 	FTimeline FocusCameraTimeLine;

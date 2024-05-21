@@ -74,6 +74,9 @@ private:
 	FVector ExittingVector;
 	
 	UPROPERTY(EditAnywhere, Category = "Setting")
+	FRotator ExittingRotation;
+	
+	UPROPERTY(EditAnywhere, Category = "Setting")
 	FRotator RotationToAdd;
 
 	FRotator InitialNeedleRotation;

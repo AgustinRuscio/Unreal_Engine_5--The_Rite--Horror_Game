@@ -58,7 +58,7 @@ void ABigClock::Interaction()
 	CurrentSelected = AllNeedles[CurrentNeedle];
 	AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
 
-	Player->OnFocusMode(NewCameraPosition->GetActorTransform());
+	Player->OnFocusMode(NewCameraPosition->GetActorTransform(), ExittingRotation);
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
@@ -81,7 +81,7 @@ void ABigClock::LeaveFocus()
 	if(!bCanInteract || TimeLineMooving || Player->GetFocusingState()) return;
 	
 	bIsFocus = false;
-	Player->BackToNormalView(NewCameraPosition->GetActorTransform(), ExittingVector);
+	Player->BackToNormalView(NewCameraPosition->GetActorTransform(), ExittingVector, ExittingRotation);
 
 	AllNeedles[CurrentNeedle]->SetMaterial(0, NeedlebaseMaterial);
 	
