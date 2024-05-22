@@ -17,6 +17,7 @@ class AInteractor;
 class ATargetPoint;
 class AAltarWhell;
 class AAltar;
+class AStaticMeshActor;
 
 UCLASS()
 class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
@@ -48,6 +49,9 @@ private:
 	int8 MaxStatuatte;
 	int8 StatuatteIndex;
 
+	UPROPERTY(EditAnywhere, Category = "Puzzle objects")
+	TArray<AStaticMeshActor*> AltarBases;
+	
 	FTimerHandle OffSetInteraction;
 	
 	UPROPERTY(EditAnywhere, Category="Audio")

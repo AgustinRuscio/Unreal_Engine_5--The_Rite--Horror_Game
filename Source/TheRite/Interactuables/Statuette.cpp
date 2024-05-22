@@ -4,6 +4,7 @@
 
 
 #include "Statuette.h"
+#include "Engine/StaticMeshActor.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -91,11 +92,18 @@ void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
 	SetActorRotation(rot);
 	
 	InitialObjectPosition = GetActorLocation();
-	
 	EndLocation = InitialObjectPosition + MoveDir;
+
+	InitialBasePosition = BaseMesh->GetActorLocation();
+	EndBaseLocation = InitialBasePosition + MoveDir;
 	
 	BindTimeLine();
 	bFirstInteraction = false;
+}
+
+void AStatuette::SetBase(AStaticMeshActor* base)
+{
+	BaseMesh = base;
 }
 
 //---------------- TimeLine Methods
@@ -108,10 +116,12 @@ void AStatuette::BindTimeLine()
 
 void AStatuette::OpenTimeLineUpdate(float value)
 {
-	FVector values = FMath::Lerp(InitialObjectPosition,EndLocation, value);
+	FVector statuettePos = FMath::Lerp(InitialObjectPosition,EndLocation, value);
+	FVector basePos = FMath::Lerp(InitialBasePosition,EndBaseLocation, value);
 	auto matValue = FMath::Lerp(0,1, value);
 
 	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),matValue);
 	
-	SetActorLocation(values);
+	SetActorLocation(statuettePos);
+	BaseMesh->SetActorLocation(basePos);
 }

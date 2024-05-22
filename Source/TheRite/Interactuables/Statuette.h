@@ -13,6 +13,7 @@
 
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
+class AStaticMeshActor;
 
 UCLASS()
 class THERITE_API AStatuette : public AInteractor
@@ -37,6 +38,7 @@ public:
 	void EnableInteraction();
 	void RestoreInitialValues();
 	void SetAltarPosition(FVector pos, FRotator rot);
+	void SetBase(AStaticMeshActor* base);
 
 private:
 //---------------- TimeLine Methods
@@ -61,9 +63,13 @@ private:
 	
 	FVector InitialObjectPosition;
 	FVector EndLocation;
+
+	FVector InitialBasePosition;
+	FVector EndBaseLocation;
 	
 	UPROPERTY(EditAnywhere, meta=(bAllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
+	AStaticMeshActor* BaseMesh;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	USoundBase* InteractionSound;

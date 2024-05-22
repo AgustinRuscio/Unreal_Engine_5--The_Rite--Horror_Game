@@ -45,7 +45,6 @@ void AAltar::Interaction()
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
 
-
 	controller->OnPrevInventoryItem.AddDynamic(this, &AAltar::PrevWhell);
 	controller->OnNextInventoryItem.AddDynamic(this, &AAltar::NextWhell);
 	controller->OnInteractionPressed.AddDynamic(this, &AAltar::WhellInteraction);

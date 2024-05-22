@@ -4,8 +4,8 @@
 
 
 #include "InOrdenSelectionPuzzleFlow.h"
-
 #include "Engine/TargetPoint.h"
+#include "Engine/StaticMeshActor.h"
 #include "TheRite/Interactuables/AltarWhell.h"
 #include "TheRite/Interactuables/Altar.h"
 #include "TheRite/Interactuables/Statuette.h"
@@ -130,10 +130,10 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 	
 	if(CurrentStatuette->IsFirstInteraction())
 	{
+		CurrentStatuette->SetBase(AltarBases[StatuatteIndex]);
 		CurrentStatuette->SetAltarPosition(AltarPositions[StatuatteIndex]->GetActorLocation(), AltarPositions[StatuatteIndex]->GetActorRotation());
 		AltarWhells[StatuatteIndex]->ASignValues(CurrentStatuette, CurrentStatuette->GetDesiredRotation(), CurrentStatuette->GetRotatioToAdd());
 		AltarWhells[StatuatteIndex]->StatuetteReady();
-		
 		++StatuatteIndex;
 	}
 	else
