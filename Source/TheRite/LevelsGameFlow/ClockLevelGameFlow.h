@@ -65,9 +65,6 @@ private:
 	void GetHours();
 
 	void CheckLetters();
-	
-	UFUNCTION()
-	void FirstLetterRead();
 
 	void MinutesCollected();
 
@@ -289,9 +286,6 @@ private:
 	UCurveFloat* JumpscareSecondTimeLineCurve;
 	
 	//-------- Advance need puzzle
-	UPROPERTY(EditAnywhere, Category = "Letters")
-	ALetter* TiffanyFirstLetter;
-	
 	UPROPERTY(EditAnywhere, Category = "Letters")
 	AMinutesLetter* MinutesLetter;
 	

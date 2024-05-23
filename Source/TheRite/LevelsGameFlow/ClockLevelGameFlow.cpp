@@ -80,10 +80,6 @@ void AClockLevelGameFlow::SetAudioSettings()
 
 void AClockLevelGameFlow::BindPuzzleEvents()
 {
-	GarageDoor->SetLockedState(true);
-	
-	TiffanyFirstLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::FirstLetterRead);
-	
 	MinutesLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetMinutes);
 	HoursLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetHours);
 
@@ -164,11 +160,6 @@ void AClockLevelGameFlow::CheckLetters()
 	}
 	
 	BigClock->SetReadyToUse();
-}
-
-void AClockLevelGameFlow::FirstLetterRead()
-{
-	GarageDoor->SetLockedState(false);
 }
 
 void AClockLevelGameFlow::MinutesCollected()
