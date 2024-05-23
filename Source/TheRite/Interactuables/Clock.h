@@ -21,7 +21,6 @@ public:
 	AClock();
 	~AClock();
 	
-	virtual void BeginPlay() override;
 	virtual void Interaction() override;
 
 public:
@@ -39,7 +38,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Light")
 	UPointLightComponent* Light;
-	
-	UPROPERTY(EditAnywhere, Category= "Audio")
-	USoundBase* Sound;
 };

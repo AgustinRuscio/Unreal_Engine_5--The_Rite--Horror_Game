@@ -61,6 +61,7 @@ void AStatuette::Interaction()
 	{
 		bCanInteract = false;
 		
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 		DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),0);
 	}
 	else

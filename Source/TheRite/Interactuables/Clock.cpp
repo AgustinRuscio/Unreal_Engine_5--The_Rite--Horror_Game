@@ -5,6 +5,7 @@
 
 #include "Clock.h"
 #include "Components/PointLightComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AClock::AClock()
 {
@@ -26,16 +27,13 @@ AClock::~AClock()
 	OnInteractionTrigger.Clear();
 }
 
-void AClock::BeginPlay()
-{
-	Super::BeginPlay();
-	AudioToPlay = Sound;
-}
 
 void AClock::Interaction()
 {
+	Super::Interaction();
+	
 	OnInteractionTrigger.Broadcast(this);
-
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }
 

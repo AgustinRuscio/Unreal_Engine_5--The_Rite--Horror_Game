@@ -4,21 +4,22 @@
 
 
 #include "Fusible.h"
+#include "FuseBox.h"
+#include "Kismet/GameplayStatics.h"
 
 AFusible::AFusible()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	FusibleMesh= CreateDefaultSubobject<UStaticMeshComponent>("Fusible mesh");
 }
 
-void AFusible::BeginPlay()
+void AFusible::Interaction()
 {
-	Super::BeginPlay();
+	if(!bCanInteract) return;
+
+	OnInteractionTrigger.Broadcast(this);
+	FuseBox->GrabFusible();
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	
-}
-
-void AFusible::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	Destroy();
 }

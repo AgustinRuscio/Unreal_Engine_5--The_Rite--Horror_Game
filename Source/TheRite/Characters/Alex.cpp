@@ -416,7 +416,7 @@ void AAlex::InteractableCheck()
 
 		IIInteractuable* currentCheck = Cast<IIInteractuable>(OutHit.GetActor());
 
-		if(!currentCheck)
+		if(!currentCheck || !currentCheck->GetCanInteract())
 		{
 			ActualInteractuable = nullptr;
 			TalkSound = nullptr;

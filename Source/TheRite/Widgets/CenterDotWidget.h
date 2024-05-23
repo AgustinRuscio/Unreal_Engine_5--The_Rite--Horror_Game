@@ -18,28 +18,28 @@ class THERITE_API UCenterDotWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem);
+	void Interact(bool InteractionDisable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
 
 private:
 	void SetLockedDoorImage();
-	void SetWaitImage();
-	void SetVisibleImage();
-	void SetMainObjectImage();
-	void SetDefaultImage();
+	void SetCantInteractTexture();
+	void SetNoneInteractionTexture();
+	void SetMainInteractionTexture();
+	void SetInteractionTexture();
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* CompleteCircle;
+	UImage* NoneInteractionTexture;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* InteractCircle;
+	UImage* InteractionTexture;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* MainInteractCircle;
+	UImage* MainInteractionTexture;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* Talking;
+	UImage* CantInteractTexture;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UImage* ClosedDoor;
+	UImage* LockedDoorTexture;
 };

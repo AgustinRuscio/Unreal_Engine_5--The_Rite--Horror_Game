@@ -5,6 +5,8 @@
 
 #include "HourLetter.h"
 
+#include "Kismet/GameplayStatics.h"
+
 AHourLetter::AHourLetter()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -17,6 +19,6 @@ void AHourLetter::Interaction()
 {
 	OnAction.Broadcast();
 	OnInteractionTrigger.Broadcast(this);
-	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }

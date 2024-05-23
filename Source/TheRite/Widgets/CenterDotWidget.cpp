@@ -6,24 +6,24 @@
 #include "CenterDotWidget.h"
 #include "Components/Image.h"
 
-void UCenterDotWidget::Interact(bool Visible, bool LockedDoor, bool Wait, bool MainItem)
+void UCenterDotWidget::Interact(bool InteractionDisable, bool LockedDoor, bool PlayerTalking, bool IsMainItem)
 {
 	if(LockedDoor)
 		SetLockedDoorImage();
 	else
 	{
-		if(Wait)
-			SetWaitImage();
+		if(PlayerTalking)
+			SetCantInteractTexture();
 		else
 		{
-			if(Visible)
-				SetVisibleImage();
+			if(InteractionDisable)
+				SetNoneInteractionTexture();
 			else
 			{
-				if(MainItem)
-					SetMainObjectImage();
+				if(IsMainItem)
+					SetMainInteractionTexture();
 				else
-					SetDefaultImage();
+					SetInteractionTexture();
 			}
 		}
 	}
@@ -31,45 +31,45 @@ void UCenterDotWidget::Interact(bool Visible, bool LockedDoor, bool Wait, bool M
 
 void UCenterDotWidget::SetLockedDoorImage()
 {
-	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	Talking->SetVisibility(ESlateVisibility::Hidden);
-	ClosedDoor->SetVisibility(ESlateVisibility::Visible);
+	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	InteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	CantInteractTexture->SetVisibility(ESlateVisibility::Hidden);
+	LockedDoorTexture->SetVisibility(ESlateVisibility::Visible);
 }
 
-void UCenterDotWidget::SetWaitImage()
+void UCenterDotWidget::SetCantInteractTexture()
 {
-	CompleteCircle->SetVisibility(ESlateVisibility::Visible);
-	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	Talking->SetVisibility(ESlateVisibility::Visible);
-	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+	NoneInteractionTexture->SetVisibility(ESlateVisibility::Visible);
+	InteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	CantInteractTexture->SetVisibility(ESlateVisibility::Visible);
+	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UCenterDotWidget::SetVisibleImage()
+void UCenterDotWidget::SetNoneInteractionTexture()
 {
-	CompleteCircle->SetVisibility(ESlateVisibility::Visible);
-	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	Talking->SetVisibility(ESlateVisibility::Hidden);
-	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+	NoneInteractionTexture->SetVisibility(ESlateVisibility::Visible);
+	InteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	CantInteractTexture->SetVisibility(ESlateVisibility::Hidden);
+	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UCenterDotWidget::SetMainObjectImage()
+void UCenterDotWidget::SetMainInteractionTexture()
 {
-	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-	InteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	MainInteractCircle->SetVisibility(ESlateVisibility::Visible);
-	Talking->SetVisibility(ESlateVisibility::Hidden);
-	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	InteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	MainInteractionTexture->SetVisibility(ESlateVisibility::Visible);
+	CantInteractTexture->SetVisibility(ESlateVisibility::Hidden);
+	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UCenterDotWidget::SetDefaultImage()
+void UCenterDotWidget::SetInteractionTexture()
 {
-	CompleteCircle->SetVisibility(ESlateVisibility::Hidden);
-	InteractCircle->SetVisibility(ESlateVisibility::Visible);
-	MainInteractCircle->SetVisibility(ESlateVisibility::Hidden);
-	Talking->SetVisibility(ESlateVisibility::Hidden);
-	ClosedDoor->SetVisibility(ESlateVisibility::Hidden);
+	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	InteractionTexture->SetVisibility(ESlateVisibility::Visible);
+	MainInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
+	CantInteractTexture->SetVisibility(ESlateVisibility::Hidden);
+	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }

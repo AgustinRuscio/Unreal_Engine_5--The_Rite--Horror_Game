@@ -43,9 +43,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	USoundBase* VoiceSound;
-	
-	UPROPERTY(EditAnywhere, Category= "Audio")
-	USoundBase* SFXGrabItem;
 
 	UPROPERTY(EditAnywhere, Category= "My Door")
 	ADoor* MyDoor;

@@ -5,6 +5,8 @@
 
 #include "Letter.h"
 
+#include "Kismet/GameplayStatics.h"
+
 ALetter::ALetter()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -17,5 +19,6 @@ void ALetter::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 	OnAction.Broadcast();
 	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }

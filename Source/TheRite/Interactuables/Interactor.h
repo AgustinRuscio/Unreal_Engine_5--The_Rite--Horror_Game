@@ -58,6 +58,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="State")
 	USoundBase* AudioToPlay;
 	
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	USoundBase* SFX_GrabItem;
+	
 private:	
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
 	bool bIsPickeable;

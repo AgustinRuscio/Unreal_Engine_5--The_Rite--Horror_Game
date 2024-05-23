@@ -33,7 +33,7 @@ void ADoorKey::Interaction()
 	MyDoor->ObteinKey();
 	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());
 	
-	UGameplayStatics::SpawnSoundAtLocation(this, SFXGrabItem,GetActorLocation());
+	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
 
 	Destroy();
 }
