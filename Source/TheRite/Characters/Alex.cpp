@@ -48,7 +48,7 @@ AAlex::AAlex()
 
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
 	
-	Camera->SetupAttachment(GetMesh(), "head");
+	Camera->SetupAttachment(GetMesh());
 	ScreamerSkeleton->SetupAttachment(Camera);
 }
 

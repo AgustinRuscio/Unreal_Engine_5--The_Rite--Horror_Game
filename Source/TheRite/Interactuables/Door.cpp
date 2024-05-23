@@ -182,8 +182,8 @@ void ADoor::InitializeNeededValues()
 	FirstYawrotation = GetActorRotation().Yaw;
 	MaxYawrotation = bFrontOpen ? FirstYawrotation + FrontAngle : FirstYawrotation - FrontAngle;
 	
-	InitialRot =GetActorRotation();
-	CurrentRot =GetActorRotation();
+	InitialRot = GetActorRotation();
+	CurrentRot = GetActorRotation();
 }
 
 //---------------- Tutorial Methods
@@ -285,8 +285,6 @@ void ADoor::CheckLocked()
 		}
 	}
 }
-
-
 
 void ADoor::CheckDragDoor()
 {
@@ -540,6 +538,8 @@ void ADoor::OpenCloseTimeLineUpdate(float value)
 void ADoor::OpenCloseTimelineFinished()
 {
 	CurrentRot =GetActorRotation();
+	
+	curretnYaw = GetActorRotation().Yaw;
 }
 
 
@@ -558,6 +558,7 @@ void ADoor::ItLockedTimelineFinished()
 	++AudioCounterItsLocked;
 	
 	CurrentRot = GetActorRotation();
+	
 }
 
 
@@ -576,7 +577,6 @@ void ADoor::LatchHoldTimeLineUpdate(float value)
 	float lerpValue = FMath::Lerp(50, 0, value);
 	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
 	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
-	
 }
 
 void ADoor::LatchHoldTimelineFinished() { }
@@ -591,4 +591,6 @@ void ADoor::HardClosingTimeLineUpdate(float value)
 void ADoor::HardClosingTielineFinished()
 {
 	CurrentRot = GetActorRotation();
+	
+	curretnYaw = GetActorRotation().Yaw;
 }
