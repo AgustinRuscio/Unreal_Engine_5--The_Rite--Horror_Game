@@ -87,7 +87,7 @@ public:
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
 	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation);
 	void MoveCamera(FVector NewCameraPos);
-
+	void MakeCameraView(FRotator Rot);
 	
 private:
 //---------------- Checker Methods

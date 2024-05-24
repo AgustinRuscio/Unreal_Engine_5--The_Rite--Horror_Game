@@ -55,7 +55,6 @@ AAlex::AAlex()
 //---------------- Getter Methods
 bool AAlex::IsHoldInteractBTN() const
 {
-	
 	return bHoldingInteractBTN;
 }
 
@@ -341,6 +340,11 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
 void AAlex::MoveCamera(FVector NewCameraPos)
 {
 	Camera->SetWorldLocation(NewCameraPos);
+}
+
+void AAlex::MakeCameraView(FRotator Rotta)
+{
+	MyController->SetControlRotation(Rotta);
 }
 
 //---------------- Checker Methods
