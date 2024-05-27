@@ -20,13 +20,16 @@ void AFetusPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	for (auto Element : RegularFetus)
+	for (auto Element : AllFetus)
 	{
 		Element->OnCorrectFetus.AddDynamic(this, &AFetusPuzzle::CheckNextPuzzleStep);
 		Element->OnWrongFetus.AddDynamic(this, &AFetusPuzzle::ResetPuzzle);
+		
+		if(Element->GetIsCorrectFetus())
+			RightFetus.Add(Element);
+		else
+			RegularFetus.Add(Element);
 	}
-
-	TotalPuzzleStps = RegularFetus.Num();
 
 	for (auto Element : PosiblePosition)
 	{
@@ -37,6 +40,9 @@ void AFetusPuzzle::BeginPlay()
 	{
 		AUXRightFetus.Add(Element);
 	}
+
+	if(MaxFetusPerRound > AllFetus.Num() -1)
+		MaxFetusPerRound = AllFetus.Num() -1;
 	
 	ReLocateFetus();
 }
@@ -46,6 +52,11 @@ void AFetusPuzzle::LightsOut()
 	for (auto Element : RoomLights)
 	{
 		Element->TurnOff();
+	}
+	
+	for (auto Element : AllFetus)
+	{
+		Element->SetCanInteract(false);
 	}
 }
 
@@ -59,6 +70,11 @@ void AFetusPuzzle::LightsOn()
 			for (auto Element : RoomLights)
 			{
 				Element->TurnOn();
+			}
+
+			for (auto Element : AllFetus)
+			{
+				Element->SetCanInteract(true);
 			}
 		});
 		
@@ -76,11 +92,7 @@ void AFetusPuzzle::ResetPuzzle()
 	bFirstInteraction = true;
 	RoomDoor->SetLockedState(false);
 	
-	for (auto Element : RegularFetus)
-	{
-		Element->ResetFetus();
-	}
-	for (auto Element : RightFetus)
+	for (auto Element : AllFetus)
 	{
 		Element->ResetFetus();
 	}
@@ -104,7 +116,7 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 
 	TotalPuzzleStps++;
 	
-	TotalPuzzleStps == RegularFetus.Num() ? PuzzleComplete() : NextStep();
+	TotalPuzzleStps == RightFetus.Num()-1 ? PuzzleComplete() : NextStep();
 }
 
 void AFetusPuzzle::NextStep()
@@ -116,15 +128,11 @@ void AFetusPuzzle::NextStep()
 		RoomDoor->SetLockedState(true);
 	}
 	
-	for (auto Element : RegularFetus)
+	for (auto Element : AllFetus)
 	{
 		Element->ResetFetus();
 	}
 
-	for (auto Element : RightFetus)
-	{
-		Element->ResetFetus();
-	}
 	
 	ReLocateFetus();
 	
@@ -135,23 +143,25 @@ void AFetusPuzzle::PuzzleComplete()
 {
 	OnPuzzleComplete.Broadcast();
 
-	for (auto Element : RegularFetus)
+	for (auto Element : AllFetus)
 	{
 		Element->Destroy();
 	}
 
-	for (auto Element : RightFetus)
-	{
-		Element->Destroy();
-	}
+	Destroy();
 }
 
 void AFetusPuzzle::ReLocateFetus()
 {
 	RemoveFirstRightFetus();
 	
+	int counter = 0;
+	
 	for (auto Element : RegularFetus)
 	{
+		if(counter >= MaxFetusPerRound) break;
+		counter++;
+		
 		auto randomizer = FMath::RandRange(0, AUXPosiblePosition.Num() - 1);
 		auto newPos = AUXPosiblePosition[randomizer];
 		

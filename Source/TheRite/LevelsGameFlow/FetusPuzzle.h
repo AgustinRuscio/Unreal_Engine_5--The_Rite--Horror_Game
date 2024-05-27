@@ -57,6 +57,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
 	float OffsetLightsOn;
 	
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
+	int MaxFetusPerRound;
+	
 	int TotalPuzzleStps = 0;
 	
 	//-------- Audio
@@ -81,9 +84,10 @@ private:
 
 //---------------------------------------- In game Objects
 	UPROPERTY(EditAnywhere, Category = "Fetus", meta=(AllowPrivateAccess = true))
+	TArray<AFetus*> AllFetus;
+
 	TArray<AFetus*> RegularFetus;
 
-	UPROPERTY(EditAnywhere, Category = "Fetus", meta=(AllowPrivateAccess = true))
 	TArray<AFetus*> RightFetus;
 
 	TArray<AFetus*> AUXRightFetus;

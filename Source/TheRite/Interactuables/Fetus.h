@@ -27,7 +27,9 @@ public:
 	virtual void Interaction() override;
 
 	void ResetFetus();
-public:	
+public:
+	bool GetIsCorrectFetus();
+	
 	FOnCorrectFetus OnCorrectFetus;
 	FOnWrongFetus OnWrongFetus;
 	

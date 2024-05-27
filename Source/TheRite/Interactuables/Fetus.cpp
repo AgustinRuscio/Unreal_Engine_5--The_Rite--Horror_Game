@@ -21,6 +21,8 @@ void AFetus::Interaction()
 {
 	if(!bCanInteract) return;
 
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Interaction")));
+	
 	NiagaraSytem_Blood->Activate();
 
 	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
@@ -29,6 +31,7 @@ void AFetus::Interaction()
 		timerDelegate.BindLambda([&]
 		{
 			bIsCorrectFetus ? OnCorrectFetus.Broadcast() : OnWrongFetus.Broadcast();
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("BroadCast")));
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOut, timerDelegate, ParticleDuration, false);
@@ -39,4 +42,9 @@ void AFetus::ResetFetus()
 {
 	NiagaraSytem_Blood->Deactivate();
 	NiagaraSytem_Blood->ResetSystem();
+}
+
+bool AFetus::GetIsCorrectFetus()
+{
+	return bIsCorrectFetus;
 }
