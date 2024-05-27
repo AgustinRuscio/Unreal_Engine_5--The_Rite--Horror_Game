@@ -35,5 +35,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
 	UNiagaraComponent* NiagaraSytem_Blood;
-	
 };

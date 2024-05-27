@@ -53,11 +53,6 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 
-	for (auto Element : Lights_SpotLightEndGame)
-	{
-		Element->GetLightComponent()->SetIntensity(0);
-	}
-
 	for (auto Element : Skeletals_DinningRoomEvet)
 	{
 		Element->GetSkeletalMeshComponent()->SetVisibility(false);
@@ -81,14 +76,9 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 		Element->TurnOff();
 	}
 	
-	for (auto Element : Lights_SpotLightEndGame)
+	for (auto Element : Candles_EndGame)
 	{
-		Element->GetLightComponent()->SetIntensity(20);
-	}
-	
-	for (auto Element : Lights_Altar)
-	{
-		Element->GetLightComponent()->SetIntensity(0);
+		Element->TurnOn();
 	}
 
 	Doors_BathRoom->SetLockedState(true);

@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "GameFlowDiaryLevelOtherWorld.generated.h"
 
 class AInOrdenSelectionPuzzleFlow;
@@ -91,11 +92,6 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_DinningEventLights;
 	
-	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ASpotLight*> Lights_SpotLightEndGame;
-	
-	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ASpotLight*> Lights_Altar;
 //-------- Timers
 	FTimerHandle Timer_LivingRoomEvent0;
 	FTimerHandle Timer_LivingRoomEvent1;
@@ -120,6 +116,10 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	AInOrdenSelectionPuzzleFlow* InOrderPOuzzleController;
 
+	
+	UPROPERTY(EditAnywhere, Category="Candles")
+	TArray<ACandle*> Candles_EndGame;
+	
 //-------- Doors
 	UPROPERTY(EditAnywhere, Category= "Doors")
 	ADoor* Doors_BathRoom;
