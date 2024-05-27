@@ -6,6 +6,7 @@
 #include "Ladder.h"
 
 #include "LevelSequenceActor.h"
+#include "Components/BoxComponent.h"
 #include "LevelSequencePlayer.h"
 #include "MovieSceneSequencePlaybackSettings.h"
 #include "Camera/CameraComponent.h"
@@ -19,6 +20,7 @@ ALadder::ALadder()
  	PrimaryActorTick.bCanEverTick = true;
 	
 	LadderMesh= CreateDefaultSubobject<UStaticMeshComponent>("Ladder Mesh");
+	BoxCollider= CreateDefaultSubobject<UBoxComponent>("Box collider");
 	
 	InitialPosition = CreateDefaultSubobject<UArrowComponent>("Initial Location Arrow");
 	EndPosition = CreateDefaultSubobject<UArrowComponent>("End Location Arrow");
@@ -28,6 +30,7 @@ ALadder::ALadder()
 	Camera->SetupAttachment(LadderMesh);
 	InitialPosition->SetupAttachment(LadderMesh);
 	EndPosition->SetupAttachment(LadderMesh);
+	BoxCollider->SetupAttachment(LadderMesh);
 }
 
 void ALadder::BeginPlay()

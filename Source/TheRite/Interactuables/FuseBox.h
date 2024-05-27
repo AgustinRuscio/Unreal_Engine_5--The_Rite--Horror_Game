@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
+#include "LightSwitch.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "FuseBox.generated.h"
@@ -78,4 +79,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline", meta=(AllowPrivateAccess = true))
 	UCurveFloat* LocateFusibleCurve;
+
+	UPROPERTY(EditAnywhere, Category = "Timeline", meta=(AllowPrivateAccess = true))
+	ALightSwitch* TermicalSwitch;
 };

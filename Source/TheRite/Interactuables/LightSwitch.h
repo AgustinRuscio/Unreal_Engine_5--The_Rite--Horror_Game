@@ -37,6 +37,10 @@ private:
 	void SwitchTimeLineFinished();
 	
 private:	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bOneUse = false;
+	bool bOneUseReady = false;
+	
 	bool bFlipFlop = false;
 	
 	UPROPERTY(EditAnywhere, Category = "State")

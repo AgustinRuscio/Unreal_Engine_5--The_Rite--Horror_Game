@@ -33,9 +33,13 @@ void ALightSwitch::Tick(float DeltaTime)
 
 void ALightSwitch::Interaction()
 {
-	if(!bAnimReady) return;
-	
-	Super::Interaction();
+	if(!bAnimReady || !bCanInteract ) return;
+
+	if(bOneUse)
+	{
+		if(bOneUseReady)
+			return;
+	}
 	
 	bAnimReady = false;
 
@@ -87,4 +91,9 @@ void ALightSwitch::SwitchTimeLineTick(float time)
 void ALightSwitch::SwitchTimeLineFinished()
 {
 	bAnimReady = true;
+	
+	if(!bOneUse) return;
+	bOneUseReady = true;
+	bCanInteract = false;
+	OnInteractionTrigger.Broadcast(this);
 }

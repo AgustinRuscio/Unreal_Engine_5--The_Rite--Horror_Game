@@ -41,5 +41,10 @@ enum class HouseZone : uint8
 	DiningRoom,
 	LCorridor,
 	BathRoom,
-	BedRoom
+	BedRoom,
+	ServiceRoom,
+	Attic,
+	UpStarirsCorridor,
+	BabyRoom,
+	
 };

@@ -13,6 +13,7 @@
 class UArrowComponent;
 class ULevelSequence;
 class UCameraComponent;
+class UBoxComponent;
 
 UCLASS()
 class THERITE_API ALadder : public AInteractor
@@ -39,7 +40,9 @@ private:
 //-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* LadderMesh;
-	
+
+	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = true))
+	UBoxComponent* BoxCollider;
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;

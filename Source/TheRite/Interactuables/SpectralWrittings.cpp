@@ -80,9 +80,6 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
 }
 
-
-
-
 void ASpectralWrittings::Interaction()
 {
 	if(bDiscovered || !bCanInteract ) return;

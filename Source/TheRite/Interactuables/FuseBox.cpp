@@ -108,6 +108,7 @@ void AFuseBox::LocateFusibleFinished()
 	{
 		bCanInteract = false;
 		OnFuseBoxComplete.Broadcast();
+		TermicalSwitch->SetCanInteract(true);
 	}
 	else
 	{
