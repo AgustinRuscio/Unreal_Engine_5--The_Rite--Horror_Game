@@ -5,6 +5,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+#include "FetusPuzzle.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Interactuables/Door.h"
 #include "GameFlowPacifierLevel.generated.h"
@@ -30,6 +31,9 @@ public:
 private:
 	UFUNCTION()
 	void OnLightsOnEvent(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void EndGame();
 	
 //---------------- Bind Colliders Methods
 	void BindColliderMethods();
@@ -60,6 +64,8 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> EmergencyLights;
 
+	UPROPERTY(EditAnywhere, Category="Flows")
+	AFetusPuzzle* GameFlow_FetusPuzzle;
 
 	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BedRoom;

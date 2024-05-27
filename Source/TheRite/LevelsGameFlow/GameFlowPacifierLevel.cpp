@@ -22,6 +22,7 @@ void AGameFlowPacifierLevel::BeginPlay()
 	Super::BeginPlay();
 
 	LightSwitch_TermicalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
+	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
 	BindColliderMethods();
 }
 
@@ -39,6 +40,11 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 	
 	Door_BedRoom->SetLockedState(false);
 	Door_BedRoom->Open();
+}
+
+void AGameFlowPacifierLevel::EndGame()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Complete")));
 }
 
 void AGameFlowPacifierLevel::BindColliderMethods()

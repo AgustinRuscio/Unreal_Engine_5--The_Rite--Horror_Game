@@ -8,20 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Ladder.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_TiffanyCard.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_FetusPuzzle.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Cinematics/Sequences/Sequence/shots/shot0010/shot0010_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Cinematics/Sequences/Sequence/shots/shot0010/shot0010_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Cinematics/Sequences/Sequence/shots/shot0040/shot0040_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Cinematics/Sequences/Sequence/shots/shot0040/shot0040_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Ladder.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_Ladder.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/BP_TiffanyCard.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +28,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/CloclLevelArtRoomEvent.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -452,6 +454,9 @@
       <workItem from="1716172580956" duration="6024000" />
       <workItem from="1716763765269" duration="13036000" />
       <workItem from="1716786275720" duration="1117000" />
+      <workItem from="1716810408601" duration="329000" />
+      <workItem from="1716812059042" duration="5064000" />
+      <workItem from="1716830527614" duration="13630000" />
     </task>
     <servers />
   </component>
