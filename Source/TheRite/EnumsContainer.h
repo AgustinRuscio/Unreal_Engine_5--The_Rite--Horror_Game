@@ -17,7 +17,8 @@ enum class PickableItemsID : uint8
 	TiffanysCard,
 	Hours,
 	Minutes,
-	Diary
+	Diary,
+	Pacifier
 };
 
 UENUM(BlueprintType)
