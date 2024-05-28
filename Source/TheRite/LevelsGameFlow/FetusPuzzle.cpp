@@ -98,10 +98,13 @@ void AFetusPuzzle::ResetPuzzle()
 	}
 
 	AUXRightFetus.Empty();
+	
 	for (auto Element : RightFetus)
 	{
 		AUXRightFetus.Add(Element);
 	}
+
+	TotalPuzzleStps = 0;
 	
 	ReLocateFetus();
 	
@@ -116,7 +119,7 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 
 	TotalPuzzleStps++;
 	
-	TotalPuzzleStps == RightFetus.Num()-1 ? PuzzleComplete() : NextStep();
+	TotalPuzzleStps == RightFetus.Num() ? PuzzleComplete() : NextStep();
 }
 
 void AFetusPuzzle::NextStep()
@@ -132,7 +135,6 @@ void AFetusPuzzle::NextStep()
 	{
 		Element->ResetFetus();
 	}
-
 	
 	ReLocateFetus();
 	
@@ -159,7 +161,7 @@ void AFetusPuzzle::ReLocateFetus()
 	
 	for (auto Element : RegularFetus)
 	{
-		if(counter >= MaxFetusPerRound) break;
+		if(counter >= MaxFetusPerRound ||AUXPosiblePosition.Num() == 0) break;
 		counter++;
 		
 		auto randomizer = FMath::RandRange(0, AUXPosiblePosition.Num() - 1);
@@ -195,9 +197,13 @@ void AFetusPuzzle::RemoveFirstRightFetus()
 	currentFetus->SetActorRotation(currentTarget->GetActorRotation());
 		
 	auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
-		
 	AUXPosiblePosition[AUXPosiblePosition.Num()-1] = currentTarget;
 	AUXPosiblePosition[rand] = EndAuxTarget;
-		
 	AUXPosiblePosition.RemoveAt(AUXPosiblePosition.Num()-1);
+
+
+	auto EndAuxFetus = AUXRightFetus[AUXRightFetus.Num()-1];
+	AUXRightFetus[AUXRightFetus.Num()-1] = currentFetus;
+	AUXRightFetus[0] = EndAuxFetus;
+	AUXRightFetus.RemoveAt(AUXRightFetus.Num()-1);
 }

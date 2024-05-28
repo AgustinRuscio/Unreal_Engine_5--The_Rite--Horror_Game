@@ -23,13 +23,14 @@ class THERITE_API AFetus : public AInteractor
 public:	
 	AFetus();
 	
+	bool GetIsCorrectFetus();
+	
 //---------------- System Class Methods
 	virtual void Interaction() override;
 
 	void ResetFetus();
-public:
-	bool GetIsCorrectFetus();
 	
+public:
 	FOnCorrectFetus OnCorrectFetus;
 	FOnWrongFetus OnWrongFetus;
 	
@@ -39,6 +40,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float ParticleDuration;
+
+	FVector InitialPosition;
 	
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* FetusMesh;

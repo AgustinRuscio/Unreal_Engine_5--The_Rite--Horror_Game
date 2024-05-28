@@ -7,7 +7,6 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "LightSwitch.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "FuseBox.generated.h"
@@ -15,6 +14,8 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFuseBoxCompleted);
 
 class UArrowComponent;
+class ALightSwitch;
+class UNiagaraSystem;
 
 UCLASS()
 class THERITE_API AFuseBox : public AInteractor
@@ -60,6 +61,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* SecondsFusible;
 	
+//-------- Niagara System
+	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
+	UNiagaraSystem* NiagaraSytem_Sparks;
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;

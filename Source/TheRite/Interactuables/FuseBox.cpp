@@ -5,6 +5,9 @@
 
 #include "FuseBox.h"
 #include "Components/ArrowComponent.h"
+#include "LightSwitch.h"
+#include "NiagaraSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
 AFuseBox::AFuseBox()
@@ -28,6 +31,10 @@ AFuseBox::AFuseBox()
 	InitialPosition->SetupAttachment(FusibleBoxMesh);
 	EndFirstPosition->SetupAttachment(FusibleBoxMesh);
 	EndSecondPosition->SetupAttachment(FusibleBoxMesh);
+
+	//NiagaraSytem_Sparks = CreateDefaultSubobject<UNiagaraComponent>("Sparks Niagara");
+	//NiagaraSytem_Sparks->SetupAttachment(FusibleBoxMesh);
+	//NiagaraSytem_Sparks->SetRelativeLocation(EndFirstPosition->GetComponentLocation());
 }
 
 //--------------------- System Class methods
@@ -67,9 +74,13 @@ void AFuseBox::Interaction()
 
 	
 	if(FusiblesQuantity == 1)
+	{
 		FirstFusible->SetVisibility(true);
+	}
 	else
+	{
 		SecondsFusible->SetVisibility(true);
+	}
 
 	
 	LocateFusibleTimeLine.PlayFromStart();
@@ -103,6 +114,17 @@ void AFuseBox::LocateFusibleTick(float deltaSeconds)
 void AFuseBox::LocateFusibleFinished()
 {
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_Sparking,GetActorLocation());
+	
+
+
+	if(FusiblesQuantity == 1)
+	{
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndFirstPosition->GetComponentLocation());
+	}
+	else
+	{
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndSecondPosition->GetComponentLocation());
+	}
 	
 	if(MaxFusiblesQuantity == FusiblesQuantity)
 	{

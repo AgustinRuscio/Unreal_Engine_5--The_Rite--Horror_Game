@@ -14,6 +14,13 @@ AFetus::AFetus()
 	NiagaraSytem_Blood = CreateDefaultSubobject<UNiagaraComponent>("Niagara System");
 
 	NiagaraSytem_Blood->SetupAttachment(FetusMesh);
+
+	InitialPosition = GetActorLocation();
+}
+
+bool AFetus::GetIsCorrectFetus()
+{
+	return bIsCorrectFetus;
 }
 
 //---------------- System Class Methods
@@ -31,7 +38,7 @@ void AFetus::Interaction()
 		timerDelegate.BindLambda([&]
 		{
 			bIsCorrectFetus ? OnCorrectFetus.Broadcast() : OnWrongFetus.Broadcast();
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("BroadCast")));
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("BroadCast")));
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOut, timerDelegate, ParticleDuration, false);
@@ -42,9 +49,5 @@ void AFetus::ResetFetus()
 {
 	NiagaraSytem_Blood->Deactivate();
 	NiagaraSytem_Blood->ResetSystem();
-}
-
-bool AFetus::GetIsCorrectFetus()
-{
-	return bIsCorrectFetus;
+	SetActorLocation(InitialPosition);
 }
