@@ -6,6 +6,7 @@
 #include "FetusPuzzle.h"
 #include "TheRite/Interactuables/Fetus.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
@@ -22,6 +23,8 @@ void AFetusPuzzle::BeginPlay()
 	
 	for (auto Element : AllFetus)
 	{
+		Element->OnInteractionTrigger.AddDynamic(this, &AFetusPuzzle::OnInteraction);
+		
 		Element->OnCorrectFetus.AddDynamic(this, &AFetusPuzzle::CheckNextPuzzleStep);
 		Element->OnWrongFetus.AddDynamic(this, &AFetusPuzzle::ResetPuzzle);
 		
@@ -53,11 +56,6 @@ void AFetusPuzzle::LightsOut()
 	{
 		Element->TurnOff();
 	}
-	
-	for (auto Element : AllFetus)
-	{
-		Element->SetCanInteract(false);
-	}
 }
 
 void AFetusPuzzle::LightsOn()
@@ -79,6 +77,14 @@ void AFetusPuzzle::LightsOn()
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOn, timerDelegate, OffsetLightsOn, false);
+	}
+}
+
+void AFetusPuzzle::OnInteraction(AInteractor* interactor)
+{
+	for (auto Element : AllFetus)
+	{
+		Element->SetCanInteract(false);
 	}
 }
 

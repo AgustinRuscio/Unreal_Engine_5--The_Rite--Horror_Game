@@ -15,6 +15,7 @@ class ATargetPoint;
 class AFetus;
 class ADoor;
 class ALightsTheRite;
+class AInteractor;
 
 UCLASS()
 class THERITE_API AFetusPuzzle : public AActor
@@ -30,6 +31,9 @@ public:
 private:
 	void LightsOut();
 	void LightsOn();
+
+	UFUNCTION()
+	void OnInteraction(AInteractor* interactor);
 	
 	UFUNCTION()
 	void ResetPuzzle();

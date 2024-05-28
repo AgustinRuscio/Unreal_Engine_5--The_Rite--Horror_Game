@@ -29,6 +29,8 @@ void AFetus::Interaction()
 {
 	if(!bCanInteract) return;
 
+	OnInteractionTrigger.Broadcast(this);
+	
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Blood, BloodSpawnLoscation->GetComponentLocation());
 	
 	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
