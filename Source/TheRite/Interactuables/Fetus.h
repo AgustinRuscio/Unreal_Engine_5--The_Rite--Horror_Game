@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/Actor.h"
 #include "Fetus.generated.h"
 
@@ -48,6 +49,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
 	UNiagaraSystem* NiagaraSytem_Blood;
+
+	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
+	UArrowComponent* BloodSpawnLoscation;
 	
 	FTimerHandle Timer_LightsOut;
 };

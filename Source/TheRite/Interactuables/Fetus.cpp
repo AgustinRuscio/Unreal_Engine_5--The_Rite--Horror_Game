@@ -12,7 +12,10 @@ AFetus::AFetus()
 	PrimaryActorTick.bCanEverTick = true;
 
 	FetusMesh = CreateDefaultSubobject<UStaticMeshComponent>("Fetus Mesh");
-
+	
+	BloodSpawnLoscation = CreateDefaultSubobject<UArrowComponent>("Arrow");
+	BloodSpawnLoscation->SetupAttachment(FetusMesh);
+	
 	InitialPosition = GetActorLocation();
 }
 
@@ -26,9 +29,7 @@ void AFetus::Interaction()
 {
 	if(!bCanInteract) return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Interaction")));
-
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Blood, GetActorLocation());
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Blood, BloodSpawnLoscation->GetComponentLocation());
 	
 	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
 	{

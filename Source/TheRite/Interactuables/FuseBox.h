@@ -64,6 +64,7 @@ private:
 //-------- Niagara System
 	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
 	UNiagaraSystem* NiagaraSytem_Sparks;
+	
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;
