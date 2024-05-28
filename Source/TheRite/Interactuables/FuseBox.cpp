@@ -31,10 +31,6 @@ AFuseBox::AFuseBox()
 	InitialPosition->SetupAttachment(FusibleBoxMesh);
 	EndFirstPosition->SetupAttachment(FusibleBoxMesh);
 	EndSecondPosition->SetupAttachment(FusibleBoxMesh);
-
-	//NiagaraSytem_Sparks = CreateDefaultSubobject<UNiagaraComponent>("Sparks Niagara");
-	//NiagaraSytem_Sparks->SetupAttachment(FusibleBoxMesh);
-	//NiagaraSytem_Sparks->SetRelativeLocation(EndFirstPosition->GetComponentLocation());
 }
 
 //--------------------- System Class methods
@@ -116,15 +112,10 @@ void AFuseBox::LocateFusibleFinished()
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_Sparking,GetActorLocation());
 	
 
-
 	if(FusiblesQuantity == 1)
-	{
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndFirstPosition->GetComponentLocation());
-	}
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndFirstPosition->GetComponentLocation());
 	else
-	{
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndSecondPosition->GetComponentLocation());
-	}
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndSecondPosition->GetComponentLocation());
 	
 	if(MaxFusiblesQuantity == FusiblesQuantity)
 	{

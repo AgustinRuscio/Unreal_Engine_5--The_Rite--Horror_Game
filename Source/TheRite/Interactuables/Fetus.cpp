@@ -4,16 +4,14 @@
 
 
 #include "Fetus.h"
-#include "NiagaraComponent.h"
+#include "NiagaraSystem.h"
+#include "NiagaraFunctionLibrary.h"
 
 AFetus::AFetus()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 	FetusMesh = CreateDefaultSubobject<UStaticMeshComponent>("Fetus Mesh");
-	NiagaraSytem_Blood = CreateDefaultSubobject<UNiagaraComponent>("Niagara System");
-
-	NiagaraSytem_Blood->SetupAttachment(FetusMesh);
 
 	InitialPosition = GetActorLocation();
 }
@@ -29,9 +27,9 @@ void AFetus::Interaction()
 	if(!bCanInteract) return;
 
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Interaction")));
-	
-	NiagaraSytem_Blood->Activate();
 
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Blood, GetActorLocation());
+	
 	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
 	{
 		FTimerDelegate timerDelegate;
@@ -47,7 +45,5 @@ void AFetus::Interaction()
 
 void AFetus::ResetFetus()
 {
-	NiagaraSytem_Blood->Deactivate();
-	NiagaraSytem_Blood->ResetSystem();
 	SetActorLocation(InitialPosition);
 }

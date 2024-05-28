@@ -13,7 +13,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCorrectFetus);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWrongFetus);
 
-class UNiagaraComponent;
+class UNiagaraSystem;
 
 UCLASS()
 class THERITE_API AFetus : public AInteractor
@@ -47,7 +47,7 @@ private:
 	UStaticMeshComponent* FetusMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
-	UNiagaraComponent* NiagaraSytem_Blood;
+	UNiagaraSystem* NiagaraSytem_Blood;
 	
 	FTimerHandle Timer_LightsOut;
 };
