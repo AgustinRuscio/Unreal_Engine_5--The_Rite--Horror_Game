@@ -19,7 +19,9 @@ ALadder::ALadder()
 {
  	PrimaryActorTick.bCanEverTick = true;
 	
-	LadderMesh= CreateDefaultSubobject<UStaticMeshComponent>("Ladder Mesh");
+	LadderMesh = CreateDefaultSubobject<UStaticMeshComponent>("Ladder Mesh");
+	LadderTop = CreateDefaultSubobject<UStaticMeshComponent>("Ladder Top Mesh");
+	
 	BoxCollider= CreateDefaultSubobject<UBoxComponent>("Box collider");
 	
 	InitialPosition = CreateDefaultSubobject<UArrowComponent>("Initial Location Arrow");
@@ -73,6 +75,28 @@ void ALadder::Interaction()
 
 	TempLevelSequenceActor->GetSequencePlayer()->OnFinished.AddDynamic(this, &ALadder::OnCinematicFinished);
 	TempLevelSequenceActor->GetSequencePlayer()->Play();
+}
+
+void ALadder::EnableLadder()
+{
+	LadderTop->SetVisibility(false);
+	LadderMesh->SetVisibility(true);
+	
+	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	
+	bCanInteract = true;
+}
+
+void ALadder::DisableLadder()
+{
+	LadderTop->SetVisibility(true);
+	LadderMesh->SetVisibility(false);
+	
+	LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	
+	bCanInteract = false;	
 }
 
 void ALadder::OnCinematicFinished()

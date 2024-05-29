@@ -23,6 +23,8 @@ void AGameFlowPacifierLevel::BeginPlay()
 
 	LightSwitch_TermicalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
+	AtticLader->DisableLadder();
+	
 	BindColliderMethods();
 }
 
@@ -57,7 +59,7 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	if(!Cast<AAlex>(OtherActor) || bLightsOutEventDone) return;
 	bLightsOutEventDone = true;
 
-	AtticLader->SetCanInteract(true);
+	AtticLader->EnableLadder();
 	Door_BathRoomRoom->SetLockedState(false);
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsOut);

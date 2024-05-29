@@ -25,6 +25,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
+
+	void EnableLadder();
+	void DisableLadder();
 	
 private:
 	UFUNCTION()
@@ -38,9 +41,12 @@ private:
 	FTransform NewLocation;
 	
 //-------- Meshes Collider
-	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* LadderMesh;
 
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
+	UStaticMeshComponent* LadderTop;
+	
 	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = true))
 	UBoxComponent* BoxCollider;
 //-------- Arrow
