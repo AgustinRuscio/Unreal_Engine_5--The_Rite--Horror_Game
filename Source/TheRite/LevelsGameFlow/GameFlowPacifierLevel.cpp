@@ -4,10 +4,11 @@
 
 
 #include "GameFlowPacifierLevel.h"
-#include "Engine/SpotLight.h"
+#include "Engine/RectLight.h"
 #include "TheRite/Interactuables/LightSwitch.h"
 #include "Engine/TriggerVolume.h"
 #include "TheRite/Interactuables/Ladder.h"
+#include "TheRite/Interactuables/Door.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
@@ -73,7 +74,7 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 
 	for (auto Element : EmergencyLights)
 	{
-		Element->GetLightComponent()->SetIntensity(30);
+		Element->GetLightComponent()->SetIntensity(EmergencyLightsIntensity);
 	}
 
 	TriggerVolume_LightsOut->Destroy();

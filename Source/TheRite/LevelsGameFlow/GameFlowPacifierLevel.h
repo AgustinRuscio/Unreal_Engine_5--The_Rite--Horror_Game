@@ -7,14 +7,14 @@
 #include "CoreMinimal.h"
 #include "FetusPuzzle.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Door.h"
 #include "GameFlowPacifierLevel.generated.h"
 
-class ASpotLight;
+class ARectLight;
 class ATriggerVolume;
 class ALightsTheRite;
 class ALightSwitch;
 class ALadder;
+class ADoor;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -45,6 +45,9 @@ public:
 	
 private:
 	bool bLightsOutEventDone;
+
+	UPROPERTY(EditAnywhere, Category= "Settiings")
+	float EmergencyLightsIntensity = 25.f;
 	
 //-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")
@@ -62,7 +65,7 @@ private:
 	TArray<ALightsTheRite*> Lights_AllLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ASpotLight*> EmergencyLights;
+	TArray<ARectLight*> EmergencyLights;
 
 	UPROPERTY(EditAnywhere, Category="Flows")
 	AFetusPuzzle* GameFlow_FetusPuzzle;
