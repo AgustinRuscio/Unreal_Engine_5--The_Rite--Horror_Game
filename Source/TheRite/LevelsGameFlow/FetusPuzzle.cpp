@@ -135,6 +135,7 @@ void AFetusPuzzle::NextStep()
 		bFirstInteraction = false;
 		
 		RoomDoor->SetLockedState(true);
+		RoomDoor->HardClosing();
 	}
 	
 	for (auto Element : AllFetus)
