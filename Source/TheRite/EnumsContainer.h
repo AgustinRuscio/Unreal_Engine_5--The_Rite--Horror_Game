@@ -12,6 +12,7 @@ enum class PickableItemsID : uint8
 	LibraryKey,
 	ArtRoomKey,
 	BedRoomKey,
+	LucysRoom,
 	LCorridorKey,
 	Clock,
 	TiffanysCard,
