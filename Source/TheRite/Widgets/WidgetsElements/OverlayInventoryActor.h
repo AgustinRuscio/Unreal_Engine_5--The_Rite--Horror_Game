@@ -23,13 +23,13 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere)
+	USceneComponent* SceneComponent;
+	
+	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* ItemMesh;
 	
 	UPROPERTY(EditAnywhere)
 	USceneCaptureComponent2D* SceneCaptureComponent2D;
-
-	UPROPERTY(EditAnywhere)
-	USceneComponent* SceneComponent;
 	
 	UPROPERTY(EditAnywhere)
 	UPointLightComponent* PointLightComponent;
