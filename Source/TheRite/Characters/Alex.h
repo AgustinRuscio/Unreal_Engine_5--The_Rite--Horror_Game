@@ -8,7 +8,6 @@
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
 #include "TheRite/EnumsContainer.h"
-#include "TheRite/Interactuables/Altar.h"
 #include "GameFramework/Character.h"
 #include "Alex.generated.h"
 
@@ -31,6 +30,7 @@ class UCenterDotWidget;
 class IIInteractuable;
 class AAlexPlayerController;
 class ADoor;
+class USpringArmComponent;
 
 UCLASS()
 class THERITE_API AAlex : public ACharacter
@@ -250,7 +250,13 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	USkeletalMeshComponent* ScreamerSkeleton;
+
+	//-------- Spring Arms
+
+	UPROPERTY(EditAnywhere)
+	USpringArmComponent* SpringArm_Lighter;
 	
+	//-------- Anims
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UAnimationAsset* ScreamerAnim;
 

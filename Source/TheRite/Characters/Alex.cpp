@@ -19,6 +19,7 @@
 #include "Components/PointLightComponent.h"
 #include "TheRite/Interactuables/Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "TheRite/Widgets/TutorialWidget.h"
@@ -38,7 +39,10 @@ AAlex::AAlex()
 	FlamePlane =  CreateDefaultSubobject<UStaticMeshComponent>("Plane Lighter");
 	LighterLight = CreateDefaultSubobject<UPointLightComponent>("Lighter Light");
 	
-	Lighter->SetupAttachment(GetMesh(), "hand_r");
+	SpringArm_Lighter = CreateDefaultSubobject<USpringArmComponent>("Spring Arm Lighter");
+	SpringArm_Lighter->SetupAttachment(GetMesh(), "hand_r");
+	
+	Lighter->SetupAttachment(SpringArm_Lighter);
 	LighterLight->SetupAttachment(Lighter);
 	FlamePlane->SetupAttachment(Lighter);
 	
