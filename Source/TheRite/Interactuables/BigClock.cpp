@@ -182,22 +182,7 @@ void ABigClock::ChangeNeedle()
 void ABigClock::CheckNeedlesPosition()
 {
 	if(!bReadyToUse)
-	{
-		Player->ForceTalk(AudioToPlay);
-		bCanInteract = false;
-		if(!GetWorld()->GetTimerManager().IsTimerActive(WaitForAudioTimer))
-		{
-			FTimerDelegate OnAudioFinished;
-			OnAudioFinished.BindLambda([&]
-			{
-				bCanInteract = true;
-			});
-			
-			GetWorld()->GetTimerManager().SetTimer(WaitForAudioTimer, OnAudioFinished,AudioToPlay->Duration,false);
-		}
-		
 		return;
-	}
 	
 	const float Tolerance = 0.001f;
 	

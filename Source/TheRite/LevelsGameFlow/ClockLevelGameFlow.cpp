@@ -17,6 +17,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
+#include "TheRite/Widgets/TutorialWidget.h"
 #include "Engine/TriggerBox.h"
 #include "Engine/BlockingVolume.h"
 #include "TheRite/Characters/Alex.h"
@@ -25,6 +26,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Containers/Map.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Letter.h"
 
@@ -47,6 +49,8 @@ void AClockLevelGameFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetVisibility(false);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
+	
+	SettutorialUI();
 	
 	BindTimeLineMethods();
 	
@@ -105,6 +109,31 @@ void AClockLevelGameFlow::BindEvents()
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 
 	BigClock->OnClockPuzzleCompleted.AddDynamic(this, &AClockLevelGameFlow::EndGame);
+}
+
+void AClockLevelGameFlow::SettutorialUI()
+{
+	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
+	TutorialWidget->AddToViewport();
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+
+	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	
+	if(alexController)
+		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
+	
+	TutorialWidget->SetVisibility(ESlateVisibility::Visible);
+		
+	if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
+	{
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([&]
+		{
+			TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+		});
+			
+		GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 6.f, false);
+	}
 }
 
 //---------------- Tick Methods

@@ -33,6 +33,7 @@ class ATriggerBox;
 class AInteractor;
 class AMoveTiffany;
 class ABigClock;
+class UTutorialWidget;
 class AStaticMeshActor;
 
 UCLASS()
@@ -51,7 +52,8 @@ private:
 	void SetAudioSettings();
 	void BindPuzzleEvents();
 	void BindEvents();
-
+	void SettutorialUI();
+	
 //---------------- Tick Methods
 	void MakeTiffanyTalk(float time);
 	void MakeBreath(float time);
@@ -277,6 +279,8 @@ private:
 	FTimerHandle JumpscareHandleFirst;
 	FTimerHandle JumpscareHandleSecond;
 	
+	FTimerHandle TutorialTimerHandle;
+	
 	FTimeline JumpscareSecondTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "0.4f sec, flat curve"))
@@ -284,6 +288,14 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "4 sec, flat curve"))
 	UCurveFloat* JumpscareSecondTimeLineCurve;
+
+
+	//-------- Ui
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UTutorialWidget> TutorialUI;
+	
+	UPROPERTY()
+	UTutorialWidget* TutorialWidget;
 	
 	//-------- Advance need puzzle
 	UPROPERTY(EditAnywhere, Category = "Letters")
