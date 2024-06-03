@@ -89,6 +89,7 @@ void AStatuette::RestoreInitialValues()
 
 void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
 {
+	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	SetActorLocation(pos);
 	SetActorRotation(rot);
 	
