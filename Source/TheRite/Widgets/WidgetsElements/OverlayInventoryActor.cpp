@@ -14,7 +14,7 @@ AOverlayInventoryActor::AOverlayInventoryActor()
 	SceneComponent = CreateDefaultSubobject<USceneComponent>("Scene");
 	
 	ItemMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Mesh");
-	SceneCaptureComponent2D = CreateDefaultSubobject<USceneCaptureComponent2D>("Capture component");
+	SceneCaptureComponent2D = CreateDefaultSubobject<USceneCaptureComponent2D>("Campure component");
 	PointLightComponent = CreateDefaultSubobject<UPointLightComponent>("Point light");
 
 	ItemMesh->SetupAttachment(SceneComponent);
