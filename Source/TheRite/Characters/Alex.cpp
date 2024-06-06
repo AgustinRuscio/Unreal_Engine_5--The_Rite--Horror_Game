@@ -735,10 +735,10 @@ void AAlex::OpenPause()
 {
 	if(bFocusing || bFocus) return;
 	
-	PauseWidget->SetVisibility(ESlateVisibility::Visible);
 	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
+	PauseWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
 void AAlex::OpenInventory()
