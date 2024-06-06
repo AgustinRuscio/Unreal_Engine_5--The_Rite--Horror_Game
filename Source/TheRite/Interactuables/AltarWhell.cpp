@@ -6,6 +6,7 @@
 #include "AltarWhell.h"
 #include "MathUtil.h"
 #include "Statuette.h"
+#include "Kismet/GameplayStatics.h"
 
 AAltarWhell::AAltarWhell()
 {
@@ -42,7 +43,8 @@ void AAltarWhell::Interaction()
 	bCanInteract = false;
 	InteractionRotator = GetActorRotation();
 	StatuateRotator = Statuette->GetActorRotation();
-	
+
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_Rotation, GetActorLocation());
 	MoveTimeLine.PlayFromStart();
 }
 

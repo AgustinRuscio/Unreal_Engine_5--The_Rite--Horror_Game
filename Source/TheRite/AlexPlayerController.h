@@ -113,9 +113,8 @@ private:
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	void SetIsGamepad(const bool bIsGamepad);
 
-
-
 	void OnWindowFocusChanged(bool bIsFocused);
+protected:
 	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")

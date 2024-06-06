@@ -7,6 +7,7 @@
 #include "LevelsGameState.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "EnhancedInput/Public/EnhancedInputComponent.h"
+#include "Framework/Application/SlateApplication.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -21,9 +22,6 @@ AAlexPlayerController::AAlexPlayerController()
 	
 	if(gs)
 		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
-
-	FSlateApplication::Get().OnApplicationActivationStateChanged()
-		.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
 }
 
 AAlexPlayerController::~AAlexPlayerController()
@@ -59,6 +57,9 @@ void AAlexPlayerController::BeginPlay()
 {
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
+	
+	FSlateApplication::Get().OnApplicationActivationStateChanged()
+	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
 	
 	BindActions();
 }
@@ -326,17 +327,11 @@ void AAlexPlayerController::OnWindowFocusChanged(bool bIsFocused)
 {
 	if (bIsFocused)
 	{
-		// Unlimit game FPS
 		GEngine->SetMaxFPS(75);
-
 		OnPause.Broadcast();
 	}
 	else
 	{
-		// Reduce FPS to max 10 while in the background
 		GEngine->SetMaxFPS(10.0f);
-
-		// Pause the game, using your "show pause menu" function
-		// MyHUD->SetPause(true);
 	}
 }

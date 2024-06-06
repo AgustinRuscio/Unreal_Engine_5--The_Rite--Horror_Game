@@ -52,6 +52,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* StaticMesh;
+
+	UPROPERTY(EditAnywhere, Category= "SFX")
+	USoundBase* SFX_Rotation;
 	
 	FTimeline MoveTimeLine;
 
