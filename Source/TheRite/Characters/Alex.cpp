@@ -739,6 +739,7 @@ void AAlex::OpenPause()
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	PauseWidget->OnPauseOpen.Broadcast();
 }
 
 void AAlex::OpenInventory()
