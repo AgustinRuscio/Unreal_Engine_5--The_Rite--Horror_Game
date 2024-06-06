@@ -21,6 +21,9 @@ AAlexPlayerController::AAlexPlayerController()
 	
 	if(gs)
 		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
+
+	FSlateApplication::Get().OnApplicationActivationStateChanged()
+		.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
 }
 
 AAlexPlayerController::~AAlexPlayerController()
@@ -317,4 +320,23 @@ void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
 {
 	bIsUsingGamepad = bIsGamepad;
 	OnKeyPressed.Broadcast(bIsGamepad);
+}
+
+void AAlexPlayerController::OnWindowFocusChanged(bool bIsFocused)
+{
+	if (bIsFocused)
+	{
+		// Unlimit game FPS
+		GEngine->SetMaxFPS(75);
+
+		OnPause.Broadcast();
+	}
+	else
+	{
+		// Reduce FPS to max 10 while in the background
+		GEngine->SetMaxFPS(10.0f);
+
+		// Pause the game, using your "show pause menu" function
+		// MyHUD->SetPause(true);
+	}
 }
