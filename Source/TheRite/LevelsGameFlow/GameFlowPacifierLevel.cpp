@@ -68,7 +68,6 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	
 	for (auto Element : Lights_AllLights)
 	{
-		if(Element->GetLightZone() != HouseZone::UpStarirsCorridor) continue;
 		Element->TurnOff();
 	}
 
