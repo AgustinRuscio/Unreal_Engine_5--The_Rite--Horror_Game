@@ -47,7 +47,12 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 
 void AGameFlowPacifierLevel::EndGame()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Complete")));
+	for (auto Element : Candles_EndGame)
+	{
+		Element->TurnOn();
+	}
+	
+	Door_EndGame->SetLockedState(false);
 }
 
 void AGameFlowPacifierLevel::BindColliderMethods()

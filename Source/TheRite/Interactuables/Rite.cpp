@@ -103,15 +103,15 @@ void ARite::CheckAudio()
 	{
 		switch (LevelType)
 		{
-		case LevelObjectType::Clock:
-			AudioToPlay = AudioClockNotReady;
-			break;
-		case LevelObjectType::Picture:
-			AudioToPlay = AudioClockNotReady;
-			break;
-		case LevelObjectType::Diary:
-			AudioToPlay = AudioClockNotReady;
-			break;
+			case LevelObjectType::Clock:
+				AudioToPlay = AudioClockNotReady;
+				break;
+			case LevelObjectType::Picture:
+				AudioToPlay = AudioClockNotReady;
+				break;
+			case LevelObjectType::Diary:
+				AudioToPlay = AudioClockNotReady;
+				break;
 		}
 	}
 }

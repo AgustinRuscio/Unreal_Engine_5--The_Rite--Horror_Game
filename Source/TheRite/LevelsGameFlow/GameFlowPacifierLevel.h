@@ -7,6 +7,7 @@
 #include "CoreMinimal.h"
 #include "FetusPuzzle.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "GameFlowPacifierLevel.generated.h"
 
 class ARectLight;
@@ -67,14 +68,23 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ARectLight*> EmergencyLights;
 
-	UPROPERTY(EditAnywhere, Category="Flows")
-	AFetusPuzzle* GameFlow_FetusPuzzle;
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<ACandle*> Candles_EndGame;
 
+//-------- Doors
 	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BedRoom;
+
+	UPROPERTY(EditAnywhere, Category="Doors")
+	ADoor* Door_EndGame;
 	
 	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BathRoomRoom;
+
+
+//-------- Flows & Puzzles
+	UPROPERTY(EditAnywhere, Category="Flows")
+	AFetusPuzzle* GameFlow_FetusPuzzle;
 	
 	UPROPERTY(EditAnywhere, Category="Light Switch")
 	ALightSwitch* LightSwitch_TermicalSwitch;
