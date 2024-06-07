@@ -49,6 +49,9 @@ void AClockLevelGameFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetVisibility(false);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
+
+	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(false);
+	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	SettutorialUI();
 	
@@ -108,6 +111,9 @@ void AClockLevelGameFlow::BindEvents()
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginKnock);
 	CloseGaregeDoorTriggerVolumen->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor);
 
+	TriggerVolume_EndGamePass->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnTriggerEndGamePassOverlap);
+
+	
 	BigClock->OnClockPuzzleCompleted.AddDynamic(this, &AClockLevelGameFlow::EndGame);
 }
 
@@ -479,4 +485,15 @@ void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor,
 	GarageDoor->SetLockedState(true);
 	GarageDoor->HardClosing();
 	CloseGaregeDoorTriggerVolumen->Destroy();
+}
+
+void AClockLevelGameFlow::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
+	bEndGamePassDone = true;
+	
+	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(true);
+	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+
+	TriggerVolume_EndGamePass->Destroy();
 }

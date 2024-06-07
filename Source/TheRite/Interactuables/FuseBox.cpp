@@ -9,6 +9,7 @@
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Characters/Alex.h"
 
 AFuseBox::AFuseBox()
 {
@@ -70,20 +71,25 @@ void AFuseBox::Interaction()
 
 	
 	if(FusiblesQuantity == 1)
-	{
 		FirstFusible->SetVisibility(true);
-	}
 	else
-	{
 		SecondsFusible->SetVisibility(true);
-	}
 
+	
+	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	player->RemoveFromInventory(FusesNames[0], FusesId[0]);
+
+	FusesNames.RemoveAt(0);
+	FusesId.RemoveAt(0);
 	
 	LocateFusibleTimeLine.PlayFromStart();
 }
 
-void AFuseBox::GrabFusible()
+void AFuseBox::GrabFusible(FString FuseName, PickableItemsID FuseId)
 {
+	FusesNames.Add(FuseName);
+	FusesId.Add(FuseId);
+	
 	if(!bHastFusibleToPut)
 		bHastFusibleToPut = true;
 	else

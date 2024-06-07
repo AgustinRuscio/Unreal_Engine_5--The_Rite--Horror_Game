@@ -8,6 +8,7 @@
 #include "CoreMinimal.h"
 #include "Interactor.h"
 #include "Components/TimelineComponent.h"
+#include "EnumsContainer.generated.h"
 #include "GameFramework/Actor.h"
 #include "FuseBox.generated.h"
 
@@ -30,7 +31,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
-	void GrabFusible();
+	void GrabFusible(FString FuseName, PickableItemsID FuseId);
 	
 private:
 //--------------------- TimeLine methods
@@ -51,6 +52,10 @@ private:
 	int MaxFusiblesQuantity = 0;
 	int FusiblesQuantity = 0;
 
+	TArray<FString> FusesNames;
+	TArray<PickableItemsID> FusesId;
+	
+	
 //-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* FusibleBoxMesh;

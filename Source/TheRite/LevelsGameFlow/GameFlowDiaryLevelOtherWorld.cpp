@@ -42,6 +42,7 @@ void AGameFlowDiaryLevelOtherWorld::BindTriggers()
 	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
 	TriggerVolume_KitchenEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap);
 	TriggerVolume_DinningEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap);
+	TriggerVolume_EndGamePass->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap);
 }
 
 void AGameFlowDiaryLevelOtherWorld::BindMethods()
@@ -240,4 +241,14 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 	}
 
 	TriggerVolume_DinningEvent->Destroy();
+}
+
+void AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
+	bEndGamePassDone = true;
+	
+	Doors_EndGame->HardClosing();
+
+	TriggerVolume_EndGamePass->Destroy();
 }

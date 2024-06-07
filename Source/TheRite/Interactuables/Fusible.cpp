@@ -18,7 +18,7 @@ void AFusible::Interaction()
 	if(!bCanInteract) return;
 
 	OnInteractionTrigger.Broadcast(this);
-	FuseBox->GrabFusible();
+	FuseBox->GrabFusible(GetItemName(), GetItemID());
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	
 	Destroy();

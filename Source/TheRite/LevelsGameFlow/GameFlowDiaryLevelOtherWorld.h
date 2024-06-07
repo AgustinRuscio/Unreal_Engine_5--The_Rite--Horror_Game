@@ -53,6 +53,9 @@ private:
 
 	UFUNCTION()
 	void OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
 public:	
 
@@ -61,6 +64,7 @@ private:
 	bool bLivingRoomEventDone = false;
 	bool bKitchenEventDone = false;
 	bool bDinningRoomEventDone = false;
+	bool bEndGamePassDone = false;
 	
 //-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")
@@ -71,6 +75,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_DinningEvent;
+	
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	ATriggerVolume* TriggerVolume_EndGamePass;
 	
 //-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audios")

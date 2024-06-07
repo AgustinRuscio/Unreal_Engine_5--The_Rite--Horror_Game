@@ -134,6 +134,9 @@ private:
 	
 	UFUNCTION()
 	void OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
 public:
 	FOnPartOfClockGain OnPartOfClockGain;
@@ -145,6 +148,7 @@ private:
 	bool bLibraryPuzzleStarted;
 	bool bLibraryJumpScaredReady;
 	bool IShouldGetOutOfHere;
+	bool bEndGamePassDone = false;
 	
 	int8 DoOnceLibrary = 0;
 	int8 DoOnceJumpscare = 0;
@@ -183,7 +187,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
 	ATriggerVolume* LibraryTriggerVolumenJumpScaredReady;
-
+	
+	UPROPERTY(EditAnywhere, Category= "Colliders")
+	ATriggerVolume* TriggerVolume_EndGamePass;
+	
 	UPROPERTY(EditAnywhere, Category = "Walls")
 	TArray<AStaticMeshActor*> Walls_EndGameWall;
 	
@@ -274,6 +281,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Actors for event")
 	TArray<AActor*> ActorTobeDestroyOnEndgame;
+
+	UPROPERTY(EditAnywhere, Category = "Actors for event")
+	AStaticMeshActor* Actor_EndGamePassWall;
 	
 	//-------- TimeLines
 	FTimerHandle JumpscareHandleFirst;
