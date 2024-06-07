@@ -92,6 +92,7 @@ void AFetusPuzzle::ResetPuzzle()
 {
 	LightsOut();
 
+	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
 	
 	bPuzzleActivated = false;
@@ -121,6 +122,8 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 {
 	LightsOut();
 
+	OffsetLightsOn = SFX_CorrectInteraction->GetDuration();
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_CorrectInteraction);
 
 	TotalPuzzleStps++;

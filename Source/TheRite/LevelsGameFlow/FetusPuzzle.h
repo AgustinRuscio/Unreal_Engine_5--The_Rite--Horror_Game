@@ -57,15 +57,13 @@ public:
 private:
 	bool bPuzzleActivated;
 	bool bFirstInteraction = true;
-
-	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
-	float OffsetLightsOn;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
 	int MaxFetusPerRound;
 	
 	int TotalPuzzleStps = 0;
 	
+	float OffsetLightsOn;
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
 	USoundBase* SFX_CorrectInteraction;
