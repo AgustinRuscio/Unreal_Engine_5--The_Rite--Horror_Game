@@ -10,6 +10,7 @@
 #include "TheRite/Interactuables/Ladder.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
 
@@ -81,5 +82,8 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 		Element->GetLightComponent()->SetIntensity(EmergencyLightsIntensity);
 	}
 
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.15f, 3, true, true, true, true);
+	
 	TriggerVolume_LightsOut->Destroy();
 }

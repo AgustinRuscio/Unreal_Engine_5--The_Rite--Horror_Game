@@ -71,7 +71,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void SetMouseSensitivity(float newSensitivity);
-	
+
+	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 private:
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	bool GetIsGamepad() const;
@@ -114,7 +115,6 @@ private:
 	void SetIsGamepad(const bool bIsGamepad);
 
 	void OnWindowFocusChanged(bool bIsFocused);
-protected:
 	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")

@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
@@ -109,6 +110,9 @@ void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	if(!bActionReady) return;
 	if(DoOnce > 0) return;
 
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(1, 3, true, true, true, true);
+	
 	++DoOnce;
 	OnStartEvent.Broadcast();
 

@@ -80,8 +80,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BathRoomRoom;
-
-
+	
 //-------- Flows & Puzzles
 	UPROPERTY(EditAnywhere, Category="Flows")
 	AFetusPuzzle* GameFlow_FetusPuzzle;

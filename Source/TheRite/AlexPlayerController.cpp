@@ -151,6 +151,12 @@ void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
 	MouseSensitivity = newSensitivity;
 }
 
+void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool RLarge,
+	bool RSmall)
+{
+	PlayDynamicForceFeedback(intensity, duration, LLarge, LSmall, RLarge, RSmall,  EDynamicForceFeedbackAction::Start);
+}
+
 bool AAlexPlayerController::GetIsGamepad() const
 {
 	return bIsUsingGamepad;

@@ -220,6 +220,9 @@ void AClockLevelGameFlow::LockDoorsEndGame()
 	
 	LibraryDoor->HardClosing();
 	ArtRoomDoor->HardClosing();
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.85, .2, true, true, true, true);
 	
 	Trigger_LockEndGameDoors->Destroy();
 }
@@ -343,7 +346,6 @@ void AClockLevelGameFlow::BindTimeLineMethods()
 
 void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 {
-	
 	LibraryTriggerVolumenFirst->Destroy();
 	LibraryTriggerVolumenJumpScared->Destroy();
 
@@ -384,6 +386,9 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 		RecordPlayer->PlaySong();
 
 		Player->ForceTalk(SFX_Alex_WhatwasThat);
+		
+		auto controller = Cast<AAlexPlayerController>(Player->GetController());
+		controller->PlayRumbleFeedBack(.1f, 5, false, true, false, true);
 	}
 }
 
@@ -414,6 +419,9 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 		{
 			LibraryTiffany->Destroy();
 			
+			auto controller = Cast<AAlexPlayerController>(Player->GetController());
+			controller->PlayRumbleFeedBack(.5f, .3, true, true, true, true);
+			
 			if(!GetWorldTimerManager().IsTimerActive(JumpscareHandleFirst))
 			{
 				FTimerDelegate timerDelegate;
@@ -430,7 +438,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 						Player->SetPlayerOptions(false, true, true);
 						OnJumpscareFinished();
 						LibraryTriggerVolumenJumpScaredReady->Destroy();
-						//IShouldGetOutOfHere = true;
 				});
 		
 				GetWorldTimerManager().SetTimer(JumpscareHandleFirst,timerDelegate, 3.f, false);
@@ -482,6 +489,9 @@ void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor,
 {
 	if(!Cast<AAlex>(OtherActor)) return;
 
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.2f, .3, true, true, true, true);
+	
 	GarageDoor->SetLockedState(true);
 	GarageDoor->HardClosing();
 	CloseGaregeDoorTriggerVolumen->Destroy();
@@ -491,6 +501,9 @@ void AClockLevelGameFlow::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, A
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
 	bEndGamePassDone = true;
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
 	
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(true);
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);

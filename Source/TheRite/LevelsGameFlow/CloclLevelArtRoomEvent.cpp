@@ -17,6 +17,7 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 
 ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()
 {
@@ -56,6 +57,9 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 
 	originalPostProcessValues = PostProcess->GetProperties();
 
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.75f, 4, true, true, true, true);
+	
 	PostProcess->AddOrUpdateBlendable(PostProcessMaterial1);
 	
 	Alex->CameraTargeting(StandTiffany->GetActorLocation());

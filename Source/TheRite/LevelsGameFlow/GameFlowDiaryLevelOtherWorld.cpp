@@ -13,6 +13,7 @@
 #include "Animation/SkeletalMeshActor.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Characters/Alex.h"
 
@@ -128,6 +129,10 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 		Element->TurnOn();
 	}
 
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.75f, 1, true, true, true, true);
+	
+	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent0))
 	{
 		FTimerDelegate OnTimerCompleted;
@@ -187,6 +192,10 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 	}
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNearEvent);
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.4f, .75, false, true, false, true);
+	
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_KitchenEvent))
 	{
@@ -211,6 +220,9 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 	if(!Cast<AAlex>(OtherActor) || !bEventReadyDinningRoom || bDinningRoomEventDone) return;
 
 	bDinningRoomEventDone = true;
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.7f, 1, true, false, true, false);
 	
 	for (auto Element : Lights_DinningEventLights)
 	{
