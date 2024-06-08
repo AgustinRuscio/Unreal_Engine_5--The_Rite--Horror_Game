@@ -41,18 +41,26 @@ private:
 	
 	UFUNCTION()
 	void OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
 public:
 	
 private:
 	bool bLightsOutEventDone;
 
+	bool bEndGamePassDone = false;
+	
 	UPROPERTY(EditAnywhere, Category= "Settiings")
 	float EmergencyLightsIntensity = 25.f;
 	
 //-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_LightsOut;
+	
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	ATriggerVolume* TriggerVolume_EndGmaePass;
 
 //-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audios")
@@ -60,6 +68,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_PowerDowns;
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_EndGame;
 
 //-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")

@@ -53,12 +53,14 @@ void AGameFlowPacifierLevel::EndGame()
 		Element->TurnOn();
 	}
 	
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 	Door_EndGame->SetLockedState(false);
 }
 
 void AGameFlowPacifierLevel::BindColliderMethods()
 {
 	TriggerVolume_LightsOut->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap);
+	TriggerVolume_EndGmaePass->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap);
 }
 
 void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
@@ -86,4 +88,17 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	controller->PlayRumbleFeedBack(.15f, 3, true, true, true, true);
 	
 	TriggerVolume_LightsOut->Destroy();
+}
+
+void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
+	bEndGamePassDone = true;
+	
+	Door_EndGame->HardClosing();
+	
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
+	
+	TriggerVolume_EndGmaePass->Destroy();
 }

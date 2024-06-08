@@ -259,6 +259,9 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap(AActor* Overlapp
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
 	bEndGamePassDone = true;
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
 	
 	Doors_EndGame->HardClosing();
 
