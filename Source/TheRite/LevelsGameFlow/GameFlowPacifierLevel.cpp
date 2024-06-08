@@ -76,6 +76,7 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	
 	for (auto Element : Lights_AllLights)
 	{
+		if(Element->GetLightZone() == HouseZone::Attic) continue;
 		Element->TurnOff();
 	}
 
