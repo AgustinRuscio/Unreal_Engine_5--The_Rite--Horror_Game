@@ -44,6 +44,12 @@ void ALightSwitch::Interaction()
 	bAnimReady = false;
 
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
+
+	if(bEspecial)
+	{
+		SwitchTimeLine.PlayFromStart();
+		return;
+	}
 	
 	if(bFlipFlop)
 	{
@@ -67,6 +73,16 @@ void ALightSwitch::Interaction()
 	}
 }
 
+void ALightSwitch::SetSpecialReady()
+{
+	bOneUse = true;
+	bEspecial = false;
+	
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("SwitchTimeLineTick"));
+	SwitchTimeLine.AddInterpFloat(InvertedCurve, CameraTargetTick);
+}
+
 //---------------- TimeLine Methods
 void ALightSwitch::BindTimeLine()
 {
@@ -83,7 +99,10 @@ void ALightSwitch::SwitchTimeLineTick(float time)
 {
 	float lerpValue;
 
-	lerpValue =  bFlipFlop ? FMath::Lerp(45, -45, time) : FMath::Lerp(-45, 45, time);
+	if(bEspecial)
+		lerpValue =  FMath::Lerp(45, -45, time);
+	else
+		lerpValue =  bFlipFlop ? FMath::Lerp(45, -45, time) : FMath::Lerp(-45, 45, time);
 	
 	SwitchModel->SetRelativeRotation(FRotator(0, 0, lerpValue));
 }

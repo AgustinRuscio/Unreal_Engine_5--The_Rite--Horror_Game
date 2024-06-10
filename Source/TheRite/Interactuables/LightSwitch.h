@@ -26,6 +26,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
+	virtual void SetSpecialReady();
+
 private:
 //---------------- TimeLine Methods
 	void BindTimeLine();
@@ -39,6 +41,10 @@ private:
 private:	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bOneUse = false;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bEspecial = false;
+	
 	bool bOneUseReady = false;
 	
 	bool bFlipFlop = false;
@@ -59,4 +65,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Time Line")
 	UCurveFloat* EmptyCurve;
+	
+	UPROPERTY(EditAnywhere, Category = "Time Line")
+	UCurveFloat* InvertedCurve;
 };

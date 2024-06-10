@@ -5,6 +5,7 @@
 
 #include "Ladder.h"
 
+#include "FrameTypes.h"
 #include "LevelSequenceActor.h"
 #include "Components/BoxComponent.h"
 #include "LevelSequencePlayer.h"
@@ -27,9 +28,6 @@ ALadder::ALadder()
 	InitialPosition = CreateDefaultSubobject<UArrowComponent>("Initial Location Arrow");
 	EndPosition = CreateDefaultSubobject<UArrowComponent>("End Location Arrow");
 	
-	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
-	
-	Camera->SetupAttachment(LadderMesh);
 	InitialPosition->SetupAttachment(LadderMesh);
 	EndPosition->SetupAttachment(LadderMesh);
 	BoxCollider->SetupAttachment(LadderMesh);
@@ -38,11 +36,22 @@ ALadder::ALadder()
 void ALadder::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("OnReLocationPlayerTimeLineTick"));
+	ReLocatePlayerTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("OnReLocationPlayerTimeLineFinished"));
+	ReLocatePlayerTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
 void ALadder::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
 }
 
 void ALadder::Interaction()
@@ -53,28 +62,22 @@ void ALadder::Interaction()
 	
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->DisableInput(controller);
-	
-	FMovieSceneSequencePlaybackSettings PlaybackSettings;
-	PlaybackSettings.PlayRate = 1.0f; 
-	PlaybackSettings.bAutoPlay = true;
-	PlaybackSettings.bRandomStartTime = false;
-	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
 
-	//ULevelSequencePlayer* sequencePlayer;
-	
 	if(bFlipFlop)
 	{
-		NewLocation = InitialPosition->GetComponentTransform();
-		ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), StairsUpCinematic, PlaybackSettings,TempLevelSequenceActor);
+		NewLocationForTransport = InitialPosition->GetComponentTransform();
+		NewLocationForLooking = EndPosition->GetComponentTransform();
 	}
 	else
 	{
-		NewLocation = EndPosition->GetComponentTransform();
-		ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), StairsDownCinematic, PlaybackSettings,TempLevelSequenceActor);
+		NewLocationForTransport = EndPosition->GetComponentTransform();
+		NewLocationForLooking = InitialPosition->GetComponentTransform();
 	}
-
-	TempLevelSequenceActor->GetSequencePlayer()->OnFinished.AddDynamic(this, &ALadder::OnCinematicFinished);
-	TempLevelSequenceActor->GetSequencePlayer()->Play();
+	
+	PlayerTransform = player->GetTransform();
+	player->ForceLighterOff();
+	
+	ReLocatePlayerTimeLine.PlayFromStart();
 }
 
 void ALadder::EnableLadder()
@@ -103,13 +106,37 @@ void ALadder::OnCinematicFinished()
 {
 	bCanInteract = true;
 	
-	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	
-	player->SetActorTransform(NewLocation);
-	player->MakeCameraView(NewLocation.GetRotation().Rotator());
+	player->SetActorTransform(NewLocationForTransport);
+	player->MakeCameraView(NewLocationForTransport.GetRotation().Rotator());
 
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
 	
 	bFlipFlop = !bFlipFlop;
+}
+
+void ALadder::OnReLocationPlayerTimeLineTick(float delta)
+{
+	auto LerpedLocation = FMath::Lerp(PlayerTransform.GetLocation(), NewLocationForLooking.GetLocation(), delta);
+	player->SetActorLocation(FVector(LerpedLocation.X,LerpedLocation.Y, PlayerTransform.GetLocation().Z));
+
+	auto LerpedRotation = FMath::Lerp(PlayerTransform.GetRotation().Rotator(), NewLocationForLooking.GetRotation().Rotator(), delta);
+	player->MakeCameraView(LerpedRotation);
+}
+
+void ALadder::OnReLocationPlayerTimeLineFinished()
+{
+	FMovieSceneSequencePlaybackSettings PlaybackSettings;
+	PlaybackSettings.PlayRate = 2.0f; 
+	PlaybackSettings.bAutoPlay = true;
+	PlaybackSettings.bRandomStartTime = false;
+	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
+	
+	if(bFlipFlop)
+		ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), StairsUpCinematic, PlaybackSettings,TempLevelSequenceActor);
+	else
+		ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), StairsDownCinematic, PlaybackSettings,TempLevelSequenceActor);
+	
+	TempLevelSequenceActor->GetSequencePlayer()->OnFinished.AddDynamic(this, &ALadder::OnCinematicFinished);
+	TempLevelSequenceActor->GetSequencePlayer()->Play();
 }

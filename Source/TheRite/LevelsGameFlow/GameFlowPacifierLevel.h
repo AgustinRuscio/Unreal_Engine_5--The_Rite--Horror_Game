@@ -5,9 +5,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
-#include "FetusPuzzle.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/Candle.h"
 #include "GameFlowPacifierLevel.generated.h"
 
 class ARectLight;
@@ -16,7 +14,11 @@ class ALightsTheRite;
 class ALightSwitch;
 class ALadder;
 class ADoor;
+class AAlex;
+class ABasePlayerSettingsSetter;
+class ACandle;
 class AEmergencyLights;
+class AFetusPuzzle;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -46,6 +48,12 @@ private:
 	UFUNCTION()
 	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
+	UFUNCTION()
+	void OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerLucyRoomOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
+	
 public:
 	
 private:
@@ -59,6 +67,9 @@ private:
 //-------- Colliders
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_LightsOut;
+	
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	ATriggerVolume* TriggerVolume_LucyRoom;
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_EndGmaePass;
@@ -105,4 +116,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Light")
 	TArray<AEmergencyLights*> EmergencyLights;
+
+	AAlex* Player;
+	
+	UPROPERTY(EditAnywhere, Category="Setter")
+	ABasePlayerSettingsSetter* PlayerSettingsSetter;
 };

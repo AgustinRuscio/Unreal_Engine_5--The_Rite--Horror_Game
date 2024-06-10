@@ -20,3 +20,15 @@ void ABasePlayerSettingsSetter::BeginPlay()
 
 	Player->SetPlayerOptions(bWillRun, bWilUseLighter, bWilShowLighterReminder);
 }
+
+void ABasePlayerSettingsSetter::SetUseLighter(bool WillUseLighter)
+{
+	bWilUseLighter = WillUseLighter;
+	Player->SetPlayerOptions(bWillRun, bWilUseLighter, bWilShowLighterReminder);
+}
+
+void ABasePlayerSettingsSetter::SetCanRun(bool WillRun)
+{
+	bWillRun = WillRun;
+	Player->SetPlayerOptions(bWillRun, bWilUseLighter, bWilShowLighterReminder);
+}

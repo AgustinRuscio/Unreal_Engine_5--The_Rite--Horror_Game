@@ -8,12 +8,14 @@
 #include "CoreMinimal.h"
 #include "Interactor.h"
 #include "GameFramework/Actor.h"
+#include "Components/TimelineComponent.h"
 #include "Ladder.generated.h"
 
 class UArrowComponent;
 class ULevelSequence;
 class UCameraComponent;
 class UBoxComponent;
+class AAlex;
 
 UCLASS()
 class THERITE_API ALadder : public AInteractor
@@ -32,13 +34,20 @@ public:
 private:
 	UFUNCTION()
 	void OnCinematicFinished();
+
+	UFUNCTION()
+	void OnReLocationPlayerTimeLineTick(float delta);
+	UFUNCTION()
+	void OnReLocationPlayerTimeLineFinished();
 	
 public:
 
 private:
 	bool bFlipFlop = true;
 	
-	FTransform NewLocation;
+	FTransform NewLocationForTransport;
+	FTransform NewLocationForLooking;
+	FTransform PlayerTransform;
 	
 //-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
@@ -49,6 +58,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = true))
 	UBoxComponent* BoxCollider;
+	
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;
@@ -62,6 +72,9 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* StairsDownCinematic;
 
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	UCameraComponent* Camera;
+	FTimeline ReLocatePlayerTimeLine;
+	UPROPERTY(EditAnywhere, Category= "Sequence")
+	UCurveFloat* CurveFloat;
+
+	AAlex* player;
 };

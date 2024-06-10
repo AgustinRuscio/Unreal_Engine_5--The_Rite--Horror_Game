@@ -15,6 +15,10 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
 
+#include "BasePlayerSettingsSetter.h"
+#include "TheRite/AmbientObjects/Candle.h"
+#include "FetusPuzzle.h"
+
 AGameFlowPacifierLevel::AGameFlowPacifierLevel()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,6 +31,8 @@ void AGameFlowPacifierLevel::BeginPlay()
 	LightSwitch_TermicalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
 	AtticLader->DisableLadder();
+	
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 	
 	BindColliderMethods();
 }
@@ -63,6 +69,10 @@ void AGameFlowPacifierLevel::BindColliderMethods()
 {
 	TriggerVolume_LightsOut->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap);
 	TriggerVolume_EndGmaePass->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap);
+
+	
+	TriggerVolume_LucyRoom->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap);
+	TriggerVolume_LucyRoom->OnActorEndOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlapEnd);
 }
 
 void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
@@ -103,4 +113,19 @@ void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor
 	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
 	
 	TriggerVolume_EndGmaePass->Destroy();
+}
+
+void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor)) return;
+	
+	PlayerSettingsSetter->SetUseLighter(false);
+	Player->ForceLighterOff();
+}
+
+void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if(!Cast<AAlex>(OtherActor)) return;
+	
+	PlayerSettingsSetter->SetUseLighter(true);
 }

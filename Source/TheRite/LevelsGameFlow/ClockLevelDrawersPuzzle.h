@@ -29,7 +29,7 @@ private:
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Construction")
-	ASpectralWrittings* KeySpectralWrittings;
+	TArray<ASpectralWrittings*> KeySpectralWrittings;
 
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	TArray<ASpectralWrittings*> OtherSpectralWrittings;	
