@@ -7,6 +7,7 @@
 #include "Engine/RectLight.h"
 #include "TheRite/Interactuables/LightSwitch.h"
 #include "Engine/TriggerVolume.h"
+#include "TheRite/AmbientObjects/EmergencyLights.h"
 #include "TheRite/Interactuables/Ladder.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Kismet/GameplayStatics.h"
@@ -39,9 +40,10 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 {
 	for (auto Element : EmergencyLights)
 	{
-		Element->GetLightComponent()->SetIntensity(0);
+		Element->TurnOff();
 	}
-	
+
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_PowerRestored);
 	Door_BedRoom->SetLockedState(false);
 	Door_BedRoom->Open();
 }
@@ -76,14 +78,13 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	
 	for (auto Element : Lights_AllLights)
 	{
-		if(Element->GetLightZone() == HouseZone::Attic) continue;
 		Element->TurnOff();
 	}
 
-	for (auto Element : EmergencyLights)
-	{
-		Element->GetLightComponent()->SetIntensity(EmergencyLightsIntensity);
-	}
+	 for (auto Element : EmergencyLights)
+	 {
+	 	Element->TurnOn();
+	 }
 
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.15f, 3, true, true, true, true);

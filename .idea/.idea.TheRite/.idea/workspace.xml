@@ -8,88 +8,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Cup.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Fork.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Guiso.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Knifew.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Paper.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Plate.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Plate2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/Spoon.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/AtticFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/BathroomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/DinningRoomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/KitchenFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/LCorridorFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/LivingRoomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/PreKitchenFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/ServiceRoomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/UpStairsBedRoomBathRoomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/UpStairsBedRoomFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/UpStairsCorridorFloor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/BathRoomMirror.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/BathRoomMirror2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CompleteFurniture.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses3.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses4.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses5.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfGasses6.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfNeedles.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/CoupleOfToiletPaper.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/KitchenStaff.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/KitchenStaff2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/KitchenStaff3.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/Knifes.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PairOfCups.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PairOfToiletPaper.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBooks5.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBottles8.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfPlates.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfVHS1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfVHS2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfVHS3.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfVHS4.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/AtticRoof.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/AtticWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/BathRoomWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/BedRoomPersonalBathRoomWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/NewLCorridorWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/ServiceRoomWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/StairsWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/UPStairsBathRoomWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/UpStairsCorridorWalls.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/UpsStairsBedRoomWalls.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_EmergencyLights.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_LightsRestored.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Kettle_and_Coffee_Maker_CON_UVS_polySurface17781.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Kettle_and_Coffee_Maker_CON_UVS_polySurface17781.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Oven.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/Oven.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube301.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube301.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube302.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube302.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube303.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCube303.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder55.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder55.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder57.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder57.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder58.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder58.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder59.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder59.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder60.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_1/things_for_the_kitchen_pCylinder60.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Pan_Cooper.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Pan_Cooper.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Spatula.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Spatula.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Spatula_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_2/Spatula_2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Lid_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Lid_B.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Pot_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Pot_A.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Pot_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/Kitchen_Pot_B.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/things_for_the_kitchen4_Wall_Hooks_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/02Kitchen/ThingsKitchen_4/things_for_the_kitchen4_Wall_Hooks_B.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/Bottle2Bathroom.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/Bottle2Bathroom.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/BottleBathroom.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/BottleBathroom.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/Destapador.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/Destapador.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/TachoBasura.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/ThingsforBATH_1/TachoBasura.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bathroom_curtain.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/04_BathRoom/bathroom_curtain.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Botella/BotellasDeVino/botellaVino3/Botella3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Botella/BotellasDeVino/botellaVino3/Botella3.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/CuadroEnmarcadoFeo/CUADRO_ENMARCADO_Feo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cuadro/CuadroEnmarcadoFeo/CUADRO_ENMARCADO_Feo.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Drugs/Pills1/Drugs.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Drugs/Pills1/Drugs.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Lights/Lampara/lampara.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Lights/Lampara/lampara.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBottles3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Objects/PillOfBottles3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/EmergencyLight/M_emergency_light.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/EmergencyLight/M_emergency_light.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/EmergencyLight/M_emergency_light_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/EmergencyLight/M_emergency_light_Inst.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/M_LucyClue.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/M_LucyClue.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/M_LucyClue_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/M_LucyClue_Inst.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Character/New/BP_AlexPlus.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary2.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,15 +33,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="cidr-memory-view://6" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/CloclLevelArtRoomEvent.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -553,6 +482,15 @@
       <workItem from="1717736270441" duration="51000" />
       <workItem from="1717736783594" duration="769000" />
       <workItem from="1717737710885" duration="2999000" />
+      <workItem from="1717984185184" duration="2267000" />
+      <workItem from="1717991126940" duration="647000" />
+      <workItem from="1718021535620" duration="343000" />
+      <workItem from="1718021938641" duration="327000" />
+      <workItem from="1718022356096" duration="175000" />
+      <workItem from="1718022846591" duration="428000" />
+      <workItem from="1718023359259" duration="214000" />
+      <workItem from="1718023653884" duration="108000" />
+      <workItem from="1718023825935" duration="7393000" />
     </task>
     <servers />
   </component>

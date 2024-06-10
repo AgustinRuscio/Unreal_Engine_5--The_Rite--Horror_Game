@@ -16,6 +16,7 @@ class ALightsTheRite;
 class ALightSwitch;
 class ALadder;
 class ADoor;
+class AEmergencyLights;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -68,15 +69,16 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_PowerDowns;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_PowerRestored;
+	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_EndGame;
 
 //-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ALightsTheRite*> Lights_AllLights;
-
-	UPROPERTY(EditAnywhere, Category="Lights")
-	TArray<ARectLight*> EmergencyLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ACandle*> Candles_EndGame;
@@ -100,4 +102,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Objects")
 	ALadder* AtticLader;
+	
+	UPROPERTY(EditAnywhere, Category="Light")
+	TArray<AEmergencyLights*> EmergencyLights;
 };
