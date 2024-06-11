@@ -17,10 +17,10 @@ ADoorSlapper::ADoorSlapper()
 void ADoorSlapper::BeginPlay()
 {
 	Super::BeginPlay();
-	ClosingTrigger->OnComponentBeginOverlap.AddDynamic(this, &ADoorSlapper::CloseGarageDoor);
+	ClosingTrigger->OnComponentBeginOverlap.AddDynamic(this, &ADoorSlapper::SlapDoor);
 }
 
-void ADoorSlapper::CloseGarageDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+void ADoorSlapper::SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if(!Cast<AAlex>(OtherActor)) return;

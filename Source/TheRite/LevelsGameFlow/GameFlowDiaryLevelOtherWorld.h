@@ -6,6 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "GameFlowDiaryLevelOtherWorld.generated.h"
@@ -118,6 +119,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Meshes")
 	TArray<ASkeletalMeshActor*> Skeletals_DinningRoomEvet;
+
+	UPROPERTY(EditAnywhere, Category= "Triggers")
+	TArray<AStaticMeshActor*> EndGameWall;
 	
 //-------- Flows
 	UPROPERTY(EditAnywhere, Category= "Settings")

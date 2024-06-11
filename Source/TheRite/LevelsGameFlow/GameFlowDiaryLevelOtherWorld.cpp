@@ -55,6 +55,13 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 
+	for (auto Element : EndGameWall)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(false);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	}
+
+	
 	for (auto Element : Skeletals_DinningRoomEvet)
 	{
 		Element->GetSkeletalMeshComponent()->SetVisibility(false);
@@ -64,6 +71,7 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 	{
 		Element->GetLightComponent()->SetIntensity(0);
 	}
+	
 	InteractorEventDinningRoom->OnInteractionTrigger.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab);
 }
 
@@ -81,6 +89,12 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 	for (auto Element : Candles_EndGame)
 	{
 		Element->TurnOn();
+	}
+
+	for (auto Element : EndGameWall)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	}
 
 	Doors_BathRoom->SetLockedState(true);

@@ -118,7 +118,6 @@ void AGameFlowPacifierLevel::EndGame()
 	}
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
-	Door_EndGame->SetLockedState(false);
 }
 
 void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
@@ -270,8 +269,6 @@ void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
 	bEndGamePassDone = true;
-	
-	Door_EndGame->HardClosing();
 	
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);

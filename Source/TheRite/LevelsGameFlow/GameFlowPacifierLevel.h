@@ -173,9 +173,6 @@ private:
 	ADoor* Door_BedRoom;
 
 	UPROPERTY(EditAnywhere, Category="Doors")
-	ADoor* Door_EndGame;
-	
-	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BathRoomRoom;
 	
 //-------- Flows & Puzzles
