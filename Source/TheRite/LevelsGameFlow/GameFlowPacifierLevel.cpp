@@ -218,6 +218,8 @@ void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* Overlapp
 
 		GetWorld()->GetTimerManager().SetTimer(Timer_FirstStairsEvent, FirstTimerDelegate,2, false);
 	}
+	
+	TriggerVolume_TiffanyStairsEvent->Destroy();
 }
 
 void AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)
@@ -248,6 +250,8 @@ void AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap(AActor* Overl
 
 		GetWorld()->GetTimerManager().SetTimer(Timer_BedRoomEvent, TimerDelegate,5, false);
 	}
+
+	TriggerVolume_TiffanyBedRoom->Destroy();
 }
 
 void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)
