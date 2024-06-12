@@ -82,6 +82,7 @@ public:
 	void SetCameraStun(bool stun);
 	
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
+	void ForceHolding(bool newHolding);
 	
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);

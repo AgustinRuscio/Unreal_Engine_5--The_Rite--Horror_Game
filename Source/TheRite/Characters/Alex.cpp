@@ -303,6 +303,11 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 	}
 }
 
+void AAlex::ForceHolding(bool newHolding)
+{
+	bHoldingInteractBTN = newHolding;
+}
+
 //----------------- View Methods
 void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation)
 {

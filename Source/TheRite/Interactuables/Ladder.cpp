@@ -112,6 +112,7 @@ void ALadder::OnCinematicFinished()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
 	
+	player->ForceHolding(false);
 	bFlipFlop = !bFlipFlop;
 }
 
