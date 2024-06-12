@@ -1,4 +1,11 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "MinutesLetter.h"
+
+#include "Kismet/GameplayStatics.h"
 
 AMinutesLetter::AMinutesLetter()
 {
@@ -10,7 +17,9 @@ AMinutesLetter::AMinutesLetter()
 
 void AMinutesLetter::Interaction()
 {
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	OnAction.Broadcast();
+	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }

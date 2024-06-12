@@ -1,9 +1,12 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "ChangingdWidget.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
 #include "TutorialWidget.generated.h"
 
 
@@ -12,5 +15,4 @@ class THERITE_API UTutorialWidget : public UChangingdWidget
 {
 	GENERATED_BODY()
 
-public:
 };

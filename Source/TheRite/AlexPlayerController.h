@@ -1,9 +1,13 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "GameFramework/PlayerInput.h"
-#include "Components/WidgetInteractionComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "AlexPlayerController.generated.h"
 
@@ -20,8 +24,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHoldingBTN, bool, IsHolding);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveCamera, FVector2D, input);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenHint);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCloseHint);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFocusBack);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPaused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventory);
@@ -30,49 +33,56 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNextInventoryItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPrevInventoryItem);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckInputMode, bool,  isGamepad);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckKeyInputMode, bool,  isGamepad);
+
+
+class UInputMappingContext;
+class UInputAction;
+class ALevelsGameState;
+class UWidgetInteractionComponent;
 
 UCLASS()
 class THERITE_API AAlexPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	AAlexPlayerController();
+	~AAlexPlayerController();
+
+//---------------- Getter Methods
+	bool GetIsUsingGamepad() const;
+	
+	UFUNCTION(BlueprintCallable)
+	float GetMouseSensitivity() const;
+	
+	virtual void BeginPlay() override;
+	
+//---------------- Actions Methods
+	void EnableInput(APlayerController* PlayerController) override;
+	void DisableInput(APlayerController* PlayerController) override;
+	
+	void SetNormalInput();
+	void SetPauseGame(bool PauseState);
+	void SetDoorMode(bool newMode);
+	void SetUIOnly(bool uiMode);
+	void SetEventInput();
+	void SetFocusInput();
+	
+	UFUNCTION(BlueprintCallable)
+	void SetMouseSensitivity(float newSensitivity);
+
+	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 private:
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingCOntext;
+	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	bool GetIsGamepad() const;
+
+//---------------- Binding Methods
+	void BindActions();
+	void UnbindActions();
 
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* MovePlayerAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* SprintAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* LighterAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* InteractAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* CameraLookAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* OpenHintAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* PuaseAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* InventoryAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* NextInventoryItemAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
-	class UInputAction* PrevInventoryItemAction;
-
-	
+//---------------- Input Methods
 	void PlayerMovement(const FInputActionValue& value);
 	
 	void StartSprint(const FInputActionValue& value);
@@ -84,39 +94,32 @@ private:
 	void HoldingBTN(const FInputActionValue& value);
 
 	void CameraMoved(const FInputActionValue& value);
+	void DoorMoved(const FInputActionValue& value);
 
-	void OpenHint(const FInputActionValue& value);
-	void CloseHint(const FInputActionValue& value);
-	
 	void Paused(const FInputActionValue& value);
 	void Inventory(const FInputActionValue& value);
 	void NextInventoryItem(const FInputActionValue& value);
+	void PrevInventoryItem(const FInputActionValue& value);
+	void BackFromFocus(const FInputActionValue& value);
+	
+	void SetInventoryInputs();
+	void SetDoorInputs();
+	
+//---------------- Loading Methods
+	UFUNCTION()
+	void RecieveLoadedData(float newSensitivity);
+	UFUNCTION()
+	void LoadValues();
 
-	bool bIsUsingGamepad;
-	
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
-	void SetIsmepad(const bool bIsGamepad);
+	void SetIsGamepad(const bool bIsGamepad);
+
+	void OnWindowFocusChanged(bool bIsFocused);
 	
-protected:
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
 	UWidgetInteractionComponent* WidgetInteractionComponent;
-
-	void PrevInventoryItem(const FInputActionValue& value);
-	virtual void BeginPlay() override;
-	void BindActions();
-	void UnbindActions();
-	void SetInventoryInputs();
-
-public:
-	AAlexPlayerController();
-
-	bool GetIsUsingGamepad() const;
-	void SetPauseGame(bool PauseState);
-	void SetUIOnly(bool uiMode);
-
-	void DisableInput(APlayerController* PlayerController) override;
-
-	void EnableInput(APlayerController* PlayerController) override;
+	
 	FPlayerMovement OnPlayerMovement;
 	
 	FStopSprint OnStopSprint;
@@ -128,15 +131,60 @@ public:
 	FHoldingBTN OnHoldingBtn;
 
 	FMoveCamera OnCameraMoved;
-
-	FOpenHint OnOpenHint;
-	FCloseHint OnCloseHint;
+	FMoveCamera OnCameraMovedDoor;
 
 	FPaused OnPause;
 	FInventory OnInventory;
+	FOnFocusBack OnLeaveFocus;
 	
 	FNextInventoryItem OnNextInventoryItem;
 	FPrevInventoryItem OnPrevInventoryItem;
 
 	FCheckInputMode OnKeyPressed;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FCheckKeyInputMode OnAnyKeyPressed;
+	
+private:
+	bool bIsUsingGamepad;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float MouseSensitivity = 1.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputMappingContext* DefaultMappingCOntext;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* MovePlayerAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* LighterAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* InteractAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* CameraLookAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* BackAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* PuaseAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* InventoryAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* NextInventoryItemAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
+	UInputAction* PrevInventoryItemAction;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	ALevelsGameState* GameState;
+	ALevelsGameState* gs;
 };

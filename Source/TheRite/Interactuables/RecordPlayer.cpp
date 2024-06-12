@@ -1,5 +1,9 @@
-#include "RecordPlayer.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "RecordPlayer.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -16,6 +20,7 @@ ARecordPlayer::ARecordPlayer()
 	Latch->SetupAttachment(Base);
 }
 
+//---------------- System Class Methods
 void ARecordPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -39,12 +44,10 @@ void ARecordPlayer::Interaction()
 {
 	Super::Interaction();
 
-	if(bIsPaused)
-		PlaySong();
-	else
-		PauseSong();
+	bIsPaused ? PlaySong() : PauseSong();
 }
 
+//---------------- Action Methods
 void ARecordPlayer::PlaySong()
 {
 	bIsPaused = false;

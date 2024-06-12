@@ -1,7 +1,14 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "CloseDoor.h"
 
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
 
@@ -25,10 +32,7 @@ void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	for (auto Element : Lights)
 	{
-		if(bAggresiveLight)
-			Element->AggresiveMatterial();
-		else
-			Element->NormalMatterial();
+		bAggresiveLight ? Element->AggresiveMatterial() : Element->NormalMatterial();
 	}
 	
 	if(IsValid(DestroyableLight))
@@ -36,5 +40,6 @@ void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		DestroyableLight->Destroy();
 		UGameplayStatics::PlaySound2D(this, SFXLightBReak);
 	}
+	
 	Destroy();
 }

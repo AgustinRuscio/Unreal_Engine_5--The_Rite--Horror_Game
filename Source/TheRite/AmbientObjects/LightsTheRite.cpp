@@ -1,4 +1,10 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "LightsTheRite.h"
+#include "Components/SphereComponent.h"
 
 ALightsTheRite::ALightsTheRite()
 {
@@ -13,48 +19,52 @@ ALightsTheRite::ALightsTheRite()
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->SetSphereRadius(177.0f);
 	
-	SpotLight = CreateDefaultSubobject<USpotLightComponent>("Spot Light");
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
-
-
-	SpotLight->SetupAttachment(NewRootComponent);
+	
 	PointLight->SetupAttachment(NewRootComponent);
 	Sphere->SetupAttachment(NewRootComponent);
+
+	
+}
+
+bool ALightsTheRite::IsLightOn()
+{
+	return PointLight->Intensity > 0;
+}
+
+HouseZone ALightsTheRite::GetLightZone()
+{
+	return LightHouseZone;
 }
 
 void ALightsTheRite::BeginPlay()
 {
 	Super::BeginPlay();
-
-	FirstStopIntensity = SpotLight->Intensity;
-	FirstPointIntensity= PointLight->Intensity;
+	
+	if(bWillStartOff)
+		PointLight->SetIntensity(0);
+	
+	FirstPointIntensity = PointLight->Intensity;
 }
 
+//---------------- Material Setter Methods
 void ALightsTheRite::AggresiveMatterial()
 {
-	SpotLight->SetLightFunctionMaterial(AggresiveMaterial);
 	PointLight->SetLightFunctionMaterial(AggresiveMaterial);
 }
 
 void ALightsTheRite::NormalMatterial()
 {
-	SpotLight->SetLightFunctionMaterial	(NormalMaterial);
 	PointLight->SetLightFunctionMaterial(NormalMaterial);
 }
 
+//---------------- State Changer Methods
 void ALightsTheRite::TurnOff()
 {
-	SpotLight->SetIntensity(0.0f);
 	PointLight->SetIntensity(0.0f);
-}
-
-void ALightsTheRite::TurnOffSpotLight()
-{
-	SpotLight->SetIntensity(0.0f);
 }
 
 void ALightsTheRite::TurnOn()
 {
-	SpotLight->SetIntensity(FirstStopIntensity);
-	PointLight->SetIntensity(FirstPointIntensity);
+	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }

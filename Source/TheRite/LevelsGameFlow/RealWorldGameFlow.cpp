@@ -1,7 +1,14 @@
-#include "RealWorldGameFlow.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
-#include "Components/SpotLightComponent.h"
+
+#include "RealWorldGameFlow.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/TriggerVolume.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+#include "TheRite/AlexPlayerController.h"
 
 
 ARealWorldGameFlow::ARealWorldGameFlow()
@@ -9,6 +16,28 @@ ARealWorldGameFlow::ARealWorldGameFlow()
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ARealWorldGameFlow::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PlayerMethods();
+	CreateWidgets();
+	
+	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
+	
+
+	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
+		GetWorldTimerManager().SetTimer(ShowFirstTutorialWidget, this, &ARealWorldGameFlow::ShowingFirstTutorialWidget, 3.0f, false);
+}
+
+void ARealWorldGameFlow::PlayerMethods()
+{
+	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+	Player->ForceTalk(FirstTalkAudio);
+	Player->SetPlayerOptions(true, false, false);
+}
+
+//---------------- Widgets Methods
 void ARealWorldGameFlow::CreateWidgets()
 {
 	FirstTutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), FirstTutorialMenu);
@@ -28,93 +57,6 @@ void ARealWorldGameFlow::CreateWidgets()
 		alexController->OnKeyPressed.AddDynamic(SecondTutorialWidget, &UTutorialWidget::SetKeyMode);
 		alexController->OnKeyPressed.AddDynamic(FirstTutorialWidget, &UTutorialWidget::SetKeyMode);
 	}
-	
-}
-
-void ARealWorldGameFlow::OpenArtRoomDoor()
-{
-	if(bCloseDoor) return;
-	
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_DoorOpening);
-	Player->ForceTalk(ReactToLockedDoorAudio);
-	
-	ArtRoomDoor->Open();
-	bCloseDoor = true;
-	
-	for (auto const Element : ArtRoomRedLights)
-	{
-		Element->SpotLightComponent->SetIntensity(1000.0f);
-	}
-}
-
-void ARealWorldGameFlow::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor) || !bCloseDoor || DoOnce > 0) return;
-
-	++DoOnce;
-	
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_SlamDoor);
-	ArtRoomDoor->HardClosing();
-	
-	OnCloseTimeline.Play();
-}
-
-
-
-void ARealWorldGameFlow::BindTimeLine()
-{
-	FOnTimelineEventStatic TimelineFinishedCallback;
-	TimelineFinishedCallback.BindUFunction(this, FName("OnCloseTimeLineFinished"));
-	OnCloseTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
-}
-
-
-void ARealWorldGameFlow::OnCloseTimeLineFinished()
-{
-	ArtRoomTiffany->Destroy();
-
-	for (auto const Element : ArtRoomRedLights)
-	{
-		Element->Destroy();
-	}
-
-	ArtRoomDoor->SetLockedState(false);
-	SlamDoorTriggerVolume->Destroy();
-}
-void ARealWorldGameFlow::GetPlayer()
-{
-	auto const tempSearch = UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass());
-	Player = CastChecked<AAlex>(tempSearch);
-}
-
-void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor))return;
-
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
-	KnockTrigger->Destroy();
-}
-
-
-
-void ARealWorldGameFlow::BeginPlay()
-{
-	Super::BeginPlay();
-
-	CreateWidgets();
-	
-	SlamDoorTriggerVolume->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBegin);
-	
-	BindTimeLine();
-	GetPlayer();
-	
-	Player->ForceTalk(FirstTalkAudio);
-	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
-	
-	LockedInteractionDoor->OnInteraction.AddDynamic(this, &ARealWorldGameFlow::OpenArtRoomDoor);
-
-	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
-		GetWorldTimerManager().SetTimer(ShowFirstTutorialWidget, this, &ARealWorldGameFlow::ShowingFirstTutorialWidget, 3.0f, false);
 }
 
 void ARealWorldGameFlow::ShowingFirstTutorialWidget()
@@ -145,8 +87,11 @@ void ARealWorldGameFlow::HidingSecondTutorialWidget()
 	SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 	
-void ARealWorldGameFlow::Tick(float DeltaTime)
+
+void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
 {
-	Super::Tick(DeltaTime);
-	OnCloseTimeline.TickTimeline(DeltaTime);
+	if(!Cast<AAlex>(OtherActor))return;
+
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Knocking);
+	KnockTrigger->Destroy();
 }

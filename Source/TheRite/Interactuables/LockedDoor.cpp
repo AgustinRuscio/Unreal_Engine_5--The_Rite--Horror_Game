@@ -1,7 +1,12 @@
-#include "LockedDoor.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "LockedDoor.h"
 #include "Components/AudioComponent.h"
-#include "Components/TimelineComponent.h"
+#include "Components/BoxComponent.h"
+#include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 
 ALockedDoor::ALockedDoor()
@@ -24,34 +29,54 @@ ALockedDoor::ALockedDoor()
 	bInteractionDone = false;
 }
 
-void ALockedDoor::TimeLineUpdate(float time)
-{
-	float rollValue = FMath::Lerp(0.0f,5.0f, time);
-
-	FRotator rotator = FRotator(0,rollValue,0);
-		
-	DoorItself->SetRelativeRotation(rotator);
-}
-
-void ALockedDoor::TimelineFinished() { }
-
-
+//---------------- System Class Methods
 void ALockedDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("TimeLineUpdate"));
-
-	FOnTimelineEventStatic TimelineFinishedCallback;
-	TimelineFinishedCallback.BindUFunction(this, FName("TimelineFinished"));
-
-	MyTimeline.AddInterpFloat(MyFloatCurve, TimelineCallback);
-	MyTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
+	BindTimelines();
 	
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 }
 
+void ALockedDoor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	MyTimeline.TickTimeline(DeltaTime);
+	
+	if(bCanSoundItsLocked) return;
+
+	SoundTimer = SoundTimer + DeltaTime;
+
+	if(SoundTimer > SoundCD)
+	{
+		bCanSoundItsLocked = true;
+		SoundTimer = 0;
+	}
+}
+
+void ALockedDoor::Interaction()
+{
+	if(!bCanInteract) return;
+	
+	if(bInteractionDone)
+	{
+		AudioToPlay = AudioInteractionDone;
+		return;
+	}
+	
+	ItsLocked();
+	
+	if(!bHasInteraction) return;
+	
+	OnInteractionTrigger.Broadcast(this);
+	
+	bInteractionDone = true;
+	
+	OnInteraction.Broadcast();
+}
+
+//---------------- FeedBack Methods
 void ALockedDoor::ItsLocked()
 {
 	if(AudioToPlay != nullptr)
@@ -73,38 +98,26 @@ void ALockedDoor::OnAudioFinished()
 	bCanSound = true;
 }
 
-void ALockedDoor::Tick(float DeltaTime)
+//---------------- TimeLine Methods
+void ALockedDoor::BindTimelines()
 {
-	Super::Tick(DeltaTime);
-	MyTimeline.TickTimeline(DeltaTime);
-	
-	if(bCanSoundItsLocked) return;
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("TimeLineUpdate"));
 
-	SoundTimer = SoundTimer + DeltaTime;
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	TimelineFinishedCallback.BindUFunction(this, FName("TimelineFinished"));
 
-	if(SoundTimer > SoundCD)
-	{
-		bCanSoundItsLocked = true;
-		SoundTimer = 0;
-	}
+	MyTimeline.AddInterpFloat(MyFloatCurve, TimelineCallback);
+	MyTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
 }
 
-void ALockedDoor::Interaction()
+void ALockedDoor::TimeLineUpdate(float time)
 {
-	if(bInteractionDone)
-	{
-		AudioToPlay = AudioInteractionDone;
-		return;
-	}
-	
-	if(!bHasInteraction) return;
-	
-	OnInteractionTrigger.Broadcast();
-	
-	ItsLocked();
+	float rollValue = FMath::Lerp(0.0f,5.0f, time);
 
-
-	bInteractionDone = true;
-	
-	OnInteraction.Broadcast();
+	FRotator rotator = FRotator(0,rollValue,0);
+		
+	DoorItself->SetRelativeRotation(rotator);
 }
+
+void ALockedDoor::TimelineFinished() { }

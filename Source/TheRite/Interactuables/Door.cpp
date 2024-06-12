@@ -1,9 +1,23 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "Door.h"
 
+#include "VectorTypes.h"
+#include "Camera/CameraComponent.h"
+#include "TheRite/Widgets/LockedWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+#include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
 #include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "TheRite/AlexPlayerController.h"
+#include "Blueprint/UserWidget.h"
+
+#define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
 ADoor::ADoor()
 {
@@ -41,132 +55,421 @@ ADoor::ADoor()
 	LockedWidget = CreateDefaultSubobject<ULockedWidget>("Locked Widget");
 }
 
-
-
-void ADoor::OpenCloseTimeLineUpdate(float value)
+bool ADoor::IsLocked() const
 {
-	float newRoll = FMath::Lerp(0,90, value);
+	return bIsLocked;
+}
+
+//---------------- Getter Methods
+bool ADoor::NeedKey() const
+{
+	return  bNeedKey;
+}
+
+bool ADoor::KeyUnlocked() const
+{
+	return bKeyUnlocked;
+}
+
+//---------------- System Class Methods
+void ADoor::BeginPlay()
+{
+	Super::BeginPlay();
+	CreateWidgets();
 	
-	DoorItself->SetRelativeRotation(FRotator(0,newRoll, 0));
-}
+	InitializeNeededValues();
 
-void ADoor::OpenCloseTimelineFinished()
-{
-	CurrentRot = DoorItself->GetRelativeRotation();
-}
-
-
-
-void ADoor::ItLockedTimeLineUpdate(float value)
-{
-	float TargetYaw = InitialRot.Yaw + 5.0f;
-	float NewYaw = FMath::Lerp(InitialRot.Yaw, TargetYaw, value);
-
-	DoorItself->SetRelativeRotation(FRotator(0, NewYaw, 0));
-}
-
-void ADoor::ItLockedTimelineFinished()
-{
-	UGameplayStatics::PlaySound2D(this, SFXDoorLocked);
-	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
-	++AudioCounterItsLocked;
+	SetTutorialDoor();
 	
-	CurrentRot = DoorItself->GetRelativeRotation();
+	BindTimeLines();
 }
 
-
-void ADoor::LatchAnimTimeLineUpdate(float value)
+void ADoor::Tick(float DeltaTime)
 {
-	float lerpValue = FMath::Lerp(5, 50, value);
-	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
-	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
-}
-
-
-void ADoor::LatchAnimTimelineFinished() { }
-
-void ADoor::LatchHoldTimeLineUpdate(float value)
-{
-	float lerpValue = FMath::Lerp(50, 0, value);
-	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
-	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
+	Super::Tick(DeltaTime);
 	
-}
-
-void ADoor::LatchHoldTimelineFinished() { }
-
-
-void ADoor::HardClosingTimeLineUpdate(float value)
-{
-	float lerpValue = FMath::Lerp(CurrentRot.Yaw,InitialRot.Yaw, value);
-	DoorItself->SetRelativeRotation(FRotator(0,lerpValue, 0));
-}
-
-
-void ADoor::HardClosingTimelineFinished()
-{
-	CurrentRot = DoorItself->GetRelativeRotation();
-}
-
-
-void ADoor::CheckDragDoor()
-{
-	if(!bHolding || !bIsLookingDoor || bIsLocked || (bNeedKey && !bKeyUnlocked))
-		return;
-
-	float Yaw = DoorItself->GetRelativeRotation().Yaw;
-
-	float Check = FMath::ClampAngle(Yaw, FrontAngle, (FrontAngle*-1));
-
-	float DoorFloat = Player->GetDoorFloat();
+	RunTimeLinesTick(DeltaTime);
 	
-	if(Yaw != Check)
+	CheckCanSound(DeltaTime);
+
+	HoldingTimerRunner(DeltaTime);
+
+	bHolding = Player->IsHoldInteractBTN();
+	
+	CheckDragDoor();
+	CheckIfLookingDoor();
+
+	if (DEBUGGING)
 	{
-		LatchHolding(bHolding);
-
-		float YawRot = DoorFloat * Sensitivity;
-		
-		DoorItself->AddLocalRotation(FRotator(0, YawRot,0));
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bHolding %d"), bHolding));
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bcanDrag %d"), bcanDrag));
 	}
-	else
+}
+
+void ADoor::Interaction()
+{
+	OnInteractionTrigger.Broadcast(this);
+
+	curretnYaw = GetActorRotation().Yaw;
+	
+	TutorialInteraction();
+	
+	CheckLocked();
+	
+	CheckPlayerForward();
+}
+
+//---------------- Action Door Methods
+void ADoor::ObteinKey()
+{
+	bKeyUnlocked = true;
+}
+
+void ADoor::Open()
+{
+	CurrentRotation = GetActorRotation();
+	TimeLineOpenDoor.PlayFromStart();
+}
+
+void ADoor::Close()
+{
+	CurrentRotation = GetActorRotation();
+	TimeLineOpenDoor.ReverseFromEnd();
+}
+
+void ADoor::HardClosing()
+{
+	UGameplayStatics::SpawnSoundAtLocation(this, SFXDoorSlam, GetActorLocation());
+	TimeLineHardClosing.Play();
+}
+
+void ADoor::AutomaticClose()
+{
+	CurrentRotation = GetActorRotation();
+	TimeLineOpenDoor.ReverseFromEnd();
+	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
+}
+
+//---------------- Setter Methods
+void ADoor::SetDoorKeyValues(FString itemName, PickableItemsID id)
+{
+	keyName = itemName;
+	keyId = id;
+}
+
+void ADoor::SetCanDragFalse()
+{
+	bcanDrag = false;
+}
+
+void ADoor::SetLockedState(bool lockednewState)
+{
+	bIsLocked = lockednewState;
+}
+
+//---------------- Initializer Methods
+void ADoor::CreateWidgets()
+{
+	LockedWidget = CreateWidget<ULockedWidget>(GetWorld(), LockedUI);
+	LockedWidget->AddToViewport();
+	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void ADoor::InitializeNeededValues()
+{
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
+	FirstYawrotation = GetActorRotation().Yaw;
+	MaxYawrotation = bFrontOpen ? FirstYawrotation + FrontAngle : FirstYawrotation - FrontAngle;
+	
+	InitialRot = GetActorRotation();
+	CurrentRot = GetActorRotation();
+}
+
+//---------------- Tutorial Methods
+void ADoor::SetTutorialDoor()
+{
+	if(!bIsTutorialDoor) return;
+	
+	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
+	TutorialWidget->AddToViewport();
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+
+	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	
+	if(alexController)
+		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
+}
+
+void ADoor::TutorialInteraction()
+{
+	if(bIsTutorialDoor && !bDoOnceTut)
 	{
-		if(Yaw >= FrontAngle)
-			DoorItself->SetRelativeRotation(FRotator(0,(FrontAngle-1),0));
-		else
+		bDoOnceTut = true;
+		TutorialWidget->SetVisibility(ESlateVisibility::Visible);
+		
+		if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
 		{
-			float num= FrontAngle * -1;
+			FTimerDelegate timerDelegate;
+			timerDelegate.BindLambda([&]
+			{
+				TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+			});
 			
-			DoorItself->SetRelativeRotation(FRotator(0,(num+1),0));
+			GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 2.f, false);
 		}
 	}
 }
 
+//---------------- Checker Methods
+void ADoor::HoldingTimerRunner(float DeltaTime)
+{
+	bHolding ? DoorTimer += DeltaTime: DoorTimer = 0;
+}
+
+void ADoor::CheckCanSound(float DeltaTime)
+{
+	if(bCanSoundItsLocked) return;
+	
+	ItsLockedTimer+= DeltaTime;
+
+	if(ItsLockedTimer > ItsLockedCD)
+	{
+		bCanSoundItsLocked = true;
+		ItsLockedTimer = 0.0f;
+	}
+}
+
+void ADoor::CheckPlayerForward()
+{
+	FVector DooraLocation = GetActorLocation();
+
+	FVector PlayerLocation = Player->GetActorLocation();
+
+	FVector PlayerDirection = PlayerLocation - DooraLocation;
+
+	PlayerDirection.Normalize();
+
+	FRotator DoorRotation = GetActorRotation();
+	FVector DooraForwardVector = GetActorLocation().RightVector;
+	
+	FVector forwatdRoated = DoorRotation.RotateVector(DooraForwardVector);
+	
+	float DotProduct = FVector::DotProduct(forwatdRoated, PlayerDirection);
+
+	if (DotProduct > 0.0f)
+		bIsPlayerForward = true;
+	else if (DotProduct < 0.0f)
+		bIsPlayerForward = false;
+}
+
+void ADoor::CheckLocked()
+{
+	if(bIsLocked)
+		ItsLocked();
+	else
+	{
+		if(bNeedKey)
+		{
+			if(bKeyUnlocked)
+			{
+				if(FirstTimeKeySound == 0)
+				{
+					FirstTimeKeySound++;
+					UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
+					Player->RemoveFromInventory(keyName ,keyId);
+				}
+			}
+			else
+				ItsLocked();
+		}
+	}
+}
+
+void ADoor::CheckDragDoor()
+{
+	if(!bcanDrag || bIsLocked || (bNeedKey && !bKeyUnlocked))
+		return;
+	
+	LatchHolding(bHolding);
+
+	if(DoorTimer < DoorOpenOffsetCD) return;
+	
+	float DoorFloat = Player->GetDoorFloat();
+	float preSum = 0;
+	
+	if(bFrontOpen)
+	{
+		if(bIsPlayerForward)
+		{
+			preSum = curretnYaw + DoorFloat * -1;
+			
+			if(preSum  >= MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else if(preSum  < FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+		else
+		{
+			preSum = curretnYaw+ DoorFloat;
+			
+			if(preSum >= MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else if(preSum  < FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+	}
+	else
+	{
+		if(bIsPlayerForward)
+		{
+			preSum = curretnYaw + DoorFloat;
+			
+			if (preSum >= FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else if (preSum < MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+		else
+		{
+			preSum = curretnYaw + DoorFloat * -1;
+			
+			if(preSum >= FirstYawrotation)
+				curretnYaw = FirstYawrotation;
+			else if(preSum < MaxYawrotation)
+				curretnYaw = MaxYawrotation;
+			else
+				curretnYaw = preSum;
+		}
+	}
+	
+	SetActorRotation(FRotator(GetActorRotation().Pitch, curretnYaw, GetActorRotation().Roll));
+}
+
 void ADoor::CheckIfLookingDoor()
 {
-	bHolding = Player->IsHoldInteracBTN();
+	if(bIsLocked) return;
 	
-	if(!bHolding) return;
+	if(bNeedKey)
+		if(!bKeyUnlocked) return;
 	
-	 FVector Start = Player->GetCamera()->GetComponentLocation();
 	
-	 FVector distace = Player->GetActorForwardVector() * 300;
-	 FVector End = Start + distace;
+	FVector Start = Player->GetCamera()->GetComponentLocation();
+	
+	FVector distace = Player->GetActorForwardVector() * 300;
+	FVector End = Start + distace;
 
 	FHitResult HitResult;
 
 	TArray<AActor*> IgnoredActors;
+	IgnoredActors.Add(Player);
 
 	bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
 								 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
-								 false, IgnoredActors,
-								EDrawDebugTrace::ForDuration,HitResult, false);
+								 false, IgnoredActors, EDrawDebugTrace::None,HitResult,false);
+	
+	//bool hit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Start, End,
+	//						 TEnumAsByte<ETraceTypeQuery>(ECollisionChannel::ECC_WorldDynamic),
+	//						 false, IgnoredActors,
+	//						EDrawDebugTrace::ForDuration,HitResult, false, FLinearColor::Red, FLinearColor::Green, 1.f);
+	
+	
+	if(hit && HitResult.GetActor() == this)
+	{		
+		bIsLookingDoor = true;
+		bWasLookingDoor = true;
+		
+		if(DEBUGGING)
+			PRINTONVIEWPORT("Was looking")
+		
+		if(bHolding)
+		{
+			if(UE::Geometry::Distance(Player->GetActorLocation(), GetActorLocation()) > 500)
+			{
+				if(DEBUGGING)
+					PRINTONVIEWPORT("Lejos")
 
-	if(hit)
-		bIsLookingDoor = HitResult.GetActor() == this;
+				return;
+			}
+
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Looking and holding")
+
+			Player->SetDraggingState(true, this);
+			bcanDrag = Player->CheckCanDrag();
+		}
+		else
+		{	
+			Player->SetDraggingState(false, this);
+			
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Looking but no holding")
+			
+			bcanDrag = false;
+			bWasLookingDoor = false;
+		}
+	}
 	else
+	{
 		bIsLookingDoor = false;
+
+		if(DEBUGGING)
+			PRINTONVIEWPORT("Wasnt looking")
+		
+		if(bHolding)
+		{
+			if(bWasLookingDoor)
+			{
+				if(DEBUGGING)
+					PRINTONVIEWPORT("Was holding when quit looking")
+				
+				Player->SetDraggingState(true,this);
+				bcanDrag = Player->CheckCanDrag();
+			}
+		}
+		else
+		{
+			if(DEBUGGING)
+				PRINTONVIEWPORT("Wasten holding")
+			
+			Player->SetDraggingState(false, this);
+			bcanDrag = false;
+			bWasLookingDoor = false;
+		}
+	}
 }
 
+//---------------- FeedBack Methods
+void ADoor::ItsLocked()
+{
+	if(IsValid(SFXVoiceLocked))
+		Player->ForceTalk(SFXVoiceLocked);
+	
+	LockedWidget->SetVisibility(ESlateVisibility::Visible);
+	LatchAnim();
+	TimeLineItsLocked.PlayFromStart();
+}
+
+void ADoor::LatchAnim()
+{
+	TimeLineLatchAnim.PlayFromStart();
+}
+
+void ADoor::LatchHolding(bool isOppening)
+{
+	if(isOppening)
+		TimeLineLatchHold.PlayFromStart();
+	else
+		TimeLineLatchHold.ReverseFromEnd();
+}
+
+//---------------- TimeLines Methods
 void ADoor::BindTimeLines()
 {
 	//------- Open Close TimeLine
@@ -204,7 +507,6 @@ void ADoor::BindTimeLines()
 	FOnTimelineEventStatic LatchHoldTimelineFinishedCallback;
 	LatchHoldTimelineFinishedCallback.BindUFunction(this, FName("LatchHoldTimelineFinished"));
 	TimeLineLatchHold.SetTimelineFinishedFunc(LatchHoldTimelineFinishedCallback);
-
 	
 	//------- Hard Closing timeline
 	FOnTimelineFloat HardClosingTimelineCallback;
@@ -212,144 +514,83 @@ void ADoor::BindTimeLines()
 	TimeLineHardClosing.AddInterpFloat(HardClosingCurve, HardClosingTimelineCallback);
 	
 	FOnTimelineEventStatic HardClosingTimelineFinishedCallback;
-	HardClosingTimelineFinishedCallback.BindUFunction(this, FName("HardClosingTimelineFinished"));
+	HardClosingTimelineFinishedCallback.BindUFunction(this, FName("HardClosingTielineFinished"));
 	TimeLineHardClosing.SetTimelineFinishedFunc(HardClosingTimelineFinishedCallback);
 }
 
-
-void ADoor::BeginPlay()
+void ADoor::RunTimeLinesTick(float DeltaTime)
 {
-	Super::BeginPlay();
-
-	BindTimeLines();
-	
-	InitialRot = DoorItself->GetRelativeRotation();
-	CurrentRot = DoorItself->GetRelativeRotation();
-	
-	LockedWidget = CreateWidget<ULockedWidget>(GetWorld(), LockedUI);
-	LockedWidget->AddToViewport();
-	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
-	
-	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
-}
-
-void ADoor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 	TimeLineOpenDoor.TickTimeline(DeltaTime);
 	TimeLineItsLocked.TickTimeline(DeltaTime);
 	TimeLineLatchAnim.TickTimeline(DeltaTime);
 	TimeLineHardClosing.TickTimeline(DeltaTime);
 	TimeLineLatchHold.TickTimeline(DeltaTime);
+}
+
+
+void ADoor::OpenCloseTimeLineUpdate(float value)
+{
+	auto newRot = FMath::Lerp(CloseRotation,CurrentRotation, value);
 	
-	if(!bCanSoundItsLocked)
-	{
-		ItsLockedTimer+= DeltaTime;
-
-		if(ItsLockedTimer > ItsLockedCD)
-		{
-			bCanSoundItsLocked = true;
-			ItsLockedTimer = 0.0f;
-		}
-	}
-
-	CheckDragDoor();
-	CheckIfLookingDoor();
+	SetActorRotation(newRot);
 }
 
-void ADoor::Interaction()
+void ADoor::OpenCloseTimelineFinished()
 {
-	if(bFlipFlop)
-	{
-		if(bIsLocked)
-			ItsLocked();
-		else
-		{
-			if(bNeedKey)
-			{
-				if(bKeyUnlocked)
-				{
-					if(FirstTimeKeySound == 0)
-					{
-						FirstTimeKeySound++;
-						UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
-					}
-				}
-				else
-					ItsLocked();
-			}
-		}
-	}
-	else
-	{
-		if(bIsLocked)
-			ItsLocked();
-	}
-}
-
-void ADoor::Open()
-{
-	TimeLineOpenDoor.Play();
-}
-
-void ADoor::Close()
-{
-	TimeLineOpenDoor.Reverse();
-}
-
-void ADoor::HardClosing()
-{
-	UGameplayStatics::SpawnSoundAtLocation(this, SFXDoorSlam, GetActorLocation());
-	TimeLineHardClosing.Play();
-}
-
-void ADoor::ObteinKey()
-{
-	bKeyUnlocked = true;
-}
-
-bool ADoor::IsLocked() const
-{
-	return bIsLocked;
-}
-
-bool ADoor::NeedKey() const
-{
-	return  bNeedKey;
-}
-
-bool ADoor::KeyUnlocked() const
-{
-	return bKeyUnlocked;
-}
-
-void ADoor::SetLockedState(bool lockednewState)
-{
-	bIsLocked = lockednewState;
-}
-
-void ADoor::ItsLocked()
-{
-	if(IsValid(SFXVoiceLocked))
-	{
-		Player->ForceTalk(SFXVoiceLocked);
-	}
+	CurrentRot =GetActorRotation();
 	
-	LockedWidget->SetVisibility(ESlateVisibility::Visible);
-	LatchAnim();
-	TimeLineItsLocked.PlayFromStart();
-}
-
-void ADoor::LatchAnim()
-{
-	TimeLineLatchAnim.PlayFromStart();
+	curretnYaw = GetActorRotation().Yaw;
 }
 
 
-void ADoor::LatchHolding(bool isOppening)
+void ADoor::ItLockedTimeLineUpdate(float value)
 {
-	if(isOppening)
-		TimeLineLatchHold.PlayFromStart();
-	else
-		TimeLineLatchHold.ReverseFromEnd();
+	float TargetYaw = CloseRotation.Yaw + 5.0f;
+	float NewYaw = FMath::Lerp(CloseRotation.Yaw, TargetYaw, value);
+
+	SetActorRotation(FRotator(0, NewYaw, 0));
+}
+
+void ADoor::ItLockedTimelineFinished()
+{
+	UGameplayStatics::PlaySound2D(this, SFXDoorLocked);
+	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
+	++AudioCounterItsLocked;
+	
+	CurrentRot = GetActorRotation();
+	
+}
+
+
+void ADoor::LatchAnimTimeLineUpdate(float value)
+{
+	float lerpValue = FMath::Lerp(5, 50, value);
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
+}
+
+void ADoor::LatchAnimTimelineFinished() { }
+
+
+void ADoor::LatchHoldTimeLineUpdate(float value)
+{
+	float lerpValue = FMath::Lerp(50, 0, value);
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
+}
+
+void ADoor::LatchHoldTimelineFinished() { }
+
+
+void ADoor::HardClosingTimeLineUpdate(float value)
+{
+	auto lerpValue = FMath::Lerp(CurrentRot,CloseRotation, value);
+	SetActorRotation(FRotator(lerpValue));
+}
+
+void ADoor::HardClosingTielineFinished()
+{
+	CurrentRot = GetActorRotation();
+	
+	curretnYaw = GetActorRotation().Yaw;
 }

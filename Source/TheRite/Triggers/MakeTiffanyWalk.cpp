@@ -1,12 +1,69 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "MakeTiffanyWalk.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Components/BoxComponent.h"
+#include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
+
+AMakeTiffanyWalk::AMakeTiffanyWalk()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	
+	Box = CreateDefaultSubobject<UBoxComponent>("Box Collision");
+	Box->OnComponentBeginOverlap.AddDynamic(this, &AMakeTiffanyWalk::OnOverlapBegin);
+}
+
+void AMakeTiffanyWalk::BeginPlay()
+{
+	Super::BeginPlay();
+	BindTimeLines();
+}
+
+void AMakeTiffanyWalk::Tick(float DeltaTime)
+{
+	FirstTimeLine.TickTimeline(DeltaTime);
+	SecondsTimeLine.TickTimeline(DeltaTime);
+}
+
+void AMakeTiffanyWalk::KeyObtein(ATiffany* newTiff)
+{
+	Tiffany = newTiff;
+	bKeyReady = true;
+}
+
+//---------------- TimeLine Methods
+void AMakeTiffanyWalk::BindTimeLines()
+{
+	//------------------- Open Time line
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
+	FirstTimeLine.AddInterpFloat(BothTimeLineCurve, TimelineCallback);
+
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	TimelineFinishedCallback.BindUFunction(this, FName("FirstTimelineFinished"));
+	FirstTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
+
+	//------------------- Close Time line
+	FOnTimelineFloat CloseTimelineCallback;
+	CloseTimelineCallback.BindUFunction(this, FName("SecondsTimeLineUpdate"));
+	SecondsTimeLine.AddInterpFloat(BothTimeLineCurve, CloseTimelineCallback);
+
+	FOnTimelineEventStatic CloseTimelineFinishedCallback;
+	CloseTimelineFinishedCallback.BindUFunction(this, FName("SecondsTimelineFinished"));
+	SecondsTimeLine.SetTimelineFinishedFunc(CloseTimelineFinishedCallback);
+
+}
 
 void AMakeTiffanyWalk::FirstTimeLineUpdate(float value)
 {
-	if(FVector::Dist(Target->GetActorLocation(), Tiffany->GetActorLocation()) > 200.0f)
+	if(FVector::Dist(MoveTarget->GetActorLocation(), Tiffany->GetActorLocation()) > 200.0f)
 	{
 		TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
 		ObjectTypes.Add(static_cast<EObjectTypeQuery>(ECollisionChannel::ECC_WorldDynamic));
@@ -48,6 +105,7 @@ void AMakeTiffanyWalk::FirstTimelineFinished()
 	SecondsTimeLine.PlayFromStart();
 }
 
+
 void AMakeTiffanyWalk::SecondsTimeLineUpdate(float value) { }
 
 void AMakeTiffanyWalk::SecondsTimelineFinished()
@@ -65,54 +123,10 @@ void AMakeTiffanyWalk::SecondsTimelineFinished()
 	if(bSoundAfterEvent)
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_AfterEvent);
 	
-	UE_LOG(LogTemp, Error, TEXT("EA"));
 	OnFinishedEvent.Broadcast();
 	Destroy();
 }
 
-void AMakeTiffanyWalk::BindTimeLines()
-{
-	//------------------- Open Time line
-	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("FirstTimeLineUpdate"));
-	FirstTimeLine.AddInterpFloat(BothTimeLineCurve, TimelineCallback);
-
-	FOnTimelineEventStatic TimelineFinishedCallback;
-	TimelineFinishedCallback.BindUFunction(this, FName("FirstTimelineFinished"));
-	FirstTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
-
-	//------------------- Close Time line
-	FOnTimelineFloat CloseTimelineCallback;
-	CloseTimelineCallback.BindUFunction(this, FName("SecondsTimeLineUpdate"));
-	SecondsTimeLine.AddInterpFloat(BothTimeLineCurve, CloseTimelineCallback);
-
-	FOnTimelineEventStatic CloseTimelineFinishedCallback;
-	CloseTimelineFinishedCallback.BindUFunction(this, FName("SecondsTimelineFinished"));
-	SecondsTimeLine.SetTimelineFinishedFunc(CloseTimelineFinishedCallback);
-
-}
-
-void AMakeTiffanyWalk::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimeLines();
-}
-
-AMakeTiffanyWalk::AMakeTiffanyWalk()
-{
- 	PrimaryActorTick.bCanEverTick = true;
-	
-	Box = CreateDefaultSubobject<UBoxComponent>("Box Collision");
-	Box->OnComponentBeginOverlap.AddDynamic(this, &AMakeTiffanyWalk::OnOverlapBegin);
-}
-
-
-
-void AMakeTiffanyWalk::KeyObtein(ATiffany* newTiff)
-{
-	Tiffany = newTiff;
-	bKeyReady = true;
-}
 
 void AMakeTiffanyWalk::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -128,18 +142,10 @@ void AMakeTiffanyWalk::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	DoOnce++;
 
 	bReady = true;
-	Tiffany->StartMovement(Target);
-
-	AlexInside->CameraTargeting(Tiffany->GetActorLocation());
+	Tiffany->StartMovement(MoveTarget);
 
 	UGameplayStatics::SpawnSound2D(this, SFXHeartBeat);
 	UGameplayStatics::SpawnSound2D(this, SFXTiffanyNear);
 	
 	FirstTimeLine.Play();
-}
-
-void AMakeTiffanyWalk::Tick(float DeltaTime)
-{
-	FirstTimeLine.TickTimeline(DeltaTime);
-	SecondsTimeLine.TickTimeline(DeltaTime);
 }

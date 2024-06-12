@@ -1,331 +1,133 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CloclLevelArtRoomEvent.h"
-#include "Engine/BlockingVolume.h"
-#include "Engine/StaticMeshActor.h"
-#include "Engine/TargetPoint.h"
-#include "Engine/TriggerBox.h"
-#include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Door.h"
-
-#include "TheRite/Characters/Alex.h"
-#include "TheRite/Characters/Tiffany.h"
-#include "TheRite/Interactuables/BaseDrawer.h"
-#include "TheRite/Interactuables/DoorKey.h"
-#include "TheRite/Interactuables/HourLetter.h"
-#include "TheRite/Interactuables/LockedDoor.h"
-#include "TheRite/Interactuables/MinutesLetter.h"
-#include "TheRite/Interactuables/RecordPlayer.h"
-#include "TheRite/Triggers/MakeTiffanyWalk.h"
+#include "Components/TimelineComponent.h"
 #include "ClockLevelGameFlow.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBlockingHit);
 
+
+class ACloclLevelArtRoomEvent;
+class UAudioComponent;
+class ATargetPoint;
+class ATiffany;
+class AAlex;
+class ADoor;
+class ALetter;
+class AMinutesLetter;
+class AHourLetter;
+class ALightsTheRite;
+class ABaseDrawer;
+class ADoorKey;
+class ATriggerVolume;
+class ARecordPlayer;
+class ABlockingVolume;
+class ATriggerBox;
+class AInteractor;
+class AMoveTiffany;
+class ABigClock;
+class UTutorialWidget;
+class AStaticMeshActor;
+
 UCLASS()
 class THERITE_API AClockLevelGameFlow : public AActor
 {
 	GENERATED_BODY()
+
+public:
+	AClockLevelGameFlow();
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 	
 private:
-
-	UPROPERTY(EditAnywhere, Category= "Level Events")
-	ACloclLevelArtRoomEvent* ArtRoomEvent;
-	
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* AmbientMusic;
-
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* StressSound;
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundBase* VoicesSound;
-
-
-	UAudioComponent* AmbientMusicCompoenent;
-	UAudioComponent* StressSoundMusicCompoenent;
-	UAudioComponent* VoicesSoundMusicCompoenent;
-		
-	float AmbientMusicOriginalVolumen;
-	float StressSoundOriginalVolumen;
-	float VoicesSoundOriginalVolumen;
-	
-	//UPROPERTY(EditAnywhere, Category = "Widgets")
-	//TSubclassOf<UHintsWidget> HintsUI;
-	//UHintsWidget* HintsWidget;
-
-
-	UPROPERTY(EditAnywhere, Category = "One item grab items")
-	ATargetPoint* TiffanySpawnPointOneItem;
-
-	
-	UPROPERTY(EditAnywhere, Category = "Tiffany")
-	TSubclassOf<ATiffany> MidTiff;
-	ATiffany* MidleTiff;
-	
-	UPROPERTY(EditAnywhere, Category = "One item grab items: Triggers")
-	AMakeTiffanyWalk* MakeTiffanyWalkBetweenDoors;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Doors")
-	ADoor* GarageDoor;
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Doors")
-	ADoor* ArtRoomDoor;
-	
-	AAlex* Player; 
-	//AHandLetter* PlayerHint;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Letter")
-	ALetter* TiffanyFirstLetter;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Letter")
-	AMinutesLetter* MinutesLetter;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Letter")
-	AHourLetter* HoursLetter;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
-	TArray<ALightsTheRite*> Lights;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Ambient")
-	TArray<AStaticMeshActor*> Portraits;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
-	TArray<ATargetPoint*> DrawersTargetsPoint;
-
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_WhereDidILeftTheKey;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_WhereIsTheDeamKey;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_ImLoosingMyMind;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_AlexScream;
-
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_Steps;
-
-	UPROPERTY(EditAnywhere, Category = "Audio: Drawers")
-	USoundBase* SFX_HeavyBreath;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjetcs: Drawers")
-	TMap<ABaseDrawer*, ATargetPoint*> Map_Drawers_Target;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjetcs: Drawers")
-	TSubclassOf<ADoorKey> KeySubclass;
-	
-	//UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
-	//ADoor* DrawerPuzzleDoor;
-
-	FTimeline DrawerTimeline;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
-	ADoorKey* LibraryKey;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
-	ATargetPoint* TiffanySpawnPoint;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
-	AMakeTiffanyWalk* MakeTiffanyWalk;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Library")
-	ATargetPoint* BlockingVolumeEntrancePosition;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects")
-	ALockedDoor* BigLockedDoor;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Audio")
-	USoundBase* SFX_BigDoor;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects")
-	ABlockingVolume* BlockingVolume;
-	UPROPERTY(EditAnywhere, Category = "InGameObjects")
-	ATargetPoint* BlockingVolumeOriginalLocation;
-
-	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
-	USoundBase* TiffanyTalkCue;
-
-	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
-	USoundBase* TiffanyBreathkCue;
-	UPROPERTY(EditAnywhere, Category = "Audios: Portrait")
-	USoundBase* PortraitDropedCue;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ADoor* LibraryDoor;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ARecordPlayer* RecordPlayer;
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ATargetPoint* BlockingVolumenLibraryPosition;
-
-	
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_TiffanyHeavyBreath;
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_Alex_IHateThatSong;
-		
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_Alex_GoingInside;
-	
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_TiffanyScream;
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_Heartbeat;
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_TiffanyNear;
-	UPROPERTY(EditAnywhere, Category = "Audios: Library")
-	USoundBase* SFX_TiffanyLaugh;
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* SFX_LightsBroken;
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* SFX_LightSwitch;
-
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* SFX_Knocking;
-
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* OhFuckAlexTalk;
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* GetAwaylexTalk;
-	
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* SFX_LastAudio;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ATriggerBox* LibraryTriggerVolumenFirst;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ATriggerVolume* LibraryTriggerVolumenJumpScared;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObject")
-	ATriggerBox* EndGameTriggerVolumen;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject")
-	ATriggerBox* KnockTrigger;
-	 
-	UPROPERTY(EditAnywhere, Category = "InGameObject")
-	ATriggerBox* CloseGaregeDoorTriggerVolumen;
-	
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ALightsTheRite* LibraryRoofLight;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	ATiffany* LibraryTiffany;
-
-	UPROPERTY(EditAnywhere, Category = "InGameObject")
-	TArray<AActor*> ActorTobeDestroyOnEndgame;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
-	TArray<ALightsTheRite*> LibraryLightsEvent;
-	
-	FTimeline JumpscareFirstTimeLine;
-	FTimeline JumpscareSecondTimeLine;
-
-	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "0.4f sec, flat curve"))
-	UCurveFloat* JumpscareFirstTimeLineCurve;
-	
-	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "4 sec, flat curve"))
-	UCurveFloat* JumpscareSecondTimeLineCurve;
-
-	UPROPERTY(EditAnywhere, Category="Drawers", meta=(ToolTip = "4 sec, flat curve"))
-	UCurveFloat* DrawerTimeLineCurve;
-	
-	
-	FTimerHandle PortraitTimerHandle;
-	
-	bool bMinutes;
-	bool bHours;
-	bool bOnDrawerPuzzle = true;
-	bool bLibraryPuzzleStarted;
-	bool bLibraryJumpScaredReady;
-	bool bCanDrop;
-
-	int8 MaxPortraitsDown = 0;
-	int8 PortraitsDown = 0;
-	int8 DrawersOpened = 0;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Drawers")
-	int8 MinDrawerOpenedUntilscreams = 3;
-	
-	int8 DoOnceDrawers = 0;
-	int8 DoOnceLibrary = 0;
-	int8 DoOnceJumpscare = 0;
-	int8 DoOnceSpawnKey = 0;
-	
-	int8 HitCounterLibrary = 0;
-
-	float TiffanyTalkTimer, TiffanyTalkCD = 15.0f;
-	float BreathTimer, BreathCD = 15.0f;
-	float PortraitTimer = 0.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "InGameObjects: Portraits")
-	float PortraitDownCD = 0.0f;
-	
-private:
-	void SetVariables();
+//---------------- Initialize Methods
+	void SetAudioSettings();
 	void BindPuzzleEvents();
-	void SetHintsWidget();
+	void BindEvents();
+	void SettutorialUI();
+	
+//---------------- Tick Methods
+	void MakeTiffanyTalk(float time);
+	void MakeBreath(float time);
 
-	UFUNCTION()
-	void CheckInteraction();
-	UFUNCTION()
-	void AlexSayGetAway();
 
+//---------------- Letters Methods
 	UFUNCTION()
 	void GetMinutes();
-	UFUNCTION()
-	void GetHours();
 	
 	UFUNCTION()
-	void FirstLetterRead();
-	//void HintUIOn();
+	void GetHours();
+
+	void CheckLetters();
 
 	void MinutesCollected();
 
 	UFUNCTION()
-	void OnDrawerTimelineFinished();
-
+	void LockDoorsEndGame();
+	
+	UFUNCTION()
+	void EndGame();
+	
+//---------------- Audio Methods
 	UFUNCTION()
 	void VoicesSoundSetOrigialVolumen();
+	
 	UFUNCTION()
 	void VoicesSoundIncrease();
 	
 	UFUNCTION()
-	void SpawnTiffanyForLibraryKeyCollected();
+	void OnSoundPaused();
+	
+//---------------- Blocking volumen Methods
+	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRot);
+
+	void ResetBlockingVolumenPosition();
+	
+//---------------- Spawn Methods
+	UFUNCTION()
+	void SpawnPlanksOnDoor();
 
 	UFUNCTION()
+	void SpawnTiffanyForLibraryKeyCollected();
+
+//---------------- Interaction Methods
+	UFUNCTION()
 	void OnLibraryKeyCollected();
+	
 	UFUNCTION()
 	void OnWalkFinished();
 	
 	UFUNCTION()
-	void OnInteractionWithLockedDoor();
-
+	void OnInteractionWithLockedDoor(AInteractor* Interactor);
 	
-	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRot);
-
-	void ResetBlockingVolumenPosition();
-
-	void MakeTiffanyTalk(float time);
-	void MakeBreath(float time);
-
-	void DropPortrait(float DeltaTime);
-
 	UFUNCTION()
-	void OnSoundPaused();
-
+	void OnJumpscareFinished();
+	
+//---------------- TimeLine Methods
+	void BindTimeLineMethods();
+	
+	UFUNCTION()
+	void OnSecondJumpscareTimelineFinished();
+	
+//---------------- Bind Colliders Methods
 	UFUNCTION()
 	void OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor);
 
 	UFUNCTION()
 	void OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor);
+	UFUNCTION()
+	void OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor);
 
 	UFUNCTION()
-	void OnOverlapBeginEndGame(AActor* OverlappedActor, AActor* OtherActor);
+	void OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor);
 	
 	UFUNCTION()
 	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
@@ -333,23 +135,227 @@ private:
 	UFUNCTION()
 	void OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor);
 
-	void BindTimLinemethods();
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
-	UFUNCTION()
-	void OnFirstJumpscareTimelineFinished();
-	UFUNCTION()
-	void OnSecondJumpscareTimelineFinished();
-	UFUNCTION()
-	void OnJumpscareFinished();
-	
-protected:
-	virtual void BeginPlay() override;
-
 public:
 	FOnPartOfClockGain OnPartOfClockGain;
 	FBlockingHit OnBlockingHit;
+	
+private:
+	bool bMinutes;
+	bool bHours;
+	bool bLibraryPuzzleStarted;
+	bool bLibraryJumpScaredReady;
+	bool IShouldGetOutOfHere;
+	bool bEndGamePassDone = false;
+	
+	int8 DoOnceLibrary = 0;
+	int8 DoOnceJumpscare = 0;
+	int8 DoOnceJumpscareReady = 0;
+	int8 HitCounterLibrary = 0;
 
-public:	
-	AClockLevelGameFlow();
-	virtual void Tick(float DeltaTime) override;
+	float TiffanyTalkTimer, TiffanyTalkCD = 15.0f;
+	float BreathTimer, BreathCD = 15.0f;
+	
+	float AmbientMusicOriginalVolumen;
+	float StressSoundOriginalVolumen;
+	float VoicesSoundOriginalVolumen;
+
+
+	//-------- Colliders
+	UPROPERTY(EditAnywhere, Category = "Colliders")
+	ABlockingVolume* BlockingVolume;
+
+	UPROPERTY(EditAnywhere, Category = "Colliders")
+	ATriggerBox* KnockTrigger;
+	
+	UPROPERTY(EditAnywhere, Category = "Colliders")
+	ATriggerBox* CloseGaregeDoorTriggerVolumen;
+	
+	UPROPERTY(EditAnywhere, Category = "Colliders")
+	ATriggerBox* Trigger_LockEndGameDoors;
+	
+	UPROPERTY(EditAnywhere, Category = "Colliders")
+	AMoveTiffany* HallKeyEventMoveTiffanyTrigger;
+	
+	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
+	ATriggerBox* LibraryTriggerVolumenFirst;
+	
+	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
+	ATriggerVolume* LibraryTriggerVolumenJumpScared;
+
+	UPROPERTY(EditAnywhere, Category = "Colliders: Library")
+	ATriggerVolume* LibraryTriggerVolumenJumpScaredReady;
+	
+	UPROPERTY(EditAnywhere, Category= "Colliders")
+	ATriggerVolume* TriggerVolume_EndGamePass;
+	
+	UPROPERTY(EditAnywhere, Category = "Walls")
+	TArray<AStaticMeshActor*> Walls_EndGameWall;
+	
+	//-------- Audio
+	UAudioComponent* AmbientMusicCompoenent;
+	UAudioComponent* StressSoundMusicCompoenent;
+	UAudioComponent* VoicesSoundMusicCompoenent;
+
+	UPROPERTY(EditAnywhere, Category = "Ambient Sound")
+	USoundBase* AmbientMusic;
+
+	UPROPERTY(EditAnywhere, Category = "Ambient Sound")
+	USoundBase* StressSound;
+	
+	UPROPERTY(EditAnywhere, Category = "Ambient Sound")
+	USoundBase* VoicesSound;
+
+	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
+	USoundBase* SFX_Knocking;
+	
+	UPROPERTY(EditAnywhere, Category = "Ambient Audios")
+	USoundBase* SFX_LastAudio;
+	
+	UPROPERTY(EditAnywhere, Category = "InGameObjects: Audio")
+	USoundBase* SFX_BigDoor;
+
+	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
+	USoundBase* TiffanyTalkCue;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
+	USoundBase* DropSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audios: Tiffany")
+	USoundBase* TiffanyBreathkCue;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_TiffanyHeavyBreath;
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_Alex_IHateThatSong;
+		
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_Alex_WhatwasThat;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_TiffanyScream;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_Heartbeat;
+
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_TiffanyNear;
+
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* SFX_TiffanyLaugh;
+
+	UPROPERTY(EditAnywhere, Category = "Audios: Library")
+	USoundBase* AudioIShouldGetOutOfHere;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_LightsBroken;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_LightSwitch;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* OhFuckAlexTalk;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* GetAwaylexTalk;
+	
+	
+	//-------- Taregt Points
+	UPROPERTY(EditAnywhere, Category = "Target Points")
+	ATargetPoint* BlockingVolumeOriginalLocation;
+	
+	UPROPERTY(EditAnywhere, Category = "Target Points: Library")
+	ATargetPoint* HallKeyEventTiffanySpawnPoint;
+	
+	UPROPERTY(EditAnywhere, Category = "Target Points: Library")
+	ATargetPoint* BlockingVolumeLibraryEntrancePosition;
+	
+	UPROPERTY(EditAnywhere, Category = "Target Points: Library")
+	ATargetPoint* BlockingVolumenLibraryPosition;
+
+	//-------- Actor for event
+	UPROPERTY(EditAnywhere, Category="Actors for event")
+	TArray<AActor*> PlanksToBeSpawnOnTiffanyWalk;
+
+	UPROPERTY(EditAnywhere, Category = "Actors for event")
+	TArray<AActor*> ActorTobeDestroyOnEndgame;
+
+	UPROPERTY(EditAnywhere, Category = "Actors for event")
+	AStaticMeshActor* Actor_EndGamePassWall;
+	
+	//-------- TimeLines
+	FTimerHandle JumpscareHandleFirst;
+	FTimerHandle JumpscareHandleSecond;
+	
+	FTimerHandle TutorialTimerHandle;
+	
+	FTimeline JumpscareSecondTimeLine;
+	
+	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "0.4f sec, flat curve"))
+	UCurveFloat* JumpscareFirstTimeLineCurve;
+	
+	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "4 sec, flat curve"))
+	UCurveFloat* JumpscareSecondTimeLineCurve;
+
+
+	//-------- Ui
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UTutorialWidget> TutorialUI;
+	
+	UPROPERTY()
+	UTutorialWidget* TutorialWidget;
+	
+	//-------- Advance need puzzle
+	UPROPERTY(EditAnywhere, Category = "Letters")
+	AMinutesLetter* MinutesLetter;
+	
+	UPROPERTY(EditAnywhere, Category = "Letters")
+	AHourLetter* HoursLetter;
+	
+	//-------- Lights
+	UPROPERTY(EditAnywhere, Category = "Lights: Ambient")
+	TArray<ALightsTheRite*> Lights;
+
+	UPROPERTY(EditAnywhere, Category = "Lights: Library")
+	TArray<ALightsTheRite*> LibraryLightsEvent;
+
+	UPROPERTY(EditAnywhere, Category = "Lights: Library")
+	ALightsTheRite* LibraryRoofLight;
+	
+	//-------- Door
+	UPROPERTY(EditAnywhere, Category = "Doors")
+	ADoor* GarageDoor;
+
+	UPROPERTY(EditAnywhere, Category = "Doors")
+	ADoor* ArtRoomDoor;
+	
+	UPROPERTY(EditAnywhere, Category = "Doors")
+	ADoor* BigLockedDoor;
+
+	UPROPERTY(EditAnywhere, Category = "Doors")
+	ADoor* LibraryDoor;
+
+	UPROPERTY(EditAnywhere, Category = "Doors: Key")
+	ADoorKey* LibraryKey;
+
+	
+	UPROPERTY(EditAnywhere, Category= "Level Events")
+	ACloclLevelArtRoomEvent* ArtRoomEvent;
+	
+	UPROPERTY(EditAnywhere, Category = "InGameObject: Library")
+	ARecordPlayer* RecordPlayer;
+
+	UPROPERTY(EditAnywhere, Category = "Tiffany")
+	TSubclassOf<ATiffany> TiffanyClassForSpawning;
+	ATiffany* MidleTiff;
+	
+	UPROPERTY(EditAnywhere, Category = "Tiffany")
+	ATiffany* LibraryTiffany;
+	
+	UPROPERTY(EditAnywhere, Category = "Clock")
+	ABigClock* BigClock;
+	
+	AAlex* Player;
 };

@@ -1,50 +1,16 @@
-#include "Inventory.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "Inventory.h"
+#include "Components/TextBlock.h"
+#include "Materials/MaterialInterface.h"
+#include "Components/Button.h"
+#include "Components/Image.h"
 #include "Styling/SlateBrush.h"
 
-
-void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
-{
-	for (auto Element : AllItems)
-	{
-		if(Element.Key == itemName)
-			return;
-	}
-
-	
-	TPair<FString, UMaterialInterface*> addedPair;
-	
-	addedPair.Key = itemName;
-	addedPair.Value = ItemsInIds[id];
-	
-	AllItems.Add(addedPair);
-}
-
-void UInventory::RemoveItem(FString itemName, PickableItemsID id)
-{
-	bool contains = false;
-	
-	for (auto Element : AllItems)
-	{
-		if(Element.Key == itemName)
-		{
-			contains = true;
-			break;
-		}
-	}
-	if(!contains)
-	{
-		return;
-	}
-
-	TPair<FString, UMaterialInterface*> removedPair;
-
-	removedPair.Key = itemName;
-	removedPair.Value = ItemsInIds[id];
-
-	AllItems.Remove(removedPair);
-}
-
+//---------------- Inventory setter Methods
 void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
 {
 	BTN_NextItem = Next;
@@ -56,6 +22,40 @@ void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* text
 	BTN_PrevItem->OnClicked.AddDynamic(this, &UInventory::ShowPrevItem);
 }
 
+void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
+{
+	for (auto Element : AllItems)
+	{
+		if(Element.Key == itemName)
+			return;
+	}
+	
+	TPair<FString, UMaterialInterface*> addedPair;
+	
+	addedPair.Key = itemName;
+	addedPair.Value = ItemsInIds[id];
+	
+	AllItems.Add(addedPair);
+}
+
+void UInventory::RemoveItem(FString itemName, PickableItemsID id)
+{
+	for (auto Element : AllItems)
+	{
+		if(Element.Key == itemName)
+		{
+			TPair<FString, UMaterialInterface*> removedPair;
+
+			removedPair.Key = itemName;
+			removedPair.Value = ItemsInIds[id];
+
+			AllItems.Remove(removedPair);
+			return;
+		}
+	}
+}
+
+//---------------- Actions Methods
 void UInventory::OnInventoryOpen()
 {
 	if(AllItems.Num() == 0)
@@ -119,6 +119,7 @@ void UInventory::ShowPrevItem()
 {
 	if(AllItems.Num() == 0)
 		return;
+
 	
 	index--;
 	

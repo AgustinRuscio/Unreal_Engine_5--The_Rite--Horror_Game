@@ -1,4 +1,11 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "Letter.h"
+
+#include "Kismet/GameplayStatics.h"
 
 ALetter::ALetter()
 {
@@ -9,7 +16,9 @@ ALetter::ALetter()
 
 void ALetter::Interaction()	
 {
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	OnAction.Broadcast();
+	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }

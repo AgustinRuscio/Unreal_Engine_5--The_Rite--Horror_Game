@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -12,8 +17,63 @@ UCLASS()
 class THERITE_API ABaseDrawer : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ABaseDrawer();
+
+	bool IsOpen() const;
+	bool IsKeyContainer() const;
 	
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+	virtual void Interaction() override;
+
+	void SetKeyContainer();
+	
+	UFUNCTION()
+	void AddingForce();
+
 private:
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void OpenTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void CloseTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void WaitTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void TimelineFinished();
+	
+	UFUNCTION()
+	void WaitTimelineFinished();
+		
+public:	
+	UPROPERTY(BlueprintAssignable, Category = "Drawer event")
+	FOnDrawerOpen OnDrawerOpen;
+	
+protected:
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float ForceIntensity;
+	
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector MoveDir;
+	
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector ForceDir;
+
+private:
+	bool bKeyConteiner;
+	bool bFlipFlop = true;
+	bool bIsOpen = false;
+	
+	FVector StartLocation;
+	FVector EndLocation;
+	
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* DrawerModel;
 
@@ -28,58 +88,4 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
-	
-	
-
-	bool bKeyConteiner;
-	bool bFlipFlop = true;
-	bool bIsOpen = false;
-
-
-	void BindTimeLines();
-	UFUNCTION()
-	void OpenTimeLineUpdate(float value);
-	
-	
-	UFUNCTION()
-	void CloseTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void WaitTimeLineUpdate(float value);
-	
-	
-	UFUNCTION()
-	void TimelineFinished();
-	
-	UFUNCTION()
-	void WaitTimelineFinished();
-
-protected:
-	virtual void BeginPlay() override;
-	
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	FVector MoveDir;
-	
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	FVector ForceDir;
-
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float ForceIntensity;
-	
-public:	
-	ABaseDrawer();
-
-	bool IsOpen() const;
-	virtual void Tick(float DeltaSeconds) override;
-	
-	UPROPERTY(BlueprintAssignable, Category = "Drawer event")
-	FOnDrawerOpen OnDrawerOpen;
-	
-	virtual void Interaction() override;
-
-	bool IsKeyContainer() const;
-	void SetKeyContainer();
-	
-	UFUNCTION()
-	void AddingForce();
 };

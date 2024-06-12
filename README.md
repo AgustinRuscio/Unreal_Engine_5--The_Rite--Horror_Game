@@ -27,4 +27,3 @@
 
 
 ![](https://i.postimg.cc/T111XMgn/The-Rite-6-6-2024-12-14-37-PM.png)
-

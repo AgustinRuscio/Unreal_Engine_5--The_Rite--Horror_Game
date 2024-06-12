@@ -1,19 +1,14 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Interactuables/Door.h"
 #include "Components/TimelineComponent.h"
-#include "Camera/CameraComponent.h"
-#include "Components/PointLightComponent.h"
-#include "Components/Widget.h"
+#include "TheRite/EnumsContainer.h"
 #include "GameFramework/Character.h"
-#include "TheRite/AlexPlayerController.h"
-#include "TheRite/Interactuables/IInteractuable.h"
-#include "TheRite/Interactuables/Letter.h"
-#include "TheRite/Widgets/CenterDotWidget.h"
-#include "TheRite/Widgets/Inventory.h"
-#include "TheRite/Widgets/OpenInventory.h"
-#include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Alex.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
@@ -22,127 +17,259 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
 
 class UInputMappingContext;
 class UInputAction;
+class UPointLightComponent;
+class UCameraComponent;
+class AWrittingsDetector;
+class UTimerActionComponent;
+class UPauseMenuWidget;
+class UTutorialWidget;
+class UOpenInventory;
+class UInventory;
+class UChangingdWidget;
+class UCenterDotWidget;
+class IIInteractuable;
+class AAlexPlayerController;
+class ADoor;
+class USpringArmComponent;
 
 UCLASS()
 class THERITE_API AAlex : public ACharacter
 {
 	GENERATED_BODY()
 
+public:
+	AAlex();
+	
+//---------------- Getter Methods
+	bool IsHoldInteractBTN() const;
+	bool CheckCanDrag() const;
+	bool GetFocusingState() const;
+	
+	float GetDoorFloat() const;
+	float GetInteractionRange() const;
+	
+	UCameraComponent* GetCamera() const;
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void Tick(float DeltaTime) override;
+
+//---------------- Action Methods
+	UFUNCTION()
+	void CameraTargeting(FVector Target);
+	
+	void ForceTalk(USoundBase* Voice);
+	
+	void CallPauseFunc();
+	
+	UFUNCTION()
+	void ForceEnableInput();
+	void ForceDisableInput();
+	
+	void ForceTurnLighterOn();
+	void ForceLighterOff();
+	
+	void OnJumpScare();
+	
+	void RemoveFromInventory(FString itemName, PickableItemsID id);
+	
+//---------------- Setter Methods
+	void SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder);
+	void SetCanUseLighterState(bool lighterState);
+	
+	void SetDraggingState(bool shouldCheck, ADoor* Door);
+	void SetCameraStun(bool stun);
+	
+	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
+	void ForceHolding(bool newHolding);
+	
+//---------------- View Methods
+	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
+	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation);
+	void MoveCamera(FVector NewCameraPos);
+	void MakeCameraView(FRotator Rot);
+	
 private:
-	UPROPERTY(EditAnywhere, Category = "Character")
-	UPointLightComponent* BodyLight;
+//---------------- Checker Methods
+	bool IsDoorCheck(IIInteractuable* checked);
+	
+	UFUNCTION()
+	void CheckHolding(bool HoldingState);
+	
+	void InteractableCheck();
+	
+	void CheckLighterCooldDown(float deltaTime);
+	
+//---------------- Initialization Methods
+	void CreateWritingDetector();
+	
+	void CreateWidgets();
 
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	UCameraComponent* Camera;
+	void CreatePauseWidget();
+	void CreateDotWidget();
+	void CreateFocusWidget();
+	void CreateInventoryWidget();
+	void CreateOpenInventoryWidget();
+	void CreateLighterReminderWidget();
+	void CreateConsumableWidget();
 	
-	UPROPERTY(EditAnywhere, Category = "Screamer")
-	USkeletalMeshComponent* ScreamerSkeleton;
+//---------------- Tick Methods
+	void HeadBob();
 	
-	UPROPERTY(EditAnywhere, Category = "Hint")
-	UChildActorComponent* Hint;
+	void CheckLighterOn();
 	
-	UPROPERTY(EditAnywhere, Category = "Ligher")
-	UChildActorComponent* Lighter;
+//---------------- Input Methods
+	UFUNCTION()
+	void MovePlayer(FVector2D vector);
+	
+	UFUNCTION()
+	void MoveCamera(FVector2D vector);
 
+	UFUNCTION()
+	void Interaction();
 	
+	UFUNCTION()
+	void StartSprint();
 	
-	UPROPERTY(EditAnywhere, Category = "Ligher")
-	UStaticMeshComponent* FlamePlane;
+	UFUNCTION()
+	void StopSprint();
 	
-	UPROPERTY(EditAnywhere, Category = "Ligher")
-	UPointLightComponent* LighterLight;
+	UFUNCTION()
+	void TurnLigherIfPossible();
+	
+	UFUNCTION()
+	void DoorMovement(FVector2D vector);
+	
+	UFUNCTION()
+	void OpenPause();
+	UFUNCTION()
+	void OpenInventory();
+	
+//---------------- Lighter Methods
+	UFUNCTION()
+	void MontageAnimOnOff();
+	
+	void LighterSoundTimer(float deltaTime);
+	
+	void SetLighterAssetsVisibility(bool visibilityState);
 
-	
-	UPROPERTY(EditAnywhere, Category = "Movement Value")
-	float WalkSpeed = 400.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Movement Values")
-	float RunSpeed = 600.0f;
+	UFUNCTION()
+	void ShowLighterReminder();
+	void HideLighterReminder();
 
+//---------------- Audio Methods
+	void MakeTalk();
 	
-	bool bCanInteract;
+	UFUNCTION()
+	void OnAudioFinished();
+	
+	void StopTalking();
+	
+//---------------- TimeLine
+	void BindTimeLineMethods();
+	
+	UFUNCTION()
+	void CameraTargetTick(float time);
+	
+	UFUNCTION()
+	void CameraTargetFinished();
 
-	IIInteractuable* ActualInteractuable;
-	FString RemovableName;
-	PickableItemsID RemovableID;
+	UFUNCTION()
+	void CameraFocusTick(float time);
 	
-	bool bLighterOnCD = false;
-
-
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	float MaxLighterTime = 12.0f;
-	float LighterTimer = 12.0f;
+	UFUNCTION()
+	void CameraFocusFinished();
 	
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	float LighterCD = 5.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	UMaterialInstance* NormalMaterial;
+public:
+	UPROPERTY(BlueprintReadOnly)
+	bool bLighter;
 	
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	UMaterialInstance* AggresiveMaterial;
+	FAllItemsCollected OnAllItemCollected;
+	FLighterMontage OnLighterAnimMontage;
+	FJumpscaredFinished OnJumpscaredFinished;
 	
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UPauseMenuWidget> PauseMenu;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UOpenInventory> OpenInventoryMenu;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UInventory> InventoryMenu;
-	
-	UPauseMenuWidget* PauseWidget;
-	UInventory* InventoryWidget;
-	UOpenInventory* OpenInventoryWidget;
-	
-	float BreathTimer;
-	float AudioTimer;
-	bool bCanSound = true;
-	bool bStun = false;
-
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	USoundBase* LighterCDSound;
-	
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	USoundBase* LighterOn;
-
-	UWidget* Hints;
-	bool bHasHint;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UCenterDotWidget> DotUI;
-	
-	UCenterDotWidget* DotWidget;
-	
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
-	float RangeInteractuable;
-
-	UPROPERTY(EditAnywhere, Category = "Lighter values")
+private:
+	//UPROPERTY(EditAnywhere, Category = "Lighter values")
 	bool bCanUseLigher;
-
-	USoundBase* TalkSound;
-	
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* BreathSound;
-
+	bool bShowLighterReminder;
+	bool bCanRun = true;
 	bool bCanTalk = true;
-
-	float DoorFloat;
-
-	bool bHoldingInteractBTN;
-
-	UPROPERTY(EditAnywhere, Category = "Hints")
-	UAnimMontage* HintAnimMontage;
+	bool bCanSound = true;
+	bool bCanInteract = false;
+	bool bFocusing = false;
 	
-	UPROPERTY(EditAnywhere, Category = "Hints")
-	UAnimMontage* LighterMontage;
+	bool bFocus = false;
+	bool bStun = false;
+	bool bOnEvent = false;
+	bool bLighterOnCD = false;
+	bool bDoorWasLocked = false;
 
+	bool bInventoryFlip = true;
 	bool bPauseFlip = true;
 
-	AAlexPlayerController* MyController;
-
+	bool bHoldingInteractBTN = false;
+	bool bIsDragging = false;
 	
+	UPROPERTY(EditAnywhere, Category = "General")
+	float WalkSpeed = 400.0f;
+	
+	UPROPERTY(EditAnywhere, Category = "General")
+	float RunSpeed = 600.0f;
+
+	UPROPERTY(EditAnywhere, Category = "General")
+	float Sensitivity;
+	
+	UPROPERTY(EditAnywhere, Category = "General")
+	float RangeInteractuable;
+	
+	UPROPERTY(EditAnywhere, Category = "General")
+	float MaxLighterTime = 12.0f;
+	
+	UPROPERTY(EditAnywhere, Category = "General")
+	float LighterCD = 5.0f;
+	
+	float LighterTimer = 0;
+	float AudioTimer;
+	float DoorFloat;
+
+	FVector2D VectorX;
+	FVector2D VectorY;
+
+	FVector CameraLookTarget;
+	FRotator Rot;
+	
+	FTransform LastCamTransform;
+	FTransform FocusCamTransform;
+
+	//-------- Meshes Collider
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UStaticMeshComponent* FlamePlane;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UChildActorComponent* Lighter;
+	
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	USkeletalMeshComponent* ScreamerSkeleton;
+
+	//-------- Spring Arms
+
+	UPROPERTY(EditAnywhere)
+	USpringArmComponent* SpringArm_Lighter;
+	
+	//-------- Anims
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UAnimationAsset* ScreamerAnim;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UAnimMontage* HintAnimMontage;
+	
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UAnimMontage* LighterMontage;
+
+	//-------- Camera
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	UCameraComponent* Camera;
 	UPROPERTY(EditAnywhere, Category = "Camera Shake")
 	TSubclassOf<UCameraShakeBase> CameraShakeWalk;
 	
@@ -154,131 +281,96 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Camera Shake")
 	TSubclassOf<UCameraShakeBase> CameraShakeStun;
-
-	UPROPERTY(EditAnywhere, Category = "Screamer")
-	UAnimationAsset* ScreamerAnim;
-
-	FTimerHandle ScreamerTimerHanlde;
 	
+	//-------- Audio
+	UAudioComponent* TempAudio = nullptr;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* LighterCDSound;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* LighterOn;
+	
+	USoundBase* TalkSound;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* BreathSound;
+	
+	//-------- TimeLine
+	FTimerHandle ScreamerTimerHanlde;
 	FTimerHandle OpeninventorywidgetTimerHandle;
+	FTimerHandle LighterReminderTimer;
+	FTimerHandle ConsumibleWidgetTimer;
+	FTimerHandle aa;
 
 	FTimeline TargetCameraTimeLine;
+	FTimeline FocusCameraTimeLine;
 	
-	UPROPERTY(EditAnywhere, Category = "Camera")
+	UPROPERTY(EditAnywhere, Category = "TimeLine")
 	UCurveFloat* EmptyCurve;
-	bool bInventoryFlip = true;
-
-	UFUNCTION()
-	void CameraTargetTick(float time);
-	UFUNCTION()
-	void CameraTargetFinished();
-
-	void BindTimeLineMethods();
 	
-	void BindActions();
+	UPROPERTY(EditAnywhere, Category = "TimeLine")
+	UCurveFloat* CurveFloat_FocusCamera;
 
-	UFUNCTION()
-	void StartSprint();
+	//-------- Lights
+	UPROPERTY(EditAnywhere, Category = "Lights")
+	UPointLightComponent* LighterLight;
 	
-	UFUNCTION()
-	void StopSprint();
+	UPROPERTY(EditAnywhere, Category = "Lights")
+	UPointLightComponent* BodyLight;
+
+	//-------- Widgets
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UPauseMenuWidget> PauseMenu;
+	UPauseMenuWidget* PauseWidget;
 	
-	UFUNCTION()
-	void TurnLigherIfPossible();
-	void CheckLighterOn();
-
-	UFUNCTION()
-	void MovePlayer(FVector2D vector);
-
-	UFUNCTION()
-	void MoveCamera(FVector2D vector);
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UTutorialWidget> LighterRecordatoryMenu;
+	UTutorialWidget* LighterReminderWidget;
 	
-	UFUNCTION()
-	void Interaction();
-	void CloseOpenInventoryWidget();
-	UFUNCTION()
-	void CheckHolding(bool HoldingState);
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UOpenInventory> OpenInventoryMenu;
+	UOpenInventory* OpenInventoryWidget;
 	
-	UFUNCTION()
-	void OpenHint();
-	UFUNCTION()
-	void CloseHint();
-
-	UFUNCTION()
-	void OpenPause();
-	UFUNCTION()
-	void OpenInventory();
-
-	UFUNCTION()
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UInventory> InventoryMenu;
+	UInventory* InventoryWidget;
 	
-	void MontageAnimOnOff();
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> ConsumibleItemMenu;
+	UChangingdWidget* ConsumibleItemWidget;
 	
-	void LighterSoundTimer(float deltaTime);
-	void CheckLighterCooldDown(float deltaTime);
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UCenterDotWidget> DotUI;
+	UCenterDotWidget* DotWidget;
+	
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> AltarUI;
+	UChangingdWidget* AltarWidget;
 
-	void HeadBob();
+	
+	//-------- Components
+	UPROPERTY(EditAnywhere, Category="Components")
+	UTimerActionComponent* TimerComponentForLighterDisplay;
 
-	void InteractuableCheck();
+	//-------- Interaction
+	IIInteractuable* ActualInteractuable;
+	FString RemovableName;
+	PickableItemsID RemovableID;
+	UPROPERTY(EditAnywhere, Category = "Ligher")
+	TSubclassOf<AWrittingsDetector> DetectorSubclass;
+	AWrittingsDetector* WrittingsDetector;
+	
 
-	bool IsDoorCheck(IIInteractuable* checked);
+	
+	//-------- Materials
+	UPROPERTY(EditAnywhere, Category = "Lighter values")
+	UMaterialInstance* NormalMaterial;
+	
+	UPROPERTY(EditAnywhere, Category = "Lighter values")
+	UMaterialInstance* AggresiveMaterial;
+	
+	
+	AAlexPlayerController* MyController;
 	ADoor* DoorChecked;
-	bool bDoorWasLocked;
-
-
-	UAudioComponent* TempAudio = nullptr;
-	void TimeOver();
-
-	void MakeTalk();
-	
-	UFUNCTION()
-	void OnAudioFinished();
-
-	void StopTalking();
-
-	void CreateWidgets();
-	
-	FVector CameraLookTarget;
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	AAlex();
-
-	
-	UPROPERTY(BlueprintReadOnly)
-	bool bLighter;
-	
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	void CallPauseFunc();
-
-	
-	void SetCameraStun(bool stun);
-	
-	UFUNCTION()
-	void CameraTargeting(FVector Target);
-	
-	void ForceTalk(USoundBase* Voice);
-	
-	bool IsHoldInteracBTN() const;
-
-	float GetDoorFloat() const;
-
-	void SetHintState(bool newHintState);
-	
-	void SetCanUseLigherState(bool lighterState);
-	void ForceTurnLighterOn();
-
-	void OnJumpScare();
-	
-	UChildActorComponent* GetHint() const;
-	
-	UCameraComponent* GetCamera() const;
-	
-	FAllItemsCollected OnAllItemCollected;
-	FLighterMontage OnLighterAnimMontage;
-	FJumpscaredFinished OnJumpscaredFinished;
 };

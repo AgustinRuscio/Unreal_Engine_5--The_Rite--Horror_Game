@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,15 +14,12 @@ class THERITE_API ATiffanyController : public AAIController
 {
 	GENERATED_BODY()
 
-private:
+public:
+	virtual void BeginPlay() override;
+	
+	UBehaviorTree* GetBehaviourTree() const;
 
+private:
 	UPROPERTY(EditAnywhere, Category= "AI behaviour")
 	UBehaviorTree* BehaviourTree;
-	
-protected:
-	
-	virtual void BeginPlay() override;
-
-public:
-	UBehaviorTree* GetBehaviourTree() const;
 };

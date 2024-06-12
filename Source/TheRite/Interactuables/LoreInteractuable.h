@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,12 +14,12 @@ class THERITE_API ALoreInteractuable : public AInteractor
 {
 	GENERATED_BODY()
 
-private:
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* BaseMesh;
-
 public:	
 	ALoreInteractuable();
 	
 	virtual void Interaction() override;
+	
+private:
+	UPROPERTY(EditAnywhere, Category= "Mesh")
+	UStaticMeshComponent* BaseMesh;
 };

@@ -1,4 +1,11 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "HourLetter.h"
+
+#include "Kismet/GameplayStatics.h"
 
 AHourLetter::AHourLetter()
 {
@@ -11,6 +18,7 @@ AHourLetter::AHourLetter()
 void AHourLetter::Interaction()
 {
 	OnAction.Broadcast();
-	OnInteractionTrigger.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
 }

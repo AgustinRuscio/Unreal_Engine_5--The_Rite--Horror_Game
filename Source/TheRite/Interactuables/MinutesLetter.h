@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,16 +16,17 @@ UCLASS()
 class THERITE_API AMinutesLetter : public AInteractor
 {
 	GENERATED_BODY()
-	
-private:
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* LetterMesh;
 
-public:	
+public:
 	AMinutesLetter();
 
 	virtual void Interaction() override;
 	
+public:	
 	UPROPERTY(BlueprintAssignable, Category = "Action")
 	FOnAction OnAction;
+	
+private:
+	UPROPERTY(EditAnywhere, Category= "Mesh")
+	UStaticMeshComponent* LetterMesh;
 };

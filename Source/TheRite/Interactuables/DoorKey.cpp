@@ -1,5 +1,11 @@
-#include "DoorKey.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "DoorKey.h"
+#include "Door.h"
+#include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 ADoorKey::ADoorKey()
@@ -22,22 +28,17 @@ void ADoorKey::Interaction()
 	UGameplayStatics::SpawnSound2D(this, VoiceSound);
 
 	OnKeyCollected.Broadcast();
+	OnInteractionTrigger.Broadcast(this);
 	
 	MyDoor->ObteinKey();
+	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());
 	
-	UGameplayStatics::SpawnSoundAtLocation(this, SFXGrabItem,GetActorLocation());
+	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
 
 	Destroy();
 }
-
 
 void ADoorKey::SetDoor(ADoor* NewDoor)
 {
 	MyDoor = NewDoor;
 }
-
-void ADoorKey::BeginPlay()
-{
-	Super::BeginPlay();
-}
-

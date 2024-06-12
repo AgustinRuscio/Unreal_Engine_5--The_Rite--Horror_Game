@@ -1,16 +1,23 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "Tiffany.h"
 
 #include "Components/AudioComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "TheRite/AI/TiffanyController.h"
+#include "AIController.h"
+#include "Components/SphereComponent.h"
+#include "Engine/TargetPoint.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 
-
 ATiffany::ATiffany()
 {
 	PrimaryActorTick.bCanEverTick = true;
-    
 	
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->InitSphereRadius(305.0f);
@@ -22,18 +29,23 @@ ATiffany::ATiffany()
 	GetMesh()->SetMobility(EComponentMobility::Movable);
 	
 	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
-	
-	//AIControllerClass = DefaultAIController;
 }
 
-void ATiffany::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-}
-
+//---------------- States Methods
 bool ATiffany::GetWalkingState() const
 {
 	return bWalking;
+}
+
+bool ATiffany::SetHasToMove(bool hasToMoveState)
+{
+	return bHasToMove;
+}
+
+//---------------- System Methods
+void ATiffany::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
 }
 
 void ATiffany::BeginPlay()
@@ -42,9 +54,9 @@ void ATiffany::BeginPlay()
 	auto AIController = CastChecked<ATiffanyController>(GetController());
 	
 	BlackBoard = AIController->GetBlackboardComponent();
-	
 }
 
+//---------------- Movement Methods
 void ATiffany::StartMovement(ATargetPoint* newTarget)
 {
 	bWalking = true;
@@ -68,14 +80,9 @@ void ATiffany::SetWaypoints(TArray<ATargetPoint*> targets)
 	Waypoints = targets;
 }
 
-bool ATiffany::SetHasToMove(bool hasToMoveState)
-{
-	return bHasToMove;
-}
-
-
+//---------------- Collider Methods
 void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-                              int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+							  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
 	ObjectTypes.Add(static_cast<EObjectTypeQuery>(ECollisionChannel::ECC_WorldDynamic));
@@ -99,8 +106,6 @@ void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 			light->AggresiveMatterial();
 		}
 	}
-
-	//Player FlickerLighter
 }
 
 void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -128,6 +133,4 @@ void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 			light->NormalMatterial();
 		}
 	}
-	
-	//Player FlickerLighter
 }

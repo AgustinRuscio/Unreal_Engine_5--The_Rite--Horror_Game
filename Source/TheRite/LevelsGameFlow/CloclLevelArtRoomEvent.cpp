@@ -1,18 +1,84 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "CloclLevelArtRoomEvent.h"
 
+#include "Components/SpotLightComponent.h"
 #include "Components/AudioComponent.h"
+#include "Animation/SkeletalMeshActor.h"
+#include "Engine/TargetPoint.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/Door.h"
+#include "Engine/SpotLight.h"
+#include "Components/PostProcessComponent.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 
 ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ACloclLevelArtRoomEvent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	BindTimeLines();
+}
+
+void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	TimeLinesTick(DeltaTime);
+}
+
+void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* OtherActor)
+{
+	auto alex = Cast<AAlex>(OtherActor);
+	if(!alex) return;
+	
+	Alex = alex;
+
+	if(DoOnce != 0) return;
+
+	HearthBeatComponent = UGameplayStatics::SpawnSound2D(this, HeathBeatSFX);
+	UGameplayStatics::SpawnSound2D(this, TiffanyNearSFX);
+	
+	DoOnce++;	
+	OnArtRoomEventStarted.Broadcast();
+	
+	UMaterialInstanceDynamic* PostProcessMaterial1 = UMaterialInstanceDynamic::Create(PostProcessMaterialEvent, this);
+
+	originalPostProcessValues = PostProcess->GetProperties();
+
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.75f, 4, true, true, true, true);
+	
+	PostProcess->AddOrUpdateBlendable(PostProcessMaterial1);
+	
+	Alex->CameraTargeting(StandTiffany->GetActorLocation());
+	Alex->SetEventMode(true, -60,60,-20,20);
+	Alex->ForceLighterOff();
+	
+	ArtRoomDoor->SetLockedState(true);
+	ArtRoomDoor->HardClosing();
+
+	ArtRoomLight->TurnOff();
+	UGameplayStatics::SpawnSound2D(this, LightSwitch);
+	
+	FirstTurnOffTimeLine.PlayFromStart();
+}
+
+//---------------- TimeLine Methods
 void ACloclLevelArtRoomEvent::BindTimeLines()
 {
 	StartTriggerBox->OnActorBeginOverlap.AddDynamic(this, &ACloclLevelArtRoomEvent::OnEventStarted);
-	
 	
 	//----- During First Lights Out
 	FOnTimelineFloat FirstTurnOffCallbackUpdate;
@@ -58,7 +124,7 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 	FOnTimelineEventStatic ThirdTurnOffCallbackFinisehd;
 	ThirdTurnOffCallbackFinisehd.BindUFunction(this, FName("OnThirdTurnOffFinished"));
 	ThirdTurnOffTimeLine.SetTimelineFinishedFunc(ThirdTurnOffCallbackFinisehd);
-
+	
 	//----- Third Light on
 	FOnTimelineFloat ThirdTurnOnCallbackUpdate;
 	ThirdTurnOnCallbackUpdate.BindUFunction(this, FName("DuringThirdTurnOnTick"));
@@ -85,46 +151,23 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 	FOnTimelineEventStatic LasturnOnCallbackFinisehd;
 	LasturnOnCallbackFinisehd.BindUFunction(this, FName("OnLastTurnOnFinished"));
 	LastTurnOnTimeLine.SetTimelineFinishedFunc(LasturnOnCallbackFinisehd);
-
 }
 
-void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* OtherActor)
+void ACloclLevelArtRoomEvent::TimeLinesTick(float DeltaTime)
 {
-	auto alex = Cast<AAlex>(OtherActor);
-	if(!alex) return;
+	FirstTurnOffTimeLine.TickTimeline(DeltaTime);
+	FirstTurnOnTimeLine.TickTimeline(DeltaTime);
 	
-	Alex = alex;
-	Alex->SetCameraStun(true);
-
-	if(DoOnce != 0) return;
-
-	HearthBeatComponent = UGameplayStatics::SpawnSound2D(this, HeathBeatSFX);
-	UGameplayStatics::SpawnSound2D(this, TiffanyNearSFX);
+	SecondTurnOffTimeLine.TickTimeline(DeltaTime);
+	SecondTurnOnTimeLine.TickTimeline(DeltaTime);
 	
-	DoOnce++;	
-	OnArtRoomEventStarted.Broadcast();
-
+	ThirdTurnOffTimeLine.TickTimeline(DeltaTime);
+	ThirdTurnOnTimeLine.TickTimeline(DeltaTime);
 	
-	
-	UMaterialInstanceDynamic* PostProcessMaterial1 = UMaterialInstanceDynamic::Create(PostProcessMaterialEvent, this);
-
-	originalPostProcessValues = PostProcess->GetProperties();
-
-	PostProcess->AddOrUpdateBlendable(PostProcessMaterial1);
-	
-	Alex->CameraTargeting(StandTiffany->GetActorLocation());
-	
-	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->DisableInput(controller);
-	
-	ArtRoomDoor->SetLockedState(true);
-	ArtRoomDoor->HardClosing();
-
-	ArtRoomLight->TurnOffSpotLight();
-	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-	
-	FirstTurnOffTimeLine.PlayFromStart();
+	LastTurnOffTimeLine.TickTimeline(DeltaTime);
+	LastTurnOnTimeLine.TickTimeline(DeltaTime);
 }
+
 
 void ACloclLevelArtRoomEvent::DuringFirstTurnOffTick(float deltaTime) { }
 
@@ -135,9 +178,9 @@ void ACloclLevelArtRoomEvent::FirstTurnOffFinished()
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	SpotLight->SpotLightComponent->SetIntensity(60);
 	
-
 	FirstTurnOnTimeLine.PlayFromStart();
 }
+
 
 void ACloclLevelArtRoomEvent::DuringFirstTurnOnTick(float deltaTime) { }
 
@@ -164,6 +207,7 @@ void ACloclLevelArtRoomEvent::OnSecondTurnOnFinished()
 	ThirdTurnOffTimeLine.PlayFromStart();
 }
 
+
 void ACloclLevelArtRoomEvent::DuringThirdTurnOffTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnThirdTurnOffFinished()
@@ -180,6 +224,7 @@ void ACloclLevelArtRoomEvent::OnThirdTurnOffFinished()
 	ThirdTurnOnTimeLine.PlayFromStart();
 }
 
+
 void ACloclLevelArtRoomEvent::DuringThirdTurnOnTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnThirdTurnOnFinished()
@@ -189,6 +234,7 @@ void ACloclLevelArtRoomEvent::OnThirdTurnOnFinished()
 
 	LastTurnOffTimeLine.PlayFromStart();
 }
+
 
 void ACloclLevelArtRoomEvent::DuringLastTurnOffTick(float deltaTime) { }
 
@@ -206,6 +252,7 @@ void ACloclLevelArtRoomEvent::OnLastTurnOffFinished()
 	LastTurnOnTimeLine.PlayFromStart();
 }
 
+
 void ACloclLevelArtRoomEvent::DuringLastTurnOnTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
@@ -217,36 +264,13 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	ArtRoomDoor->SetLockedState(false);
 
 	OnArtRoomEventFinished.Broadcast();
-	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->EnableInput(controller);
 	
 	HearthBeatComponent->Stop();
 	HearthBeatComponent->DestroyComponent();
 	
 	StartTriggerBox->Destroy();
 	
-	Alex->SetCameraStun(false);
+	Alex->SetEventMode(false, 0,0,0,0);
 	
 	Destroy();
-}
-
-void ACloclLevelArtRoomEvent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	BindTimeLines();
-}
-
-void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	FirstTurnOffTimeLine.TickTimeline(DeltaTime);
-	FirstTurnOnTimeLine.TickTimeline(DeltaTime);
-	SecondTurnOffTimeLine.TickTimeline(DeltaTime);
-	SecondTurnOnTimeLine.TickTimeline(DeltaTime);
-	ThirdTurnOffTimeLine.TickTimeline(DeltaTime);
-	ThirdTurnOnTimeLine.TickTimeline(DeltaTime);
-	LastTurnOffTimeLine.TickTimeline(DeltaTime);
-	LastTurnOnTimeLine.TickTimeline(DeltaTime);
 }

@@ -1,19 +1,61 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "LevelSequence.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "Components/BoxComponent.h"
 #include "RedDoor.generated.h"
+
+class ULevelSequence;
+class UBoxComponent;
 
 UCLASS()
 class THERITE_API ARedDoor : public AInteractor
 {
 	GENERATED_BODY()
 
+public:
+	ARedDoor();
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void Interaction() override;
+	
 private:
+	void CreateEditorComponents();
+	
+	UFUNCTION()
+	void ChangeLevel();
+
+//---------------- TimeLines Methods
+	void BindTimeLines();
+
+	
+	UFUNCTION()
+	void OpenTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void OpenTimelineFinished();
+	
+	
+	UFUNCTION()
+	void LatchAnimTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void FadeTimelineFinished();
+	
+private:
+	bool bAlreadyOpen;
+
+	UPROPERTY(EditAnywhere, Category = "States")
+	FName NextLevelName;
+	
 	//-------- Mesh
 	UPROPERTY(EditAnywhere, Category = "Door mesh")
 	UStaticMeshComponent* DoorItself;
@@ -36,7 +78,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Door mesh")
 	UStaticMeshComponent* EmmisivePlane;
 
-	//-------- Audio
+//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFXDoor;
 	
@@ -44,6 +86,10 @@ private:
 	USoundBase* SFXRedDoor;
 
 	
+	UPROPERTY(EditAnywhere, Category = "Fade")
+	ULevelSequence* SequenceFade;
+
+//-------- Time line
 	FTimeline TimeLineOpenDoor;
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* CurveOpenDoor;
@@ -56,42 +102,4 @@ private:
 	FTimeline FadeTimeLine;
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* FadeCurve;
-
-	UPROPERTY(EditAnywhere, Category = "Fade")
-	ULevelSequence* SequenceFade;
-	
-	bool bAlreadyOpen;
-
-	UPROPERTY(EditAnywhere, Category = "States")
-	FName NextLevelName;
-	
-private:
-	void BindTimeLines();
-	void CreateEditorComponents();
-	
-	UFUNCTION()
-	void OpenTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void OpenTimelineFinished();
-
-	
-	UFUNCTION()
-	void FadeTimelineFinished();
-
-	
-	UFUNCTION()
-	void LatchAnimTimeLineUpdate(float value);
-
-
-	UFUNCTION()
-	void ChangeLevel();
-
-protected:
-	virtual void BeginPlay() override;
-	virtual void Interaction() override;
-	
-public:	
-	ARedDoor();
-	virtual void Tick(float DeltaTime) override;
 };

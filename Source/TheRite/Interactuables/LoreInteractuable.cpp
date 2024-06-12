@@ -1,5 +1,9 @@
-#include "LoreInteractuable.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "LoreInteractuable.h"
 #include "Kismet/GameplayStatics.h"
 
 ALoreInteractuable::ALoreInteractuable()
@@ -14,5 +18,6 @@ ALoreInteractuable::ALoreInteractuable()
 void ALoreInteractuable::Interaction()
 {
 	Super::Interaction();
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), AudioToPlay);
 }

@@ -9,6 +9,7 @@ public class TheRiteEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+		WindowsPlatform.PCHMemoryAllocationFactor = 2000;
 		ExtraModuleNames.AddRange( new string[] { "TheRite" } );
 	}
 }

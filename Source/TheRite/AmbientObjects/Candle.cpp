@@ -1,32 +1,46 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "Candle.h"
 
+#include "NiagaraComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
+
+ACandle::ACandle()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Candle Mesh");
+	Plane = CreateDefaultSubobject<UStaticMeshComponent>("Plane Mesh");
+	PointLight = CreateDefaultSubobject<UPointLightComponent>("Light");
+	SmokeParticles = CreateDefaultSubobject<UNiagaraComponent>("Smoke particles");
+
+	Plane ->SetupAttachment(Mesh);
+	PointLight->SetupAttachment(Mesh);
+	SmokeParticles->SetupAttachment(Mesh);
+}
 
 void ACandle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(IsValid(MyInteractor))
-	MyInteractor->OnInteractionTrigger.AddDynamic(this, &ACandle::EventReady);
+	bStartsTurnedOn ? TurnOn() : TurnOff();
 }
 
-ACandle::ACandle()
+void ACandle::TurnOn()
 {
- 	PrimaryActorTick.bCanEverTick = true;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Candle Mesh");
-	Plane = CreateDefaultSubobject<UStaticMeshComponent>("Plane Mesh");
-	PointLight = CreateDefaultSubobject<UPointLightComponent>("Light");
-
-	Plane ->SetupAttachment(Mesh);
-	PointLight->SetupAttachment(Mesh);
+	PointLight->SetVisibility(true);
+	Plane->SetVisibility(true);
 }
 
-void ACandle::EventReady()
+void ACandle::TurnOff()
 {
-	if(!bWillTurnOff) return;
+	SmokeParticles->Activate();
+	PointLight->SetVisibility(false);
+	Plane->SetVisibility(false);
 
-	UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
-	PointLight->DestroyComponent();
-	Plane->DestroyComponent();
+	if(bWillSound)
+		UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
 }

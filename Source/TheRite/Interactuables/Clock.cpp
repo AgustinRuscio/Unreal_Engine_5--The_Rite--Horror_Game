@@ -1,5 +1,11 @@
-#include "Clock.h"
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
+
+#include "Clock.h"
+#include "Components/PointLightComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AClock::AClock()
 {
@@ -16,20 +22,22 @@ AClock::AClock()
 	Light->SetupAttachment(BaseMesh);
 }
 
+AClock::~AClock()
+{
+	OnInteractionTrigger.Clear();
+}
+
+
 void AClock::Interaction()
 {
-	ClockReady();
-}
-
-void AClock::BeginPlay()
-{
-	Super::BeginPlay();
-	AudioToPlay = Sound;
-}
-
-void AClock::ClockReady()
-{
-	TheRite->SetClockReady();
-	TheRite->OnClockGain.Broadcast();
+	Super::Interaction();
+	
+	OnInteractionTrigger.Broadcast(this);
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
+}
+
+FName AClock::GetObjectData()
+{
+	return NextLevelName;
 }

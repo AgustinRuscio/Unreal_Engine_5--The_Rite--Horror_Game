@@ -1,13 +1,19 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Button.h"
-#include "Components/TextBlock.h"
-#include "TheRite/EnumsContainer.h"
-#include "Materials/MaterialInterface.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Image.h"
+#include "TheRite/EnumsContainer.h"
 #include "Inventory.generated.h"
+
+class UButton;
+class UTextBlock;
+class UMaterialInterface;
+class UImage;
 
 
 UCLASS()
@@ -15,6 +21,26 @@ class THERITE_API UInventory : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+//---------------- Inventory setter Methods
+	UFUNCTION(BlueprintCallable)
+	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay);
+
+	void AddItemToInventory(FString itemName, PickableItemsID id);
+	void RemoveItem(FString itemName, PickableItemsID id);
+	
+//---------------- Actions Methods
+	void OnInventoryOpen();
+	
+	void OnInventoryClose();
+	
+	UFUNCTION()
+	void ShowNextItem();
+	
+	UFUNCTION()
+	void ShowPrevItem();
+
+	
 public:
 	UPROPERTY(BlueprintReadWrite)
 	FString ObjectText;
@@ -36,25 +62,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
 
-
-	void AddItemToInventory(FString itemName, PickableItemsID id);
-
-	UFUNCTION(BlueprintCallable)
-	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay);
-	
-	void OnInventoryOpen();
-	
-	void OnInventoryClose();
-	
-	UFUNCTION()
-	void ShowNextItem();
-	
-	UFUNCTION()
-	void ShowPrevItem();
-
-	void RemoveItem(FString itemName, PickableItemsID id);
 private:
-
 	int8 index = 0;
 
 	TPair<FString, UMaterialInterface*> CurrentPair;

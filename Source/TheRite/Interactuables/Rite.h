@@ -1,26 +1,75 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "LevelSequence.h"
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClockGain);
 
+class ULevelSequence;
+class UAudioComponent;
+class USphereComponent;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
+class UPostProcessComponent;
+class AClock;
+
 UCLASS()
 class THERITE_API ARite : public AInteractor
 {
 	GENERATED_BODY()
+
+public:
+	ARite();
+	
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	virtual void Interaction() override;
+
+	UFUNCTION()
+	void SetClockReady(AInteractor* obj);
+
+private:
+	UFUNCTION()
+	void CheckAudio();
+
+	UFUNCTION()
+	void ChangeLevel();
+
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
+	UFUNCTION()
+	void OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
+	
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Clock")
+	FClockGain OnClockGain;
 	
 private:
-	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
-	bool bClockReady = false;
+	bool bObjectReady = false;
 
+	bool bPlayerInside;
+	bool bReady = false;
 	
-	UPROPERTY(EditAnywhere, Category= "Level to Open")
 	FName NextLevel;
+	
+	UPROPERTY(EditAnywhere, Category= "Mesh")
+	UStaticMeshComponent* Mesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	USphereComponent* Sphere;
+
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category= "Audio")
+	UAudioComponent* IdleAudio;
 	
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
 	USoundBase* AudioClockReady;
@@ -31,28 +80,25 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Audio")
 	USoundBase* PortalAudio;
 
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* Mesh;
-	
+	//-------- Scene changer
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* SequenceFade;
 
-	UFUNCTION()
-	void CheckAudio();
-
-	UFUNCTION()
-	void ChangeLevel();
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	LevelObjectType LevelType;
 	
-protected:
-	virtual void BeginPlay() override;
+	//-------- Feed back
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UMaterialInterface* PostProcesRealWorldMaterial;
+	UMaterialInstanceDynamic* DynamicMaterial;
 
-public:	
-	ARite();
+	UPROPERTY(EditAnywhere, Category = "Post process event")
+	UPostProcessComponent* PostProcessComponent;
 	
-	virtual void Interaction() override;
-
-	void SetClockReady();
+	FPostProcessVolumeProperties OriginalPostProcessValues;
 	
-	UPROPERTY(BlueprintAssignable, Category = "Clock")
-	FClockGain OnClockGain;
+	AActor* InsideActor;
+	
+	UPROPERTY(EditAnywhere, Category="Settings")
+	AClock* CurrentMainObject;
 };
