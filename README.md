@@ -4,6 +4,10 @@
 
 ## (XBox controller supported)
 
+### Available on Steam
+* https://store.steampowered.com/app/2876020/The_Rite/?beta=0
+
+
 ![](https://i.postimg.cc/gJNj5kXY/The-Rite-6-6-2024-12-10-28-PM.png)
 
 ![](https://i.postimg.cc/xjLvSV6S/1.png)
