@@ -76,6 +76,23 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 		Element->TurnOff();
 	}
 
+	int8 count = 0;
+	
+	for (auto Element : Actors_ScartyManiquies)
+	{
+		Element->SetActorLocation(TargetPoint_ScaryManiquiesPosition[count]->GetActorLocation());
+		Element->SetActorRotation(TargetPoint_ScaryManiquiesPosition[count]->GetActorRotation());
+		count++;
+	}
+
+	count = 0;
+	for (auto Element : Actors_NormalManiquies)
+	{
+		Element->SetActorLocation(TargetPoint_NormalManiquiesNewPosition[count]->GetActorLocation());
+		Element->SetActorRotation(TargetPoint_NormalManiquiesNewPosition[count]->GetActorRotation());
+		count++;
+	}
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_PowerRestored);
 	Door_BedRoom->SetLockedState(false);
 	Door_BedRoom->Open();

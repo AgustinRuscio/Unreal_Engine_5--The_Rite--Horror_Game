@@ -5,6 +5,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "GameFlowPacifierLevel.generated.h"
 
@@ -33,12 +34,12 @@ class THERITE_API AGameFlowPacifierLevel : public AActor
 public:	
 	AGameFlowPacifierLevel();
 
-//---------------- System Class Methods
+	//---------------- System Class Methods
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
 private:
-//---------------- Initiliatization Methods
+	//---------------- Initiliatization Methods
 	void BindColliderMethods();
 	void InitializeValues();
 	
@@ -54,7 +55,7 @@ private:
 	UFUNCTION()
 	void EndGame();
 	
-//---------------- Bind Colliders Methods
+	//---------------- Bind Colliders Methods
 	UFUNCTION()
 	void OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
@@ -87,7 +88,7 @@ private:
 
 	FVector BlockingVolumeOriginalLocation;
 	
-//-------- Colliders
+	//-------- Colliders
 	UPROPERTY(EditAnywhere, Category = "Colliders")
 	ABlockingVolume* BlockingVolume;
 	
@@ -106,14 +107,14 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_EndGmaePass;
 
-//-------- Meshes
+	//-------- Meshes
 	UPROPERTY(EditAnywhere, Category= "Skeletals")
 	ASkeletalMeshActor* Skeletal_TiffanyBedRoom;
 	
 	UPROPERTY(EditAnywhere, Category= "Skeletals")
 	ASkeletalMeshActor* Skeletal_TiffanyStairs;
 	
-//-------- Audio
+	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	AAmbientSound*  AudioComponent_Ambient;
 	UPROPERTY(EditAnywhere, Category = "Audios")
@@ -147,26 +148,32 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_EndGame;
 
-//-------- Lights
+	//-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ALightsTheRite*> Lights_AllLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ACandle*> Candles_EndGame;
 
-//-------- Flows & Puzzles
+	//-------- Flows & Puzzles
 	FTimerHandle Timer_BedRoomEvent;
 	
 	FTimerHandle Timer_FirstStairsEvent;
 	FTimerHandle Timer_SecondEvent;
 	FTimerHandle Timer_ThirdEvent;
 	
-//-------- Target points
+	//-------- Target points
 	UPROPERTY(EditAnywhere, Category="Target Point")
 	ATargetPoint* TargetPoint_TiffanyStairClosePosition;
 	
 	UPROPERTY(EditAnywhere, Category="Target Point")
 	ATargetPoint* TargetPoint_CorridorBlockingVolumeLocation;
+	
+	UPROPERTY(EditAnywhere, Category="Target Point")
+	TArray<ATargetPoint*> TargetPoint_ScaryManiquiesPosition;
+
+	UPROPERTY(EditAnywhere, Category="Target Point")
+	TArray<ATargetPoint*> TargetPoint_NormalManiquiesNewPosition;
 	
 //-------- Doors
 	UPROPERTY(EditAnywhere, Category="Doors")
@@ -190,6 +197,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Setter")
 	ABasePlayerSettingsSetter* PlayerSettingsSetter;
+
+
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_ScartyManiquies;
+
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_NormalManiquies;
 	
 	AAlex* Player;
 };
