@@ -5,7 +5,6 @@
 
 #pragma once
 #include "CoreMinimal.h"
-#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "GameFlowPacifierLevel.generated.h"
 
@@ -25,6 +24,7 @@ class AFetusPuzzle;
 class ASkeletalMeshActor;
 class ATargetPoint;
 class AAmbientSound;
+class AStaticMeshActor;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -51,6 +51,9 @@ private:
 	
 	void RaiseAmbientVolume(float newVolumeMultiplier);
 	void ResetAmbientVolume();
+
+	UFUNCTION()
+	void PlaceManiquiesInCorridor(AInteractor* Interactor);
 	
 	UFUNCTION()
 	void EndGame();
@@ -144,6 +147,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_TiffanyNear;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_TiffanyBreath;
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_EndGame;
@@ -174,6 +180,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Target Point")
 	TArray<ATargetPoint*> TargetPoint_NormalManiquiesNewPosition;
+
+	UPROPERTY(EditAnywhere, Category="Target Point")
+	TArray<ATargetPoint*> TargetPoint_CorridorManiquiesPosition;
 	
 //-------- Doors
 	UPROPERTY(EditAnywhere, Category="Doors")
@@ -183,12 +192,28 @@ private:
 	ADoor* Door_BathRoomRoom;
 	
 //-------- Flows & Puzzles
+	//-------- Fetus
 	UPROPERTY(EditAnywhere, Category="Flows")
 	AFetusPuzzle* GameFlow_FetusPuzzle;
-	
+
+	//-------- Light Switch Event
 	UPROPERTY(EditAnywhere, Category="Light Switch")
 	ALightSwitch* LightSwitch_TermicalSwitch;
 
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_ScartyManiquies;
+
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_NormalManiquies;
+
+	//-------- Fuse Event
+
+	UPROPERTY(EditAnywhere, Category="Interactors")
+	AInteractor* InteractorForManiquiesToAppear;
+
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_CorridorManiquies;
+	
 	UPROPERTY(EditAnywhere, Category="Objects")
 	ALadder* AtticLader;
 	
@@ -199,11 +224,7 @@ private:
 	ABasePlayerSettingsSetter* PlayerSettingsSetter;
 
 
-	UPROPERTY(EditAnywhere, Category="Actors")
-	TArray<AStaticMeshActor*> Actors_ScartyManiquies;
 
-	UPROPERTY(EditAnywhere, Category="Actors")
-	TArray<AStaticMeshActor*> Actors_NormalManiquies;
 	
 	AAlex* Player;
 };

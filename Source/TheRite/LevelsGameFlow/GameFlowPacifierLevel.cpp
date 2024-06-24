@@ -14,6 +14,7 @@
 #include "Animation/SkeletalMeshActor.h"
 #include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "Engine/StaticMeshActor.h"
 #include "TheRite/Characters/Alex.h"
 #include "BasePlayerSettingsSetter.h"
 #include "Engine/TargetPoint.h"
@@ -21,6 +22,7 @@
 #include "FetusPuzzle.h"
 #include "Components/AudioComponent.h"
 #include "Engine/BlockingVolume.h"
+#include "Misc/TextFilterExpressionEvaluator.h"
 
 AGameFlowPacifierLevel::AGameFlowPacifierLevel()
 {
@@ -33,6 +35,8 @@ void AGameFlowPacifierLevel::BeginPlay()
 
 	LightSwitch_TermicalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
+
+	InteractorForManiquiesToAppear->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceManiquiesInCorridor);
 	
 	AtticLader->DisableLadder();
 
@@ -92,6 +96,9 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 		Element->SetActorRotation(TargetPoint_NormalManiquiesNewPosition[count]->GetActorRotation());
 		count++;
 	}
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.85, .2, true, true, true, true);
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_PowerRestored);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
@@ -126,6 +133,21 @@ void AGameFlowPacifierLevel::ResetAmbientVolume()
 	AudioComponent_Ambient->GetAudioComponent()->VolumeMultiplier = 1;
 	AudioComponent_StressSound->GetAudioComponent()->VolumeMultiplier = 1;
 	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = 1;
+}
+
+void AGameFlowPacifierLevel::PlaceManiquiesInCorridor(AInteractor* Interactor)
+{
+	int8 count = 0;
+
+	for (auto Element : Actors_CorridorManiquies)
+	{
+		Element->SetActorLocation(TargetPoint_CorridorManiquiesPosition[count]->GetActorLocation());
+		Element->SetActorRotation(TargetPoint_CorridorManiquiesPosition[count]->GetActorRotation());
+		count++;
+	}
+
+	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyBreath);
+	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyNear);
 }
 
 void AGameFlowPacifierLevel::EndGame()
@@ -250,6 +272,18 @@ void AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap(AActor* Overl
 		Element->TurnOff();
 	}
 
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.85, .2, true, true, true, true);
+	
+	Player->CameraTargeting(Skeletal_TiffanyBedRoom->GetActorLocation());
+	Player->SetEventMode(true, -60,60,-20,20);
+	Player->ForceLighterOff();
+
+	for (auto Element : Actors_CorridorManiquies)
+	{
+		Element->Destroy();
+	}
+
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_BedRoomEvent))
@@ -263,6 +297,8 @@ void AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap(AActor* Overl
 			{
 				if(Element->GetLightZone() != HouseZone::BedRoom) continue;
 				Element->TurnOn();
+				
+				Player->SetEventMode(false, 0,0,0,0);
 			}
 		});
 
