@@ -59,6 +59,8 @@ void ALadder::Interaction()
 	if(!bCanInteract) return;
 
 	bCanInteract = false;
+
+	OnInteractionTrigger.Broadcast(this);
 	
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->DisableInput(controller);

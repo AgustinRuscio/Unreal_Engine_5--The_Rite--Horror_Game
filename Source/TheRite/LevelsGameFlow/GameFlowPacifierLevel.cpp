@@ -33,12 +33,14 @@ void AGameFlowPacifierLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	LightSwitch_TermicalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
+	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
 
-	InteractorForManiquiesToAppear->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceManiquiesInCorridor);
+	InteractorForManiquiesToAppear->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsInCorridor);
+	AtticLadder->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
 	
-	AtticLader->DisableLadder();
+	
+	AtticLadder->DisableLadder();
 
 	InitializeValues();
 	BindColliderMethods();
@@ -58,7 +60,6 @@ void AGameFlowPacifierLevel::BindColliderMethods()
 	TriggerVolume_LucyRoom->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap);
 	TriggerVolume_LucyRoom->OnActorEndOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlapEnd);
 	
-	TriggerVolume_TiffanyBedRoom->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap);
 	TriggerVolume_TiffanyStairsEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap);
 }
 
@@ -75,14 +76,10 @@ void AGameFlowPacifierLevel::InitializeValues()
 
 void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 {
-	for (auto Element : EmergencyLights)
-	{
-		Element->TurnOff();
-	}
-
+	bLightsRestored = true;
 	int8 count = 0;
 	
-	for (auto Element : Actors_ScartyManiquies)
+	for (auto Element : Actors_ScaryMannequins)
 	{
 		Element->SetActorLocation(TargetPoint_ScaryManiquiesPosition[count]->GetActorLocation());
 		Element->SetActorRotation(TargetPoint_ScaryManiquiesPosition[count]->GetActorRotation());
@@ -90,11 +87,16 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 	}
 
 	count = 0;
-	for (auto Element : Actors_NormalManiquies)
+	for (auto Element : Actors_NormalMannequins)
 	{
 		Element->SetActorLocation(TargetPoint_NormalManiquiesNewPosition[count]->GetActorLocation());
 		Element->SetActorRotation(TargetPoint_NormalManiquiesNewPosition[count]->GetActorRotation());
 		count++;
+	}
+
+	for (auto Element : EmergencyLights)
+	{
+		Element->TurnOff();
 	}
 
 	auto controller = Cast<AAlexPlayerController>(Player->GetController());
@@ -135,7 +137,7 @@ void AGameFlowPacifierLevel::ResetAmbientVolume()
 	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = 1;
 }
 
-void AGameFlowPacifierLevel::PlaceManiquiesInCorridor(AInteractor* Interactor)
+void AGameFlowPacifierLevel::PlaceMannequinsInCorridor(AInteractor* Interactor)
 {
 	int8 count = 0;
 
@@ -150,12 +152,27 @@ void AGameFlowPacifierLevel::PlaceManiquiesInCorridor(AInteractor* Interactor)
 	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyNear);
 }
 
+void AGameFlowPacifierLevel::PlaceMannequinsStairs(AInteractor* Interactor)
+{
+	if(!bLightsRestored) return;
+
+	for (auto Element : Actors_StairsMannequins)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	}
+	
+	AtticLadder->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
+}
+
 void AGameFlowPacifierLevel::EndGame()
 {
 	for (auto Element : Candles_EndGame)
 	{
 		Element->TurnOn();
 	}
+	Door_EndGmae->SetLockedState(false);
+	
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }
@@ -165,7 +182,7 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	if(!Cast<AAlex>(OtherActor) || bLightsOutEventDone) return;
 	bLightsOutEventDone = true;
 
-	AtticLader->EnableLadder();
+	AtticLadder->EnableLadder();
 	Door_BathRoomRoom->SetLockedState(false);
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsOut);
@@ -260,52 +277,6 @@ void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* Overlapp
 	}
 	
 	TriggerVolume_TiffanyStairsEvent->Destroy();
-}
-
-void AGameFlowPacifierLevel::OnTriggerDestroyTiffanyBedRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor)) return;
-	
-	for (auto Element : Lights_AllLights)
-	{
-		if(Element->GetLightZone() != HouseZone::BedRoom) continue;
-		Element->TurnOff();
-	}
-
-	auto controller = Cast<AAlexPlayerController>(Player->GetController());
-	controller->PlayRumbleFeedBack(.85, .2, true, true, true, true);
-	
-	Player->CameraTargeting(Skeletal_TiffanyBedRoom->GetActorLocation());
-	Player->SetEventMode(true, -60,60,-20,20);
-	Player->ForceLighterOff();
-
-	for (auto Element : Actors_CorridorManiquies)
-	{
-		Element->Destroy();
-	}
-
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
-	
-	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_BedRoomEvent))
-	{
-		FTimerDelegate TimerDelegate;
-		TimerDelegate.BindLambda([&]
-		{
-			Skeletal_TiffanyBedRoom->Destroy();
-			
-			for (auto Element : Lights_AllLights)
-			{
-				if(Element->GetLightZone() != HouseZone::BedRoom) continue;
-				Element->TurnOn();
-				
-				Player->SetEventMode(false, 0,0,0,0);
-			}
-		});
-
-		GetWorld()->GetTimerManager().SetTimer(Timer_BedRoomEvent, TimerDelegate,5, false);
-	}
-
-	TriggerVolume_TiffanyBedRoom->Destroy();
 }
 
 void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)

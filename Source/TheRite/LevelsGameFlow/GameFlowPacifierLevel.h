@@ -53,7 +53,10 @@ private:
 	void ResetAmbientVolume();
 
 	UFUNCTION()
-	void PlaceManiquiesInCorridor(AInteractor* Interactor);
+	void PlaceMannequinsInCorridor(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void PlaceMannequinsStairs(AInteractor* Interactor);
 	
 	UFUNCTION()
 	void EndGame();
@@ -64,10 +67,6 @@ private:
 
 	UFUNCTION()
 	void OnTriggerStairsTiffanyEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-	
-	UFUNCTION()
-	void OnTriggerDestroyTiffanyBedRoomOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
 	UFUNCTION()
 	void OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor);
@@ -81,9 +80,10 @@ private:
 public:
 	
 private:
-	bool bLightsOutEventDone;
-	bool bLightsDown;
-
+	bool bLightsOutEventDone = false;
+	bool bLightsDown = false;
+	bool bLightsRestored = false;
+	
 	bool bEndGamePassDone = false;
 	
 	UPROPERTY(EditAnywhere, Category= "Settiings")
@@ -105,15 +105,9 @@ private:
 	ATriggerVolume* TriggerVolume_TiffanyStairsEvent;
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
-	ATriggerVolume* TriggerVolume_TiffanyBedRoom;
-	
-	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_EndGmaePass;
 
 	//-------- Meshes
-	UPROPERTY(EditAnywhere, Category= "Skeletals")
-	ASkeletalMeshActor* Skeletal_TiffanyBedRoom;
-	
 	UPROPERTY(EditAnywhere, Category= "Skeletals")
 	ASkeletalMeshActor* Skeletal_TiffanyStairs;
 	
@@ -162,8 +156,6 @@ private:
 	TArray<ACandle*> Candles_EndGame;
 
 	//-------- Flows & Puzzles
-	FTimerHandle Timer_BedRoomEvent;
-	
 	FTimerHandle Timer_FirstStairsEvent;
 	FTimerHandle Timer_SecondEvent;
 	FTimerHandle Timer_ThirdEvent;
@@ -191,6 +183,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Doors")
 	ADoor* Door_BathRoomRoom;
 	
+	UPROPERTY(EditAnywhere, Category="Doors")
+	ADoor* Door_EndGmae;
+	
 //-------- Flows & Puzzles
 	//-------- Fetus
 	UPROPERTY(EditAnywhere, Category="Flows")
@@ -198,14 +193,17 @@ private:
 
 	//-------- Light Switch Event
 	UPROPERTY(EditAnywhere, Category="Light Switch")
-	ALightSwitch* LightSwitch_TermicalSwitch;
+	ALightSwitch* LightSwitch_ThermalSwitch;
 
 	UPROPERTY(EditAnywhere, Category="Actors")
-	TArray<AStaticMeshActor*> Actors_ScartyManiquies;
+	TArray<AStaticMeshActor*> Actors_ScaryMannequins;
 
 	UPROPERTY(EditAnywhere, Category="Actors")
-	TArray<AStaticMeshActor*> Actors_NormalManiquies;
+	TArray<AStaticMeshActor*> Actors_NormalMannequins;
 
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AStaticMeshActor*> Actors_StairsMannequins;
+	
 	//-------- Fuse Event
 
 	UPROPERTY(EditAnywhere, Category="Interactors")
@@ -215,7 +213,7 @@ private:
 	TArray<AStaticMeshActor*> Actors_CorridorManiquies;
 	
 	UPROPERTY(EditAnywhere, Category="Objects")
-	ALadder* AtticLader;
+	ALadder* AtticLadder;
 	
 	UPROPERTY(EditAnywhere, Category="Light")
 	TArray<AEmergencyLights*> EmergencyLights;
