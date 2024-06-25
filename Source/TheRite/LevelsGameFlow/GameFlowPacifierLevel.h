@@ -25,6 +25,7 @@ class ASkeletalMeshActor;
 class ATargetPoint;
 class AAmbientSound;
 class AStaticMeshActor;
+class AManikin;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -195,13 +196,12 @@ private:
 	UPROPERTY(EditAnywhere, Category="Actors")
 	TArray<AStaticMeshActor*> Actors_StairsMannequins;
 	
+	UPROPERTY(EditAnywhere, Category="Actors")
+	TArray<AManikin*> A_CorridorMannequins;
+	
 	//-------- Fuse Event
-
 	UPROPERTY(EditAnywhere, Category="Interactors")
 	AInteractor* InteractorForManiquiesToAppear;
-
-	UPROPERTY(EditAnywhere, Category="Actors")
-	TArray<AStaticMeshActor*> Actors_CorridorManiquies;
 	
 	UPROPERTY(EditAnywhere, Category="Objects")
 	ALadder* AtticLadder;
@@ -211,9 +211,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Setter")
 	ABasePlayerSettingsSetter* PlayerSettingsSetter;
-
-
-
 	
 	AAlex* Player;
 };

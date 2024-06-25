@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "Animation/SkeletalMeshActor.h"
+#include "TheRite/AmbientObjects/Manikin.h"
 #include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Engine/StaticMeshActor.h"
@@ -137,13 +138,15 @@ void AGameFlowPacifierLevel::PlaceMannequinsInCorridor(AInteractor* Interactor)
 {
 	int8 count = 0;
 
-	for (auto Element : Actors_CorridorManiquies)
+	for (auto Element : A_CorridorMannequins)
 	{
 		Element->SetActorLocation(TargetPoint_CorridorManiquiesPosition[count]->GetActorLocation());
 		Element->SetActorRotation(TargetPoint_CorridorManiquiesPosition[count]->GetActorRotation());
+		Element->Activate();
+		
 		count++;
 	}
-
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyBreath);
 	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyNear);
 }
