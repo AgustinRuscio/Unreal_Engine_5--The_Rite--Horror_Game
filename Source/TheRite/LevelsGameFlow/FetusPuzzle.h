@@ -16,6 +16,7 @@ class AFetus;
 class ADoor;
 class ALightsTheRite;
 class AInteractor;
+class AAlex;
 
 UCLASS()
 class THERITE_API AFetusPuzzle : public AActor
@@ -96,4 +97,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Door", meta=(AllowPrivateAccess = true))
 	ADoor* RoomDoor;
+
+	AAlex* Player;
 };

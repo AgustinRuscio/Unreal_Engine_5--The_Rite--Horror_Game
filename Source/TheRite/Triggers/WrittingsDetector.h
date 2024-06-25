@@ -11,6 +11,8 @@
 
 class USphereComponent;
 class ASpectralWrittings;
+class UFadeObjectComponent;
+class IFader;
 
 UCLASS()
 class THERITE_API AWrittingsDetector : public AActor
@@ -39,8 +41,13 @@ private:
 	bool bwrittingDetected;
 	bool bInteracionOn;
 
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float Radius;
+
 	UPROPERTY(EditAnywhere)
 	USphereComponent* TriggerDetector;
+
+	TArray<IFader*> OverlappedFadeObjects;
 	
-	ASpectralWrittings* currentWritting;
+	//ASpectralWrittings* currentWritting;
 };

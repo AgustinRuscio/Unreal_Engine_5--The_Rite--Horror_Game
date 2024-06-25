@@ -8,30 +8,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/Textures/Rex_Toy/M_RexTaru.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/Textures/Rex_Toy/M_RexTaru_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/N_letter/M_FetusN.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/N_letter/M_FetusN_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus1.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Components/Fader.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/TheRite/Components/Fader.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/Textures/Rex_Toy/M_RexToy.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/Textures/Rex_Toy/M_RexToy_Inst.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/low_rextaru1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/07_BABYROOM/low_rextaru1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cajonera/Cajon/ManijasCajoneras1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Cajonera/Cajon/ManijasCajoneras1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/C_Texture/M_FetusC.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/C_Texture/M_FetusC.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/L_Texture/M_FetusL.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/L_Texture/M_FetusL.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/U_Texture/M_FetusU.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/U_Texture/M_FetusU.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/Y_Texture/M_FetusY.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/RightLetters/Y_Texture/M_FetusY.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/A_Letter/M_FetusA.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/A_Letter/M_FetusA.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/B_Letter/M_FetusB.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/B_Letter/M_FetusB.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/D_Letter/M_FetusD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/D_Letter/M_FetusD.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/E_Letter/M_FetusE.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/E_Letter/M_FetusE.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Ladder/Attic_stair.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Ladder/Attic_stair.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Ladder/attic_door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Ladder/attic_door.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/M_WallBorderTrim5_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/TrimsNew/Walls_WithBorder/M_WallBorderTrim5_Inst.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_EmergencyLights.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Ambient/BP_EmergencyLights.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Ladder.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Ladder.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/F_Letter/M_FetusF.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/F_Letter/M_FetusF.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/G_Letter/M_FetusG.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/G_Letter/M_FetusG.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/J_Letter/M_FetusJ.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/J_Letter/M_FetusJ.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/K_Letter/M_FetusK.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/K_Letter/M_FetusK.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/M_Letter/M_FetusM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/M_Letter/M_FetusM.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/N_letter/M_FetusC.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/N_letter/M_FetusC_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/N_letter/M_FetusC_Inst.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/O_Letter/M_FetusO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Fetus/WrongLetter/O_Letter/M_FetusO.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Fetus.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/SpectralWrittings/BP_SpectalWritting.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_GameFlowPacifierLevel.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_GameFlowPacifierLevel.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/++/BP_WrittingsDetector.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Triggers/++/BP_WrittingsDetector.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary2.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/UpsStairsBedRoomWalls.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Walls/RealWorld/UpsStairsBedRoomWalls.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/BigClock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Fetus.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/SpectralWrittings.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/WrittingsDetector.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +63,65 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/CloclLevelArtRoomEvent.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/Fader.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/Fader.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -515,6 +587,9 @@
       <workItem from="1719202440697" duration="283000" />
       <workItem from="1719203958946" duration="1544000" />
       <workItem from="1719231059287" duration="5718000" />
+      <workItem from="1719251133130" duration="17590000" />
+      <workItem from="1719274976553" duration="4581000" />
+      <workItem from="1719281895767" duration="3200000" />
     </task>
     <servers />
   </component>

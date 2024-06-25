@@ -6,30 +6,42 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
-#include "Components/ArrowComponent.h"
-#include "GameFramework/Actor.h"
+#include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/Components/Fader.h"
 #include "Fetus.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCorrectFetus);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWrongFetus);
 
 class UNiagaraSystem;
+class UArrowComponent;
+class UFadeObjectComponent;
 
 UCLASS()
-class THERITE_API AFetus : public AInteractor
+class THERITE_API AFetus : public AInteractor, public IFader
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	AFetus();
 	
 	bool GetIsCorrectFetus();
 	
 //---------------- System Class Methods
 	virtual void Interaction() override;
-
+	
+	
+//---------------- Status Methods
 	void ResetFetus();
+
+private:
+	void SetFaderValues();
+
+	UFUNCTION()
+	void OnFadeActivated();
+	
+	UFUNCTION()
+	void OnFadeDeactivate();
 	
 public:
 	FOnCorrectFetus OnCorrectFetus;
@@ -54,4 +66,7 @@ private:
 	UArrowComponent* BloodSpawnLoscation;
 	
 	FTimerHandle Timer_LightsOut;
+
+	UPROPERTY(EditAnywhere, Category = "Component", meta=(AllowPrivateAccess = true))
+	UFadeObjectComponent* FadeComponent;
 };

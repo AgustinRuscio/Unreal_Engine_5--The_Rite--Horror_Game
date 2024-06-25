@@ -5,7 +5,9 @@
 
 #include "Fetus.h"
 #include "NiagaraSystem.h"
+#include "Components/ArrowComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "TheRite/Components/FadeObjectComponent.h"
 
 AFetus::AFetus()
 {
@@ -17,7 +19,10 @@ AFetus::AFetus()
 	BloodSpawnLoscation->SetupAttachment(FetusMesh);
 	
 	InitialPosition = GetActorLocation();
+	
+	SetFaderValues();
 }
+
 
 bool AFetus::GetIsCorrectFetus()
 {
@@ -46,7 +51,29 @@ void AFetus::Interaction()
 	}
 }
 
+//---------------- Status Methods
 void AFetus::ResetFetus()
 {
 	SetActorLocation(InitialPosition);
+}
+void AFetus::SetFaderValues()
+{
+	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
+	
+	SetActor(this);
+	SetFaderComponent(FadeComponent);
+
+	OnActivate.AddDynamic(this, &AFetus::OnFadeActivated);
+	OnDeactivate.AddDynamic(this, &AFetus::OnFadeDeactivate);
+
+}
+
+void AFetus::OnFadeActivated()
+{
+	bCanInteract = true;
+}
+
+void AFetus::OnFadeDeactivate()
+{
+	bCanInteract = false;
 }

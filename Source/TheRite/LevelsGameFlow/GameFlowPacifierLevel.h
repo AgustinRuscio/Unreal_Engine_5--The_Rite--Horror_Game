@@ -69,12 +69,6 @@ private:
 	void OnTriggerStairsTiffanyEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
 	UFUNCTION()
-	void OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnTriggerLucyRoomOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
 	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	
 public:
@@ -97,9 +91,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_LightsOut;
-	
-	UPROPERTY(EditAnywhere, Category= "Triggers")
-	ATriggerVolume* TriggerVolume_LucyRoom;
 	
 	UPROPERTY(EditAnywhere, Category= "Triggers")
 	ATriggerVolume* TriggerVolume_TiffanyStairsEvent;

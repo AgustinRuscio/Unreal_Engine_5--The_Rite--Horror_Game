@@ -5,6 +5,7 @@
 
 #include "WrittingsDetector.h"
 #include "Components/SphereComponent.h"
+#include "TheRite/Components/Fader.h"
 #include "TheRite/Interactuables/SpectralWrittings.h"
 
 AWrittingsDetector::AWrittingsDetector()
@@ -23,12 +24,25 @@ void AWrittingsDetector::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//if(OverlappedFadeObjects.Num() > 0)
+	//{
+	//	for (auto Element : OverlappedFadeObjects)
+	//	{
+	//		float DistanceToCenter = FVector::Dist(Element->GetActor()->GetActorLocation(), GetActorLocation());
+	//
+	//		float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
+	//
+	//		float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+	//		Element->SetAlpha(AlphaValue);
+	//	}
+	//}
+	
 	ChangeCurrentWrittingAlpha();
 }
 
 void AWrittingsDetector::SetComponentSettings(float radius, FTransform transform)
 {
-	SetRadius(radius);
+	SetRadius(Radius);
 	SetLocation(transform);
 }
 
@@ -42,24 +56,46 @@ void AWrittingsDetector::SetInteractionStatus(bool newStatus)
 	{
 		TriggerDetector->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		
-		if( !currentWritting) return;
+		//if( !currentWritting) return;
+		if(OverlappedFadeObjects.Num() == 0) return;
+
+		for (auto Element : OverlappedFadeObjects)
+		{
+			Element->OnFadeDeActivate();
+		}
 		
-		currentWritting->Deactivate();
-		currentWritting = nullptr;
+		OverlappedFadeObjects.Empty();
+		
+		//currentWritting->Deactivate();
+		//currentWritting = nullptr;
 	}
 }
 
 void AWrittingsDetector::ChangeCurrentWrittingAlpha()
 {
-	if(!bwrittingDetected || currentWritting == nullptr) return;
-
-	float DistanceToCenter = FVector::Dist(currentWritting->GetActorLocation(), GetActorLocation());
+	if(OverlappedFadeObjects.Num() == 0) return;
 	
-	float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
+	for (auto Element : OverlappedFadeObjects)
+	{
+		if(Element == nullptr) continue;
+		
+		float DistanceToCenter = FVector::Dist(Element->GetActor()->GetActorLocation(), GetActorLocation());
 	
-	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+		float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
 	
-	currentWritting->SetMaterialAlpha(AlphaValue);
+		float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+		Element->SetAlpha(AlphaValue);
+	}
+	
+	//if(!bwrittingDetected || currentWritting == nullptr) return;
+//
+	//float DistanceToCenter = FVector::Dist(currentWritting->GetActorLocation(), GetActorLocation());
+	//
+	//float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
+	//
+	//float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+	//
+	//currentWritting->SetMaterialAlpha(AlphaValue);
 }
 
 void AWrittingsDetector::SetRadius(float newRadius)
@@ -74,22 +110,41 @@ void AWrittingsDetector::SetLocation(FTransform newLocation)
 
 void AWrittingsDetector::OnOverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto castedActor = Cast<ASpectralWrittings>(OtherActor);
+	auto castedComponent = Cast<IFader>(OtherActor);
 	
-	if(!castedActor) return;
+	if(!castedComponent) return;
 
-	currentWritting = castedActor;
-	bwrittingDetected = true;
-	currentWritting->Activate();
+		if(!OverlappedFadeObjects.Contains(castedComponent))
+			OverlappedFadeObjects.Add(castedComponent);
+		
+	castedComponent->OnFadeActivate();
+	
+	//auto castedActor = Cast<ASpectralWrittings>(OtherActor);
+	//if(!castedActor) return;
+//
+	//currentWritting = castedActor;
+//
+	//bwrittingDetected = true;
+	//currentWritting->Activate();
 }
 
 void AWrittingsDetector::OnOverlapEnds(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	auto castedActor = Cast<ASpectralWrittings>(OtherActor);
-	if(!castedActor) return;
-	if(castedActor != currentWritting) return;
+	auto castedComponent = Cast<IFader>(OtherActor);
+
+	if(!castedComponent) return;
 	
-	currentWritting->Deactivate();
-	currentWritting = nullptr;
-	bwrittingDetected = false;
+	if(!OverlappedFadeObjects.Contains(castedComponent)) return;
+		
+	castedComponent->OnFadeDeActivate();
+	OverlappedFadeObjects.Remove(castedComponent);
+	
+	
+	//auto castedActor = Cast<ASpectralWrittings>(OtherActor);
+	//if(!castedActor) return;
+	//if(castedActor != currentWritting) return;
+	//
+	//currentWritting->Deactivate();
+	//currentWritting = nullptr;
+	//bwrittingDetected = false;
 }

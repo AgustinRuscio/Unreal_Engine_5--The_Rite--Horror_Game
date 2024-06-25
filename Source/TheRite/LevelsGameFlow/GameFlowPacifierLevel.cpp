@@ -55,10 +55,6 @@ void AGameFlowPacifierLevel::BindColliderMethods()
 {
 	TriggerVolume_LightsOut->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap);
 	TriggerVolume_EndGmaePass->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap);
-
-	
-	TriggerVolume_LucyRoom->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap);
-	TriggerVolume_LucyRoom->OnActorEndOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLucyRoomOverlapEnd);
 	
 	TriggerVolume_TiffanyStairsEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap);
 }
@@ -277,21 +273,6 @@ void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* Overlapp
 	}
 	
 	TriggerVolume_TiffanyStairsEvent->Destroy();
-}
-
-void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlap(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor)) return;
-	
-	PlayerSettingsSetter->SetUseLighter(false);
-	Player->ForceLighterOff();
-}
-
-void AGameFlowPacifierLevel::OnTriggerLucyRoomOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!Cast<AAlex>(OtherActor)) return;
-	
-	PlayerSettingsSetter->SetUseLighter(true);
 }
 
 void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)

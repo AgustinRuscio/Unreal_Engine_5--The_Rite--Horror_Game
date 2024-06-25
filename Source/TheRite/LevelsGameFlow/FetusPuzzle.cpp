@@ -10,6 +10,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Characters/Alex.h"
 
 AFetusPuzzle::AFetusPuzzle()
 {
@@ -20,6 +21,8 @@ AFetusPuzzle::AFetusPuzzle()
 void AFetusPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
 	for (auto Element : AllFetus)
 	{
@@ -74,6 +77,8 @@ void AFetusPuzzle::LightsOn()
 			{
 				Element->SetCanInteract(true);
 			}
+			
+			Player->SetPlayerOptions(false, true, false);
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOn, timerDelegate, OffsetLightsOn, false);
@@ -82,6 +87,9 @@ void AFetusPuzzle::LightsOn()
 
 void AFetusPuzzle::OnInteraction(AInteractor* interactor)
 {
+	Player->ForceLighterOff();
+	Player->SetPlayerOptions(false, false, false);
+	
 	for (auto Element : AllFetus)
 	{
 		Element->SetCanInteract(false);
@@ -159,6 +167,8 @@ void AFetusPuzzle::PuzzleComplete()
 	{
 		Element->Destroy();
 	}
+	
+	Player->SetPlayerOptions(false, true, false);
 
 	Destroy();
 }
