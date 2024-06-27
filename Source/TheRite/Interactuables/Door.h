@@ -180,7 +180,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	float DoorOpenOffsetCD;
-	
+
+	FVector forward;
 	
 	FRotator InitialRot;
 	FRotator CurrentRot;

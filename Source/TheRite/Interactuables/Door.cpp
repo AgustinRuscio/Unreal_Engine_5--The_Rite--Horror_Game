@@ -184,6 +184,10 @@ void ADoor::InitializeNeededValues()
 	
 	InitialRot = GetActorRotation();
 	CurrentRot = GetActorRotation();
+
+	FRotator DoorRotation = GetActorRotation();
+	FVector DooraForwardVector = GetActorLocation().RightVector;
+	forward = DoorRotation.RotateVector(DooraForwardVector);
 }
 
 //---------------- Tutorial Methods
@@ -249,13 +253,8 @@ void ADoor::CheckPlayerForward()
 	FVector PlayerDirection = PlayerLocation - DooraLocation;
 
 	PlayerDirection.Normalize();
-
-	FRotator DoorRotation = GetActorRotation();
-	FVector DooraForwardVector = GetActorLocation().RightVector;
 	
-	FVector forwatdRoated = DoorRotation.RotateVector(DooraForwardVector);
-	
-	float DotProduct = FVector::DotProduct(forwatdRoated, PlayerDirection);
+	float DotProduct = FVector::DotProduct(forward, PlayerDirection);
 
 	if (DotProduct > 0.0f)
 		bIsPlayerForward = true;
