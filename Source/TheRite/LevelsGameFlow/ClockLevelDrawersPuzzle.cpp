@@ -4,6 +4,8 @@
 
 
 #include "ClockLevelDrawersPuzzle.h"
+
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/SpectralObstacle.h"
 #include "TheRite/Interactuables/SpectralWrittings.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -34,5 +36,9 @@ void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed(AInteractor* interactor
 	{
 		writtings->Discovered();
 	}
+
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
+	
 	Destroy();
 }
