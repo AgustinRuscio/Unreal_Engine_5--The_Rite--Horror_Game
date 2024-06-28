@@ -91,5 +91,5 @@ private:
 	UCurveFloat* LocateFusibleCurve;
 
 	UPROPERTY(EditAnywhere, Category = "Timeline", meta=(AllowPrivateAccess = true))
-	ALightSwitch* TermicalSwitch;
+	ALightSwitch* ThermalSwitch;
 };

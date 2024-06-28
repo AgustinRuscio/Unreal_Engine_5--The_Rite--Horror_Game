@@ -82,6 +82,8 @@ void AFuseBox::Interaction()
 	FusesNames.RemoveAt(0);
 	FusesId.RemoveAt(0);
 	
+	ThermalSwitch->SetCanInteract(false);
+	
 	LocateFusibleTimeLine.PlayFromStart();
 }
 
@@ -127,7 +129,8 @@ void AFuseBox::LocateFusibleFinished()
 	{
 		bCanInteract = false;
 		OnFuseBoxComplete.Broadcast();
-		TermicalSwitch->SetSpecialReady();
+		ThermalSwitch->SetSpecialReady();
+		ThermalSwitch->SetCanInteract(true);
 	}
 	else
 	{
