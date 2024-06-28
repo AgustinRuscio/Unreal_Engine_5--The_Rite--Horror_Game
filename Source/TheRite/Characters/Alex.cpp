@@ -724,7 +724,15 @@ void AAlex::StopSprint()
 
 void AAlex::TurnLigherIfPossible()
 {
-	if(!bCanUseLigher || bFocusing || bFocus) return;
+	if(!bCanUseLigher || bFocusing || bFocus)
+	{
+		if(!bCanSound) return;
+			
+		UGameplayStatics::SpawnSound2D(this, LighterCDSound);
+		bCanSound = false;
+		
+		return;
+	}
 	
 	CheckLighterOn();
 }

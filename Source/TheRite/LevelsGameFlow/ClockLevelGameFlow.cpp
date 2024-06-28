@@ -218,6 +218,10 @@ void AClockLevelGameFlow::LockDoorsEndGame()
 	LibraryDoor->SetLockedState(true);
 	ArtRoomDoor->SetLockedState(true);
 	
+	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 5);
+	AmbientMusicCompoenent->SetVolumeMultiplier(AmbientMusicCompoenent->VolumeMultiplier * 2);
+	StressSoundMusicCompoenent->SetVolumeMultiplier(StressSoundMusicCompoenent->VolumeMultiplier * 2);
+	
 	LibraryDoor->HardClosing();
 	ArtRoomDoor->HardClosing();
 
