@@ -39,7 +39,7 @@ void AGameFlowPacifierLevel::BeginPlay()
 
 	InteractorForManiquiesToAppear->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsInCorridor);
 	AtticLadder->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
-	
+	Interactable_BedroomLightsOn->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
 	
 	AtticLadder->DisableLadder();
 
@@ -164,14 +164,28 @@ void AGameFlowPacifierLevel::PlaceMannequinsStairs(AInteractor* Interactor)
 	AtticLadder->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
 }
 
+void AGameFlowPacifierLevel::LightsOnBedRoom(AInteractor* Interactor)
+{
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
+	
+	for (auto Element : Lights_AllLights)
+	{
+		if(Element->GetLightZone() != HouseZone::BedRoom) continue;
+
+		Element->TurnOn();
+	}
+	
+	Interactable_BedroomLightsOn->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
+}
+
 void AGameFlowPacifierLevel::EndGame()
 {
 	for (auto Element : Candles_EndGame)
 	{
 		Element->TurnOn();
 	}
+
 	Door_EndGmae->SetLockedState(false);
-	
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }
@@ -228,48 +242,15 @@ void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* Overlapp
 		FTimerDelegate FirstTimerDelegate;
 		FirstTimerDelegate.BindLambda([&]
 		{
-			
-			Skeletal_TiffanyStairs->SetActorLocation(TargetPoint_TiffanyStairClosePosition->GetActorLocation());
-			
+		
 			for (auto Element : EmergencyLights)
 			{
 				Element->TurnOn();
 			}
 			
-			if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_SecondEvent))
-			{
-				FTimerDelegate SecondTimerDelegate;
-				SecondTimerDelegate.BindLambda([&]
-				{
-					for (auto Element : EmergencyLights)
-					{
-						Element->TurnOff();
-					}
-
-					Skeletal_TiffanyStairs->Destroy();
-
-					if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_ThirdEvent))
-					{
-						FTimerDelegate ThirdTimerDelegate;
-						ThirdTimerDelegate.BindLambda([&]
-						{
-							for (auto Element : EmergencyLights)
-							{
-								Element->TurnOn();
-							}
-
-							ResetBlockingVolumePosition();
-							ResetAmbientVolume();
-							
-						});
-
-						GetWorld()->GetTimerManager().SetTimer(Timer_ThirdEvent, ThirdTimerDelegate,2.f, false);
-					}
-				});
-
-				GetWorld()->GetTimerManager().SetTimer(Timer_SecondEvent, SecondTimerDelegate,.75f, false);
-			}
-			
+			ResetAmbientVolume();
+			ResetBlockingVolumePosition();
+			Skeletal_TiffanyStairs->Destroy();
 		});
 
 		GetWorld()->GetTimerManager().SetTimer(Timer_FirstStairsEvent, FirstTimerDelegate,2, false);

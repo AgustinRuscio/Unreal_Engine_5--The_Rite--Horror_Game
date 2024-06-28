@@ -188,7 +188,7 @@ void AFetusPuzzle::ReLocateFetus()
 		auto newPos = AUXPosiblePosition[randomizer];
 		
 		Element->SetActorLocation(newPos->GetActorLocation());
-		Element->SetActorRotation(newPos->GetActorRotation());
+		Element->SetActorRotation(newPos->GetActorRotation() + FRotator(0,-90,0));
 		
 		auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
 		
@@ -214,7 +214,7 @@ void AFetusPuzzle::RemoveFirstRightFetus()
 	auto currentTarget = AUXPosiblePosition[rand];
 		
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
-	currentFetus->SetActorRotation(currentTarget->GetActorRotation());
+	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
 		
 	auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
 	AUXPosiblePosition[AUXPosiblePosition.Num()-1] = currentTarget;

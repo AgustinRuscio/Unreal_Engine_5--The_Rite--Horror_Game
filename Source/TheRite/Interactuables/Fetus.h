@@ -56,8 +56,8 @@ private:
 
 	FVector InitialPosition;
 	
-	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
-	UStaticMeshComponent* FetusMesh;
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* FetusMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Niagara", meta=(AllowPrivateAccess = true))
 	UNiagaraSystem* NiagaraSytem_Blood;

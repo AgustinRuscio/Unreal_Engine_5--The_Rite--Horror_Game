@@ -60,6 +60,9 @@ private:
 	void PlaceMannequinsStairs(AInteractor* Interactor);
 	
 	UFUNCTION()
+	void LightsOnBedRoom(AInteractor* Interactor);
+	
+	UFUNCTION()
 	void EndGame();
 	
 	//---------------- Bind Colliders Methods
@@ -211,6 +214,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Setter")
 	ABasePlayerSettingsSetter* PlayerSettingsSetter;
+
+	UPROPERTY(EditAnywhere, Category="Setter")
+	AInteractor* Interactable_BedroomLightsOn;
 	
 	AAlex* Player;
 };

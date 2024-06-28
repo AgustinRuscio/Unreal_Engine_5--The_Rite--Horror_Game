@@ -13,7 +13,7 @@ AFetus::AFetus()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	FetusMesh = CreateDefaultSubobject<UStaticMeshComponent>("Fetus Mesh");
+	FetusMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Fetus Mesh");
 	
 	BloodSpawnLoscation = CreateDefaultSubobject<UArrowComponent>("Arrow");
 	BloodSpawnLoscation->SetupAttachment(FetusMesh);
@@ -58,14 +58,13 @@ void AFetus::ResetFetus()
 }
 void AFetus::SetFaderValues()
 {
+	OnActivate.AddDynamic(this, &AFetus::OnFadeActivated);
+	OnDeactivate.AddDynamic(this, &AFetus::OnFadeDeactivate);
+	
 	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
 	
 	SetActor(this);
 	SetFaderComponent(FadeComponent);
-
-	OnActivate.AddDynamic(this, &AFetus::OnFadeActivated);
-	OnDeactivate.AddDynamic(this, &AFetus::OnFadeDeactivate);
-
 }
 
 void AFetus::OnFadeActivated()

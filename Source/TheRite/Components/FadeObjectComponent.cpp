@@ -66,12 +66,12 @@ void UFadeObjectComponent::PermanentActivation()
 
 void UFadeObjectComponent::ObtainOwnerMaterial()
 {
-	GetOwner()->GetComponents<UStaticMeshComponent>(OwnerMesh);
+	GetOwner()->GetComponents<UMeshComponent>(OwnerMesh);
 	Material = OwnerMesh[0]->GetMaterial(0);
 	DynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
 	OwnerMesh[0]->SetMaterial(0, DynamicMaterial);
-
-	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),0);
+	
+	DeActivateFade();
 }
 
 //---------------- TimeLine Methods
@@ -88,7 +88,7 @@ void UFadeObjectComponent::BindTimeLine()
 
 void UFadeObjectComponent::FadeTick(float deltaSeconds)
 {
-	float value = FMathf::Lerp(0,0.9f,deltaSeconds);
+	float value = FMathf::Lerp(0,1.f,deltaSeconds);
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),value);
 }

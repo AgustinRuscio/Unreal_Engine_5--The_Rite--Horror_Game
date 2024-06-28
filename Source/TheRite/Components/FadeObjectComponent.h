@@ -48,8 +48,8 @@ private:
 	bool bPermanentTurnedOn = false;
 
 	UPROPERTY(EditAnywhere)
-	TArray<UStaticMeshComponent*> OwnerMesh;
-	
+	TArray<UMeshComponent*> OwnerMesh;
+
 	FTimeline FadeTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
