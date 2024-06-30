@@ -195,6 +195,9 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	if(!Cast<AAlex>(OtherActor) || bLightsOutEventDone) return;
 	bLightsOutEventDone = true;
 
+	A_BlockingStairsWall->GetStaticMeshComponent()->SetVisibility(true);
+	A_BlockingStairsWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	
 	AtticLadder->EnableLadder();
 	Door_BathRoomRoom->SetLockedState(false);
 	

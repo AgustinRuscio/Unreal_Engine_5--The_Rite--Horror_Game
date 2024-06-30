@@ -200,6 +200,9 @@ private:
 	TArray<AStaticMeshActor*> Actors_StairsMannequins;
 	
 	UPROPERTY(EditAnywhere, Category="Actors")
+	AStaticMeshActor* A_BlockingStairsWall;
+	
+	UPROPERTY(EditAnywhere, Category="Actors")
 	TArray<AManikin*> A_CorridorMannequins;
 	
 	//-------- Fuse Event
