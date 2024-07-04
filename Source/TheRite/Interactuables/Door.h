@@ -171,7 +171,8 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
 	float ItsLockedCD = 60;
 
-	float curretnYaw;
+	float CurrentYaw;
+	float LastYaw = 1604;
 	
 	float DoorTimer;
 	

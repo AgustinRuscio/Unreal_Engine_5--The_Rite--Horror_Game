@@ -101,8 +101,11 @@ void ADoor::Tick(float DeltaTime)
 
 	if (DEBUGGING)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bHolding %d"), bHolding));
-		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bcanDrag %d"), bcanDrag));
+		//GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bHolding %d"), bHolding));
+		//GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("bcanDrag %d"), bcanDrag));
+
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("Max Rotation %f"), MaxYawrotation));
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Orange, FString::Printf(TEXT("Curretn Yaw %f"), CurrentYaw));
 	}
 }
 
@@ -110,7 +113,7 @@ void ADoor::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);
 
-	curretnYaw = GetActorRotation().Yaw;
+	CurrentYaw = GetActorRotation().Yaw;
 	
 	TutorialInteraction();
 	
@@ -296,59 +299,64 @@ void ADoor::CheckDragDoor()
 	
 	float DoorFloat = Player->GetDoorFloat();
 	float preSum = 0;
+
+	if(LastYaw != 1604)
+		CurrentYaw = LastYaw;
 	
 	if(bFrontOpen)
 	{
 		if(bIsPlayerForward)
 		{
-			preSum = curretnYaw + DoorFloat * -1;
+			preSum = CurrentYaw + DoorFloat * -1;
 			
 			if(preSum  >= MaxYawrotation)
-				curretnYaw = MaxYawrotation;
-			else if(preSum  < FirstYawrotation)
-				curretnYaw = FirstYawrotation;
-			else
-				curretnYaw = preSum;
+				preSum = MaxYawrotation;
+			else if(preSum <= FirstYawrotation)
+				preSum = FirstYawrotation;
+
+			CurrentYaw = preSum;
 		}
 		else
 		{
-			preSum = curretnYaw+ DoorFloat;
+			preSum = CurrentYaw+ DoorFloat;
 			
 			if(preSum >= MaxYawrotation)
-				curretnYaw = MaxYawrotation;
-			else if(preSum  < FirstYawrotation)
-				curretnYaw = FirstYawrotation;
-			else
-				curretnYaw = preSum;
+				preSum = MaxYawrotation;
+			else if(preSum <= FirstYawrotation)
+				preSum = FirstYawrotation;
+
+			
+			CurrentYaw = preSum;
 		}
 	}
 	else
 	{
 		if(bIsPlayerForward)
 		{
-			preSum = curretnYaw + DoorFloat;
+			preSum = CurrentYaw + DoorFloat;
 			
 			if (preSum >= FirstYawrotation)
-				curretnYaw = FirstYawrotation;
-			else if (preSum < MaxYawrotation)
-				curretnYaw = MaxYawrotation;
-			else
-				curretnYaw = preSum;
+				preSum = FirstYawrotation;
+			else if (preSum <= MaxYawrotation)
+				preSum = MaxYawrotation;
+
+			CurrentYaw = preSum;
 		}
 		else
 		{
-			preSum = curretnYaw + DoorFloat * -1;
+			preSum = CurrentYaw + DoorFloat * -1;
 			
 			if(preSum >= FirstYawrotation)
-				curretnYaw = FirstYawrotation;
-			else if(preSum < MaxYawrotation)
-				curretnYaw = MaxYawrotation;
-			else
-				curretnYaw = preSum;
+				preSum = FirstYawrotation;
+			else if(preSum <= MaxYawrotation)
+				preSum = MaxYawrotation;
+			
+			CurrentYaw = preSum;
 		}
 	}
 	
-	SetActorRotation(FRotator(GetActorRotation().Pitch, curretnYaw, GetActorRotation().Roll));
+	LastYaw = CurrentYaw;
+	SetActorRotation(FRotator(GetActorRotation().Pitch, CurrentYaw, GetActorRotation().Roll));
 }
 
 void ADoor::CheckIfLookingDoor()
@@ -538,7 +546,7 @@ void ADoor::OpenCloseTimelineFinished()
 {
 	CurrentRot =GetActorRotation();
 	
-	curretnYaw = GetActorRotation().Yaw;
+	CurrentYaw = GetActorRotation().Yaw;
 }
 
 
@@ -591,5 +599,5 @@ void ADoor::HardClosingTielineFinished()
 {
 	CurrentRot = GetActorRotation();
 	
-	curretnYaw = GetActorRotation().Yaw;
+	CurrentYaw = GetActorRotation().Yaw;
 }
