@@ -5,6 +5,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Interactuables/Fetus.h"
 #include "GameFlowPacifierLevel.generated.h"
@@ -69,6 +70,12 @@ private:
 	
 	UFUNCTION()
 	void EndGame();
+
+	UFUNCTION()
+	void OnLastPuzzleTimerTick(float deltaSeconds);
+
+	UFUNCTION()
+	void OnLasPuzzleTimerFinished();
 	
 	//---------------- Bind Colliders Methods
 	UFUNCTION()
@@ -79,8 +86,6 @@ private:
 	
 	UFUNCTION()
 	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-public:
 	
 private:
 	bool bLightsOutEventDone = false;
@@ -162,6 +167,11 @@ private:
 	FTimerHandle Timer_FirstStairsEvent;
 	FTimerHandle Timer_SecondEvent;
 	FTimerHandle Timer_ThirdEvent;
+
+	FTimeline Timer_LastPuzzleStarted;
+
+	UPROPERTY(EditAnywhere, Category="Timer")
+	UCurveFloat* CurveFloat_LastPuzzle;
 	
 	//-------- Target points
 	UPROPERTY(EditAnywhere, Category="Target Point")

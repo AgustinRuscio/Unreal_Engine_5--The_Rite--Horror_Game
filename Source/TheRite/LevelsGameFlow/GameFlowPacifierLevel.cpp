@@ -65,6 +65,8 @@ void AGameFlowPacifierLevel::BeginPlay()
 void AGameFlowPacifierLevel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	Timer_LastPuzzleStarted.TickTimeline(DeltaTime);
 }
 
 void AGameFlowPacifierLevel::BindColliderMethods()
@@ -84,6 +86,15 @@ void AGameFlowPacifierLevel::InitializeValues()
 	AudioComponent_Ambient->GetAudioComponent()->Sound = SFX_Ambient;
 	AudioComponent_StressSound->GetAudioComponent()->Sound = SFX_StressSound;
 	AudioComponent_Voices->GetAudioComponent()->Sound = SFX_Voices;
+
+	FOnTimelineFloat TimelineCallback;
+	TimelineCallback.BindUFunction(this, FName("OnLastPuzzleTimerTick"));
+	Timer_LastPuzzleStarted.AddInterpFloat(CurveFloat_LastPuzzle, TimelineCallback);
+	
+	FOnTimelineEventStatic TimelineFinishedCallback;
+	TimelineFinishedCallback.BindUFunction(this, FName("OnLasPuzzleTimerFinished"));
+	Timer_LastPuzzleStarted.SetTimelineFinishedFunc(TimelineFinishedCallback);
+	
 }
 
 void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
@@ -201,6 +212,13 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 		Element->GetStaticMeshComponent()->SetVisibility(true);
 	}
+
+	for (auto Element : Lights_AllLights)
+	{
+		Element->ChangeLightIntensity((Element->GetIntensity() - 10), true);
+	}
+	
+	//Timer_LastPuzzleStarted.PlayFromStart();
 }
 
 void AGameFlowPacifierLevel::EndGame()
@@ -216,6 +234,14 @@ void AGameFlowPacifierLevel::EndGame()
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }
+
+void AGameFlowPacifierLevel::OnLastPuzzleTimerTick(float deltaSeconds)
+{
+	RaiseAmbientVolume(deltaSeconds);
+	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("X %f"), deltaSeconds));
+}
+
+void AGameFlowPacifierLevel::OnLasPuzzleTimerFinished() { }
 
 void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
