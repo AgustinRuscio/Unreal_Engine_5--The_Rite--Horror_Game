@@ -42,6 +42,8 @@ public:
 
 //---------------- Setter Methods
 	void SetCanInteract(bool newInteractionState);
+	void SetCanWillSound(bool newWillSoundState);
+	void SetAudioToPlay(USoundBase* NewAudio);
 	
 	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
 

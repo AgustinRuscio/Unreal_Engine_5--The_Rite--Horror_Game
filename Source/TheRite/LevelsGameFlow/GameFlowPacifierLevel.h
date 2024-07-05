@@ -6,6 +6,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/Interactuables/Fetus.h"
 #include "GameFlowPacifierLevel.generated.h"
 
 class AInteractor;
@@ -21,6 +22,7 @@ class ACandle;
 class AEmergencyLights;
 class ABlockingVolume;
 class AFetusPuzzle;
+class AHideAndSeekPuzzle;
 class ASkeletalMeshActor;
 class ATargetPoint;
 class AAmbientSound;
@@ -61,6 +63,9 @@ private:
 	
 	UFUNCTION()
 	void LightsOnBedRoom(AInteractor* Interactor);
+
+	UFUNCTION()
+	void OnHideSeekPuzzleStarted();
 	
 	UFUNCTION()
 	void EndGame();
@@ -103,8 +108,11 @@ private:
 	ATriggerVolume* TriggerVolume_EndGmaePass;
 
 	//-------- Meshes
-	UPROPERTY(EditAnywhere, Category= "Skeletals")
+	UPROPERTY(EditAnywhere, Category= "Meshes")
 	ASkeletalMeshActor* Skeletal_TiffanyStairs;
+
+	UPROPERTY(EditAnywhere, Category= "Meshes")
+	TArray<AStaticMeshActor*> Meshes_HideSeekObjects;
 	
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audios")
@@ -185,7 +193,13 @@ private:
 	//-------- Fetus
 	UPROPERTY(EditAnywhere, Category="Flows")
 	AFetusPuzzle* GameFlow_FetusPuzzle;
+	
+	UPROPERTY(EditAnywhere, Category="Flows")
+	AHideAndSeekPuzzle* GameFlow_HideAndSeekPuzzle;
 
+	UPROPERTY(EditAnywhere, Category="Flows")
+	AFetus* MainFetus;
+	
 	//-------- Light Switch Event
 	UPROPERTY(EditAnywhere, Category="Light Switch")
 	ALightSwitch* LightSwitch_ThermalSwitch;
@@ -198,9 +212,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Actors")
 	TArray<AStaticMeshActor*> Actors_StairsMannequins;
-	
-	UPROPERTY(EditAnywhere, Category="Actors")
-	AStaticMeshActor* A_BlockingStairsWall;
 	
 	UPROPERTY(EditAnywhere, Category="Actors")
 	TArray<AManikin*> A_CorridorMannequins;

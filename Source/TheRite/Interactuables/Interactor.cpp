@@ -65,6 +65,16 @@ void AInteractor::SetCanInteract(bool newInteractionState)
 	bCanInteract = newInteractionState;
 }
 
+void AInteractor::SetCanWillSound(bool newWillSoundState)
+{
+	bWillSound = newWillSoundState;
+}
+
+void AInteractor::SetAudioToPlay(USoundBase* NewAudio)
+{
+	AudioToPlay = NewAudio;
+}
+
 void AInteractor::SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id)
 {
 	bIsPickeable = isPickeable;

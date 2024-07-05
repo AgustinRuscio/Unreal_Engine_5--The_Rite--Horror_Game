@@ -17,6 +17,7 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Engine/StaticMeshActor.h"
 #include "TheRite/Characters/Alex.h"
+#include "HideAndSeekPuzzle.h"
 #include "BasePlayerSettingsSetter.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/Candle.h"
@@ -35,8 +36,22 @@ void AGameFlowPacifierLevel::BeginPlay()
 	Super::BeginPlay();
 
 	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
-	GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
 
+	if(GameFlow_FetusPuzzle->IsActive())
+		GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
+
+	if(GameFlow_HideAndSeekPuzzle->IsActive())
+	{
+		GameFlow_HideAndSeekPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
+		GameFlow_HideAndSeekPuzzle->OnPuzzleStarted.AddDynamic(this, &AGameFlowPacifierLevel::OnHideSeekPuzzleStarted);
+
+		for (auto Element : Meshes_HideSeekObjects)
+		{
+			Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+			Element->GetStaticMeshComponent()->SetVisibility(false);
+		}
+	}
+	
 	InteractorForManiquiesToAppear->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsInCorridor);
 	AtticLadder->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
 	Interactable_BedroomLightsOn->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
@@ -174,8 +189,18 @@ void AGameFlowPacifierLevel::LightsOnBedRoom(AInteractor* Interactor)
 
 		Element->TurnOn();
 	}
-	
+
+	MainFetus->StartAudioComponent();
 	Interactable_BedroomLightsOn->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
+}
+
+void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
+{
+	for (auto Element : Meshes_HideSeekObjects)
+	{
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+	}
 }
 
 void AGameFlowPacifierLevel::EndGame()
@@ -186,6 +211,8 @@ void AGameFlowPacifierLevel::EndGame()
 	}
 
 	Door_EndGmae->SetLockedState(false);
+
+	Player->SetPlayerOptions(true, false, false);
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }
@@ -194,9 +221,6 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 {
 	if(!Cast<AAlex>(OtherActor) || bLightsOutEventDone) return;
 	bLightsOutEventDone = true;
-
-	A_BlockingStairsWall->GetStaticMeshComponent()->SetVisibility(true);
-	A_BlockingStairsWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	
 	AtticLadder->EnableLadder();
 	Door_BathRoomRoom->SetLockedState(false);

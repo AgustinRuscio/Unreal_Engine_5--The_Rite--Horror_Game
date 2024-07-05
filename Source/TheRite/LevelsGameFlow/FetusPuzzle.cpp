@@ -17,9 +17,17 @@ AFetusPuzzle::AFetusPuzzle()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+bool AFetusPuzzle::IsActive() const
+{
+	return bActive;
+}
+
 //---------------- System Class Methods
 void AFetusPuzzle::BeginPlay()
 {
+	if(!bActive)
+		return
+	
 	Super::BeginPlay();
 
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));

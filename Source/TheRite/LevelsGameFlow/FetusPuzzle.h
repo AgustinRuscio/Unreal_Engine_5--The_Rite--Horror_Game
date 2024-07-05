@@ -25,6 +25,8 @@ class THERITE_API AFetusPuzzle : public AActor
 	
 public:	
 	AFetusPuzzle();
+
+	bool IsActive() const;
 	
 //---------------- System Class Methods
 	virtual void BeginPlay() override;
@@ -56,6 +58,9 @@ public:
 	FOnFetuPuzzleComplete OnPuzzleComplete;
 	
 private:
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
+	bool bActive;
+	
 	bool bPuzzleActivated;
 	bool bFirstInteraction = true;
 	

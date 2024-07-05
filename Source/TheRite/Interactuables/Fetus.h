@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWrongFetus);
 class UNiagaraSystem;
 class UArrowComponent;
 class UFadeObjectComponent;
+class UAudioComponent;
 
 UCLASS()
 class THERITE_API AFetus : public AInteractor, public IFader
@@ -30,10 +31,10 @@ public:
 //---------------- System Class Methods
 	virtual void Interaction() override;
 	
-	
 //---------------- Status Methods
 	void ResetFetus();
 
+	void StartAudioComponent();
 private:
 	void SetFaderValues();
 
@@ -48,6 +49,8 @@ public:
 	FOnWrongFetus OnWrongFetus;
 	
 private:
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bIsLetterPuzzle = true;
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bIsCorrectFetus;
 
@@ -64,6 +67,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* BloodSpawnLoscation;
+
+	UPROPERTY(EditAnywhere, Category = "SFX", meta=(AllowPrivateAccess = true))
+	UAudioComponent* AudioComponent;
 	
 	FTimerHandle Timer_LightsOut;
 
