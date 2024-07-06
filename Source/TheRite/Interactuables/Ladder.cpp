@@ -44,23 +44,65 @@ void ALadder::BeginPlay()
 	
 	FOnTimelineFloat CameraTargetTick;
 	CameraTargetTick.BindUFunction(this, FName("OnReLocationPlayerTimeLineTick"));
-	ReLocatePlayerTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
+	Timer_ReLocatePlayerTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
 	
 	FOnTimelineEventStatic CameraTargettingFinished;
 	CameraTargettingFinished.BindUFunction(this, FName("OnReLocationPlayerTimeLineFinished"));
-	ReLocatePlayerTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+	Timer_ReLocatePlayerTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
 void ALadder::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
+	Timer_ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
+
+	if(DoOnceOpenByNear) return;
+	if(!bCanInteract) return;
+
+	if(UE::Geometry::Distance(player->GetActorLocation(), GetActorLocation()) <= DistanceToNearAnim)
+	{
+		DoOnceOpenByNear = true;
+		bCanInteract = false;
+		
+		LadderSkeletal->PlayAnimation(Animation_PartialOpen, false);
+
+		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_PartialOpenAnim))
+		{
+			FTimerDelegate delegate;
+
+			delegate.BindLambda([&]
+			{
+				bCanInteract = true;
+			});
+
+			GetWorld()->GetTimerManager().SetTimer(Timer_PartialOpenAnim, delegate, Animation_PartialOpen->GetPlayLength(), false);
+		}
+	}
 }
 
 void ALadder::Interaction()
 {
 	if(!bCanInteract) return;
 
+	if(FirstInteraction)
+	{
+		LadderSkeletal->PlayAnimation(Animation_FullyOpen, false);
+
+		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_FullOpenAnim))
+		{
+			FTimerDelegate delegate;
+
+			delegate.BindLambda([&]
+			{
+				FirstInteraction = false;
+			});
+
+			GetWorld()->GetTimerManager().SetTimer(Timer_FullOpenAnim, delegate, Animation_FullyOpen->GetPlayLength(), false);
+		}
+		
+		return;
+	}
+	
 	bCanInteract = false;
 
 	OnInteractionTrigger.Broadcast(this);
@@ -82,31 +124,38 @@ void ALadder::Interaction()
 	PlayerTransform = player->GetTransform();
 	player->ForceLighterOff();
 	
-	ReLocatePlayerTimeLine.PlayFromStart();
+	Timer_ReLocatePlayerTimeLine.PlayFromStart();
 }
 
 void ALadder::EnableLadder()
 {
-	LadderTop->SetVisibility(false);
-	LadderMesh->SetVisibility(true);
+	//LadderTop->SetVisibility(false);
+	//LadderMesh->SetVisibility(true);
 
 	LadderSkeletal->SetAnimation(Animation_EnableLadder);
+	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+
+	
 	LadderSkeletal->PlayAnimation(Animation_EnableLadder, false);
 	auto a =Animation_EnableLadder->GetPlayLength();
 	
-	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	bCanInteract = true;
 }
 
 void ALadder::DisableLadder()
 {
-	LadderTop->SetVisibility(true);
-	LadderMesh->SetVisibility(false);
+	//LadderTop->SetVisibility(true);
+	//LadderMesh->SetVisibility(false);
+
 	
-	LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	LadderSkeletal->SetAnimation(Animation_DisableLadder);
+	LadderSkeletal->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	
+	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	bCanInteract = false;	
 }

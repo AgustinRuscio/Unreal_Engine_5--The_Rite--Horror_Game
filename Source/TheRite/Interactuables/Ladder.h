@@ -44,6 +44,11 @@ public:
 
 private:
 	bool bFlipFlop = true;
+	bool FirstInteraction = true;
+	bool DoOnceOpenByNear = false;
+
+	UPROPERTY(EditAnywhere, Category = "Distance")
+	float DistanceToNearAnim = 20;
 	
 	FTransform NewLocationForTransport;
 	FTransform NewLocationForLooking;
@@ -63,6 +68,9 @@ private:
 	UBoxComponent* BoxCollider;
 
 	//-------- Meshes Collider
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_DisableLadder;
+	
 	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
 	UAnimationAsset* Animation_EnableLadder;
 	
@@ -86,9 +94,12 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* StairsDownCinematic;
 
-	FTimeline ReLocatePlayerTimeLine;
+	FTimerHandle Timer_FullOpenAnim;
+	FTimerHandle Timer_PartialOpenAnim;
+	
+	FTimeline Timer_ReLocatePlayerTimeLine;
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	UCurveFloat* CurveFloat;
-
+	
 	AAlex* player;
 };
