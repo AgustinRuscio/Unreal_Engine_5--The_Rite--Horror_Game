@@ -53,11 +53,25 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* LadderMesh;
 
-	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* LadderTop;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* LadderSkeletal;
 	
-	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = "true"))
 	UBoxComponent* BoxCollider;
+
+	//-------- Meshes Collider
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_EnableLadder;
+	
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_PartialOpen;
+	
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_FullyOpen;
+
 	
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))

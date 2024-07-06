@@ -23,6 +23,9 @@ ALadder::ALadder()
 	LadderMesh = CreateDefaultSubobject<UStaticMeshComponent>("Ladder Mesh");
 	LadderTop = CreateDefaultSubobject<UStaticMeshComponent>("Ladder Top Mesh");
 	
+	LadderSkeletal = CreateDefaultSubobject<USkeletalMeshComponent>("Ladder");
+	LadderSkeletal->SetupAttachment(LadderMesh);
+	
 	BoxCollider= CreateDefaultSubobject<UBoxComponent>("Box collider");
 	
 	InitialPosition = CreateDefaultSubobject<UArrowComponent>("Initial Location Arrow");
@@ -86,6 +89,10 @@ void ALadder::EnableLadder()
 {
 	LadderTop->SetVisibility(false);
 	LadderMesh->SetVisibility(true);
+
+	LadderSkeletal->SetAnimation(Animation_EnableLadder);
+	LadderSkeletal->PlayAnimation(Animation_EnableLadder, false);
+	auto a =Animation_EnableLadder->GetPlayLength();
 	
 	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
