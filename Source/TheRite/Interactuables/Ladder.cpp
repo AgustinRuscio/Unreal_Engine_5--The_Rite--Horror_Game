@@ -138,6 +138,8 @@ void ALadder::EnableLadder()
 	
 	LadderSkeletal->PlayAnimation(Animation_EnableLadder, false);
 	auto a =Animation_EnableLadder->GetPlayLength();
+
+	BoxCollider->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	
 	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
@@ -153,6 +155,7 @@ void ALadder::DisableLadder()
 	
 	LadderSkeletal->SetAnimation(Animation_DisableLadder);
 	LadderSkeletal->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	BoxCollider->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
