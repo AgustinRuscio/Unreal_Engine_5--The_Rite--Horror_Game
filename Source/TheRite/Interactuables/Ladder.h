@@ -53,8 +53,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Distance")
 	float DistanceToNearAnim = 20;
 	
-	//FTransform NewLocationForTransport;
-	//FTransform NewLocationForLooking;
 	FTransform PlayerTransform;
 
 	FVector NewPlayerLocation;

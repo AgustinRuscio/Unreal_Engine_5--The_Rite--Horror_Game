@@ -117,23 +117,17 @@ void ALadder::NormalInteraction()
 
 	if(bFlipFlop)
 	{
-		//NewLocationForTransport = InitialPosition->GetComponentTransform();
-
 		NewPlayerLocation = InitialPosition->GetComponentLocation();
 		NewPlayerRotation = InitialPosition->GetComponentRotation();
 
 		POVLocation = EndPosition->GetComponentLocation();
 		POVRotation = EndPosition->GetComponentRotation();
-		//NewLocationForLooking = EndPosition->GetComponentTransform();
 	}
 	else
 	{
-		//NewLocationForTransport = EndPosition->GetComponentTransform();
 		NewPlayerLocation = EndPosition->GetComponentLocation();
 		NewPlayerRotation = EndPosition->GetComponentRotation();
 		
-		//NewLocationForLooking = InitialPosition->GetComponentTransform();
-
 		POVLocation = InitialPosition->GetComponentLocation();
 		POVRotation = InitialPosition->GetComponentRotation();
 	}
@@ -146,34 +140,21 @@ void ALadder::NormalInteraction()
 
 void ALadder::EnableLadder()
 {
-	//LadderTop->SetVisibility(false);
-	//LadderMesh->SetVisibility(true);
-
 	LadderSkeletal->SetAnimation(Animation_EnableLadder);
-	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	LadderSkeletal->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 	
 	LadderSkeletal->PlayAnimation(Animation_EnableLadder, false);
-	auto a =Animation_EnableLadder->GetPlayLength();
 
 	BoxCollider->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	
-	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	bCanInteract = true;
 }
 
 void ALadder::DisableLadder()
 {
-	//LadderTop->SetVisibility(true);
-	//LadderMesh->SetVisibility(false);
-	
 	LadderSkeletal->SetAnimation(Animation_DisableLadder);
 	LadderSkeletal->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	BoxCollider->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-	
-	//LadderTop->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	//LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
 	bCanInteract = false;	
 }
@@ -182,7 +163,6 @@ void ALadder::OnCinematicFinished()
 {
 	bCanInteract = true;
 	
-	//player->SetActorTransform(NewLocationForTransport);
 	player->SetActorLocation(NewPlayerLocation);
 	player->SetActorRotation(NewPlayerRotation);
 	player->MakeCameraView(NewPlayerRotation);
