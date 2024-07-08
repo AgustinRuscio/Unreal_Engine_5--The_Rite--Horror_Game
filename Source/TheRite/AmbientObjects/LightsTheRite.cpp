@@ -51,14 +51,14 @@ void ALightsTheRite::BeginPlay()
 }
 
 //---------------- Material Setter Methods
-void ALightsTheRite::AggressiveMaterial()
+void ALightsTheRite::AggresiveMatterial()
 {
-	PointLight->SetLightFunctionMaterial(LightMaterial_AggressiveMaterial);
+	PointLight->SetLightFunctionMaterial(AggresiveMaterial);
 }
 
-void ALightsTheRite::NormalMaterial()
+void ALightsTheRite::NormalMatterial()
 {
-	PointLight->SetLightFunctionMaterial(LightMaterial_NormalMaterial);
+	PointLight->SetLightFunctionMaterial(NormalMaterial);
 }
 
 void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)

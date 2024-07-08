@@ -28,10 +28,10 @@ public:
 	virtual void BeginPlay() override;
 	
 	UFUNCTION()
-	void AggressiveMaterial();
+	void AggresiveMatterial();
 	
 	UFUNCTION()
-	void NormalMaterial();
+	void NormalMatterial();
 
 	void ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault);
 	
@@ -63,9 +63,9 @@ private:
 	USphereComponent* Sphere;
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* LightMaterial_NormalMaterial;
+	UMaterialInterface* NormalMaterial;
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* LightMaterial_AggressiveMaterial;
+	UMaterialInterface* AggresiveMaterial;
 
 };

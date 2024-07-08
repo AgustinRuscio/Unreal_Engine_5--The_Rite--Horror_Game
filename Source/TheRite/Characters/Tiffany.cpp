@@ -103,7 +103,7 @@ void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 		for (auto ObjectType : OutTragtes)
 		{
 			auto light = CastChecked<ALightsTheRite>(ObjectType);
-			light->AggressiveMaterial();
+			light->AggresiveMatterial();
 		}
 	}
 }
@@ -130,7 +130,7 @@ void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 		for (auto ObjectType : OutTragtes)
 		{
 			auto light = Cast<ALightsTheRite>(ObjectType);
-			light->NormalMaterial();
+			light->NormalMatterial();
 		}
 	}
 }
