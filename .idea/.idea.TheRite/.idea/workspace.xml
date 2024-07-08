@@ -8,14 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/M_LightFlicker_aggressive.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/LadderDown.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/LadderDown.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/LadderUp.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/LadderUp.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/M_LightFlicker_aggresive.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Materiales/M_LightFlicker_aggresive.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/++/BP_LightsTheRite.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Others/++/BP_LightsTheRite.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Ladder.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Triggers/CloseDoor.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -529,6 +535,7 @@
       <workItem from="1720377007958" duration="1536000" />
       <workItem from="1720378601584" duration="887000" />
       <workItem from="1720404626699" duration="387000" />
+      <workItem from="1720405998320" duration="7856000" />
     </task>
     <servers />
   </component>

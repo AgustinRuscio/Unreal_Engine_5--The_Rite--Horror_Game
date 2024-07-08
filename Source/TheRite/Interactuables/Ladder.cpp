@@ -56,12 +56,12 @@ void ALadder::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	Timer_ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
 
-	if(DoOnceOpenByNear) return;
+	if(bDoOnceOpenByNear) return;
 	if(!bCanInteract) return;
 
 	if(UE::Geometry::Distance(player->GetActorLocation(), GetActorLocation()) <= DistanceToNearAnim)
 	{
-		DoOnceOpenByNear = true;
+		bDoOnceOpenByNear = true;
 		bCanInteract = false;
 		
 		LadderSkeletal->PlayAnimation(Animation_PartialOpen, false);
@@ -84,25 +84,30 @@ void ALadder::Interaction()
 {
 	if(!bCanInteract) return;
 
-	if(FirstInteraction)
-	{
-		LadderSkeletal->PlayAnimation(Animation_FullyOpen, false);
-
-		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_FullOpenAnim))
-		{
-			FTimerDelegate delegate;
-
-			delegate.BindLambda([&]
-			{
-				FirstInteraction = false;
-			});
-
-			GetWorld()->GetTimerManager().SetTimer(Timer_FullOpenAnim, delegate, Animation_FullyOpen->GetPlayLength(), false);
-		}
-		
-		return;
-	}
+	bFirstInteraction ? FirstInteraction() : NormalInteraction();
 	
+}
+
+void ALadder::FirstInteraction()
+{
+	LadderSkeletal->PlayAnimation(Animation_FullyOpen, false);
+	bCanInteract = false;
+	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_FullOpenAnim))
+	{
+		FTimerDelegate delegate;
+
+		delegate.BindLambda([&]
+		{
+			bFirstInteraction = false;
+			bCanInteract = true;
+		});
+
+		GetWorld()->GetTimerManager().SetTimer(Timer_FullOpenAnim, delegate, Animation_FullyOpen->GetPlayLength(), false);
+	}
+}
+
+void ALadder::NormalInteraction()
+{
 	bCanInteract = false;
 
 	OnInteractionTrigger.Broadcast(this);
@@ -112,13 +117,25 @@ void ALadder::Interaction()
 
 	if(bFlipFlop)
 	{
-		NewLocationForTransport = InitialPosition->GetComponentTransform();
-		NewLocationForLooking = EndPosition->GetComponentTransform();
+		//NewLocationForTransport = InitialPosition->GetComponentTransform();
+
+		NewPlayerLocation = InitialPosition->GetComponentLocation();
+		NewPlayerRotation = InitialPosition->GetComponentRotation();
+
+		POVLocation = EndPosition->GetComponentLocation();
+		POVRotation = EndPosition->GetComponentRotation();
+		//NewLocationForLooking = EndPosition->GetComponentTransform();
 	}
 	else
 	{
-		NewLocationForTransport = EndPosition->GetComponentTransform();
-		NewLocationForLooking = InitialPosition->GetComponentTransform();
+		//NewLocationForTransport = EndPosition->GetComponentTransform();
+		NewPlayerLocation = EndPosition->GetComponentLocation();
+		NewPlayerRotation = EndPosition->GetComponentRotation();
+		
+		//NewLocationForLooking = InitialPosition->GetComponentTransform();
+
+		POVLocation = InitialPosition->GetComponentLocation();
+		POVRotation = InitialPosition->GetComponentRotation();
 	}
 	
 	PlayerTransform = player->GetTransform();
@@ -134,7 +151,6 @@ void ALadder::EnableLadder()
 
 	LadderSkeletal->SetAnimation(Animation_EnableLadder);
 	LadderMesh->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-
 	
 	LadderSkeletal->PlayAnimation(Animation_EnableLadder, false);
 	auto a =Animation_EnableLadder->GetPlayLength();
@@ -151,7 +167,6 @@ void ALadder::DisableLadder()
 {
 	//LadderTop->SetVisibility(true);
 	//LadderMesh->SetVisibility(false);
-
 	
 	LadderSkeletal->SetAnimation(Animation_DisableLadder);
 	LadderSkeletal->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
@@ -167,8 +182,10 @@ void ALadder::OnCinematicFinished()
 {
 	bCanInteract = true;
 	
-	player->SetActorTransform(NewLocationForTransport);
-	player->MakeCameraView(NewLocationForTransport.GetRotation().Rotator());
+	//player->SetActorTransform(NewLocationForTransport);
+	player->SetActorLocation(NewPlayerLocation);
+	player->SetActorRotation(NewPlayerRotation);
+	player->MakeCameraView(NewPlayerRotation);
 
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
@@ -179,10 +196,10 @@ void ALadder::OnCinematicFinished()
 
 void ALadder::OnReLocationPlayerTimeLineTick(float delta)
 {
-	auto LerpedLocation = FMath::Lerp(PlayerTransform.GetLocation(), NewLocationForLooking.GetLocation(), delta);
+	auto LerpedLocation = FMath::Lerp(PlayerTransform.GetLocation(), POVLocation, delta);
 	player->SetActorLocation(FVector(LerpedLocation.X,LerpedLocation.Y, PlayerTransform.GetLocation().Z));
 
-	auto LerpedRotation = FMath::Lerp(PlayerTransform.GetRotation().Rotator(), NewLocationForLooking.GetRotation().Rotator(), delta);
+	auto LerpedRotation = FMath::Lerp(PlayerTransform.GetRotation().Rotator(), POVRotation, delta);
 	player->MakeCameraView(LerpedRotation);
 }
 

@@ -32,7 +32,7 @@ void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	for (auto Element : Lights)
 	{
-		bAggresiveLight ? Element->AggresiveMatterial() : Element->NormalMatterial();
+		bAggresiveLight ? Element->SetAggressiveMaterial() : Element->SetNormalMaterial();
 	}
 	
 	if(IsValid(DestroyableLight))

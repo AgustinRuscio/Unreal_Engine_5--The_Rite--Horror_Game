@@ -28,6 +28,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
+	void FirstInteraction();
+	void NormalInteraction();
+	
 	void EnableLadder();
 	void DisableLadder();
 	
@@ -44,15 +47,21 @@ public:
 
 private:
 	bool bFlipFlop = true;
-	bool FirstInteraction = true;
-	bool DoOnceOpenByNear = false;
+	bool bFirstInteraction = true;
+	bool bDoOnceOpenByNear = false;
 
 	UPROPERTY(EditAnywhere, Category = "Distance")
 	float DistanceToNearAnim = 20;
 	
-	FTransform NewLocationForTransport;
-	FTransform NewLocationForLooking;
+	//FTransform NewLocationForTransport;
+	//FTransform NewLocationForLooking;
 	FTransform PlayerTransform;
+
+	FVector NewPlayerLocation;
+	FRotator NewPlayerRotation;
+
+	FVector POVLocation;
+	FRotator POVRotation;
 	
 //-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
@@ -79,8 +88,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
 	UAnimationAsset* Animation_FullyOpen;
-
-	
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;

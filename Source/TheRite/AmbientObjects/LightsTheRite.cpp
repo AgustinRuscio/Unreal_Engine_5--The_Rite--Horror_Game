@@ -51,14 +51,14 @@ void ALightsTheRite::BeginPlay()
 }
 
 //---------------- Material Setter Methods
-void ALightsTheRite::AggresiveMatterial()
+void ALightsTheRite::SetAggressiveMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(AggresiveMaterial);
+	PointLight->SetLightFunctionMaterial(Material_Aggressive);
 }
 
-void ALightsTheRite::NormalMatterial()
+void ALightsTheRite::SetNormalMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(NormalMaterial);
+	PointLight->SetLightFunctionMaterial(Material_Normal);
 }
 
 void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
@@ -74,12 +74,12 @@ void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefa
 }
 
 //---------------- State Changer Methods
-void ALightsTheRite::TurnOff()
+void ALightsTheRite::TurnOff() const
 {
 	PointLight->SetIntensity(0.0f);
 }
 
-void ALightsTheRite::TurnOn()
+void ALightsTheRite::TurnOn() const
 {
 	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }
