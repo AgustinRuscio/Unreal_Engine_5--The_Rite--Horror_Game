@@ -67,7 +67,7 @@ void ABigClock::Interaction()
 	
 	bIsFocus = true;
 	
-	CheckNeedlesPosition();
+	//CheckNeedlesPosition();
 }
 
 void ABigClock::SetReadyToUse()

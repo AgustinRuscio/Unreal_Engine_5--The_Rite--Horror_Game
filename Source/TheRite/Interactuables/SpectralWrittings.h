@@ -8,6 +8,7 @@
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Components/TimelineComponent.h"
+#include "TheRite/Components/Fader.h"
 #include "SpectralWrittings.generated.h"
 
 class UBoxComponent;
@@ -15,9 +16,10 @@ class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class AProsProcessModifier;
 class USphereComponent;
+class UFadeObjectComponent;
 
 UCLASS()
-class THERITE_API ASpectralWrittings : public AInteractor
+class THERITE_API ASpectralWrittings : public AInteractor, public IFader
 {
 	GENERATED_BODY()
 
@@ -35,14 +37,23 @@ public:
 	virtual void Interaction() override;
 	
 //---------------- Actions Methods
-	void Activate();
-	void Deactivate();
+	//void Activate();
+	//void Deactivate();
 	void Discovered();
 
 	void EnableInteraction();
 	void SetMaterialAlpha(float alpha);
 
 private:
+	void SetFaderValues();
+	
+	UFUNCTION()
+	void OnFadeActivated();
+	
+	UFUNCTION()
+	void OnFadeDeactivate();
+	
+	
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
@@ -96,5 +107,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	UCurveFloat* FadeCurve;
 
+	
+	UPROPERTY(EditAnywhere, Category = "Component")
+	UFadeObjectComponent* FadeComponent;
+	
 	AActor* InsideActor;
 };

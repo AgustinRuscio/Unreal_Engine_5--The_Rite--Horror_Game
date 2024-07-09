@@ -9,10 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,23 +20,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/AltarWhell.gen.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/TheRite/UHT/CloclLevelArtRoomEvent.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/Manikin.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/Manikin.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/FadeObjectComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/Fader.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/Fader.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Components/TimerActionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/Interactuables/Altar.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -57,6 +45,8 @@
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/FetusPuzzle.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowPacifierLevel.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/HideAndSeekPuzzle.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/HideAndSeekPuzzle.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/InOrdenSelectionPuzzleFlow.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MoveTiffany.h" root0="FORCE_HIGHLIGHTING" />
@@ -498,6 +488,37 @@
       <workItem from="1718060409120" duration="275000" />
       <workItem from="1718066358867" duration="1596000" />
       <workItem from="1718071260100" duration="9304000" />
+      <workItem from="1719122590338" duration="784000" />
+      <workItem from="1719123566689" duration="106000" />
+      <workItem from="1719123709699" duration="1693000" />
+      <workItem from="1719198923874" duration="2562000" />
+      <workItem from="1719202440697" duration="283000" />
+      <workItem from="1719203958946" duration="1544000" />
+      <workItem from="1719231059287" duration="5718000" />
+      <workItem from="1719251133130" duration="17590000" />
+      <workItem from="1719274976553" duration="4581000" />
+      <workItem from="1719281895767" duration="3200000" />
+      <workItem from="1719286978827" duration="3076000" />
+      <workItem from="1719532542414" duration="11555000" />
+      <workItem from="1719547773552" duration="663000" />
+      <workItem from="1719548535389" duration="109000" />
+      <workItem from="1719549805664" duration="2758000" />
+      <workItem from="1720124506017" duration="809000" />
+      <workItem from="1720140233959" duration="1565000" />
+      <workItem from="1720144723614" duration="12120000" />
+      <workItem from="1720190049233" duration="2627000" />
+      <workItem from="1720192687844" duration="396000" />
+      <workItem from="1720243022472" duration="1849000" />
+      <workItem from="1720245113201" duration="2196000" />
+      <workItem from="1720278476485" duration="2032000" />
+      <workItem from="1720370886523" duration="2072000" />
+      <workItem from="1720376487587" duration="473000" />
+      <workItem from="1720377007958" duration="1536000" />
+      <workItem from="1720378601584" duration="887000" />
+      <workItem from="1720404626699" duration="387000" />
+      <workItem from="1720405998320" duration="7856000" />
+      <workItem from="1720441559671" duration="826000" />
+      <workItem from="1720454076098" duration="1090000" />
     </task>
     <servers />
   </component>

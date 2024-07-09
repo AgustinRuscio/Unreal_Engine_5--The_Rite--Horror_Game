@@ -28,6 +28,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
+	void FirstInteraction();
+	void NormalInteraction();
+	
 	void EnableLadder();
 	void DisableLadder();
 	
@@ -44,21 +47,45 @@ public:
 
 private:
 	bool bFlipFlop = true;
+	bool bFirstInteraction = true;
+	bool bDoOnceOpenByNear = false;
+
+	UPROPERTY(EditAnywhere, Category = "Distance")
+	float DistanceToNearAnim = 20;
 	
-	FTransform NewLocationForTransport;
-	FTransform NewLocationForLooking;
 	FTransform PlayerTransform;
+
+	FVector NewPlayerLocation;
+	FRotator NewPlayerRotation;
+
+	FVector POVLocation;
+	FRotator POVRotation;
 	
 //-------- Meshes Collider
 	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* LadderMesh;
 
-	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* LadderTop;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh", meta=(AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* LadderSkeletal;
 	
-	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = "Collider", meta=(AllowPrivateAccess = "true"))
 	UBoxComponent* BoxCollider;
+
+	//-------- Meshes Collider
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_DisableLadder;
 	
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_EnableLadder;
+	
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_PartialOpen;
+	
+	UPROPERTY(EditAnywhere, Category = "Animations", meta=(AllowPrivateAccess = "true"))
+	UAnimationAsset* Animation_FullyOpen;
 //-------- Arrow
 	UPROPERTY(EditAnywhere, Category = "Arrow", meta=(AllowPrivateAccess = true))
 	UArrowComponent* InitialPosition;
@@ -72,9 +99,12 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* StairsDownCinematic;
 
-	FTimeline ReLocatePlayerTimeLine;
+	FTimerHandle Timer_FullOpenAnim;
+	FTimerHandle Timer_PartialOpenAnim;
+	
+	FTimeline Timer_ReLocatePlayerTimeLine;
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	UCurveFloat* CurveFloat;
-
+	
 	AAlex* player;
 };

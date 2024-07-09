@@ -16,6 +16,7 @@ class AFetus;
 class ADoor;
 class ALightsTheRite;
 class AInteractor;
+class AAlex;
 
 UCLASS()
 class THERITE_API AFetusPuzzle : public AActor
@@ -24,6 +25,8 @@ class THERITE_API AFetusPuzzle : public AActor
 	
 public:	
 	AFetusPuzzle();
+
+	bool IsActive() const;
 	
 //---------------- System Class Methods
 	virtual void BeginPlay() override;
@@ -55,6 +58,9 @@ public:
 	FOnFetuPuzzleComplete OnPuzzleComplete;
 	
 private:
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
+	bool bActive;
+	
 	bool bPuzzleActivated;
 	bool bFirstInteraction = true;
 	
@@ -96,4 +102,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Door", meta=(AllowPrivateAccess = true))
 	ADoor* RoomDoor;
+
+	AAlex* Player;
 };

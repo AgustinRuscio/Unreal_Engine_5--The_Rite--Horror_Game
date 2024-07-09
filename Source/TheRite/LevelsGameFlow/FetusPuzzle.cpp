@@ -10,16 +10,27 @@
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Characters/Alex.h"
 
 AFetusPuzzle::AFetusPuzzle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+bool AFetusPuzzle::IsActive() const
+{
+	return bActive;
+}
+
 //---------------- System Class Methods
 void AFetusPuzzle::BeginPlay()
 {
+	if(!bActive)
+		return
+	
 	Super::BeginPlay();
+
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
 	for (auto Element : AllFetus)
 	{
@@ -74,6 +85,8 @@ void AFetusPuzzle::LightsOn()
 			{
 				Element->SetCanInteract(true);
 			}
+			
+			Player->SetPlayerOptions(false, true, false);
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOn, timerDelegate, OffsetLightsOn, false);
@@ -82,6 +95,9 @@ void AFetusPuzzle::LightsOn()
 
 void AFetusPuzzle::OnInteraction(AInteractor* interactor)
 {
+	Player->ForceLighterOff();
+	Player->SetPlayerOptions(false, false, false);
+	
 	for (auto Element : AllFetus)
 	{
 		Element->SetCanInteract(false);
@@ -159,6 +175,8 @@ void AFetusPuzzle::PuzzleComplete()
 	{
 		Element->Destroy();
 	}
+	
+	Player->SetPlayerOptions(false, true, false);
 
 	Destroy();
 }
@@ -178,7 +196,7 @@ void AFetusPuzzle::ReLocateFetus()
 		auto newPos = AUXPosiblePosition[randomizer];
 		
 		Element->SetActorLocation(newPos->GetActorLocation());
-		Element->SetActorRotation(newPos->GetActorRotation());
+		Element->SetActorRotation(newPos->GetActorRotation() + FRotator(0,-90,0));
 		
 		auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
 		
@@ -204,7 +222,7 @@ void AFetusPuzzle::RemoveFirstRightFetus()
 	auto currentTarget = AUXPosiblePosition[rand];
 		
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
-	currentFetus->SetActorRotation(currentTarget->GetActorRotation());
+	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
 		
 	auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
 	AUXPosiblePosition[AUXPosiblePosition.Num()-1] = currentTarget;

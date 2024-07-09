@@ -5,19 +5,28 @@
 
 #include "Fetus.h"
 #include "NiagaraSystem.h"
+#include "Components/ArrowComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
+#include "TheRite/Components/FadeObjectComponent.h"
 
 AFetus::AFetus()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	FetusMesh = CreateDefaultSubobject<UStaticMeshComponent>("Fetus Mesh");
+	FetusMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Fetus Mesh");
 	
 	BloodSpawnLoscation = CreateDefaultSubobject<UArrowComponent>("Arrow");
 	BloodSpawnLoscation->SetupAttachment(FetusMesh);
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>("AudioComponent");
+	AudioComponent->SetupAttachment(FetusMesh);
 	
 	InitialPosition = GetActorLocation();
+	
+	SetFaderValues();
 }
+
 
 bool AFetus::GetIsCorrectFetus()
 {
@@ -32,21 +41,50 @@ void AFetus::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 	
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Blood, BloodSpawnLoscation->GetComponentLocation());
-	
-	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
+
+	if(bIsLetterPuzzle)
 	{
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([&]
+		if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOut))
 		{
-			bIsCorrectFetus ? OnCorrectFetus.Broadcast() : OnWrongFetus.Broadcast();
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("BroadCast")));
-		});
-		
-		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOut, timerDelegate, ParticleDuration, false);
+			FTimerDelegate timerDelegate;
+			timerDelegate.BindLambda([&]
+			{
+				bIsCorrectFetus ? OnCorrectFetus.Broadcast() : OnWrongFetus.Broadcast();
+			});
+			
+			GetWorld()->GetTimerManager().SetTimer(Timer_LightsOut, timerDelegate, ParticleDuration, false);
+		}
 	}
 }
 
+//---------------- Status Methods
 void AFetus::ResetFetus()
 {
 	SetActorLocation(InitialPosition);
+}
+
+void AFetus::StartAudioComponent()
+{
+	AudioComponent->Play();
+}
+
+void AFetus::SetFaderValues()
+{
+	OnActivate.AddDynamic(this, &AFetus::OnFadeActivated);
+	OnDeactivate.AddDynamic(this, &AFetus::OnFadeDeactivate);
+	
+	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
+	
+	SetActor(this);
+	SetFaderComponent(FadeComponent);
+}
+
+void AFetus::OnFadeActivated()
+{
+	bCanInteract = true;
+}
+
+void AFetus::OnFadeDeactivate()
+{
+	bCanInteract = false;
 }

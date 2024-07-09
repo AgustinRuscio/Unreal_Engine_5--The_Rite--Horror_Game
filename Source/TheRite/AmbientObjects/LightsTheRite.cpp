@@ -23,16 +23,19 @@ ALightsTheRite::ALightsTheRite()
 	
 	PointLight->SetupAttachment(NewRootComponent);
 	Sphere->SetupAttachment(NewRootComponent);
-
-	
 }
 
-bool ALightsTheRite::IsLightOn()
+bool ALightsTheRite::IsLightOn() const
 {
 	return PointLight->Intensity > 0;
 }
 
-HouseZone ALightsTheRite::GetLightZone()
+float ALightsTheRite::GetIntensity() const
+{
+	return PointLight->Intensity;
+}
+
+HouseZone ALightsTheRite::GetLightZone() const
 {
 	return LightHouseZone;
 }
@@ -48,23 +51,35 @@ void ALightsTheRite::BeginPlay()
 }
 
 //---------------- Material Setter Methods
-void ALightsTheRite::AggresiveMatterial()
+void ALightsTheRite::SetAggressiveMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(AggresiveMaterial);
+	PointLight->SetLightFunctionMaterial(Material_Aggressive);
 }
 
-void ALightsTheRite::NormalMatterial()
+void ALightsTheRite::SetNormalMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(NormalMaterial);
+	PointLight->SetLightFunctionMaterial(Material_Normal);
+}
+
+void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
+{
+	PointLight->SetIntensity(NewIntensity);
+
+	if(!bUseAsNewDefault) return;
+	
+	if(FirstPointIntensity != 0)
+		FirstPointIntensity = NewIntensity;
+	else
+		DefaultLightIntensity = NewIntensity;
 }
 
 //---------------- State Changer Methods
-void ALightsTheRite::TurnOff()
+void ALightsTheRite::TurnOff() const
 {
 	PointLight->SetIntensity(0.0f);
 }
 
-void ALightsTheRite::TurnOn()
+void ALightsTheRite::TurnOn() const
 {
 	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }

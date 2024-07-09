@@ -278,6 +278,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap(AActor* Overlapp
 	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
 	
 	Doors_EndGame->HardClosing();
+	Doors_EndGame->SetLockedState(true);
 
 	TriggerVolume_EndGamePass->Destroy();
 }

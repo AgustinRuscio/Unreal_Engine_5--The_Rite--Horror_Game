@@ -21,22 +21,25 @@ class THERITE_API ALightsTheRite : public AActor
 
 public:
 	ALightsTheRite();
-	bool IsLightOn();
-	HouseZone GetLightZone();
+	bool IsLightOn() const;
+	float GetIntensity() const;
+	HouseZone GetLightZone() const;
 	
 	virtual void BeginPlay() override;
 	
 	UFUNCTION()
-	void AggresiveMatterial();
+	void SetAggressiveMaterial() const;
 	
 	UFUNCTION()
-	void NormalMatterial();
+	void SetNormalMaterial() const;
 
-	UFUNCTION()
-	void TurnOff();
+	void ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault);
 	
 	UFUNCTION()
-	void TurnOn();
+	void TurnOff() const;
+	
+	UFUNCTION()
+	void TurnOn() const;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off"))
@@ -60,9 +63,9 @@ private:
 	USphereComponent* Sphere;
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* NormalMaterial;
+	UMaterialInterface* Material_Normal;
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
-	UMaterialInterface* AggresiveMaterial;
+	UMaterialInterface* Material_Aggressive;
 
 };

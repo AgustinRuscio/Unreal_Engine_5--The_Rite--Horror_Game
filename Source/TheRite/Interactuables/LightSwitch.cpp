@@ -33,14 +33,14 @@ void ALightSwitch::Tick(float DeltaTime)
 
 void ALightSwitch::Interaction()
 {
-	if(!bAnimReady || !bCanInteract ) return;
+	if(!bAnimReady || !bCanInteract) return;
 
 	if(bOneUse)
 	{
 		if(bOneUseReady)
 			return;
 	}
-	
+
 	bAnimReady = false;
 
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
@@ -48,39 +48,44 @@ void ALightSwitch::Interaction()
 	if(bEspecial)
 	{
 		SwitchTimeLine.PlayFromStart();
+		
 		return;
 	}
 	
 	if(bFlipFlop)
 	{
-		bFlipFlop = false;
-		SwitchTimeLine.PlayFromStart();
-		
 		for (auto Element : LightToInteract)
 		{
 			Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
 		}
+		
+		SwitchTimeLine.PlayFromStart();
+		bFlipFlop = false;
+		
+		UE_LOG(LogTemp, Warning, TEXT("Flip"));
 	}
 	else
 	{
-		bFlipFlop = true;
-		SwitchTimeLine.ReverseFromEnd();
-		
 		for (auto Element : LightToInteract)
 		{
 			Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
 		}
+		
+		SwitchTimeLine.ReverseFromEnd();
+		bFlipFlop = true;
+
+		UE_LOG(LogTemp, Warning, TEXT("Flop"));
 	}
 }
 
 void ALightSwitch::SetSpecialReady()
 {
-	bOneUse = true;
-	bEspecial = false;
-	
 	FOnTimelineFloat CameraTargetTick;
 	CameraTargetTick.BindUFunction(this, FName("SwitchTimeLineTick"));
 	SwitchTimeLine.AddInterpFloat(InvertedCurve, CameraTargetTick);
+	
+	bEspecial = false;
+	bOneUse = true;
 }
 
 //---------------- TimeLine Methods
