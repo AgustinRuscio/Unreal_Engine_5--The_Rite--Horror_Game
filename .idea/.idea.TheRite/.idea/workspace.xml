@@ -9,7 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Options.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -519,6 +524,10 @@
       <workItem from="1720405998320" duration="7856000" />
       <workItem from="1720441559671" duration="826000" />
       <workItem from="1720454076098" duration="1090000" />
+      <workItem from="1720753540654" duration="1999000" />
+      <workItem from="1720757658841" duration="796000" />
+      <workItem from="1720758759378" duration="406000" />
+      <workItem from="1720759469481" duration="120000" />
     </task>
     <servers />
   </component>
