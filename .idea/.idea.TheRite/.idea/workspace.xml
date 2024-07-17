@@ -8,10 +8,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Diary/RT_Diary_Mat_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_ArtRoomKey_Mat_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_LibraryKey_Mat_Inst.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/03DiningRoom/Texture/Furniture_6_Textures/Furniture6.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNewNew/Trim/Floor/PisoNuevo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/MapNewNew/Trim/Floor/PisoNuevo.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Pacifier/BP_PacifierOverlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Pacifier/BP_PacifierOverlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/DinningRoomFloor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/DinningRoomFloor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/ServiceRoomFloor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/ServiceRoomFloor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/UpStairsCorridorFloor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/MergedActors/Floors/UpStairsCorridorFloor.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Inventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Inventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/09Draw/RT_09DrawOverlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/09Draw/RT_09DrawOverlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/38Draw/RT_38DrawOverlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/38Draw/RT_38DrawOverlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/ArtRoomKey/RT_ArtRoomKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/ArtRoomKey/RT_ArtRoomKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Bedroom/RT_BedRoomKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Bedroom/RT_BedRoomKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Clock/RT_Clock.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Clock/RT_Clock.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Diary/BP_DiaryOverview.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Diary/BP_DiaryOverview.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Diary/RT_Diary.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Diary/RT_Diary.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Fuse/RT_Fuse.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Fuse/RT_Fuse.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LCorridor/RT_LCorridorKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LCorridor/RT_LCorridorKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_ArtRoomKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_ArtRoomKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_LibraryKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LibraryKey/RT_LibraryKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LucyKey/RT_LucyKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/LucyKey/RT_LucyKey.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Pacifier/RT_Pacifier.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/Pacifier/RT_Pacifier.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/TiffanyCard/RT_TiffanyCard.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WidgetsElemts/InventoryOverlapObjects/TiffanyCard/RT_TiffanyCard.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -536,6 +562,8 @@
       <workItem from="1721162822901" duration="252000" />
       <workItem from="1721164069022" duration="1912000" />
       <workItem from="1721169906037" duration="508000" />
+      <workItem from="1721171311765" duration="670000" />
+      <workItem from="1721181547045" duration="2257000" />
     </task>
     <servers />
   </component>
