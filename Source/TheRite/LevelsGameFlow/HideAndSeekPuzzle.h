@@ -84,5 +84,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lights", meta=(AllowPrivateAccess = true))
 	TArray<ALightsTheRite*> Lights_NeededLights;
 
+	UPROPERTY(EditAnywhere, Category = "FeedBack", meta=(AllowPrivateAccess = true))
+	TSubclassOf<UCameraShakeBase> CameraShake;
+	
 	AAlex* Player;
 };
