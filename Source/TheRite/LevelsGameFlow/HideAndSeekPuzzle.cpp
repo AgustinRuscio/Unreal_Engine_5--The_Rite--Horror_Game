@@ -108,6 +108,8 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
 
 	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_InteractionFX);
+
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
 }
 
 void AHideAndSeekPuzzle::PuzzleCompleted()
