@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "HideAndSeekPuzzle.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"

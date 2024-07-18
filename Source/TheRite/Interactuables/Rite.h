@@ -56,8 +56,13 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
 	bool bObjectReady = false;
 
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	bool bBeginRite = false;
+	
 	bool bPlayerInside;
 	bool bReady = false;
+
+	int8 Count = -1;
 	
 	FName NextLevel;
 	
@@ -100,5 +105,5 @@ private:
 	AActor* InsideActor;
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
-	AClock* CurrentMainObject;
+	TArray<AClock*> CurrentMainObject;
 };

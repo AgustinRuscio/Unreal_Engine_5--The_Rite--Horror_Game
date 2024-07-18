@@ -45,7 +45,10 @@ void ARite::BeginPlay()
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
 	bReady = true;
 
-	CurrentMainObject->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+	for (auto Element : CurrentMainObject)
+	{
+		Element->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+	}
 }
 
 void ARite::Tick(float DeltaSeconds)
@@ -90,9 +93,16 @@ void ARite::Interaction()
 
 void ARite::SetClockReady(AInteractor* obj)
 {
-	bObjectReady = true;
-	CheckAudio();
-	NextLevel = CurrentMainObject->GetObjectData();
+	if(bBeginRite && Count < CurrentMainObject.Num())
+	{
+		Count++;
+	}
+	else
+	{
+		bObjectReady = true;
+		CheckAudio();
+		NextLevel = CurrentMainObject[0]->GetObjectData();
+	}
 }
 
 void ARite::CheckAudio()
@@ -101,18 +111,7 @@ void ARite::CheckAudio()
 		AudioToPlay = AudioClockReady;
 	else
 	{
-		switch (LevelType)
-		{
-			case LevelObjectType::Clock:
-				AudioToPlay = AudioClockNotReady;
-				break;
-			case LevelObjectType::Picture:
-				AudioToPlay = AudioClockNotReady;
-				break;
-			case LevelObjectType::Diary:
-				AudioToPlay = AudioClockNotReady;
-				break;
-		}
+		AudioToPlay = AudioClockNotReady;
 	}
 }
 
