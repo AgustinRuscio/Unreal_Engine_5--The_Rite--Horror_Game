@@ -11,6 +11,7 @@
 #include "GameFlowGameBegin.generated.h"
 
 class ULevelSequence;
+class UTutorialWidget;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor
@@ -24,13 +25,38 @@ public:
 
 private:
 	void SetNeededValues();
+	void CreateWidgets();
+
+	
 	
 	void PlayBeginSequence();
 	
 	UFUNCTION()
 	void BeginSequenceFinished();
+	
+	void ShowingFirstTutorialWidget();
+	void ShowingSecondTutorialWidget();
 
 private:
+	//-------- TimeLines
+	FTimerHandle ShowFirstTutorialWidget;
+	FTimerHandle HideFirstTutorialWidget;
+	FTimerHandle ShowSecondTutorialWidget;
+	FTimerHandle HideSecondTutorialWidget;
+	
+	//-------- Widgets
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
+	UTutorialWidget* FirstTutorialWidget;
+
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> SecondsTutorialMenu;
+	UTutorialWidget* SecondTutorialWidget;
+
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> FindObjectsMenu;
+	UTutorialWidget* FindObjectsMenuWidget;
+	
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	ULevelSequence* LS_BeginSequence;
 

@@ -11,7 +11,6 @@
 
 class ATriggerVolume;
 class AAlex;
-class UTutorialWidget;
 
 UCLASS()
 class THERITE_API ARealWorldGameFlow : public AActor
@@ -26,7 +25,6 @@ private:
 	void PlayerMethods();
 	
 //---------------- Widgets Methods
-	void CreateWidgets();
 	void ShowingFirstTutorialWidget();
 	void HidingFirstTutorialWidget();
 	void ShowingSecondTutorialWidget();
@@ -46,22 +44,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_Knocking;
-	
-	//-------- TimeLines
-	FTimerHandle ShowFirstTutorialWidget;
-	FTimerHandle HideFirstTutorialWidget;
-	FTimerHandle ShowSecondTutorialWidget;
-	FTimerHandle HideSecondTutorialWidget;
-	
-	//-------- Widgets
-	UPROPERTY(EditAnywhere, Category= "Widgets")
-	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
-	UTutorialWidget* FirstTutorialWidget;
-
-	UPROPERTY(EditAnywhere, Category= "Widgets")
-	TSubclassOf<UTutorialWidget> SecondsTutorialMenu;
-	UTutorialWidget* SecondTutorialWidget;
-
 	
 	AAlex* Player;
 };
