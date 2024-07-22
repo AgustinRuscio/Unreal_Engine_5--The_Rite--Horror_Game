@@ -85,12 +85,14 @@ void ATiffany::Activate()
 {
 	GetMesh()->SetVisibility(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 }
 
 void ATiffany::Deactivate()
 {
 	GetMesh()->SetVisibility(false);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 }
 
 //---------------- Collider Methods

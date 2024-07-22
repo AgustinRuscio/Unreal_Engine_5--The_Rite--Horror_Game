@@ -8,22 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/LS_BeginEnd.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Diary.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Diary.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Pacifier.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/Interactuables/NewC++/BP_Pacifier.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_BeginLevelGameFlow.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Blueprints/LevelsGameFlow/BP_BeginLevelGameFlow.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/LS_Begin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/LS_Begin.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Voice/Alex/A_Introduction.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/Voice/Alex/A_Introduction.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Characters/Tiffany.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +25,20 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://5" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/Manikin.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -566,6 +566,7 @@
       <workItem from="1721284301969" duration="327000" />
       <workItem from="1721362382294" duration="4615000" />
       <workItem from="1721618964829" duration="6145000" />
+      <workItem from="1721626164275" duration="841000" />
     </task>
     <servers />
   </component>

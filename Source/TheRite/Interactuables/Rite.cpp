@@ -83,9 +83,15 @@ void ARite::Interaction()
 
 void ARite::SetClockReady(AInteractor* obj)
 {
-	if(bBeginRite && Count < CurrentMainObject.Num())
+	if(bBeginRite)
 	{
-		Count++;
+		if(Count < CurrentMainObject.Num())
+			Count++;
+		else
+		{
+			bObjectReady = true;
+			CheckAudio();
+		}
 	}
 	else
 	{
