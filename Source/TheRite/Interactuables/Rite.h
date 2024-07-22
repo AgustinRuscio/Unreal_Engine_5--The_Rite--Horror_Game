@@ -37,6 +37,8 @@ public:
 	void SetClockReady(AInteractor* obj);
 
 private:
+	void PlayFadeSequence();
+	
 	UFUNCTION()
 	void CheckAudio();
 

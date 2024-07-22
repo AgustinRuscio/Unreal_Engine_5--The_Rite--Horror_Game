@@ -11,6 +11,8 @@
 #include "LevelSequenceActor.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/Rite.h"
 #include "Kismet/GameplayStatics.h"
 
 AGameFlowGameBegin::AGameFlowGameBegin()
@@ -35,6 +37,10 @@ void AGameFlowGameBegin::Tick(float DeltaTime)
 void AGameFlowGameBegin::SetNeededValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+
+	Rite->OnInteractionTrigger.AddDynamic(this, &AGameFlowGameBegin::OnRiteInteraction);
+
+	Tiffany_Garage->Deactivate();
 }
 
 void AGameFlowGameBegin::CreateWidgets()
@@ -84,6 +90,42 @@ void AGameFlowGameBegin::BeginSequenceFinished()
 	Player->ForceEnableInput();
 
 	ShowingFirstTutorialWidget();
+}
+
+void AGameFlowGameBegin::PlayRiteSequence()
+{
+	Player->ForceDisableInput();
+	
+	FMovieSceneSequencePlaybackSettings PlaybackSettings;
+	PlaybackSettings.PlayRate = 1.0f; 
+	PlaybackSettings.bAutoPlay = true;
+	PlaybackSettings.bRandomStartTime = false;
+	
+	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
+	
+	ULevelSequencePlayer* sequencePlayer =  ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), LS_RiteSequence,
+																				PlaybackSettings,TempLevelSequenceActor);
+
+	sequencePlayer->OnFinished.AddDynamic(this, &AGameFlowGameBegin::RiteSequenceFinished);
+	
+	sequencePlayer->Play();
+}
+
+void AGameFlowGameBegin::RiteSequenceFinished()
+{
+	UGameplayStatics::OpenLevel(GetWorld(),NextLevel);
+}
+
+void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
+{
+	for (auto Element : Lights_Garage)
+	{
+		Element->TurnOff();
+	}
+
+	Tiffany_Garage->Activate();
+	
+	PlayRiteSequence();
 }
 
 void AGameFlowGameBegin::ShowingFirstTutorialWidget()

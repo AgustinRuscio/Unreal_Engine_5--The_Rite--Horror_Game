@@ -40,6 +40,9 @@ public:
 	UFUNCTION()
 	void SetWaypoints(TArray<ATargetPoint*> targets);
 
+	void Activate();
+
+	void Deactivate();
 private:
 //---------------- Collider Methods
 	UFUNCTION()

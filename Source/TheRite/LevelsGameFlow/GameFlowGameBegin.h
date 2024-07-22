@@ -7,11 +7,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Characters/Alex.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "GameFlowGameBegin.generated.h"
 
 class ULevelSequence;
 class UTutorialWidget;
+class AAlex;
+class ARite;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor
@@ -26,18 +29,28 @@ public:
 private:
 	void SetNeededValues();
 	void CreateWidgets();
-
-	
 	
 	void PlayBeginSequence();
 	
 	UFUNCTION()
 	void BeginSequenceFinished();
+
+	void PlayRiteSequence();
+
+	UFUNCTION()
+	void RiteSequenceFinished();
+	
+	UFUNCTION()
+	void OnRiteInteraction(AInteractor* Interactor);
 	
 	void ShowingFirstTutorialWidget();
 	void ShowingSecondTutorialWidget();
 
 private:
+	
+	UPROPERTY(EditAnywhere, Category="Settings")
+	FName NextLevel;
+	
 	//-------- TimeLines
 	FTimerHandle ShowFirstTutorialWidget;
 	FTimerHandle HideFirstTutorialWidget;
@@ -45,6 +58,15 @@ private:
 	FTimerHandle HideSecondTutorialWidget;
 	
 	//-------- Widgets
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ULevelSequence* LS_BeginSequence;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ULevelSequence* LS_RiteSequence;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ARite* Rite;
+	
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
 	UTutorialWidget* FirstTutorialWidget;
@@ -56,9 +78,13 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FindObjectsMenu;
 	UTutorialWidget* FindObjectsMenuWidget;
-	
-	UPROPERTY(EditAnywhere, Category= "Sequence")
-	ULevelSequence* LS_BeginSequence;
 
+
+	UPROPERTY(EditAnywhere, Category= "Lights")
+	TArray<ALightsTheRite*> Lights_Garage;
+
+	UPROPERTY(EditAnywhere, Category= "Lights")
+	ATiffany* Tiffany_Garage;
+	
 	AAlex* Player;
 };

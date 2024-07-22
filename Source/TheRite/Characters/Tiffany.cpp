@@ -29,6 +29,7 @@ ATiffany::ATiffany()
 	GetMesh()->SetMobility(EComponentMobility::Movable);
 	
 	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
+	CryingAudio->SetupAttachment(GetMesh());
 }
 
 //---------------- States Methods
@@ -78,6 +79,18 @@ void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
 void ATiffany::SetWaypoints(TArray<ATargetPoint*> targets)
 {
 	Waypoints = targets;
+}
+
+void ATiffany::Activate()
+{
+	GetMesh()->SetVisibility(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+}
+
+void ATiffany::Deactivate()
+{
+	GetMesh()->SetVisibility(false);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 }
 
 //---------------- Collider Methods

@@ -73,6 +73,30 @@ void ARite::Interaction()
 	
 	UGameplayStatics::PlaySound2D(this, PortalAudio);
 
+	bCanInteract = false;
+	
+	if(bBeginRite)
+		OnInteractionTrigger.Broadcast(this);
+	else
+		PlayFadeSequence();
+}
+
+void ARite::SetClockReady(AInteractor* obj)
+{
+	if(bBeginRite && Count < CurrentMainObject.Num())
+	{
+		Count++;
+	}
+	else
+	{
+		bObjectReady = true;
+		CheckAudio();
+		NextLevel = CurrentMainObject[0]->GetObjectData();
+	}
+}
+
+void ARite::PlayFadeSequence()
+{
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;
@@ -89,20 +113,6 @@ void ARite::Interaction()
 	sequencePlayer->OnFinished.AddDynamic(this, &ARite::ChangeLevel);
 	
 	sequencePlayer->Play();
-}
-
-void ARite::SetClockReady(AInteractor* obj)
-{
-	if(bBeginRite && Count < CurrentMainObject.Num())
-	{
-		Count++;
-	}
-	else
-	{
-		bObjectReady = true;
-		CheckAudio();
-		NextLevel = CurrentMainObject[0]->GetObjectData();
-	}
 }
 
 void ARite::CheckAudio()
