@@ -8,10 +8,12 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 #include "LevelSequencePlayer.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Characters/Tiffany.h"
 #include "LevelSequenceActor.h"
+#include "NiagaraComponent.h"
+#include "Niagara/Public/NiagaraActor.h"
 #include "TheRite/Widgets/TutorialWidget.h"
-#include "TheRite/AlexPlayerController.h"
-#include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Rite.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -41,6 +43,12 @@ void AGameFlowGameBegin::SetNeededValues()
 	Rite->OnInteractionTrigger.AddDynamic(this, &AGameFlowGameBegin::OnRiteInteraction);
 
 	Tiffany_Garage->Deactivate();
+	Fog->GetNiagaraComponent()->Deactivate();
+
+	for (auto Element : MainItems)
+	{
+		Element->OnInteractionTrigger.AddDynamic(FindObjectsMenuWidget, &UChangingdWidget::OnInteraction);
+	}
 }
 
 void AGameFlowGameBegin::CreateWidgets()
@@ -55,6 +63,11 @@ void AGameFlowGameBegin::CreateWidgets()
 	SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 	SecondTutorialWidget->SetIsFocusable(true);
 
+	FindObjectsMenuWidget = CreateWidget<UTutorialWidget>(GetWorld(), FindObjectsMenu);
+	FindObjectsMenuWidget->AddToViewport(0);
+	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	FindObjectsMenuWidget->SetIsFocusable(true);
+	
 	auto controller = GetWorld()->GetFirstPlayerController();
 	
 	if(auto alexController = Cast<AAlexPlayerController>(controller))
@@ -63,8 +76,6 @@ void AGameFlowGameBegin::CreateWidgets()
 		alexController->OnKeyPressed.AddDynamic(FirstTutorialWidget, &UTutorialWidget::SetKeyMode);
 	}
 }
-
-
 
 void AGameFlowGameBegin::PlayBeginSequence()
 {
@@ -88,13 +99,17 @@ void AGameFlowGameBegin::PlayBeginSequence()
 void AGameFlowGameBegin::BeginSequenceFinished()
 {
 	Player->ForceEnableInput();
-
+	
+	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	
 	ShowingFirstTutorialWidget();
 }
 
 void AGameFlowGameBegin::PlayRiteSequence()
 {
 	Player->ForceDisableInput();
+	
+	Fog->GetNiagaraComponent()->Activate();
 	
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 

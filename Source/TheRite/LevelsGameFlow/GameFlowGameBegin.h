@@ -7,14 +7,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Characters/Tiffany.h"
+#include "TheRite/Interactuables/Clock.h"
 #include "GameFlowGameBegin.generated.h"
 
 class ULevelSequence;
 class UTutorialWidget;
 class AAlex;
 class ARite;
+class ATiffany;
+class ALightsTheRite;
+class ANiagaraActor;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor
@@ -65,7 +67,13 @@ private:
 	ULevelSequence* LS_RiteSequence;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
+	ANiagaraActor* Fog;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
 	ARite* Rite;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	TArray<AClock*> MainItems;
 	
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
