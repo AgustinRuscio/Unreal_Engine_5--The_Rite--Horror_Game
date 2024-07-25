@@ -44,3 +44,17 @@ void ACandle::TurnOff()
 	if(bWillSound)
 		UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
 }
+
+void ACandle::Appear()
+{
+	Mesh->SetVisibility(true);
+	Plane->SetVisibility(true);
+	PointLight->SetVisibility(true);
+}
+
+void ACandle::Disappear()
+{
+	Mesh->SetVisibility(false);
+	Plane->SetVisibility(false);
+	PointLight->SetVisibility(false);
+}

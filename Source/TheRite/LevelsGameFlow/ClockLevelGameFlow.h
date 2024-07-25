@@ -34,6 +34,7 @@ class AInteractor;
 class AMoveTiffany;
 class ABigClock;
 class UTutorialWidget;
+class ACandle;
 class AStaticMeshActor;
 
 UCLASS()
@@ -52,7 +53,7 @@ private:
 	void SetAudioSettings();
 	void BindPuzzleEvents();
 	void BindEvents();
-	void SettutorialUI();
+	void SetTutorialUI();
 	
 //---------------- Tick Methods
 	void MakeTiffanyTalk(float time);
@@ -284,6 +285,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Actors for event")
 	AStaticMeshActor* Actor_EndGamePassWall;
+
+	UPROPERTY(EditAnywhere, Category = "Actors for event")
+	TArray<ACandle*> Candles_EndGame;
 	
 	//-------- TimeLines
 	FTimerHandle JumpscareHandleFirst;

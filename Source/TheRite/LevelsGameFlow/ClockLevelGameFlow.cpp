@@ -27,8 +27,9 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Containers/Map.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Interactuables/Letter.h"
+#include "TheRite/AmbientObjects/Candle.h"
 
 
 AClockLevelGameFlow::AClockLevelGameFlow()
@@ -50,10 +51,15 @@ void AClockLevelGameFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
 
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Disappear();
+	}
+
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(false);
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
-	SettutorialUI();
+	SetTutorialUI();
 	
 	BindTimeLineMethods();
 	
@@ -117,7 +123,7 @@ void AClockLevelGameFlow::BindEvents()
 	BigClock->OnClockPuzzleCompleted.AddDynamic(this, &AClockLevelGameFlow::EndGame);
 }
 
-void AClockLevelGameFlow::SettutorialUI()
+void AClockLevelGameFlow::SetTutorialUI()
 {
 	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
 	TutorialWidget->AddToViewport();
@@ -192,6 +198,12 @@ void AClockLevelGameFlow::CheckLetters()
 	{
 		Element->GetStaticMeshComponent()->SetVisibility(true);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndProbe);
+	}
+
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Appear();
+		Element->TurnOn();
 	}
 	
 	BigClock->SetReadyToUse();

@@ -27,6 +27,10 @@ public:
 	
 	UFUNCTION()
 	void TurnOff();
+
+	void Appear();
+
+	void Disappear();
 	
 private:
 	UPROPERTY(EditAnywhere, Category="State")
