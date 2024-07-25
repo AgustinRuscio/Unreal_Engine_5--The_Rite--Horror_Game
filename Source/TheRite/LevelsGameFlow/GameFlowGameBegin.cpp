@@ -101,6 +101,7 @@ void AGameFlowGameBegin::BeginSequenceFinished()
 	Player->ForceEnableInput();
 	
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
 	
 	ShowingFirstTutorialWidget();
 }

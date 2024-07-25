@@ -58,23 +58,19 @@ private:
 	FTimerHandle HideFirstTutorialWidget;
 	FTimerHandle ShowSecondTutorialWidget;
 	FTimerHandle HideSecondTutorialWidget;
+
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_Clue;
 	
-	//-------- Widgets
+	//-------- Sequence
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ULevelSequence* LS_BeginSequence;
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ULevelSequence* LS_RiteSequence;
-
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	ANiagaraActor* Fog;
 	
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	ARite* Rite;
-	
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	TArray<AClock*> MainItems;
-	
+	//-------- Widgets
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
 	UTutorialWidget* FirstTutorialWidget;
@@ -87,7 +83,16 @@ private:
 	TSubclassOf<UTutorialWidget> FindObjectsMenu;
 	UTutorialWidget* FindObjectsMenuWidget;
 
-
+	//-------- In game obejcts
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ANiagaraActor* Fog;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ARite* Rite;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	TArray<AClock*> MainItems;
+	
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	TArray<ALightsTheRite*> Lights_Garage;
 

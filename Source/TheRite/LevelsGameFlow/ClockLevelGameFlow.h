@@ -303,7 +303,6 @@ private:
 	UPROPERTY(EditAnywhere, Category="Library", meta=(ToolTip = "4 sec, flat curve"))
 	UCurveFloat* JumpscareSecondTimeLineCurve;
 
-
 	//-------- Ui
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UTutorialWidget> TutorialUI;
