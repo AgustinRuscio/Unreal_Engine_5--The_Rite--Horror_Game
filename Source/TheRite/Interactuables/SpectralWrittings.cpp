@@ -96,7 +96,7 @@ void ASpectralWrittings::Interaction()
 	
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
 	
-	IdleAudio->VolumeMultiplier = 0;
+	IdleAudio->Stop();
 	
 	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	FadeComponent->PermanentActivation();
@@ -135,7 +135,7 @@ void ASpectralWrittings::Discovered()
 	bDiscovered= true;
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	IdleAudio->VolumeMultiplier = 0;
+	IdleAudio->Stop();
 	
 	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	FadeComponent->PermanentActivation();
