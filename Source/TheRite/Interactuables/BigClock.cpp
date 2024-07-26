@@ -90,9 +90,7 @@ void ABigClock::Interaction()
 			
 			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, OnTimePass, 5.f, false);
 		}
-		
-	}
-	
+	}	
 	//CheckNeedlesPosition();
 }
 

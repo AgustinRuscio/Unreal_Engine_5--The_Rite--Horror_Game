@@ -288,15 +288,8 @@ void ADoor::CheckLocked()
 	}
 }
 
-void ADoor::CheckDragDoor()
+void ADoor::CalculateRotation()
 {
-	if(!bcanDrag || bIsLocked || (bNeedKey && !bKeyUnlocked))
-		return;
-	
-	LatchHolding(bHolding);
-
-	if(DoorTimer < DoorOpenOffsetCD) return;
-	
 	float DoorFloat = Player->GetDoorFloat();
 	float preSum = 0;
 
@@ -356,6 +349,19 @@ void ADoor::CheckDragDoor()
 	}
 	
 	LastYaw = CurrentYaw;
+}
+
+void ADoor::CheckDragDoor()
+{
+	if(!bcanDrag || bIsLocked || (bNeedKey && !bKeyUnlocked))
+		return;
+	
+	LatchHolding(bHolding);
+
+	if(DoorTimer < DoorOpenOffsetCD) return;
+	
+	CalculateRotation();
+	
 	SetActorRotation(FRotator(GetActorRotation().Pitch, CurrentYaw, GetActorRotation().Roll));
 }
 
@@ -537,16 +543,15 @@ void ADoor::RunTimeLinesTick(float DeltaTime)
 
 void ADoor::OpenCloseTimeLineUpdate(float value)
 {
-	auto newRot = FMath::Lerp(CloseRotation,CurrentRotation, value);
+	auto newRot = FMath::Lerp(CloseRotation.Yaw,LastYaw, value);
 	
-	SetActorRotation(newRot);
+	LastYaw = newRot;
+	SetActorRotation(FRotator(GetActorRotation().Pitch, newRot, GetActorRotation().Roll));
 }
 
 void ADoor::OpenCloseTimelineFinished()
 {
-	CurrentRot =GetActorRotation();
-	
-	CurrentYaw = GetActorRotation().Yaw;
+	CalculateRotation();
 }
 
 
@@ -565,9 +570,7 @@ void ADoor::ItLockedTimelineFinished()
 	++AudioCounterItsLocked;
 	
 	CurrentRot = GetActorRotation();
-	
 }
-
 
 void ADoor::LatchAnimTimeLineUpdate(float value)
 {
@@ -591,13 +594,13 @@ void ADoor::LatchHoldTimelineFinished() { }
 
 void ADoor::HardClosingTimeLineUpdate(float value)
 {
-	auto lerpValue = FMath::Lerp(CurrentRot,CloseRotation, value);
-	SetActorRotation(FRotator(lerpValue));
+	float newRot = FMath::Lerp(LastYaw, CloseRotation.Yaw, value);
+	
+	LastYaw = newRot;
+	SetActorRotation(FRotator(GetActorRotation().Pitch, newRot, GetActorRotation().Roll));
 }
 
 void ADoor::HardClosingTielineFinished()
 {
-	CurrentRot = GetActorRotation();
-	
-	CurrentYaw = GetActorRotation().Yaw;
+	CalculateRotation();
 }

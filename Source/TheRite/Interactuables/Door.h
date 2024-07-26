@@ -70,6 +70,7 @@ private:
 	void CheckPlayerForward();
 	void CheckLocked();
 
+	void CalculateRotation();
 	
 	UFUNCTION()
 	void CheckDragDoor();
