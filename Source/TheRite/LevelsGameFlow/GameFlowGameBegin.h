@@ -44,6 +44,9 @@ private:
 	
 	UFUNCTION()
 	void OnRiteInteraction(AInteractor* Interactor);
+
+	UFUNCTION()
+	void OnRiteReady();
 	
 	void ShowingFirstTutorialWidget();
 	void ShowingSecondTutorialWidget();
@@ -94,7 +97,7 @@ private:
 	TArray<AClock*> MainItems;
 	
 	UPROPERTY(EditAnywhere, Category= "Lights")
-	TArray<ALightsTheRite*> Lights_Garage;
+	TArray<ALightsTheRite*> AllLights;
 
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	ATiffany* Tiffany_Garage;

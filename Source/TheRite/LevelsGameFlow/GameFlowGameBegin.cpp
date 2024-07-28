@@ -42,6 +42,8 @@ void AGameFlowGameBegin::SetNeededValues()
 
 	Rite->OnInteractionTrigger.AddDynamic(this, &AGameFlowGameBegin::OnRiteInteraction);
 
+	Rite->OnObjectsObtain.AddDynamic(this, &AGameFlowGameBegin::OnRiteReady);
+	
 	Tiffany_Garage->Deactivate();
 	Fog->GetNiagaraComponent()->Deactivate();
 
@@ -110,8 +112,6 @@ void AGameFlowGameBegin::PlayRiteSequence()
 {
 	Player->ForceDisableInput();
 	
-	Fog->GetNiagaraComponent()->Activate();
-	
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;
@@ -134,14 +134,21 @@ void AGameFlowGameBegin::RiteSequenceFinished()
 
 void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 {
-	for (auto Element : Lights_Garage)
-	{
-		Element->TurnOff();
-	}
-
 	Tiffany_Garage->Activate();
 	
 	PlayRiteSequence();
+}
+
+void AGameFlowGameBegin::OnRiteReady()
+{
+	Fog->GetNiagaraComponent()->Activate();
+	
+	for (auto Element : AllLights)
+	{
+		if(Element->GetLightZone() != HouseZone::Garage) continue;
+		
+		Element->TurnOff();
+	}
 }
 
 void AGameFlowGameBegin::ShowingFirstTutorialWidget()

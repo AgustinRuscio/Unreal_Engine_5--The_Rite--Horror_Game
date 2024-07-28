@@ -10,7 +10,7 @@
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClockGain);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FObjectsObtain);
 
 class ULevelSequence;
 class UAudioComponent;
@@ -52,7 +52,7 @@ private:
 	
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Clock")
-	FClockGain OnClockGain;
+	FObjectsObtain OnObjectsObtain;
 	
 private:
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")

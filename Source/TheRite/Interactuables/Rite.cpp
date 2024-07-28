@@ -90,12 +90,14 @@ void ARite::SetClockReady(AInteractor* obj)
 		else
 		{
 			bObjectReady = true;
+			OnObjectsObtain.Broadcast();
 			CheckAudio();
 		}
 	}
 	else
 	{
 		bObjectReady = true;
+		OnObjectsObtain.Broadcast();
 		CheckAudio();
 		NextLevel = CurrentMainObject[0]->GetObjectData();
 	}

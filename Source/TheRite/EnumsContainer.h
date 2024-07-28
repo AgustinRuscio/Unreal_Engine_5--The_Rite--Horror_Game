@@ -49,5 +49,6 @@ enum class HouseZone : uint8
 	Attic,
 	UpStarirsCorridor,
 	BabyRoom,
+	Stairs
 	
 };
