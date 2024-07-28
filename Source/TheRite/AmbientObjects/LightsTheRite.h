@@ -32,7 +32,7 @@ public:
 	
 	UFUNCTION()
 	void SetNormalMaterial() const;
-
+	
 	void ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault);
 	
 	UFUNCTION()

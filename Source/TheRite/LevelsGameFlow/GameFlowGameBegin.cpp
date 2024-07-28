@@ -13,6 +13,8 @@
 #include "LevelSequenceActor.h"
 #include "NiagaraComponent.h"
 #include "Niagara/Public/NiagaraActor.h"
+#include "TheRite/Interactuables/Clock.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Interactuables/Rite.h"
 #include "Kismet/GameplayStatics.h"
@@ -50,6 +52,12 @@ void AGameFlowGameBegin::SetNeededValues()
 	for (auto Element : MainItems)
 	{
 		Element->OnInteractionTrigger.AddDynamic(FindObjectsMenuWidget, &UChangingdWidget::OnInteraction);
+	}
+
+	for (auto Element : CandlesGuidance)
+	{
+		Element->TurnOff();
+		Element->Disappear();
 	}
 }
 
@@ -143,11 +151,22 @@ void AGameFlowGameBegin::OnRiteReady()
 {
 	Fog->GetNiagaraComponent()->Activate();
 	
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
+	
 	for (auto Element : AllLights)
 	{
-		if(Element->GetLightZone() != HouseZone::Garage) continue;
-		
+		if(Element->GetLightZone() != HouseZone::Garage)
+		{
+			Element->ChangeLightIntensity(Element->GetIntensity() * 0.5f, true);
+			continue;
+		}
 		Element->TurnOff();
+	}
+	
+	for (auto Element : CandlesGuidance)
+	{
+		Element->TurnOn();
+		Element->Appear();
 	}
 }
 

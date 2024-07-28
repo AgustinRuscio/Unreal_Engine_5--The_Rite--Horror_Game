@@ -9,13 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SFX_Voices.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SFX_Voices.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_ClueBegin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/UI_ClueBegin.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/EnumsContainer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/EnumsContainer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Rite.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/AmbientObjects/LightsTheRite.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" afterDir="false" />
     </list>
@@ -581,6 +577,7 @@
       <workItem from="1721875211816" duration="2264000" />
       <workItem from="1721878572875" duration="1412000" />
       <workItem from="1722205223527" duration="2622000" />
+      <workItem from="1722208727068" duration="1833000" />
     </task>
     <servers />
   </component>
