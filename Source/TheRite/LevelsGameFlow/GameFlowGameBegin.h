@@ -6,7 +6,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "GameFlowGameBegin.generated.h"
 
@@ -21,6 +20,7 @@ class ANiagaraActor;
 class AClock;
 class ACandle;
 class ALighter;
+class AStaticMeshActor;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor

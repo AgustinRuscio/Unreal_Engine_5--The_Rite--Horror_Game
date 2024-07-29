@@ -15,6 +15,7 @@
 #include "Niagara/Public/NiagaraActor.h"
 #include "TheRite/Interactuables/Clock.h"
 #include "TheRite/AmbientObjects/Candle.h"
+#include "Engine/StaticMeshActor.h"
 #include "TheRite/Interactuables/Lighter.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Interactuables/Rite.h"
