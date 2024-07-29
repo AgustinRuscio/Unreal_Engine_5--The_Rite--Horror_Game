@@ -6,9 +6,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
 #include "GameFlowGameBegin.generated.h"
 
+class AInteractor;
 class ULevelSequence;
 class UTutorialWidget;
 class AAlex;
@@ -18,6 +20,7 @@ class ALightsTheRite;
 class ANiagaraActor;
 class AClock;
 class ACandle;
+class ALighter;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor
@@ -44,10 +47,13 @@ private:
 	void RiteSequenceFinished();
 	
 	UFUNCTION()
-	void OnRiteInteraction(AInteractor* Interactor);
+	void OnRiteInteraction(AInteractor* Interactable);
 
 	UFUNCTION()
 	void OnRiteReady();
+	
+	UFUNCTION()
+	void OnRiteObjetObtain(AInteractor* Interactable);
 	
 	void ShowingFirstTutorialWidget();
 	void ShowingSecondTutorialWidget();
@@ -56,6 +62,16 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	FName NextLevel;
+
+	//-------- Meshes
+	UPROPERTY(EditAnywhere, Category="Rite Meshes")
+	AStaticMeshActor* RiteMesh_Clock;
+	
+	UPROPERTY(EditAnywhere, Category="Rite Meshes")
+	AStaticMeshActor* RiteMesh_Diary;
+	
+	UPROPERTY(EditAnywhere, Category="Rite Meshes")
+	AStaticMeshActor* RiteMesh_Pacifier;
 	
 	//-------- TimeLines
 	FTimerHandle ShowFirstTutorialWidget;
@@ -105,6 +121,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ATiffany* Tiffany_Garage;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ALighter* Lighter;
 	
 	AAlex* Player;
 };

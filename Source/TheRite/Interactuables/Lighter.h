@@ -27,6 +27,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Interaction() override;
 
+	virtual void Deactivate() override;
+	virtual void Activate() override;
+	
 private:
 	void CreateWidgets();
 	void TurnTutorialOff();

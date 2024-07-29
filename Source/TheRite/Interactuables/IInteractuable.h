@@ -33,4 +33,7 @@ public:
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() = 0;
 	
 	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) = 0;
+
+	virtual void Deactivate() = 0;
+	virtual void Activate() = 0;
 };

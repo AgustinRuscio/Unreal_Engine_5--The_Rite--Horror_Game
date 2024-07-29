@@ -47,6 +47,8 @@ public:
 	
 	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
 
+	virtual void Deactivate() override;
+	virtual void Activate() override;
 public:
 	FInteractionTrigger OnInteractionTrigger;
 	

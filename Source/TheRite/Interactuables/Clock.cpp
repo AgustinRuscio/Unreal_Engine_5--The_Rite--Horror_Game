@@ -27,7 +27,6 @@ AClock::~AClock()
 	OnInteractionTrigger.Clear();
 }
 
-
 void AClock::Interaction()
 {
 	Super::Interaction();

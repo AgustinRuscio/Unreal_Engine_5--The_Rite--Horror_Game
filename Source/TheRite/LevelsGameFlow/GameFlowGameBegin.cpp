@@ -15,6 +15,7 @@
 #include "Niagara/Public/NiagaraActor.h"
 #include "TheRite/Interactuables/Clock.h"
 #include "TheRite/AmbientObjects/Candle.h"
+#include "TheRite/Interactuables/Lighter.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Interactuables/Rite.h"
 #include "Kismet/GameplayStatics.h"
@@ -47,11 +48,17 @@ void AGameFlowGameBegin::SetNeededValues()
 	Rite->OnObjectsObtain.AddDynamic(this, &AGameFlowGameBegin::OnRiteReady);
 	
 	Tiffany_Garage->Deactivate();
+	Lighter->Deactivate();
 	Fog->GetNiagaraComponent()->Deactivate();
 
+	RiteMesh_Clock->GetStaticMeshComponent()->SetVisibility(false);
+	RiteMesh_Diary->GetStaticMeshComponent()->SetVisibility(false);
+	RiteMesh_Pacifier->GetStaticMeshComponent()->SetVisibility(false);
+	
 	for (auto Element : MainItems)
 	{
 		Element->OnInteractionTrigger.AddDynamic(FindObjectsMenuWidget, &UChangingdWidget::OnInteraction);
+		Element->OnInteractionTrigger.AddDynamic(this, &AGameFlowGameBegin::OnRiteObjetObtain);
 	}
 
 	for (auto Element : CandlesGuidance)
@@ -143,6 +150,8 @@ void AGameFlowGameBegin::RiteSequenceFinished()
 void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 {
 	Tiffany_Garage->Activate();
+
+	Player->ForceLighterOff();
 	
 	PlayRiteSequence();
 }
@@ -150,6 +159,7 @@ void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 void AGameFlowGameBegin::OnRiteReady()
 {
 	Fog->GetNiagaraComponent()->Activate();
+	Lighter->Activate();
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
 	
@@ -167,6 +177,26 @@ void AGameFlowGameBegin::OnRiteReady()
 	{
 		Element->TurnOn();
 		Element->Appear();
+	}
+}
+
+void AGameFlowGameBegin::OnRiteObjetObtain(AInteractor* Interactable)
+{
+	switch (Interactable->GetItemID())
+	{
+		case PickableItemsID::Clock:
+			RiteMesh_Clock->GetStaticMeshComponent()->SetVisibility(true);
+			break;
+				
+		case PickableItemsID::Diary:
+			RiteMesh_Diary->GetStaticMeshComponent()->SetVisibility(true);
+			break;
+				
+		case PickableItemsID::Pacifier:
+			RiteMesh_Pacifier->GetStaticMeshComponent()->SetVisibility(true);
+			break;
+					
+		default: ;
 	}
 }
 

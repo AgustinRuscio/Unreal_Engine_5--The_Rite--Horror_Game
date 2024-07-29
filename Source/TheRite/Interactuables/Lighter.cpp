@@ -59,6 +59,28 @@ void ALighter::Interaction()
 		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 4.f, false);
 }
 
+void ALighter::Deactivate()
+{
+	Super::Deactivate();
+	
+	LighterBody->SetVisibility(false);
+	LighterBody->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	LighterWheel->SetVisibility(false);
+	LighterTop->SetVisibility(false);
+	PointLight->SetVisibility(false);
+}
+
+void ALighter::Activate()
+{
+	Super::Activate();
+	
+	LighterBody->SetVisibility(true);
+	LighterBody->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	LighterWheel->SetVisibility(true);
+	LighterTop->SetVisibility(true);
+	PointLight->SetVisibility(true);
+}
+
 void ALighter::CreateWidgets()
 {
 	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialMenu);

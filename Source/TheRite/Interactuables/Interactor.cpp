@@ -81,3 +81,13 @@ void AInteractor::SetPickeableSettings(bool isPickeable, FString nameToDisplay, 
 	DisplayName = nameToDisplay;
 	ItemID = id;
 }
+
+void AInteractor::Deactivate()
+{
+	bCanInteract = false;
+}
+
+void AInteractor::Activate()
+{
+	bCanInteract = true;
+}
