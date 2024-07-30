@@ -156,7 +156,7 @@ void AAlex::ForceTalk(USoundBase* Voice)
 	MakeTalk();
 }
 
-void AAlex::CallPauseFunc()
+void AAlex:: CallPauseFunc()
 {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 
@@ -726,10 +726,10 @@ void AAlex::TurnLigherIfPossible()
 {
 	if(!bCanUseLigher || bFocusing || bFocus)
 	{
-		if(!bCanSound) return;
-			
-		UGameplayStatics::SpawnSound2D(this, LighterCDSound);
-		bCanSound = false;
+		//if(!bCanSound) return;
+		//	
+		//UGameplayStatics::SpawnSound2D(this, LighterCDSound);
+		//bCanSound = false;
 		
 		return;
 	}
