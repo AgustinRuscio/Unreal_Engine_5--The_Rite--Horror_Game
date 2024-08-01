@@ -102,7 +102,7 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FindObjectsMenu;
 	UTutorialWidget* FindObjectsMenuWidget;
-
+	
 	//-------- In game obejcts
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ANiagaraActor* Fog;

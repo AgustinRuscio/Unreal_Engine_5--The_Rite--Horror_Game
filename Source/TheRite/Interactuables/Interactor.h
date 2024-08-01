@@ -28,7 +28,10 @@ public:
 	virtual bool IsRemovable() override;
 	virtual bool GetCanInteract() override;
 	
+	UFUNCTION(BlueprintCallable)
 	virtual FString GetItemName() const override;
+	
+	UFUNCTION(BlueprintCallable)
 	virtual PickableItemsID GetItemID() const override;
 	
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() override;
