@@ -49,6 +49,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 private:
+	UFUNCTION()
+	void HideTutorialWidget();
 //---------------- Initialize Methods
 	void SetAudioSettings();
 	void BindPuzzleEvents();

@@ -167,6 +167,9 @@ private:
 	void StopTalking();
 	
 //---------------- TimeLine
+	void HideOpenInventoryWidget();
+	void HideConsumableWidget();
+	
 	void BindTimeLineMethods();
 	
 	UFUNCTION()
@@ -297,11 +300,10 @@ private:
 	USoundBase* BreathSound;
 	
 	//-------- TimeLine
-	FTimerHandle ScreamerTimerHanlde;
-	FTimerHandle OpeninventorywidgetTimerHandle;
-	FTimerHandle LighterReminderTimer;
-	FTimerHandle ConsumibleWidgetTimer;
-	FTimerHandle aa;
+	FTimerHandle TimerHandle_Screamer;
+	FTimerHandle TimerHandle_OpenInventoryWidget;
+	FTimerHandle TimerHandle_LighterReminder;
+	FTimerHandle TimerHandle_ConsumableWidget;
 
 	FTimeline TargetCameraTimeLine;
 	FTimeline FocusCameraTimeLine;

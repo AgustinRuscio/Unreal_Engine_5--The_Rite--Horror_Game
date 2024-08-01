@@ -79,6 +79,11 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 	MakeBreath(DeltaTime);
 }
 
+void AClockLevelGameFlow::HideTutorialWidget()
+{
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
 //---------------- Initialize Methods
 void AClockLevelGameFlow::SetAudioSettings()
 {
@@ -143,8 +148,9 @@ void AClockLevelGameFlow::SetTutorialUI()
 		{
 			TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 		});
-			
-		GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 6.f, false);
+		
+		//GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 6.f, false);
+		GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &AClockLevelGameFlow::HideTutorialWidget, 4.f, false);
 	}
 }
 

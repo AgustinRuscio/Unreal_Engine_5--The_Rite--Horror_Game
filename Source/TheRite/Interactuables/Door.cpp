@@ -223,7 +223,8 @@ void ADoor::TutorialInteraction()
 				TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 			});
 			
-			GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 2.f, false);
+			//GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 2.f, false);
+			GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &ADoor::HideTutorialWidget, 2.f, false);
 		}
 	}
 }
@@ -480,6 +481,11 @@ void ADoor::LatchHolding(bool isOppening)
 		TimeLineLatchHold.PlayFromStart();
 	else
 		TimeLineLatchHold.ReverseFromEnd();
+}
+
+void ADoor::HideTutorialWidget()
+{
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 //---------------- TimeLines Methods

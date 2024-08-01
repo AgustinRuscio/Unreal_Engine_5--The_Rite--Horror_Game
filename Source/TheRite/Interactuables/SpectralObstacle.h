@@ -69,8 +69,6 @@ private:
 	
 	UMaterialInstanceDynamic* DynamicMaterial;
 
-	FTimerHandle WaitTimer;
-	
 	FTimeline FirstTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")

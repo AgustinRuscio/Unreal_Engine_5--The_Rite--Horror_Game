@@ -48,6 +48,8 @@ private:
 	void ChangeNeedle();
 	void CheckNeedlesPosition();
 //--------------------- TimeLine methods
+	void HideClue();
+	
 	void BindTimeLine();
 
 	UFUNCTION()

@@ -89,6 +89,8 @@ private:
 	void LatchHolding(bool isOppening);
 
 //---------------- TimeLines Methods
+	void HideTutorialWidget();
+	
 	void BindTimeLines();
 	void RunTimeLinesTick(float DeltaTime);
 

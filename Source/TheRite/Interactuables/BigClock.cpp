@@ -80,7 +80,6 @@ void ABigClock::Interaction()
 		
 		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_ClockClue))
 		{
-
 			FTimerDelegate OnTimePass;
 
 			OnTimePass.BindLambda([&]
@@ -88,7 +87,8 @@ void ABigClock::Interaction()
 				Widget_ClockClue->RemoveFromParent();
 			});
 			
-			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, OnTimePass, 5.f, false);
+			//GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, OnTimePass, 5.f, false);
+			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, this, &ABigClock::HideClue , 5.f, false);
 		}
 	}	
 	//CheckNeedlesPosition();
@@ -224,6 +224,11 @@ void ABigClock::CheckNeedlesPosition()
 	LeaveFocus();
 	
 	bCanInteract = false;
+}
+
+void ABigClock::HideClue()
+{
+	Widget_ClockClue->RemoveFromParent();
 }
 
 //--------------------- TimeLine methods

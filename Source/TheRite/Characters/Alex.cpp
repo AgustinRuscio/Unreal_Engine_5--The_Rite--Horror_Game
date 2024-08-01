@@ -4,7 +4,6 @@
 
 
 #include "Alex.h"
-
 #include "MathUtil.h"
 #include "Components/AudioComponent.h"
 #include "TheRite/AlexPlayerController.h"
@@ -198,7 +197,7 @@ void AAlex::OnJumpScare()
 	ScreamerSkeleton->SetVisibility(true);
 	ScreamerSkeleton->PlayAnimation(ScreamerAnim,false);
 	
-	if (!GetWorldTimerManager().IsTimerActive(ScreamerTimerHanlde))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_Screamer))
 	{
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
@@ -209,7 +208,7 @@ void AAlex::OnJumpScare()
 			MyController->EnableInput(Controller);
 		});
 		
-		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, timerDelegate, .7f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_Screamer, timerDelegate, .7f, false);
 	}
 }
 
@@ -220,7 +219,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
 	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
 	
-	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_ConsumableWidget))
 	{
 		FTimerDelegate TimerDelegate;
 		TimerDelegate.BindLambda([&]
@@ -228,7 +227,8 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
 		});
 
-		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
+		//GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, TimerDelegate, 2.f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, this, &AAlex::HideConsumableWidget, 2.f, false);
 	}
 }
 
@@ -696,14 +696,16 @@ void AAlex::Interaction()
 
 		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
 		
-		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
+		if (!GetWorldTimerManager().IsTimerActive(TimerHandle_OpenInventoryWidget))
 		{
 			FTimerDelegate TimerDelegate;
 			TimerDelegate.BindLambda([&]
 			{
 				OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 			});
-			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
+			
+			//GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, TimerDelegate, 1.5f, false);
+			GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, this, &AAlex::HideOpenInventoryWidget, 1.5f, false);
 		}
 	}
 }
@@ -818,7 +820,7 @@ void AAlex::ShowLighterReminder()
 {
 	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
 
-	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_LighterReminder))
 	{
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
@@ -826,7 +828,9 @@ void AAlex::ShowLighterReminder()
 			LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
 			TimerComponentForLighterDisplay->ActionFinished();
 		});
-		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
+		
+		//GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, timerDelegate, 4.f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, this, &AAlex::HideLighterReminder, 4.f, false);
 	}
 }
 
@@ -857,10 +861,20 @@ void AAlex::StopTalking()
 		TempAudio->Stop();
 }
 
+void AAlex::HideOpenInventoryWidget()
+{
+	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AAlex::HideConsumableWidget()
+{
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
 //---------------- TimeLine
 void AAlex::BindTimeLineMethods()
 {
-	//--- Targetting
+	//--- Targeting
 	FOnTimelineFloat CameraTargetTick;
 	CameraTargetTick.BindUFunction(this, FName("CameraTargetTick"));
 	TargetCameraTimeLine.AddInterpFloat(EmptyCurve, CameraTargetTick);
