@@ -30,7 +30,6 @@ class THERITE_API AGameFlowGameBegin : public AActor
 public:	
 	AGameFlowGameBegin();
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	void SetNeededValues();

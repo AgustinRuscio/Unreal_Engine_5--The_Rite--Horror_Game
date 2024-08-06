@@ -59,7 +59,7 @@ void AClockLevelGameFlow::BeginPlay()
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(false);
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
-	SetTutorialUI();
+	//SetTutorialUI();
 	
 	BindTimeLineMethods();
 	

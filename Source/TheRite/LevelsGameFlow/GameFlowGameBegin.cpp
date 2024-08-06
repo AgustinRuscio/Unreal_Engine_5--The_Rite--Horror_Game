@@ -35,11 +35,6 @@ void AGameFlowGameBegin::BeginPlay()
 	PlayBeginSequence();
 }
 
-void AGameFlowGameBegin::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 void AGameFlowGameBegin::SetNeededValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
