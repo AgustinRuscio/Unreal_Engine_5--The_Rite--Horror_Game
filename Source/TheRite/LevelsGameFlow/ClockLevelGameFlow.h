@@ -35,6 +35,7 @@ class AMoveTiffany;
 class ABigClock;
 class UTutorialWidget;
 class ACandle;
+class ASpotLight;
 class AStaticMeshActor;
 
 UCLASS()
@@ -328,6 +329,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Lights: Library")
 	ALightsTheRite* LibraryRoofLight;
+
+	UPROPERTY(EditAnywhere, Category = "Lights: Central")
+	ASpotLight* Light_Clock;
 	
 	//-------- Door
 	UPROPERTY(EditAnywhere, Category = "Doors")

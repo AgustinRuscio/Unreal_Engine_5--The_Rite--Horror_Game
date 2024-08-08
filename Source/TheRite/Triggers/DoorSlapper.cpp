@@ -20,9 +20,21 @@ void ADoorSlapper::BeginPlay()
 	ClosingTrigger->OnComponentBeginOverlap.AddDynamic(this, &ADoorSlapper::SlapDoor);
 }
 
-void ADoorSlapper::SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ADoorSlapper::Activate()
 {
+	bActive = true;
+}
+
+void ADoorSlapper::Deactivate()
+{
+	bActive = false;
+}
+
+void ADoorSlapper::SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(!bActive) return;
+	
 	if(!Cast<AAlex>(OtherActor)) return;
 
 	for (auto Element : DoorsToSlap)

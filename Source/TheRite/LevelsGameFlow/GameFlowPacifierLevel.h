@@ -29,6 +29,7 @@ class ATargetPoint;
 class AAmbientSound;
 class AStaticMeshActor;
 class AManikin;
+class ASpotLight;
 
 UCLASS()
 class THERITE_API AGameFlowPacifierLevel : public AActor
@@ -163,6 +164,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ACandle*> Candles_EndGame;
 
+	UPROPERTY(EditAnywhere, Category="Lights")
+	ASpotLight* Lights_LastFetus;
+	
 	//-------- Flows & Puzzles
 	FTimerHandle Timer_FirstStairsEvent;
 	FTimerHandle Timer_SecondEvent;

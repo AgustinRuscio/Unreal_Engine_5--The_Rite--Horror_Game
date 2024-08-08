@@ -20,6 +20,7 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Interactuables/Rite.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/Triggers/DoorSlapper.h"
 
 AGameFlowGameBegin::AGameFlowGameBegin()
 {
@@ -62,6 +63,8 @@ void AGameFlowGameBegin::SetNeededValues()
 		Element->TurnOff();
 		Element->Disappear();
 	}
+
+	EndDoorSlapper->Deactivate();
 }
 
 void AGameFlowGameBegin::CreateWidgets()
@@ -145,6 +148,8 @@ void AGameFlowGameBegin::RiteSequenceFinished()
 
 void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 {
+	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	
 	Tiffany_Garage->Activate();
 
 	Player->ForceLighterOff();
@@ -166,6 +171,7 @@ void AGameFlowGameBegin::OnRiteReady()
 			Element->ChangeLightIntensity(Element->GetIntensity() * 0.5f, true);
 			continue;
 		}
+		
 		Element->TurnOff();
 	}
 	
@@ -174,6 +180,8 @@ void AGameFlowGameBegin::OnRiteReady()
 		Element->TurnOn();
 		Element->Appear();
 	}
+	
+	EndDoorSlapper->Activate();
 }
 
 void AGameFlowGameBegin::OnRiteObjetObtain(AInteractor* Interactable)

@@ -21,6 +21,7 @@
 #include "BasePlayerSettingsSetter.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/Candle.h"
+#include "Engine/SpotLight.h"
 #include "FetusPuzzle.h"
 #include "Components/AudioComponent.h"
 #include "Engine/BlockingVolume.h"
@@ -35,6 +36,8 @@ void AGameFlowPacifierLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Lights_LastFetus->GetLightComponent()->SetIntensity(0.f);
+	
 	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 
 	if(GameFlow_FetusPuzzle->IsActive())
@@ -58,6 +61,11 @@ void AGameFlowPacifierLevel::BeginPlay()
 	
 	AtticLadder->DisableLadder();
 
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Disappear();
+	}
+	
 	InitializeValues();
 	BindColliderMethods();
 }
@@ -223,8 +231,12 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 
 void AGameFlowPacifierLevel::EndGame()
 {
+	
+	Lights_LastFetus->GetLightComponent()->SetIntensity(6.f);
+	
 	for (auto Element : Candles_EndGame)
 	{
+		Element->Appear();
 		Element->TurnOn();
 	}
 

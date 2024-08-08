@@ -11,6 +11,7 @@
 #include "TheRite/Interactuables/MinutesLetter.h"
 #include "TheRite/Interactuables/BigClock.h"
 #include "TheRite/Interactuables/HourLetter.h"
+#include "Engine/SpotLight.h"
 #include "TheRite/Interactuables/DoorKey.h"
 #include "MoveTiffany.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
@@ -45,6 +46,8 @@ void AClockLevelGameFlow::BeginPlay()
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	//Player->SetPlayerOptions(false, true);
 
+	Light_Clock->GetLightComponent()->SetIntensity(0.f);
+	
 	for (auto Element : Walls_EndGameWall)
 	{
 		Element->GetStaticMeshComponent()->SetVisibility(false);
@@ -256,7 +259,9 @@ void AClockLevelGameFlow::EndGame()
 		Element->TurnOff();
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
 	}
-
+	
+	Light_Clock->GetLightComponent()->SetIntensity(4.f);
+	
 	for (auto Element : ActorTobeDestroyOnEndgame)
 	{
 		Element->Destroy();

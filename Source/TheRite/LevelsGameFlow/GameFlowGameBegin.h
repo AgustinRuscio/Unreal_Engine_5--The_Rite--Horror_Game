@@ -21,6 +21,7 @@ class AClock;
 class ACandle;
 class ALighter;
 class AStaticMeshActor;
+class ADoorSlapper;
 
 UCLASS()
 class THERITE_API AGameFlowGameBegin : public AActor
@@ -123,6 +124,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ALighter* Lighter;
+
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	ADoorSlapper* EndDoorSlapper;
 	
 	AAlex* Player;
 };
