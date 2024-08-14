@@ -26,10 +26,10 @@ class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
 
 public:
 	AInOrdenSelectionPuzzleFlow();
-	
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	//---------------- Check puzzle Methods
 	bool CheckStatuttes();
 	bool CheckRotation();

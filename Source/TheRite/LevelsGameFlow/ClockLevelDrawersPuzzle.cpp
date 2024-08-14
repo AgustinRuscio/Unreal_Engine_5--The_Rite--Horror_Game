@@ -10,22 +10,31 @@
 #include "TheRite/Interactuables/SpectralWrittings.h"
 #include "TheRite/Interactuables/Interactor.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AClockLevelDrawersPuzzle::AClockLevelDrawersPuzzle()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelDrawersPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
 	for (auto Element : KeySpectralWrittings)
 	{
-		Element->OnInteractionTrigger.AddDynamic(this, &AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed);
+		Element->OnInteractionTrigger.AddDynamic(this, &AClockLevelDrawersPuzzle::OnKeySpectralWritingUsed);
 	}
 }
 
-void AClockLevelDrawersPuzzle::OnKeySpectralWrittingUsed(AInteractor* interactor)
+//----------------------------------------------------------------------------------------------------------------------
+void AClockLevelDrawersPuzzle::OnKeySpectralWritingUsed(AInteractor* interactor)
 {
 	if(DestroyableSpectralIbstacle)
 		DestroyableSpectralIbstacle->ObstacleDestroy();

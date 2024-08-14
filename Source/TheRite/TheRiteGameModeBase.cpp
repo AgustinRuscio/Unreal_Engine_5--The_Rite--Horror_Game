@@ -1,5 +1,6 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
 
 #include "TheRiteGameModeBase.h"
-

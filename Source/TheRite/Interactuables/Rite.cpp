@@ -15,7 +15,10 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 ARite::ARite()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -30,10 +33,51 @@ ARite::ARite()
 	Sphere->SetupAttachment(Mesh);
 
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ARite::OnActorOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverapFinished);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverlapFinished);
 }
 
-//---------------- System Class Methods
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::Interaction()
+{
+	if(!bObjectReady) return;
+	
+	UGameplayStatics::PlaySound2D(this, PortalAudio);
+
+	bCanInteract = false;
+	
+	if(bBeginRite)
+		OnInteractionTrigger.Broadcast(this);
+	else
+		PlayFadeSequence();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::SetClockReady(AInteractor* obj)
+{
+	if(bBeginRite)
+	{
+		if(Count < CurrentMainObject.Num())
+			Count++;
+		else
+		{
+			bObjectReady = true;
+			OnObjectsObtain.Broadcast();
+			CheckAudio();
+		}
+	}
+	else
+	{
+		bObjectReady = true;
+		OnObjectsObtain.Broadcast();
+		CheckAudio();
+		NextLevel = CurrentMainObject[0]->GetObjectData();
+	}
+}
+
+//*****************************Private************************************************
+//************************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::BeginPlay()
 {
 	Super::BeginPlay();
@@ -45,9 +89,13 @@ void ARite::BeginPlay()
 	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
 	bReady = true;
 
-	CurrentMainObject->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+	for (auto Element : CurrentMainObject)
+	{
+		Element->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -59,17 +107,13 @@ void ARite::Tick(float DeltaSeconds)
 	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
 	
 	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
-
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
 }
 
-void ARite::Interaction()
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::PlayFadeSequence()
 {
-	if(!bObjectReady) return;
-	
-	UGameplayStatics::PlaySound2D(this, PortalAudio);
-
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;
@@ -88,39 +132,25 @@ void ARite::Interaction()
 	sequencePlayer->Play();
 }
 
-void ARite::SetClockReady(AInteractor* obj)
-{
-	bObjectReady = true;
-	CheckAudio();
-	NextLevel = CurrentMainObject->GetObjectData();
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::CheckAudio()
 {
 	if(bObjectReady)
 		AudioToPlay = AudioClockReady;
 	else
 	{
-		switch (LevelType)
-		{
-			case LevelObjectType::Clock:
-				AudioToPlay = AudioClockNotReady;
-				break;
-			case LevelObjectType::Picture:
-				AudioToPlay = AudioClockNotReady;
-				break;
-			case LevelObjectType::Diary:
-				AudioToPlay = AudioClockNotReady;
-				break;
-		}
+		AudioToPlay = AudioClockNotReady;
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::ChangeLevel()
 {
 	UGameplayStatics::OpenLevel(GetWorld(),NextLevel);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collision Methods
 void ARite::OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
 	UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult)
 {
@@ -130,7 +160,8 @@ void ARite::OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Acto
 	bPlayerInside = true;
 }
 
-void ARite::OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
 	UPrimitiveComponent* PrimitiveComponent1, int I)
 {
 	if(!Cast<AAlex>(Actor)) return;
@@ -138,3 +169,4 @@ void ARite::OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActo
 	bPlayerInside = false;
 	InsideActor = nullptr;
 }
+#pragma endregion

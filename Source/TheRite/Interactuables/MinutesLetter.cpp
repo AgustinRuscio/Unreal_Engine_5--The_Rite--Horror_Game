@@ -7,6 +7,10 @@
 
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AMinutesLetter::AMinutesLetter()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -15,6 +19,7 @@ AMinutesLetter::AMinutesLetter()
 	RootComponent = LetterMesh;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AMinutesLetter::Interaction()
 {
 	OnInteractionTrigger.Broadcast(this);

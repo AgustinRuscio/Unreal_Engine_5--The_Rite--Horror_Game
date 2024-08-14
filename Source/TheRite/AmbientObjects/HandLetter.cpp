@@ -5,6 +5,10 @@
 
 #include "HandLetter.h"
 
+//*****************************Public******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AHandLetter::AHandLetter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,13 +16,14 @@ AHandLetter::AHandLetter()
 	LetterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Letter Mesh");
 }
 
-//---------------- Material Setter Methods
-void AHandLetter::SetLibraryMaterial()
+//----------------------------------------------------------------------------------------------------------------------
+void AHandLetter::SetLibraryMaterial() const
 {
 	LetterMesh->SetMaterial(0, LibraryMaterial);
 }
 
-void AHandLetter::SetOfficeMaterial()
+//----------------------------------------------------------------------------------------------------------------------
+void AHandLetter::SetOfficeMaterial() const
 {
 	LetterMesh->SetMaterial(0, OfficeMaterial);
 }

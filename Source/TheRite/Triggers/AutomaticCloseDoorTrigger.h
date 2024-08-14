@@ -21,19 +21,21 @@ class THERITE_API AAutomaticCloseDoorTrigger : public AActor
 
 public:	
 	AAutomaticCloseDoorTrigger();
+	
+private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
-private:
-	void BindTriggers();
 	
 //---------------- Timelines Methods
-	void BinddTimeLinesMethods();
+	void BindTimeLinesMethods();
 	
 	UFUNCTION()
 	void OnTimerFinished();
 	
 //---------------- Collider Methods
+	void BindTriggers();
+	
 	UFUNCTION()
 	void CheckActorIn(AActor* OverlappedActor, AActor* OtherActor);
 	

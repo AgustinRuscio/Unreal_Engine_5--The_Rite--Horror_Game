@@ -14,6 +14,10 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ASpectralWrittings::ASpectralWrittings()
 {
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
@@ -29,23 +33,104 @@ ASpectralWrittings::ASpectralWrittings()
 	Sphere->SetupAttachment(Mesh);
 
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverapFinished);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlapFinished);
 	
 	SetFaderValues();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 ASpectralWrittings::~ASpectralWrittings()
 {
 	OnInteractionTrigger.Clear();
 }
 
-//---------------- Getter Methods
-bool ASpectralWrittings::GetDiscoverdStatus() const
+//----------------------------------------------------------------------------------------------------------------------
+bool ASpectralWrittings::GetDiscoveredStatus() const
 {
 	return bDiscovered;
 }
 
-//---------------- System Class Methods
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralWrittings::Interaction()
+{
+	if(bDiscovered || !bCanInteract ) return;
+	
+	Super::Interaction();
+	
+	bCanInteract = false;
+	bDiscovered= true;
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
+	
+	IdleAudio->Stop();
+	
+	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
+	FadeComponent->PermanentActivation();
+	
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Actions Methods
+//void ASpectralWrittings::Activate()
+//{
+//	if(bDiscovered) return;
+//
+//	bFading = true;
+//	
+//	FadeTimeLine.Stop();
+//	FadeTimeLine.PlayFromStart();
+//	
+//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+//}
+//
+//----------------------------------------------------------------------------------------------------------------------
+//void ASpectralWrittings::Deactivate()
+//{
+//	if(bDiscovered) return;
+//	
+//	bFading = true;
+//	FadeTimeLine.Stop();
+//	LastAlphaValue = AlphaValue;
+//
+//	FadeTimeLine.ReverseFromEnd();
+//	
+//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+//}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralWrittings::Discovered()
+{
+	bDiscovered= true;
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	IdleAudio->Stop();
+	
+	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
+	FadeComponent->PermanentActivation();
+	
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralWrittings::EnableInteraction()
+{
+	bCanInteract = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralWrittings::SetMaterialAlpha(float alpha)
+{
+	if(bDiscovered || bFading) return;
+	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),alpha);
+}
+#pragma endregion
+
+//*****************************Private************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::BeginPlay()
 {
 	Super::BeginPlay();
@@ -62,12 +147,14 @@ void ASpectralWrittings::BeginPlay()
 	//BindTimeLine();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::BeginDestroy()
 {
 	Super::BeginDestroy();
 	OnInteractionTrigger.Clear();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -84,76 +171,8 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
 }
 
-void ASpectralWrittings::Interaction()
-{
-	if(bDiscovered || !bCanInteract ) return;
-	
-	Super::Interaction();
-	
-	bCanInteract = false;
-	bDiscovered= true;
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SpectralSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
-	
-	IdleAudio->VolumeMultiplier = 0;
-	
-	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
-	FadeComponent->PermanentActivation();
-	
-	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
-}
-
-//---------------- Actions Methods
-//void ASpectralWrittings::Activate()
-//{
-//	if(bDiscovered) return;
-//
-//	bFading = true;
-//	
-//	FadeTimeLine.Stop();
-//	FadeTimeLine.PlayFromStart();
-//	
-//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-//}
-//
-//void ASpectralWrittings::Deactivate()
-//{
-//	if(bDiscovered) return;
-//	
-//	bFading = true;
-//	FadeTimeLine.Stop();
-//	LastAlphaValue = AlphaValue;
-//
-//	FadeTimeLine.ReverseFromEnd();
-//	
-//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-//}
-
-void ASpectralWrittings::Discovered()
-{
-	bDiscovered= true;
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	
-	IdleAudio->VolumeMultiplier = 0;
-	
-	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
-	FadeComponent->PermanentActivation();
-	
-	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
-}
-
-void ASpectralWrittings::EnableInteraction()
-{
-	bCanInteract = true;
-}
-
-void ASpectralWrittings::SetMaterialAlpha(float alpha)
-{
-	if(bDiscovered || bFading) return;
-	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),alpha);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Fade Methods
 void ASpectralWrittings::SetFaderValues()
 {
 	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
@@ -164,6 +183,7 @@ void ASpectralWrittings::SetFaderValues()
 	OnDeactivate.AddDynamic(this, &ASpectralWrittings::OnFadeDeactivate);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::OnFadeActivated()
 {
 	if(bDiscovered) return;
@@ -176,6 +196,7 @@ void ASpectralWrittings::OnFadeActivated()
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::OnFadeDeactivate()
 {
 	if(bDiscovered) return;
@@ -188,7 +209,10 @@ void ASpectralWrittings::OnFadeDeactivate()
 	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
+#pragma endregion
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collision Methods
 void ASpectralWrittings::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                         UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -198,7 +222,8 @@ void ASpectralWrittings::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 	bPlayerInside = true;
 }
 
-void ASpectralWrittings::OnActorOverapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralWrittings::OnActorOverlapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 											   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -206,8 +231,10 @@ void ASpectralWrittings::OnActorOverapFinished(UPrimitiveComponent* OverlappedCo
 	bPlayerInside = false;
 	InsideActor = nullptr;
 }
+#pragma endregion
 
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void ASpectralWrittings::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -219,6 +246,7 @@ void ASpectralWrittings::BindTimeLine()
 	FadeTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::FadeTick(float deltaSeconds)
 {
 	float value = FMathf::Lerp(0,0.7f,deltaSeconds);
@@ -226,7 +254,9 @@ void ASpectralWrittings::FadeTick(float deltaSeconds)
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),value);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::FadeFinished()
 {
 	bFading = false;
 }
+#pragma endregion

@@ -19,9 +19,12 @@ class THERITE_API ACandleGuideController : public AActor
 
 public:	
 	ACandleGuideController();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+
+	
+//---------------- Action Methods
 	UFUNCTION()
 	void GuideChange(AInteractor* interactor);
 

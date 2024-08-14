@@ -17,6 +17,7 @@ class THERITE_API AEye : public AActor
 public:
 	AEye();
 
+private:
 	virtual void Tick(float DeltaTime) override;
 	
 private:

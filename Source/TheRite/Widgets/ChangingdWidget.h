@@ -3,15 +3,17 @@
 //--------------------------------------------
 
 
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "ChangingdWidget.generated.h"
 
 class UTextBlock;
 class UImage;
+
+
 
 UCLASS()
 class THERITE_API UChangingdWidget : public UUserWidget
@@ -23,6 +25,9 @@ public:
 	virtual void SetKeyMode(bool isGamepad);
 
 	void  SetChangingText(FText newText);
+
+	UFUNCTION(BlueprintImplementableEvent) 
+	void OnInteraction(AInteractor* Interactable);
 	
 private:
 	void SetGamepadImages();

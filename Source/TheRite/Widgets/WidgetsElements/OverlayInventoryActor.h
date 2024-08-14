@@ -19,6 +19,8 @@ class THERITE_API AOverlayInventoryActor : public AActor
 	
 public:	
 	AOverlayInventoryActor();
+	
+private:
 	virtual void BeginPlay() override;
 	
 private:

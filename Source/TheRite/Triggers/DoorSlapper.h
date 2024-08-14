@@ -20,14 +20,21 @@ class THERITE_API ADoorSlapper : public AActor
 	
 public:	
 	ADoorSlapper();
-	virtual void BeginPlay() override;
+
+	void Activate();
+	void Deactivate();
 	
 private:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
+	UPROPERTY(EditAnywhere, Category="Settings")
+	bool bActive = true;
+	
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta=(AllowPrivateAccess="true"))
 	UBoxComponent* ClosingTrigger;
 	

@@ -6,6 +6,11 @@
 #include "LoreInteractuable.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+
+//----------------------------------------------------------------------------------------------------------------------
 ALoreInteractuable::ALoreInteractuable()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -15,6 +20,7 @@ ALoreInteractuable::ALoreInteractuable()
 	bWillSound = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALoreInteractuable::Interaction()
 {
 	Super::Interaction();

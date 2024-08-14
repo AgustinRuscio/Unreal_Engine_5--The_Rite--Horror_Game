@@ -13,11 +13,19 @@
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AInOrdenSelectionPuzzleFlow::AInOrdenSelectionPuzzleFlow()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 	
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AInOrdenSelectionPuzzleFlow::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,7 +38,8 @@ void AInOrdenSelectionPuzzleFlow::BeginPlay()
 	MaxStatuatte = InGameStatuettes.Num();
 }
 
-//---------------- Check puzzle Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Check puzzle Methods
 bool AInOrdenSelectionPuzzleFlow::CheckStatuttes()
 {
 	for (int i = 0; i < InGameStatuettes.Num(); ++i)
@@ -46,6 +55,7 @@ bool AInOrdenSelectionPuzzleFlow::CheckStatuttes()
 	return true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool AInOrdenSelectionPuzzleFlow::CheckRotation()
 {
 	for (auto Element : AltarWhells)
@@ -61,6 +71,7 @@ bool AInOrdenSelectionPuzzleFlow::CheckRotation()
 	return true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 {
 	if (!GetWorldTimerManager().IsTimerActive(OffSetInteraction))
@@ -91,6 +102,7 @@ void AInOrdenSelectionPuzzleFlow::CheckStatuetteOrder()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AInOrdenSelectionPuzzleFlow::PuzzleFailure()
 {
 	StatuettsAuxiliaryArray.Empty();
@@ -107,8 +119,9 @@ void AInOrdenSelectionPuzzleFlow::PuzzleFailure()
 	
 	PRINTONVIEWPORT("Failure");
 }
+#pragma endregion
 
-//----------------
+//----------------------------------------------------------------------------------------------------------------------
 void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 {
 	auto CurrentStatuette = Cast<AStatuette>(currentStatuette);
@@ -132,7 +145,7 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 	{
 		CurrentStatuette->SetBase(AltarBases[StatuatteIndex]);
 		CurrentStatuette->SetAltarPosition(AltarPositions[StatuatteIndex]->GetActorLocation(), AltarPositions[StatuatteIndex]->GetActorRotation());
-		AltarWhells[StatuatteIndex]->ASignValues(CurrentStatuette, CurrentStatuette->GetDesiredRotation(), CurrentStatuette->GetRotatioToAdd());
+		AltarWhells[StatuatteIndex]->ASignValues(CurrentStatuette, CurrentStatuette->GetDesiredRotation(), CurrentStatuette->GetRotationToAdd());
 		AltarWhells[StatuatteIndex]->StatuetteReady();
 		++StatuatteIndex;
 	}

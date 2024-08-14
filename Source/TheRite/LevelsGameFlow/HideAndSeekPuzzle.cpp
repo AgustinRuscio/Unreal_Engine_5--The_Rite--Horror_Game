@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
+
 #include "HideAndSeekPuzzle.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
@@ -6,16 +11,25 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/Interactor.h"
 
-bool AHideAndSeekPuzzle::IsActive() const
-{
-	return bActive;
-}
+//*****************************Public*********************************************
+//********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 AHideAndSeekPuzzle::AHideAndSeekPuzzle()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+bool AHideAndSeekPuzzle::IsActive() const
+{
+	return bActive;
+}
+
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::BeginPlay()
 {
 	if(!bActive) return;
@@ -25,6 +39,7 @@ void AHideAndSeekPuzzle::BeginPlay()
 	InitializeValues();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
@@ -36,6 +51,8 @@ void AHideAndSeekPuzzle::InitializeValues()
 	Interactables_MainInteractable->OnInteractionTrigger.AddDynamic(this, &AHideAndSeekPuzzle::OnNextPuzzleStep);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Puzzle Steps Methods
 void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 {
 	if(!bFirstInteractionDone)
@@ -53,6 +70,7 @@ void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 	LocationIndex == RelocationsQuantity ? PuzzleCompleted() : ReLocateInteractable();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::ReLocateInteractable()
 {
 	Interactables_MainInteractable->SetActorLocation(TargetPoints_MainLocations[LocationIndex]->GetActorLocation());
@@ -67,6 +85,7 @@ void AHideAndSeekPuzzle::ReLocateInteractable()
 	 LightsOn();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::LightsOff()
 {
 	for (auto Element : Lights_NeededLights)
@@ -75,6 +94,7 @@ void AHideAndSeekPuzzle::LightsOff()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::LightsOn()
 {
 	FTimerHandle Timer_LightsOut;
@@ -96,12 +116,14 @@ void AHideAndSeekPuzzle::LightsOn()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::PlayerLighterStateSetter(bool UseOfLighter)
 {
 	Player->ForceLighterOff();
 	Player->SetPlayerOptions(false, UseOfLighter, false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::InteractionFeedBack()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -112,6 +134,7 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::PuzzleCompleted()
 {
 	OnPuzzleComplete.Broadcast();
@@ -124,3 +147,4 @@ void AHideAndSeekPuzzle::PuzzleCompleted()
 	
 	Destroy();
 }
+#pragma endregion

@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClockPuzzleFinished);
 
 class AAlex;
 class ATargetPoint;
+class UTutorialWidget;
 
 UCLASS()
 class THERITE_API ABigClock : public AInteractor
@@ -24,17 +25,19 @@ class THERITE_API ABigClock : public AInteractor
 	
 public:	
 	ABigClock();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
+	
 	virtual void Interaction() override;
 
 	void SetReadyToUse();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//--------------------- Action methods
 	UFUNCTION()
 	void LeaveFocus();
-
-//--------------------- Objects methods
+	
 	UFUNCTION()
 	void PrevNeedle();
 	
@@ -46,7 +49,10 @@ private:
 
 	void ChangeNeedle();
 	void CheckNeedlesPosition();
+	
 //--------------------- TimeLine methods
+	void HideClue();
+	
 	void BindTimeLine();
 
 	UFUNCTION()
@@ -54,13 +60,20 @@ private:
 	
 	UFUNCTION()
 	void MoveNeedleTimeLineFinished();
+	
 public:
 	FOnClockPuzzleFinished OnClockPuzzleCompleted;
 	
 private:
 	bool bIsFocus;
 	bool bReadyToUse;
-	bool TimeLineMooving = false;
+
+	bool bFirstInteraction = true;
+
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	bool bShowClue;
+	
+	bool TimeLineMoving = false;
 
 	int8 CurrentNeedle = 0;
 	
@@ -111,6 +124,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFX_PuzzleComplete;
 	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_Clue;
+
+	//-------- Widget
+	UPROPERTY(EditAnywhere, Category= "Widgets")
+	TSubclassOf<UTutorialWidget> WG_ClockClue;
+	UTutorialWidget* Widget_ClockClue;
+	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	UMaterialInterface* SelectedNeedleMaterial;
@@ -124,7 +145,7 @@ private:
 	
 	//-------- Time Line
 	FTimerHandle WaitForAudioTimer;
-	FTimerHandle a;
+	FTimerHandle Timer_ClockClue;
 	
 	FTimeline MoveNeedleTimeLine;
 

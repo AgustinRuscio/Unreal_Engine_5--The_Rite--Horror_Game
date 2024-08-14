@@ -26,15 +26,15 @@ class THERITE_API AFetus : public AInteractor, public IFader
 public:
 	AFetus();
 	
-	bool GetIsCorrectFetus();
+	bool GetIsCorrectFetus() const;
 	
-//---------------- System Class Methods
 	virtual void Interaction() override;
 	
 //---------------- Status Methods
 	void ResetFetus();
 
 	void StartAudioComponent();
+	
 private:
 	void SetFaderValues();
 

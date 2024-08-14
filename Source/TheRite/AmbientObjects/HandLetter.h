@@ -17,8 +17,8 @@ class THERITE_API AHandLetter : public AActor
 public:
 	AHandLetter();
 
-	void SetLibraryMaterial();
-	void SetOfficeMaterial();
+	void SetLibraryMaterial() const;
+	void SetOfficeMaterial() const;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")

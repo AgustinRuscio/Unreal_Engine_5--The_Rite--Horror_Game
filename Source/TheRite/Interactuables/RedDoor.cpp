@@ -13,6 +13,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ARedDoor::ARedDoor()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,21 +24,7 @@ ARedDoor::ARedDoor()
 	CreateEditorComponents();
 }
 
-//---------------- System Class Methods
-void ARedDoor::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimeLines();
-}
-
-void ARedDoor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	TimeLineOpenDoor.TickTimeline(DeltaTime);
-	FadeTimeLine.TickTimeline(DeltaTime);
-	TimeLineLatchAnim.TickTimeline(DeltaTime);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::Interaction()
 {
 	if(!bCanInteract) return;
@@ -54,6 +44,27 @@ void ARedDoor::Interaction()
 	TimeLineOpenDoor.Play();
 }
 
+//*****************************Private***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARedDoor::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	BindTimeLines();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARedDoor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	TimeLineOpenDoor.TickTimeline(DeltaTime);
+	FadeTimeLine.TickTimeline(DeltaTime);
+	TimeLineLatchAnim.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::CreateEditorComponents()
 {
 	DoorItself = CreateDefaultSubobject<UStaticMeshComponent>("Door Itself");
@@ -87,12 +98,14 @@ void ARedDoor::CreateEditorComponents()
 	BoxCollision->SetupAttachment(DoorItself);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::ChangeLevel()
 {
 	UGameplayStatics::OpenLevel(this, NextLevelName);
 }
 
-//---------------- TimeLines Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLines Methods
 void ARedDoor::BindTimeLines()
 {
 	FOnTimelineFloat LatchAnimTimelineCallback;
@@ -113,7 +126,7 @@ void ARedDoor::BindTimeLines()
 	FadeTimeLine.SetTimelineFinishedFunc(FadeFinishedCallback);
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::OpenTimeLineUpdate(float value)
 {
 	float Yaw = FMath::Lerp(0,90, value);
@@ -121,12 +134,14 @@ void ARedDoor::OpenTimeLineUpdate(float value)
 	DoorItself->SetRelativeRotation(FRotator(0,Yaw,0));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::OpenTimelineFinished()
 {
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFXRedDoor);
 	FadeTimeLine.Play();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::LatchAnimTimeLineUpdate(float value)
 {
 	float lerpValue = FMath::Lerp(5, 50, value);
@@ -134,6 +149,7 @@ void ARedDoor::LatchAnimTimeLineUpdate(float value)
 	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARedDoor::FadeTimelineFinished()
 {
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
@@ -150,3 +166,4 @@ void ARedDoor::FadeTimelineFinished()
 	
 	player->Play();
 }
+#pragma endregion 

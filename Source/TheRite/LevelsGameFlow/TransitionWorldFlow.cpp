@@ -11,11 +11,19 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Interactuables/SpectralWrittings.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ATransitionWorldFlow::ATransitionWorldFlow()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ATransitionWorldFlow::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,6 +34,7 @@ void ATransitionWorldFlow::BeginPlay()
 	KeySpectralWrittings->OnInteractionTrigger.AddDynamic(this, &ATransitionWorldFlow::RedDoorOpen);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATransitionWorldFlow::RedDoorOpen(AInteractor* interactor)
 {
 	RedDoor->SetCanInteract(true);

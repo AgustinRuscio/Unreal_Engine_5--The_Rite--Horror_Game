@@ -25,13 +25,14 @@ class THERITE_API AMakeTiffanyWalk : public AActor
 
 public:
 	AMakeTiffanyWalk();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void KeyObtein(ATiffany* newTiff);
+	void KeyObtain(ATiffany* newTiff);
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 //---------------- TimeLine Methods
 	void BindTimeLines();
 	
@@ -49,6 +50,7 @@ private:
 	void SecondsTimelineFinished();
 
 	
+//---------------- Collision Methods
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

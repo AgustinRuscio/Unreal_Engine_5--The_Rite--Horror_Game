@@ -17,6 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMoveFinished);
 class ATiffany;
 class UBoxComponent;
 class ALightsTheRite;
+class AAlex;
 class ATargetPoint;
 
 UCLASS()
@@ -26,11 +27,12 @@ class THERITE_API AMoveTiffany : public AActor
 
 public:
 	AMoveTiffany();
-	virtual void BeginPlay() override;
 
-	void AsignTiffany(ATiffany* newTiff);
+	void AssignTiffany(ATiffany* newTiff);
 	
 private:
+	virtual void BeginPlay() override;
+	
 //---------------- Timelines Methods
 	UFUNCTION()
 	void FirstTurnOn();

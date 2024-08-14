@@ -26,14 +26,14 @@ class THERITE_API AFuseBox : public AInteractor
 public:	
 	AFuseBox();
 	
-//--------------------- System Class methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
 	void GrabFusible(FString FuseName, PickableItemsID FuseId);
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 //--------------------- TimeLine methods
 	UFUNCTION()
 	void LocateFusibleTick(float deltaSeconds);
@@ -46,11 +46,11 @@ public:
 	
 private:
 	bool bHastFusibleToPut;
-	bool bBothFusiblesSameTime;
+	bool bBothFusesSameTime;
 
 	UPROPERTY(EditAnywhere, Category="Settings")
-	int MaxFusiblesQuantity = 0;
-	int FusiblesQuantity = 0;
+	int MaxFusesQuantity = 0;
+	int FusesQuantity = 0;
 
 	TArray<FString> FusesNames;
 	TArray<PickableItemsID> FusesId;

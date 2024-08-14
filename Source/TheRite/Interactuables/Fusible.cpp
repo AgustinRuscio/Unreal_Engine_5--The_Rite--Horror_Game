@@ -7,12 +7,18 @@
 #include "FuseBox.h"
 #include "Kismet/GameplayStatics.h"
 
+
+//*****************************Public***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AFusible::AFusible()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	FusibleMesh= CreateDefaultSubobject<UStaticMeshComponent>("Fusible mesh");
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFusible::Interaction()
 {
 	if(!bCanInteract) return;

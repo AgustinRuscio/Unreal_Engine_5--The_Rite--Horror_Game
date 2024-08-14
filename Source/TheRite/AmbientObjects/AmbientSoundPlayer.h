@@ -19,18 +19,19 @@ public:
 	AAmbientSoundPlayer();
 	~AAmbientSoundPlayer();
 	
-	virtual void BeginPlay() override;
 	
 private:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void CreateAudio();
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Settings")
-	bool IsTwoDimentional;
+	bool bIs2D;
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	USoundBase* CueToSound;
 
-	UAudioComponent* AudioComponent;
+	UAudioComponent* AudioComp;
 };

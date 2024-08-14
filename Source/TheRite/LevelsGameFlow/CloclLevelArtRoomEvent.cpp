@@ -19,11 +19,19 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -31,6 +39,7 @@ void ACloclLevelArtRoomEvent::BeginPlay()
 	BindTimeLines();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -38,6 +47,7 @@ void ACloclLevelArtRoomEvent::Tick(float DeltaTime)
 	TimeLinesTick(DeltaTime);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* OtherActor)
 {
 	auto alex = Cast<AAlex>(OtherActor);
@@ -75,7 +85,8 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	FirstTurnOffTimeLine.PlayFromStart();
 }
 
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void ACloclLevelArtRoomEvent::BindTimeLines()
 {
 	StartTriggerBox->OnActorBeginOverlap.AddDynamic(this, &ACloclLevelArtRoomEvent::OnEventStarted);
@@ -153,6 +164,7 @@ void ACloclLevelArtRoomEvent::BindTimeLines()
 	LastTurnOnTimeLine.SetTimelineFinishedFunc(LasturnOnCallbackFinisehd);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::TimeLinesTick(float DeltaTime)
 {
 	FirstTurnOffTimeLine.TickTimeline(DeltaTime);
@@ -168,9 +180,10 @@ void ACloclLevelArtRoomEvent::TimeLinesTick(float DeltaTime)
 	LastTurnOnTimeLine.TickTimeline(DeltaTime);
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringFirstTurnOffTick(float deltaTime) { }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::FirstTurnOffFinished()
 {
 	StandTiffany->GetMesh()->SetVisibility(true, false);
@@ -181,9 +194,10 @@ void ACloclLevelArtRoomEvent::FirstTurnOffFinished()
 	FirstTurnOnTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringFirstTurnOnTick(float deltaTime) { }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::OnFirstTurnOnFinished()
 {
 	SpotLight->SpotLightComponent->SetIntensity(0);
@@ -197,6 +211,7 @@ void ACloclLevelArtRoomEvent::OnFirstTurnOnFinished()
 	SecondTurnOffTimeLine.PlayFromStart();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringSecondTurnOnTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnSecondTurnOnFinished()
@@ -207,9 +222,10 @@ void ACloclLevelArtRoomEvent::OnSecondTurnOnFinished()
 	ThirdTurnOffTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringThirdTurnOffTick(float deltaTime) { }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::OnThirdTurnOffFinished()
 {
 	SpotLight->SpotLightComponent->SetIntensity(0);
@@ -224,7 +240,7 @@ void ACloclLevelArtRoomEvent::OnThirdTurnOffFinished()
 	ThirdTurnOnTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringThirdTurnOnTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnThirdTurnOnFinished()
@@ -235,9 +251,10 @@ void ACloclLevelArtRoomEvent::OnThirdTurnOnFinished()
 	LastTurnOffTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringLastTurnOffTick(float deltaTime) { }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::OnLastTurnOffFinished()
 {
 	SpotLight->SpotLightComponent->SetIntensity(0);
@@ -252,7 +269,7 @@ void ACloclLevelArtRoomEvent::OnLastTurnOffFinished()
 	LastTurnOnTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringLastTurnOnTick(float deltaTime) { }
 
 void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
@@ -274,3 +291,4 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	
 	Destroy();
 }
+#pragma endregion

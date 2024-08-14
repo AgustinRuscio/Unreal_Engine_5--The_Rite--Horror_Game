@@ -22,16 +22,24 @@ class THERITE_API ALighter : public AInteractor
 
 public:	
 	ALighter();
-	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
 	virtual void Interaction() override;
 
+	virtual void Deactivate() override;
+	virtual void Activate() override;
+	
 private:
+	virtual void BeginPlay() override;
+	
 	void CreateWidgets();
 	void TurnTutorialOff();
 	
 private:
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bWillPlayerRun;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bWillShowReminder;
+	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* LighterBody;
 	

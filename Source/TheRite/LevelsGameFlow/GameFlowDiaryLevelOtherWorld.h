@@ -28,11 +28,10 @@ class THERITE_API AGameFlowDiaryLevelOtherWorld : public AActor
 	
 public:
 	AGameFlowDiaryLevelOtherWorld();
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 private:
+	virtual void BeginPlay() override;
+	
 //---------------- Initialize Methods
 	UFUNCTION()
 	void BindTriggers();
@@ -45,7 +44,7 @@ private:
 	UFUNCTION()
 	void DinningRoomObjectEventGrab(AInteractor* a);
 	
-//---------------- Bind Colliders Methods
+//---------------- Colliders Methods
 	UFUNCTION()
 	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	

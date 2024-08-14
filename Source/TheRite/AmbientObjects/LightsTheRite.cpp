@@ -6,6 +6,11 @@
 #include "LightsTheRite.h"
 #include "Components/SphereComponent.h"
 
+
+//*****************************Public******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ALightsTheRite::ALightsTheRite()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -25,42 +30,38 @@ ALightsTheRite::ALightsTheRite()
 	Sphere->SetupAttachment(NewRootComponent);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool ALightsTheRite::IsLightOn() const
 {
 	return PointLight->Intensity > 0;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 float ALightsTheRite::GetIntensity() const
 {
 	return PointLight->Intensity;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 HouseZone ALightsTheRite::GetLightZone() const
 {
 	return LightHouseZone;
 }
 
-void ALightsTheRite::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	if(bWillStartOff)
-		PointLight->SetIntensity(0);
-	
-	FirstPointIntensity = PointLight->Intensity;
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- Material Setter Methods
 void ALightsTheRite::SetAggressiveMaterial() const
 {
 	PointLight->SetLightFunctionMaterial(Material_Aggressive);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightsTheRite::SetNormalMaterial() const
 {
 	PointLight->SetLightFunctionMaterial(Material_Normal);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
 {
 	PointLight->SetIntensity(NewIntensity);
@@ -73,13 +74,30 @@ void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefa
 		DefaultLightIntensity = NewIntensity;
 }
 
-//---------------- State Changer Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region State Changer Methods
 void ALightsTheRite::TurnOff() const
 {
 	PointLight->SetIntensity(0.0f);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightsTheRite::TurnOn() const
 {
 	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
+}
+#pragma endregion
+
+//*****************************Private******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALightsTheRite::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if(bWillStartOff)
+		PointLight->SetIntensity(0);
+	
+	FirstPointIntensity = PointLight->Intensity;
 }

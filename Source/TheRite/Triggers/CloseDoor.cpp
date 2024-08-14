@@ -11,7 +11,10 @@
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 ACloseDoor::ACloseDoor()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -20,6 +23,10 @@ ACloseDoor::ACloseDoor()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ACloseDoor::OnOverlapBegin);
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 								int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

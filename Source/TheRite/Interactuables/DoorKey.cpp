@@ -8,6 +8,10 @@
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public**********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ADoorKey::ADoorKey()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -19,6 +23,7 @@ ADoorKey::ADoorKey()
 	PointLight->SetupAttachment(KeyMesh);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ADoorKey::Interaction()
 {
 	if(!bKeyReady) return;
@@ -30,7 +35,7 @@ void ADoorKey::Interaction()
 	OnKeyCollected.Broadcast();
 	OnInteractionTrigger.Broadcast(this);
 	
-	MyDoor->ObteinKey();
+	MyDoor->ObtainKey();
 	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());
 	
 	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
@@ -38,6 +43,7 @@ void ADoorKey::Interaction()
 	Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ADoorKey::SetDoor(ADoor* NewDoor)
 {
 	MyDoor = NewDoor;

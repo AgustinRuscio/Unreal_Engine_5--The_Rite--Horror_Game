@@ -4,7 +4,6 @@
 
 
 #include "Alex.h"
-
 #include "MathUtil.h"
 #include "Components/AudioComponent.h"
 #include "TheRite/AlexPlayerController.h"
@@ -24,6 +23,11 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 
+
+//*****************************Public********************************************
+//*******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAlex::AAlex()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -52,94 +56,50 @@ AAlex::AAlex()
 
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
 	
+	BodyLight->SetupAttachment(Camera);
 	Camera->SetupAttachment(GetMesh());
 	ScreamerSkeleton->SetupAttachment(Camera);
 }
 
-//---------------- Getter Methods
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region  Getter Methods
 bool AAlex::IsHoldInteractBTN() const
 {
 	return bHoldingInteractBTN;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool AAlex::CheckCanDrag() const
 {
 	return bIsDragging;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool AAlex::GetFocusingState() const
 {
 	return bFocusing;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 float AAlex::GetDoorFloat() const
 {
 	return DoorFloat;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 float AAlex::GetInteractionRange() const
 {
 	return RangeInteractuable;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 UCameraComponent* AAlex::GetCamera() const
 {
 	return Camera;
 }
+#pragma endregion 
 
-//---------------- System Class Methods
-void AAlex::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	CreateWidgets();
-	LighterLight->SetVisibility(false);
-
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	
-	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
-	
-	CreateWritingDetector();
-	
-	BindTimeLineMethods();
-	
-	if(bCanUseLigher && bShowLighterReminder)
-		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
-}
-
-void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	MyController = Cast<AAlexPlayerController>(Controller);
-
-	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
-	
-	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
-	MyController->OnCameraMovedDoor.AddDynamic(this, &AAlex::DoorMovement);
-	
-	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
-	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
-	
-	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
-	
-	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
-	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-	
-	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
-	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
-}
-
-void AAlex::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	TargetCameraTimeLine.TickTimeline(DeltaTime);
-	FocusCameraTimeLine.TickTimeline(DeltaTime);
-	
-	LighterSoundTimer(DeltaTime);
-	CheckLighterCooldDown(DeltaTime);
-	HeadBob();
-	InteractableCheck();
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- Action Methods
 void AAlex::CameraTargeting(FVector Target)
 {
@@ -147,6 +107,7 @@ void AAlex::CameraTargeting(FVector Target)
 	TargetCameraTimeLine.PlayFromStart();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceTalk(USoundBase* Voice)
 {
 	if(!bCanTalk)
@@ -156,7 +117,8 @@ void AAlex::ForceTalk(USoundBase* Voice)
 	MakeTalk();
 }
 
-void AAlex::CallPauseFunc()
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex:: CallPauseFunc()
 {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 
@@ -164,12 +126,15 @@ void AAlex::CallPauseFunc()
 	MyController->SetPauseGame(false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceEnableInput()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
     
 	MyController->EnableInput(PlayerController);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceDisableInput()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
@@ -177,12 +142,14 @@ void AAlex::ForceDisableInput()
 	MyController->DisableInput(PlayerController);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceTurnLighterOn()
 {
 	bLighter = true;
 	CheckLighterOn();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceLighterOff()
 {
 	SetLighterAssetsVisibility(false);
@@ -190,6 +157,7 @@ void AAlex::ForceLighterOff()
 	MontageAnimOnOff();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::OnJumpScare()
 {
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
@@ -198,7 +166,7 @@ void AAlex::OnJumpScare()
 	ScreamerSkeleton->SetVisibility(true);
 	ScreamerSkeleton->PlayAnimation(ScreamerAnim,false);
 	
-	if (!GetWorldTimerManager().IsTimerActive(ScreamerTimerHanlde))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_Screamer))
 	{
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
@@ -209,10 +177,11 @@ void AAlex::OnJumpScare()
 			MyController->EnableInput(Controller);
 		});
 		
-		GetWorldTimerManager().SetTimer(ScreamerTimerHanlde, timerDelegate, .7f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_Screamer, timerDelegate, .7f, false);
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
 	InventoryWidget->RemoveItem(itemName, id);
@@ -220,7 +189,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
 	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Visible);
 	
-	if (!GetWorldTimerManager().IsTimerActive(ConsumibleWidgetTimer))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_ConsumableWidget))
 	{
 		FTimerDelegate TimerDelegate;
 		TimerDelegate.BindLambda([&]
@@ -228,11 +197,13 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
 		});
 
-		GetWorldTimerManager().SetTimer(ConsumibleWidgetTimer, TimerDelegate, 2.f, false);
+		//GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, TimerDelegate, 2.f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, this, &AAlex::HideConsumableWidget, 2.f, false);
 	}
 }
 
-//---------------- Setter Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Setter Methods
 void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder)
 {
 	bCanRun = canRun;
@@ -240,11 +211,13 @@ void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterRe
 	bShowLighterReminder = showLighterReminder;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::SetCanUseLighterState(bool lighterState)
 {
 	bCanUseLigher = lighterState;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 {
 	if(!bInventoryFlip || bFocus || bFocusing || bOnEvent)
@@ -264,11 +237,13 @@ void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 	MyController->SetDoorMode(bIsDragging);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::SetCameraStun(bool stun)
 {
 	bStun = stun;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY= 0, float maxY= 0)
 {
 	auto camera = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
@@ -303,12 +278,15 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceHolding(bool newHolding)
 {
 	bHoldingInteractBTN = newHolding;
 }
+#pragma endregion 
 
-//----------------- View Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region  View Methods
 void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation)
 {
 	bFocus = false;
@@ -326,6 +304,7 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
 {
 	ForceLighterOff();
@@ -346,17 +325,81 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
 	DotWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void AAlex::MoveCamera(FVector NewCameraPos)
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::MoveCamera(FVector NewCameraPos) const
 {
 	Camera->SetWorldLocation(NewCameraPos);
 }
 
-void AAlex::MakeCameraView(FRotator Rotta)
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::MakeCameraView(FRotator Rotta) const
 {
 	MyController->SetControlRotation(Rotta);
 }
+#pragma endregion 
 
-//---------------- Checker Methods
+//*****************************Private******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region System Class Methods
+void AAlex::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	CreateWidgets();
+	LighterLight->SetVisibility(false);
+
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	
+	OnLighterAnimMontage.AddDynamic(this, &AAlex::MontageAnimOnOff);
+	
+	CreateWritingDetector();
+	
+	BindTimeLineMethods();
+	
+	if(bCanUseLigher && bShowLighterReminder)
+		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	MyController = Cast<AAlexPlayerController>(Controller);
+
+	MyController->OnPlayerMovement.AddDynamic(this, &AAlex::MovePlayer);
+	
+	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+	MyController->OnCameraMovedDoor.AddDynamic(this, &AAlex::DoorMovement);
+	
+	MyController->OnStartSprint.AddDynamic(this, &AAlex::StartSprint);
+	MyController->OnStopSprint.AddDynamic(this, &AAlex::StopSprint);
+	
+	MyController->OnLighter.AddDynamic(this, &AAlex::TurnLigherIfPossible);
+	
+	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
+	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
+	
+	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
+	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	TargetCameraTimeLine.TickTimeline(DeltaTime);
+	FocusCameraTimeLine.TickTimeline(DeltaTime);
+	
+	LighterSoundTimer(DeltaTime);
+	CheckLighterCooldDown(DeltaTime);
+	HeadBob();
+	InteractableCheck();
+}
+#pragma endregion
+
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region Checker Methods
 bool AAlex::IsDoorCheck(IIInteractuable* checked)
 {
 	ADoor* currentCheck = Cast<ADoor>(checked);
@@ -399,6 +442,7 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CheckHolding(bool IsHolding)
 {
 	if(bFocusing  || bFocus) return;
@@ -406,6 +450,7 @@ void AAlex::CheckHolding(bool IsHolding)
 	bHoldingInteractBTN = IsHolding;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::InteractableCheck()
 {
 	if(!bCanTalk)
@@ -461,11 +506,11 @@ void AAlex::InteractableCheck()
 				bCanInteract = true;
 				DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
 			}
-			
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CheckLighterCooldDown(float deltaTime)
 {
 	if(bLighterOnCD)
@@ -499,8 +544,10 @@ void AAlex::CheckLighterCooldDown(float deltaTime)
 			LighterTimer = LighterTimer <= 0 ? 0 : LighterTimer - deltaTime;
 	}
 }
+#pragma endregion 
 
-//---------------- Initialization Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region  Initialization Methods
 void AAlex::CreateWritingDetector()
 {
 	WrittingsDetector = CastChecked<AWrittingsDetector>(GetWorld()->SpawnActor(DetectorSubclass));
@@ -508,7 +555,7 @@ void AAlex::CreateWritingDetector()
 	WrittingsDetector->SetComponentSettings(LighterLight->SourceRadius, LighterLight->GetRelativeTransform());
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateWidgets()
 {
 	CreatePauseWidget();
@@ -533,6 +580,7 @@ void AAlex::CreateWidgets()
 	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreatePauseWidget()
 {
 	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
@@ -541,6 +589,7 @@ void AAlex::CreatePauseWidget()
 	PauseWidget->SetIsFocusable(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateDotWidget()
 {
 	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
@@ -548,6 +597,7 @@ void AAlex::CreateDotWidget()
 	DotWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateFocusWidget()
 {
 	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
@@ -555,6 +605,7 @@ void AAlex::CreateFocusWidget()
 	AltarWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateInventoryWidget()
 {
 	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
@@ -563,6 +614,7 @@ void AAlex::CreateInventoryWidget()
 	InventoryWidget->SetIsFocusable(false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateOpenInventoryWidget()
 {
 	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
@@ -571,6 +623,7 @@ void AAlex::CreateOpenInventoryWidget()
 	OpenInventoryWidget->SetIsFocusable(false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateLighterReminderWidget()
 {
 	LighterReminderWidget = CreateWidget<UTutorialWidget>(GetWorld(), LighterRecordatoryMenu);
@@ -579,6 +632,7 @@ void AAlex::CreateLighterReminderWidget()
 	LighterReminderWidget->SetIsFocusable(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateConsumableWidget()
 {
 	ConsumibleItemWidget = CreateWidget<UChangingdWidget>(GetWorld(), ConsumibleItemMenu);
@@ -586,9 +640,11 @@ void AAlex::CreateConsumableWidget()
 	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
 	ConsumibleItemWidget->SetIsFocusable(true);
 }
+#pragma endregion 
 
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- Tick Methods
-void AAlex::HeadBob()
+void AAlex::HeadBob() const
 {
 	if(bFocus || bFocusing) return;
 	
@@ -608,16 +664,15 @@ void AAlex::HeadBob()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CheckLighterOn()
 {
 	if(!bLighter)
 	{
 		if(!bLighterOnCD)
 		{
-			
 			UGameplayStatics::SpawnSound2D(this, LighterOn);
 			bLighter = true;
-
 			
 			SetLighterAssetsVisibility(true);
 			
@@ -631,7 +686,6 @@ void AAlex::CheckLighterOn()
 			bCanSound = false;
 			bLighter = false;
 			
-			
 			SetLighterAssetsVisibility(false);
 			
 			OnLighterAnimMontage.Broadcast();
@@ -644,10 +698,11 @@ void AAlex::CheckLighterOn()
 		SetLighterAssetsVisibility(false);
 		
 		OnLighterAnimMontage.Broadcast();
-	}	
+	}
 }
 
-//---------------- Input Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region  Input Methods
 void AAlex::MovePlayer(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
@@ -667,6 +722,7 @@ void AAlex::MovePlayer(FVector2D vector)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::MoveCamera(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
@@ -681,6 +737,7 @@ void AAlex::MoveCamera(FVector2D vector)
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::Interaction()
 {
 	if(!bCanTalk || !bCanInteract || bFocus || bFocusing) return;
@@ -696,18 +753,21 @@ void AAlex::Interaction()
 
 		OpenInventoryWidget->SetVisibility(ESlateVisibility::Visible);
 		
-		if (!GetWorldTimerManager().IsTimerActive(OpeninventorywidgetTimerHandle))
+		if (!GetWorldTimerManager().IsTimerActive(TimerHandle_OpenInventoryWidget))
 		{
 			FTimerDelegate TimerDelegate;
 			TimerDelegate.BindLambda([&]
 			{
 				OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 			});
-			GetWorldTimerManager().SetTimer(OpeninventorywidgetTimerHandle, TimerDelegate, 1.5f, false);
+			
+			//GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, TimerDelegate, 1.5f, false);
+			GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, this, &AAlex::HideOpenInventoryWidget, 1.5f, false);
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::StartSprint()
 {
 	if(!bCanRun || bFocusing || bFocus) return;
@@ -715,6 +775,7 @@ void AAlex::StartSprint()
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::StopSprint()
 {
 	if(!bCanRun || bFocusing || bFocus) return;
@@ -722,14 +783,15 @@ void AAlex::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::TurnLigherIfPossible()
 {
 	if(!bCanUseLigher || bFocusing || bFocus)
 	{
-		if(!bCanSound) return;
-			
-		UGameplayStatics::SpawnSound2D(this, LighterCDSound);
-		bCanSound = false;
+		//if(!bCanSound) return;
+		//	
+		//UGameplayStatics::SpawnSound2D(this, LighterCDSound);
+		//bCanSound = false;
 		
 		return;
 	}
@@ -737,6 +799,7 @@ void AAlex::TurnLigherIfPossible()
 	CheckLighterOn();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::DoorMovement(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
@@ -744,10 +807,10 @@ void AAlex::DoorMovement(FVector2D vector)
 	DoorFloat = vector.X * MyController->GetMouseSensitivity();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::OpenPause()
 {
 	if(bFocusing || bFocus) return;
-	
 	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
@@ -755,6 +818,7 @@ void AAlex::OpenPause()
 	PauseWidget->OnPauseOpen.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::OpenInventory()
 {
 	if(!bPauseFlip || bFocusing || bFocus) return;
@@ -774,9 +838,10 @@ void AAlex::OpenInventory()
 	
 	MyController->SetUIOnly(!bInventoryFlip);
 }
+#pragma endregion 
 
-//---------------- Lighter Methods
-
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region Lighter Methods
 void AAlex::MontageAnimOnOff()
 {
 	if(bFocusing || bFocus) return;
@@ -795,6 +860,7 @@ void AAlex::MontageAnimOnOff()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::LighterSoundTimer(float deltaTime)
 {
 	AudioTimer = AudioTimer+deltaTime;
@@ -806,6 +872,7 @@ void AAlex::LighterSoundTimer(float deltaTime)
 	AudioTimer = 0;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 {
 	LighterLight->SetVisibility(visibilityState);
@@ -814,11 +881,12 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 	WrittingsDetector->SetInteractionStatus(visibilityState);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ShowLighterReminder()
 {
 	LighterReminderWidget->SetVisibility(ESlateVisibility::Visible);
 
-	if (!GetWorldTimerManager().IsTimerActive(LighterReminderTimer))
+	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_LighterReminder))
 	{
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
@@ -826,16 +894,21 @@ void AAlex::ShowLighterReminder()
 			LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
 			TimerComponentForLighterDisplay->ActionFinished();
 		});
-		GetWorldTimerManager().SetTimer(LighterReminderTimer, timerDelegate, 4.f, false);
+		
+		//GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, timerDelegate, 4.f, false);
+		GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, this, &AAlex::HideLighterReminder, 4.f, false);
 	}
 }
 
-void AAlex::HideLighterReminder()
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::HideLighterReminder() const
 {
 	LighterReminderWidget->SetVisibility(ESlateVisibility::Hidden);
 	TimerComponentForLighterDisplay->ActionFinished();
 }
+#pragma endregion 
 
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- Audio Methods
 void AAlex::MakeTalk()
 {
@@ -845,22 +918,38 @@ void AAlex::MakeTalk()
 	TempAudio->OnAudioFinished.AddDynamic(this, &AAlex::OnAudioFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::OnAudioFinished()
 {
 	bCanTalk = true;
 	TempAudio = nullptr;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::StopTalking()
 {
 	if(TempAudio!=nullptr)
 		TempAudio->Stop();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine
+void AAlex::HideOpenInventoryWidget() const
+{
+	OpenInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::HideConsumableWidget() const
+{
+	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- TimeLine
 void AAlex::BindTimeLineMethods()
 {
-	//--- Targetting
+	//--- Targeting
 	FOnTimelineFloat CameraTargetTick;
 	CameraTargetTick.BindUFunction(this, FName("CameraTargetTick"));
 	TargetCameraTimeLine.AddInterpFloat(EmptyCurve, CameraTargetTick);
@@ -879,6 +968,7 @@ void AAlex::BindTimeLineMethods()
 	FocusCameraTimeLine.SetTimelineFinishedFunc(CameraFocusingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CameraTargetTick(float time)
 {
 	FRotator targetParam =  UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CameraLookTarget);
@@ -888,11 +978,13 @@ void AAlex::CameraTargetTick(float time)
 	MyController->SetControlRotation(NewRotator);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CameraTargetFinished()
 {
 	CameraLookTarget = FVector::Zero();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CameraFocusTick(float time)
 {
 	auto ewTransform = FMath::Lerp(GetMesh()->GetSocketLocation("head"), FocusCamTransform.GetLocation(), time);
@@ -910,6 +1002,7 @@ void AAlex::CameraFocusTick(float time)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::CameraFocusFinished()
 {
 	bFocusing = false;
@@ -920,3 +1013,4 @@ void AAlex::CameraFocusFinished()
 	Camera->bUsePawnControlRotation = true;
 	MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
 }
+#pragma endregion 

@@ -6,18 +6,31 @@
 #include "FloatingActorComponent.h"
 #include "GameFramework/Actor.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 UFloatingActorComponent::UFloatingActorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UFloatingActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+//----------------------------------------------------------------------------------------------------------------------
+void UFloatingActorComponent::ActivateComponent()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	MovingTimeLine.TickTimeline(DeltaTime);
+	MovingTimeLine.PlayFromStart();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void UFloatingActorComponent::StopComponent()
+{
+	MovingTimeLine.Stop();
+}
+
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void UFloatingActorComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,18 +46,16 @@ void UFloatingActorComponent::BeginPlay()
 		MovingTimeLine.PlayFromStart();
 }
 
-//---------------- State Methods
-void UFloatingActorComponent::ActivateComponent()
+//----------------------------------------------------------------------------------------------------------------------
+void UFloatingActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	MovingTimeLine.PlayFromStart();
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	MovingTimeLine.TickTimeline(DeltaTime);
 }
 
-void UFloatingActorComponent::StopComponent()
-{
-	MovingTimeLine.Stop();
-}
-
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region TimeLine Methods
 void UFloatingActorComponent::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -56,6 +67,7 @@ void UFloatingActorComponent::BindTimeLine()
 	MovingTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFloatingActorComponent::OnMovementTick(float deltaTime)
 {
 	auto lerpingValue = FMath::Lerp(StartLocation, EndLocation, deltaTime);
@@ -63,13 +75,13 @@ void UFloatingActorComponent::OnMovementTick(float deltaTime)
 	MyOwnerActor->SetActorLocation(lerpingValue);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFloatingActorComponent::OnMovementFinished()
 {
 	if(bLoop)
 	{
 		if(bFlipFlop)
 		{
-
 			if(bWillWait)
 			{
 				if (!MyOwnerActor->GetWorldTimerManager().IsTimerActive(WaitingHandler))
@@ -114,3 +126,4 @@ void UFloatingActorComponent::OnMovementFinished()
 		}
 	}
 }
+#pragma endregion 

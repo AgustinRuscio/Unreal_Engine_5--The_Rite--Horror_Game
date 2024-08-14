@@ -18,9 +18,11 @@ class THERITE_API AProsProcessModifier : public AActor
 
 public:	
 	AProsProcessModifier();
-	virtual void BeginPlay() override;
 
 	void ModifyPostProcessValues(FName& parameterName, float value);
+	
+private:
+	virtual void BeginPlay() override;
 	
 private:	
 	UPROPERTY(EditAnywhere, Category = "Post process event")

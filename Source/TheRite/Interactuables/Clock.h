@@ -21,11 +21,10 @@ public:
 	AClock();
 	~AClock();
 	
+	FName GetObjectData() const;
+	
 	virtual void Interaction() override;
 
-public:
-	FName GetObjectData();
-	
 private:
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FName NextLevelName;

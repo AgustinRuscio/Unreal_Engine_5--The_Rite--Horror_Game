@@ -7,6 +7,10 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ALightSwitch::ALightSwitch()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -17,20 +21,7 @@ ALightSwitch::ALightSwitch()
 	SwitchModel->SetupAttachment(WallBlockModel);
 }
 
-//---------------- System Class Methods
-void ALightSwitch::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	BindTimeLine();
-}
-
-void ALightSwitch::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	SwitchTimeLine.TickTimeline(DeltaTime);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ALightSwitch::Interaction()
 {
 	if(!bAnimReady || !bCanInteract) return;
@@ -78,6 +69,7 @@ void ALightSwitch::Interaction()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightSwitch::SetSpecialReady()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -88,7 +80,26 @@ void ALightSwitch::SetSpecialReady()
 	bOneUse = true;
 }
 
-//---------------- TimeLine Methods
+//*****************************Private***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALightSwitch::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	BindTimeLine();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALightSwitch::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	SwitchTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void ALightSwitch::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -100,6 +111,7 @@ void ALightSwitch::BindTimeLine()
 	SwitchTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightSwitch::SwitchTimeLineTick(float time)
 {
 	float lerpValue;
@@ -112,12 +124,15 @@ void ALightSwitch::SwitchTimeLineTick(float time)
 	SwitchModel->SetRelativeRotation(FRotator(0, 0, lerpValue));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALightSwitch::SwitchTimeLineFinished()
 {
 	bAnimReady = true;
 	
 	if(!bOneUse) return;
+	
 	bOneUseReady = true;
 	bCanInteract = false;
 	OnInteractionTrigger.Broadcast(this);
 }
+#pragma endregion

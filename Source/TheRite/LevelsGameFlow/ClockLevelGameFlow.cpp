@@ -11,6 +11,7 @@
 #include "TheRite/Interactuables/MinutesLetter.h"
 #include "TheRite/Interactuables/BigClock.h"
 #include "TheRite/Interactuables/HourLetter.h"
+#include "Engine/SpotLight.h"
 #include "TheRite/Interactuables/DoorKey.h"
 #include "MoveTiffany.h"
 #include "TheRite/Interactuables/RecordPlayer.h"
@@ -27,16 +28,23 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Containers/Map.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/Interactuables/Letter.h"
+#include "TheRite/AmbientObjects/Candle.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 AClockLevelGameFlow::AClockLevelGameFlow()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
-//---------------- System Class Methods
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::BeginPlay()
 {
 	Super::BeginPlay();
@@ -44,16 +52,23 @@ void AClockLevelGameFlow::BeginPlay()
 	Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	//Player->SetPlayerOptions(false, true);
 
+	Light_Clock->GetLightComponent()->SetIntensity(0.f);
+	
 	for (auto Element : Walls_EndGameWall)
 	{
 		Element->GetStaticMeshComponent()->SetVisibility(false);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
 
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Disappear();
+	}
+
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(false);
 	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
-	SettutorialUI();
+	//SetTutorialUI();
 	
 	BindTimeLineMethods();
 	
@@ -63,6 +78,7 @@ void AClockLevelGameFlow::BeginPlay()
 	BindEvents();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -73,7 +89,14 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 	MakeBreath(DeltaTime);
 }
 
-//---------------- Initialize Methods
+//----------------------------------------------------------------------------------------------------------------------
+void AClockLevelGameFlow::HideTutorialWidget()
+{
+	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Initialize Methods
 void AClockLevelGameFlow::SetAudioSettings()
 {
 	AmbientMusicCompoenent = UGameplayStatics::SpawnSound2D(GetWorld(), AmbientMusic);
@@ -85,20 +108,21 @@ void AClockLevelGameFlow::SetAudioSettings()
 	VoicesSoundOriginalVolumen = VoicesSound->GetVolumeMultiplier();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::BindPuzzleEvents()
 {
 	MinutesLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetMinutes);
 	HoursLetter->OnAction.AddDynamic(this, &AClockLevelGameFlow::GetHours);
-
 	
 	ArtRoomEvent->OnArtRoomEventStarted.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundIncrease);
-	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOrigialVolumen);
+	ArtRoomEvent->OnArtRoomEventFinished.AddDynamic(this, &AClockLevelGameFlow::VoicesSoundSetOriginalVolume);
 
 	LibraryTriggerVolumenFirst->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin);
 	LibraryTriggerVolumenJumpScared->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscare);
 	LibraryTriggerVolumenJumpScaredReady->OnActorBeginOverlap.AddDynamic(this, &AClockLevelGameFlow::OnOverlapBeginJumpscareReady);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::BindEvents()
 {
 	LibraryKey->OnKeyCollected.AddDynamic(this, &AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected);
@@ -117,7 +141,8 @@ void AClockLevelGameFlow::BindEvents()
 	BigClock->OnClockPuzzleCompleted.AddDynamic(this, &AClockLevelGameFlow::EndGame);
 }
 
-void AClockLevelGameFlow::SettutorialUI()
+//----------------------------------------------------------------------------------------------------------------------
+void AClockLevelGameFlow::SetTutorialUI()
 {
 	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
 	TutorialWidget->AddToViewport();
@@ -137,12 +162,14 @@ void AClockLevelGameFlow::SettutorialUI()
 		{
 			TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 		});
-			
-		GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 6.f, false);
+		
+		//GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 6.f, false);
+		GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &AClockLevelGameFlow::HideTutorialWidget, 4.f, false);
 	}
 }
+#pragma endregion
 
-//---------------- Tick Methods
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::MakeTiffanyTalk(float time)
 {
 	if(TiffanyTalkTimer > TiffanyTalkCD)
@@ -155,6 +182,7 @@ void AClockLevelGameFlow::MakeTiffanyTalk(float time)
 		TiffanyTalkTimer += time;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::MakeBreath(float time)
 {
 	if(BreathTimer > BreathCD)
@@ -167,7 +195,8 @@ void AClockLevelGameFlow::MakeBreath(float time)
 		BreathTimer += time;
 }
 
-//---------------- Letters Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Letters Methods
 void AClockLevelGameFlow::GetMinutes()
 {
 	MinutesCollected();
@@ -177,6 +206,7 @@ void AClockLevelGameFlow::GetMinutes()
 	CheckLetters();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::GetHours()
 {
 	bHours = true;
@@ -184,6 +214,7 @@ void AClockLevelGameFlow::GetHours()
 	CheckLetters();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::CheckLetters()
 {
 	if(!bHours || !bMinutes) return;
@@ -193,10 +224,17 @@ void AClockLevelGameFlow::CheckLetters()
 		Element->GetStaticMeshComponent()->SetVisibility(true);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndProbe);
 	}
+
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Appear();
+		Element->TurnOn();
+	}
 	
 	BigClock->SetReadyToUse();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::MinutesCollected()
 {
 	LibraryDoor->SetLockedState(true);
@@ -206,13 +244,14 @@ void AClockLevelGameFlow::MinutesCollected()
 	RecordPlayer->PlaySong();
 	RecordPlayer->OnSongPaused.AddDynamic(this, &AClockLevelGameFlow::OnSoundPaused);
 
-	PlaceBlockingVolumen(BlockingVolumenLibraryPosition->GetActorLocation(), FRotator::ZeroRotator);
+	PlaceBlockingVolume(BlockingVolumenLibraryPosition->GetActorLocation(), FRotator::ZeroRotator);
 
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightSwitch);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyHeavyBreath);
 	UGameplayStatics::SpawnSound2D(GetWorld(), TiffanyTalkCue);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::LockDoorsEndGame()
 {
 	LibraryDoor->SetLockedState(true);
@@ -231,6 +270,7 @@ void AClockLevelGameFlow::LockDoorsEndGame()
 	Trigger_LockEndGameDoors->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::EndGame()
 {
 	for (auto Element : Lights)
@@ -238,7 +278,9 @@ void AClockLevelGameFlow::EndGame()
 		Element->TurnOff();
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
 	}
-
+	
+	Light_Clock->GetLightComponent()->SetIntensity(4.f);
+	
 	for (auto Element : ActorTobeDestroyOnEndgame)
 	{
 		Element->Destroy();
@@ -251,25 +293,31 @@ void AClockLevelGameFlow::EndGame()
 	
 	Player->SetPlayerOptions(true, false, false);
 }
+#pragma endregion
 
-//---------------- Audio Methods
-void AClockLevelGameFlow::VoicesSoundSetOrigialVolumen()
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Audio Methods
+void AClockLevelGameFlow::VoicesSoundSetOriginalVolume()
 {
 	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundOriginalVolumen);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::VoicesSoundIncrease()
 {
 	VoicesSoundMusicCompoenent->SetVolumeMultiplier(VoicesSoundMusicCompoenent->VolumeMultiplier * 20);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnSoundPaused()
 {
 	HitCounterLibrary = 1;
 }
+#pragma endregion 
 
-//---------------- Blocking volumen Methods
-void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Blocking volume Methods
+void AClockLevelGameFlow::PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
 {
 	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
 
@@ -277,13 +325,16 @@ void AClockLevelGameFlow::PlaceBlockingVolumen(FVector NewLocation, FRotator New
 		BlockingVolume->SetActorRotation(NewRotation);
 }
 
-void AClockLevelGameFlow::ResetBlockingVolumenPosition()
+//----------------------------------------------------------------------------------------------------------------------
+void AClockLevelGameFlow::ResetBlockingVolumePosition()
 {
 	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation->GetActorLocation(),false,
 		nullptr, ETeleportType::TeleportPhysics);
 }
+#pragma endregion 
 
-//---------------- Spawn Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Spawn Methods
 void AClockLevelGameFlow::SpawnPlanksOnDoor()
 {
 	for (auto Element : PlanksToBeSpawnOnTiffanyWalk)
@@ -292,6 +343,7 @@ void AClockLevelGameFlow::SpawnPlanksOnDoor()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
 {
 	FVector const& position = HallKeyEventTiffanySpawnPoint->GetActorLocation();
@@ -299,28 +351,33 @@ void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
 	
 	ATiffany* tiff = GetWorld()->SpawnActor<ATiffany>(TiffanyClassForSpawning, position, rotation);
 
-	HallKeyEventMoveTiffanyTrigger->AsignTiffany(tiff);
+	HallKeyEventMoveTiffanyTrigger->AssignTiffany(tiff);
 }
+#pragma endregion
 
-//---------------- Interaction Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Interaction Methods
 void AClockLevelGameFlow::OnLibraryKeyCollected()
 {
-	PlaceBlockingVolumen(BlockingVolumeLibraryEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
+	PlaceBlockingVolume(BlockingVolumeLibraryEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnWalkFinished()
 {
-	ResetBlockingVolumenPosition();
+	ResetBlockingVolumePosition();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnInteractionWithLockedDoor(AInteractor* Interactor)
 {
 	Player->ForceTalk(SFX_BigDoor);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnJumpscareFinished()
 {
-	ResetBlockingVolumenPosition();
+	ResetBlockingVolumePosition();
 	
 	UGameplayStatics::PlaySound2D(GetWorld(), SFX_TiffanyLaugh);
 	
@@ -335,8 +392,10 @@ void AClockLevelGameFlow::OnJumpscareFinished()
 	
 	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 }
+#pragma endregion
 
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void AClockLevelGameFlow::BindTimeLineMethods()
 {
 	FOnTimelineFloat SecondJumpscareTimelineCallback;
@@ -348,12 +407,13 @@ void AClockLevelGameFlow::BindTimeLineMethods()
 	JumpscareSecondTimeLine.SetTimelineFinishedFunc(SecondJumpscareTimeLineCallbackFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 {
 	LibraryTriggerVolumenFirst->Destroy();
 	LibraryTriggerVolumenJumpScared->Destroy();
 
-	ResetBlockingVolumenPosition();
+	ResetBlockingVolumePosition();
 
 	for (auto Element : LibraryLightsEvent)
 	{
@@ -362,8 +422,10 @@ void AClockLevelGameFlow::OnSecondJumpscareTimelineFinished()
 	
 	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 }
+#pragma endregion
 
-//---------------- Bind Colliders Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Colliders Methods
 void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -396,6 +458,7 @@ void AClockLevelGameFlow::OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedAc
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bLibraryJumpScaredReady || DoOnceJumpscare > 0) return;
@@ -413,7 +476,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	LibraryRoofLight->TurnOff();
 
 	RecordPlayer->PauseSong();
-
 	
 	if(!GetWorldTimerManager().IsTimerActive(JumpscareHandleSecond))
 	{
@@ -436,7 +498,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 					{
 						Element->TurnOn();
 					}
-			
 						LibraryRoofLight->TurnOn();
 						Player->ForceTalk(AudioIShouldGetOutOfHere);
 						Player->SetPlayerOptions(false, true, true);
@@ -450,9 +511,9 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 		
 		GetWorldTimerManager().SetTimer(JumpscareHandleSecond,timerDelegate, 1.f, false);
 	}
-	
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !IShouldGetOutOfHere || DoOnceJumpscareReady > 0) return;
@@ -464,7 +525,6 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, 
 		Element->TurnOff();
 	}
 	
-	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyScream);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Heartbeat);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
@@ -474,6 +534,7 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscareReady(AActor* OverlappedActor, 
 	Player->OnJumpScare();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bMinutes || !bHours) return;
@@ -481,6 +542,7 @@ void AClockLevelGameFlow::OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor
 	LockDoorsEndGame();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor))return;
@@ -489,6 +551,7 @@ void AClockLevelGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* O
 	KnockTrigger->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -501,6 +564,7 @@ void AClockLevelGameFlow::OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor,
 	CloseGaregeDoorTriggerVolumen->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
@@ -514,3 +578,4 @@ void AClockLevelGameFlow::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, A
 
 	TriggerVolume_EndGamePass->Destroy();
 }
+#pragma endregion

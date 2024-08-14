@@ -7,6 +7,10 @@
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AClock::AClock()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -22,12 +26,19 @@ AClock::AClock()
 	Light->SetupAttachment(BaseMesh);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 AClock::~AClock()
 {
 	OnInteractionTrigger.Clear();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+FName AClock::GetObjectData() const
+{
+	return NextLevelName;
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 void AClock::Interaction()
 {
 	Super::Interaction();
@@ -35,9 +46,4 @@ void AClock::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	Destroy();
-}
-
-FName AClock::GetObjectData()
-{
-	return NextLevelName;
 }

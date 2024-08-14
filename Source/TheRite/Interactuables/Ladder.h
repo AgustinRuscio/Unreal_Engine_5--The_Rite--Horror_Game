@@ -24,22 +24,30 @@ class THERITE_API ALadder : public AInteractor
 	
 public:	
 	ALadder();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
+	
+//---------------- Interactions
 	virtual void Interaction() override;
 
 	void FirstInteraction();
 	void NormalInteraction();
 	
+//---------------- Activation
 	void EnableLadder();
 	void DisableLadder();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 	UFUNCTION()
 	void OnCinematicFinished();
-
+	
+//---------------- TimeLine
+	void BindTimeLineMethods();
+	
 	UFUNCTION()
 	void OnReLocationPlayerTimeLineTick(float delta);
+	
 	UFUNCTION()
 	void OnReLocationPlayerTimeLineFinished();
 	

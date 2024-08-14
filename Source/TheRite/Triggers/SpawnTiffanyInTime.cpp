@@ -8,6 +8,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ASpawnTiffanyInTime::ASpawnTiffanyInTime()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -17,6 +21,18 @@ ASpawnTiffanyInTime::ASpawnTiffanyInTime()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ASpawnTiffanyInTime::OnOverlapBegin);
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+bool ASpawnTiffanyInTime::SetTimer(float DeltaTime)
+{
+	Timer += DeltaTime;
+
+	return Timer > TimerCD;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ASpawnTiffanyInTime::Tick(float DeltaTime)
 {
 	if(!bAlexInsede) return;
@@ -27,14 +43,8 @@ void ASpawnTiffanyInTime::Tick(float DeltaTime)
 	UGameplayStatics::SpawnSound2D(this, TiffanyTalk);
 }
 
-bool ASpawnTiffanyInTime::SetTimer(float DeltaTime)
-{
-	Timer += DeltaTime;
-
-	return Timer > TimerCD;
-}
-
-//---------------- Bind Colliders Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Colliders Methods
 void ASpawnTiffanyInTime::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -52,3 +62,4 @@ void ASpawnTiffanyInTime::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
 	bAlexInsede = false;
 	Timer = 0;
 }
+#pragma endregion

@@ -20,19 +20,18 @@ class THERITE_API UFadeObjectComponent : public UActorComponent
 
 public:	
 	UFadeObjectComponent();
-	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 //---------------- Action Methods
-	void SetMaterialAlpha(float alpha);
+	void SetMaterialAlpha(float alpha) const;
 	void ActivateFade();
 	void DeActivateFade();
 
 	void PermanentActivation();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
 	void ObtainOwnerMaterial();
 	
 //---------------- TimeLine Methods
@@ -40,6 +39,7 @@ private:
 	
 	UFUNCTION()
 	void FadeTick(float deltaSeconds);
+	
 	UFUNCTION()
 	void FadeFinished();
 

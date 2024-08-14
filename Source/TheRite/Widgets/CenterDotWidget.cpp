@@ -6,6 +6,10 @@
 #include "CenterDotWidget.h"
 #include "Components/Image.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void UCenterDotWidget::Interact(bool InteractionDisable, bool LockedDoor, bool PlayerTalking, bool IsMainItem)
 {
 	if(LockedDoor)
@@ -29,6 +33,11 @@ void UCenterDotWidget::Interact(bool InteractionDisable, bool LockedDoor, bool P
 	}
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Setter Methods
 void UCenterDotWidget::SetLockedDoorImage()
 {
 	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
@@ -38,6 +47,7 @@ void UCenterDotWidget::SetLockedDoorImage()
 	LockedDoorTexture->SetVisibility(ESlateVisibility::Visible);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UCenterDotWidget::SetCantInteractTexture()
 {
 	NoneInteractionTexture->SetVisibility(ESlateVisibility::Visible);
@@ -47,6 +57,7 @@ void UCenterDotWidget::SetCantInteractTexture()
 	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UCenterDotWidget::SetNoneInteractionTexture()
 {
 	NoneInteractionTexture->SetVisibility(ESlateVisibility::Visible);
@@ -56,6 +67,7 @@ void UCenterDotWidget::SetNoneInteractionTexture()
 	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UCenterDotWidget::SetMainInteractionTexture()
 {
 	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
@@ -65,6 +77,7 @@ void UCenterDotWidget::SetMainInteractionTexture()
 	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UCenterDotWidget::SetInteractionTexture()
 {
 	NoneInteractionTexture->SetVisibility(ESlateVisibility::Hidden);
@@ -73,3 +86,4 @@ void UCenterDotWidget::SetInteractionTexture()
 	CantInteractTexture->SetVisibility(ESlateVisibility::Hidden);
 	LockedDoorTexture->SetVisibility(ESlateVisibility::Hidden);
 }
+#pragma endregion

@@ -9,6 +9,10 @@
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ACandle::ACandle()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -22,20 +26,15 @@ ACandle::ACandle()
 	SmokeParticles->SetupAttachment(Mesh);
 }
 
-void ACandle::BeginPlay()
-{
-	Super::BeginPlay();
-
-	bStartsTurnedOn ? TurnOn() : TurnOff();
-}
-
-void ACandle::TurnOn()
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::TurnOn() const
 {
 	PointLight->SetVisibility(true);
 	Plane->SetVisibility(true);
 }
 
-void ACandle::TurnOff()
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::TurnOff() const
 {
 	SmokeParticles->Activate();
 	PointLight->SetVisibility(false);
@@ -43,4 +42,31 @@ void ACandle::TurnOff()
 
 	if(bWillSound)
 		UGameplayStatics::PlaySoundAtLocation(this, BlowCandleSound, GetActorLocation(), GetActorRotation());
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::Appear() const
+{
+	Mesh->SetVisibility(true);
+	Plane->SetVisibility(true);
+	PointLight->SetVisibility(true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::Disappear() const
+{
+	Mesh->SetVisibility(false);
+	Plane->SetVisibility(false);
+	PointLight->SetVisibility(false);
+}
+
+//*****************************Private******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::BeginPlay()
+{
+	Super::BeginPlay();
+
+	bStartsTurnedOn ? TurnOn() : TurnOff();
 }

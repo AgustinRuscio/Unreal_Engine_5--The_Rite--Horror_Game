@@ -28,18 +28,17 @@ class THERITE_API ASpectralObstacle : public AInteractor
 public:
 	ASpectralObstacle();
 	
-	//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
-	
-	//---------------- Destroy Methods
+//---------------- Destroy Methods
 	UFUNCTION()
-	void DestryoObject(UNiagaraComponent* comp);
+	void DestroyObject(UNiagaraComponent* comp);
 	void ObstacleDestroy();
 
 private:
-	//---------------- TimeLines Methods
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
+//---------------- TimeLines Methods
 	void BindTimeLines();
 	
 	UFUNCTION()
@@ -69,8 +68,6 @@ private:
 	
 	UMaterialInstanceDynamic* DynamicMaterial;
 
-	FTimerHandle WaitTimer;
-	
 	FTimeline FirstTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")

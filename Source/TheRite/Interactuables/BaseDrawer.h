@@ -24,9 +24,6 @@ public:
 	bool IsOpen() const;
 	bool IsKeyContainer() const;
 	
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
 	virtual void Interaction() override;
 
 	void SetKeyContainer();
@@ -35,6 +32,9 @@ public:
 	void AddingForce();
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
 	void BindTimeLines();
 	
 	UFUNCTION()

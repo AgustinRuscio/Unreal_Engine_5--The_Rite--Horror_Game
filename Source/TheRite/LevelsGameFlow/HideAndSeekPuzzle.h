@@ -1,3 +1,8 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+//
+//
 #pragma once
 
 #include "CoreMinimal.h"
@@ -19,14 +24,16 @@ class THERITE_API AHideAndSeekPuzzle : public AActor
 	GENERATED_BODY()
 	
 public:
-bool IsActive() const;
-	
 	AHideAndSeekPuzzle();
-	virtual void BeginPlay() override;
+	
+	bool IsActive() const;
 
 private:
+	virtual void BeginPlay() override;
+	
 	void InitializeValues();
 	
+//---------------- Puzzle Steps Methods
 	UFUNCTION()
 	void OnNextPuzzleStep(AInteractor* Interactable);
 	

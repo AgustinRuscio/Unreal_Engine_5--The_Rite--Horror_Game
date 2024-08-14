@@ -8,6 +8,10 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AStatuette::AStatuette()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -15,44 +19,33 @@ AStatuette::AStatuette()
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 }
 
-//---------------- Getter Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Getter Methods
 bool AStatuette::IsFirstInteraction() const
 {
 	return bFirstInteraction;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 float AStatuette::GetDesiredRotation() const
 {
 	return DesireRotation;
 }
 
-float AStatuette::GetRotatioToAdd() const
+//----------------------------------------------------------------------------------------------------------------------
+float AStatuette::GetRotationToAdd() const
 {
 	return RotationToAdd;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 FRotator AStatuette::GetRotation() const
 {
 	return GetActorRotation();
 }
+#pragma endregion
 
-//---------------- System Class Methods
-void AStatuette::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Material = StaticMesh->GetMaterial(0);
-	DynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
-	StaticMesh->SetMaterial(0, DynamicMaterial);
-	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),1);
-}
-
-void AStatuette::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	InteractionTimeLine.TickTimeline(DeltaSeconds);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void AStatuette::Interaction()
 {	
 	if(!bCanInteract) return;
@@ -75,18 +68,8 @@ void AStatuette::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 }
 
-//---------------- Action Methods
-void AStatuette::EnableInteraction()
-{
-	bCanInteract = true;
-}
-
-void AStatuette::RestoreInitialValues()
-{
-	bCanInteract = true;
-	InteractionTimeLine.ReverseFromEnd();
-}
-
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Setter Methods
 void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
 {
 	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
@@ -103,20 +86,60 @@ void AStatuette::SetAltarPosition(FVector pos, FRotator rot)
 	bFirstInteraction = false;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AStatuette::SetBase(AStaticMeshActor* base)
 {
 	BaseMesh = base;
 }
+#pragma endregion
 
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Action Methods
+void AStatuette::EnableInteraction()
+{
+	bCanInteract = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AStatuette::RestoreInitialValues()
+{
+	bCanInteract = true;
+	InteractionTimeLine.ReverseFromEnd();
+}
+#pragma endregion 
+
+//*****************************Private************************************************
+//************************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void AStatuette::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Material = StaticMesh->GetMaterial(0);
+	DynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
+	StaticMesh->SetMaterial(0, DynamicMaterial);
+	DynamicMaterial->SetScalarParameterValue(TEXT("Interaction"),1);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AStatuette::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	InteractionTimeLine.TickTimeline(DeltaSeconds);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void AStatuette::BindTimeLine()
 {
 	FOnTimelineFloat TimelineCallback;
-	TimelineCallback.BindUFunction(this, FName("OpenTimeLineUpdate"));
+	TimelineCallback.BindUFunction(this, FName("OpenTimeLineTick"));
 	InteractionTimeLine.AddInterpFloat(TimeLineCurve, TimelineCallback);
 }
 
-void AStatuette::OpenTimeLineUpdate(float value)
+//----------------------------------------------------------------------------------------------------------------------
+void AStatuette::OpenTimeLineTick(float value)
 {
 	FVector statuettePos = FMath::Lerp(InitialObjectPosition,EndLocation, value);
 	FVector basePos = FMath::Lerp(InitialBasePosition,EndBaseLocation, value);
@@ -127,3 +150,4 @@ void AStatuette::OpenTimeLineUpdate(float value)
 	SetActorLocation(statuettePos);
 	BaseMesh->SetActorLocation(basePos);
 }
+#pragma endregion

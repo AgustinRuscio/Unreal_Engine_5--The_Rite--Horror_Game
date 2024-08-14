@@ -32,14 +32,15 @@ class THERITE_API ALevelsGameState : public AGameStateBase
 
 public:
 	FSaveGameData GetSaveData() const;
-
-	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintCallable)
 	void SaveData(float mouseSensitivity);
 
 	UFUNCTION(BlueprintCallable)
 	void LoadData();
+
+private:
+	virtual void BeginPlay() override;
 	
 public:
 	FGameLoaded OnGameLoaded;

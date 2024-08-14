@@ -15,6 +15,10 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 
+//*****************************Public********************************************
+//*******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ATiffany::ATiffany()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -29,34 +33,22 @@ ATiffany::ATiffany()
 	GetMesh()->SetMobility(EComponentMobility::Movable);
 	
 	CryingAudio = CreateDefaultSubobject<UAudioComponent>("Crying");
+	CryingAudio->SetupAttachment(GetMesh());
 }
 
-//---------------- States Methods
+//----------------------------------------------------------------------------------------------------------------------
 bool ATiffany::GetWalkingState() const
 {
 	return bWalking;
 }
 
-bool ATiffany::SetHasToMove(bool hasToMoveState)
+//----------------------------------------------------------------------------------------------------------------------
+bool ATiffany::SetHasToMove(bool hasToMoveState) const
 {
 	return bHasToMove;
 }
 
-//---------------- System Methods
-void ATiffany::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-}
-
-void ATiffany::BeginPlay()
-{
-	Super::BeginPlay();
-	auto AIController = CastChecked<ATiffanyController>(GetController());
-	
-	BlackBoard = AIController->GetBlackboardComponent();
-}
-
-//---------------- Movement Methods
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::StartMovement(ATargetPoint* newTarget)
 {
 	bWalking = true;
@@ -65,6 +57,7 @@ void ATiffany::StartMovement(ATargetPoint* newTarget)
 	BlackBoard->SetValueAsBool(BooleanKey, true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
 {
 	GetMesh()->SetVisibility(IsVisible);
@@ -75,12 +68,42 @@ void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
 	bHasToMove = HasToMove;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::SetWaypoints(TArray<ATargetPoint*> targets)
 {
 	Waypoints = targets;
 }
 
-//---------------- Collider Methods
+//----------------------------------------------------------------------------------------------------------------------
+void ATiffany::Activate() const
+{
+	GetMesh()->SetVisibility(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ATiffany::Deactivate() const
+{
+	GetMesh()->SetVisibility(false);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+}
+
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ATiffany::BeginPlay()
+{
+	Super::BeginPlay();
+	auto AIController = CastChecked<ATiffanyController>(GetController());
+	
+	BlackBoard = AIController->GetBlackboardComponent();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collider Methods
 void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 							  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -108,6 +131,7 @@ void ATiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
@@ -134,3 +158,4 @@ void ATiffany::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 		}
 	}
 }
+#pragma endregion 

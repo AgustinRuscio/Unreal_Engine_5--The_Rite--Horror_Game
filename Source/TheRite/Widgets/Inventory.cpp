@@ -10,7 +10,12 @@
 #include "Components/Image.h"
 #include "Styling/SlateBrush.h"
 
-//---------------- Inventory setter Methods
+
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Inventory setter Methods
 void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
 {
 	BTN_NextItem = Next;
@@ -22,6 +27,7 @@ void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* text
 	BTN_PrevItem->OnClicked.AddDynamic(this, &UInventory::ShowPrevItem);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 {
 	for (auto Element : AllItems)
@@ -38,6 +44,7 @@ void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 	AllItems.Add(addedPair);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 {
 	for (auto Element : AllItems)
@@ -54,8 +61,10 @@ void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 		}
 	}
 }
+#pragma endregion
 
-//---------------- Actions Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Actions Methods
 void UInventory::OnInventoryOpen()
 {
 	if(AllItems.Num() == 0)
@@ -88,12 +97,14 @@ void UInventory::OnInventoryOpen()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UInventory::OnInventoryClose()
 {
 	BTN_PrevItem->SetIsEnabled(true);
 	BTN_NextItem->SetIsEnabled(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UInventory::ShowNextItem()
 {
 	if(AllItems.Num() == 0)
@@ -115,11 +126,11 @@ void UInventory::ShowNextItem()
 	OverlayImage->SetBrush(Brush);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UInventory::ShowPrevItem()
 {
 	if(AllItems.Num() == 0)
 		return;
-
 	
 	index--;
 	

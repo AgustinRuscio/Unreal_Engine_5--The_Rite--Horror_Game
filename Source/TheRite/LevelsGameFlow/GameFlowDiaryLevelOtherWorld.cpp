@@ -17,12 +17,19 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AGameFlowDiaryLevelOtherWorld::AGameFlowDiaryLevelOtherWorld()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
-//---------------- System Class Methods
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::BeginPlay()
 {
 	Super::BeginPlay();
@@ -32,12 +39,8 @@ void AGameFlowDiaryLevelOtherWorld::BeginPlay()
 	BindMethods();
 }
 
-//---------------- Initialize Methods
-void AGameFlowDiaryLevelOtherWorld::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Initialize Methods
 void AGameFlowDiaryLevelOtherWorld::BindTriggers()
 {
 	TriggerVolume_LivingRoomEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap);
@@ -46,11 +49,13 @@ void AGameFlowDiaryLevelOtherWorld::BindTriggers()
 	TriggerVolume_EndGamePass->OnActorBeginOverlap.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::BindMethods()
 {
 	InOrderPOuzzleController->OnPuzzleFinished.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::EndGame);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
@@ -60,7 +65,6 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 		Element->GetStaticMeshComponent()->SetVisibility(false);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
-
 	
 	for (auto Element : Skeletals_DinningRoomEvet)
 	{
@@ -74,8 +78,9 @@ void AGameFlowDiaryLevelOtherWorld::InitializeValues()
 	
 	InteractorEventDinningRoom->OnInteractionTrigger.AddDynamic(this, &AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab);
 }
+#pragma endregion 
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::EndGame()
 {
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
@@ -109,6 +114,7 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 	Player->SetPlayerOptions(true, false, false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 {
 	if(bDinningRoomEventDone) return;
@@ -131,7 +137,8 @@ void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 	}
 }
 
-//---------------- Bind Colliders Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Colliders Methods
 void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bLivingRoomEventDone) return;
@@ -145,7 +152,6 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 
 	auto controller = Cast<AAlexPlayerController>(Player->GetController());
 	controller->PlayRumbleFeedBack(.75f, 1, true, true, true, true);
-	
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_LivingRoomEvent0))
 	{
@@ -184,10 +190,10 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 		
 		GetWorld()->GetTimerManager().SetTimer(Timer_LivingRoomEvent0, OnTimerCompleted, 0.9f, false);
 	}
-	
 	TriggerVolume_LivingRoomEvent->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bKitchenEventDone) return;
@@ -210,7 +216,6 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 	auto controller = Cast<AAlexPlayerController>(Player->GetController());
 	controller->PlayRumbleFeedBack(.4f, .75, false, true, false, true);
 	
-	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_KitchenEvent))
 	{
 		FTimerDelegate OnTimerCompleted;
@@ -223,12 +228,13 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 				Element->TurnOn();
 			}
 		});
+		
 		GetWorld()->GetTimerManager().SetTimer(Timer_KitchenEvent, OnTimerCompleted, 1.5f, false);
 	}
-	
 	TriggerVolume_KitchenEvent->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bEventReadyDinningRoom || bDinningRoomEventDone) return;
@@ -269,6 +275,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 	TriggerVolume_DinningEvent->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
@@ -282,3 +289,4 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerEndGamePassOverlap(AActor* Overlapp
 
 	TriggerVolume_EndGamePass->Destroy();
 }
+#pragma endregion

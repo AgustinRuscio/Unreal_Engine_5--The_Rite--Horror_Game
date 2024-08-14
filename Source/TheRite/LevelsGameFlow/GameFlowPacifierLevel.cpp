@@ -21,20 +21,31 @@
 #include "BasePlayerSettingsSetter.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/Candle.h"
+#include "Engine/SpotLight.h"
 #include "FetusPuzzle.h"
 #include "Components/AudioComponent.h"
 #include "Engine/BlockingVolume.h"
 #include "Misc/TextFilterExpressionEvaluator.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AGameFlowPacifierLevel::AGameFlowPacifierLevel()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Lights_LastFetus->GetLightComponent()->SetIntensity(0.f);
+	
 	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 
 	if(GameFlow_FetusPuzzle->IsActive())
@@ -58,10 +69,16 @@ void AGameFlowPacifierLevel::BeginPlay()
 	
 	AtticLadder->DisableLadder();
 
+	for (auto Element : Candles_EndGame)
+	{
+		Element->Disappear();
+	}
+	
 	InitializeValues();
 	BindColliderMethods();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -69,6 +86,8 @@ void AGameFlowPacifierLevel::Tick(float DeltaTime)
 	Timer_LastPuzzleStarted.TickTimeline(DeltaTime);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Initialization Methods
 void AGameFlowPacifierLevel::BindColliderMethods()
 {
 	TriggerVolume_LightsOut->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap);
@@ -77,6 +96,7 @@ void AGameFlowPacifierLevel::BindColliderMethods()
 	TriggerVolume_TiffanyStairsEvent->OnActorBeginOverlap.AddDynamic(this, &AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::InitializeValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
@@ -96,7 +116,78 @@ void AGameFlowPacifierLevel::InitializeValues()
 	Timer_LastPuzzleStarted.SetTimelineFinishedFunc(TimelineFinishedCallback);
 	
 }
+#pragma endregion
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Blocking volume Methods
+void AGameFlowPacifierLevel::PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
+{
+	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
+
+	if(NewRotation != FRotator::ZeroRotator)
+		BlockingVolume->SetActorRotation(NewRotation);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AGameFlowPacifierLevel::ResetBlockingVolumePosition()
+{
+	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation,false,
+		nullptr, ETeleportType::TeleportPhysics);
+}
+#pragma endregion
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Audio Methods
+void AGameFlowPacifierLevel::RaiseAmbientVolume(float newVolumeMultiplier)
+{
+	AudioComponent_Ambient->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
+	AudioComponent_StressSound->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
+	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AGameFlowPacifierLevel::ResetAmbientVolume()
+{
+	AudioComponent_Ambient->GetAudioComponent()->VolumeMultiplier = 1;
+	AudioComponent_StressSound->GetAudioComponent()->VolumeMultiplier = 1;
+	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = 1;
+}
+#pragma endregion 
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Event Methods
+void AGameFlowPacifierLevel::PlaceMannequinsInCorridor(AInteractor* Interactor)
+{
+	int8 count = 0;
+
+	for (auto Element : A_CorridorMannequins)
+	{
+		Element->SetActorLocation(TargetPoint_CorridorManiquiesPosition[count]->GetActorLocation());
+		Element->SetActorRotation(TargetPoint_CorridorManiquiesPosition[count]->GetActorRotation());
+		Element->Activate();
+		
+		count++;
+	}
+	
+	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyBreath);
+	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyNear);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AGameFlowPacifierLevel::PlaceMannequinsStairs(AInteractor* Interactor)
+{
+	if(!bLightsRestored) return;
+
+	for (auto Element : Actors_StairsMannequins)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+	}
+	
+	AtticLadder->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 {
 	bLightsRestored = true;
@@ -131,65 +222,7 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 	Door_BedRoom->Open();
 }
 
-//---------------- Blocking volume Methods
-void AGameFlowPacifierLevel::PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation = FRotator::ZeroRotator)
-{
-	BlockingVolume->SetActorLocation(NewLocation,false, nullptr, ETeleportType::TeleportPhysics);
-
-	if(NewRotation != FRotator::ZeroRotator)
-		BlockingVolume->SetActorRotation(NewRotation);
-}
-
-void AGameFlowPacifierLevel::ResetBlockingVolumePosition()
-{
-	BlockingVolume->SetActorLocation(BlockingVolumeOriginalLocation,false,
-		nullptr, ETeleportType::TeleportPhysics);
-}
-
-void AGameFlowPacifierLevel::RaiseAmbientVolume(float newVolumeMultiplier)
-{
-	AudioComponent_Ambient->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
-	AudioComponent_StressSound->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
-	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = newVolumeMultiplier;
-}
-
-void AGameFlowPacifierLevel::ResetAmbientVolume()
-{
-	AudioComponent_Ambient->GetAudioComponent()->VolumeMultiplier = 1;
-	AudioComponent_StressSound->GetAudioComponent()->VolumeMultiplier = 1;
-	AudioComponent_Voices->GetAudioComponent()->VolumeMultiplier = 1;
-}
-
-void AGameFlowPacifierLevel::PlaceMannequinsInCorridor(AInteractor* Interactor)
-{
-	int8 count = 0;
-
-	for (auto Element : A_CorridorMannequins)
-	{
-		Element->SetActorLocation(TargetPoint_CorridorManiquiesPosition[count]->GetActorLocation());
-		Element->SetActorRotation(TargetPoint_CorridorManiquiesPosition[count]->GetActorRotation());
-		Element->Activate();
-		
-		count++;
-	}
-	
-	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyBreath);
-	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_TiffanyNear);
-}
-
-void AGameFlowPacifierLevel::PlaceMannequinsStairs(AInteractor* Interactor)
-{
-	if(!bLightsRestored) return;
-
-	for (auto Element : Actors_StairsMannequins)
-	{
-		Element->GetStaticMeshComponent()->SetVisibility(true);
-		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
-	}
-	
-	AtticLadder->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::PlaceMannequinsStairs);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::LightsOnBedRoom(AInteractor* Interactor)
 {
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
@@ -205,6 +238,7 @@ void AGameFlowPacifierLevel::LightsOnBedRoom(AInteractor* Interactor)
 	Interactable_BedroomLightsOn->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 {
 	for (auto Element : Meshes_HideSeekObjects)
@@ -221,10 +255,15 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 	//Timer_LastPuzzleStarted.PlayFromStart();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::EndGame()
 {
+	
+	Lights_LastFetus->GetLightComponent()->SetIntensity(6.f);
+	
 	for (auto Element : Candles_EndGame)
 	{
+		Element->Appear();
 		Element->TurnOn();
 	}
 
@@ -235,14 +274,18 @@ void AGameFlowPacifierLevel::EndGame()
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnLastPuzzleTimerTick(float deltaSeconds)
 {
 	RaiseAmbientVolume(deltaSeconds);
 	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("X %f"), deltaSeconds));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnLasPuzzleTimerFinished() { }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collision Methods
 void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bLightsOutEventDone) return;
@@ -274,6 +317,7 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	TriggerVolume_LightsOut->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || !bLightsDown) return;
@@ -312,6 +356,7 @@ void AGameFlowPacifierLevel::OnTriggerStairsTiffanyEventOverlap(AActor* Overlapp
 	TriggerVolume_TiffanyStairsEvent->Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor) || bEndGamePassDone) return;
@@ -322,3 +367,4 @@ void AGameFlowPacifierLevel::OnTriggerEndGamePassOverlap(AActor* OverlappedActor
 	
 	TriggerVolume_EndGmaePass->Destroy();
 }
+#pragma endregion

@@ -18,13 +18,14 @@ class THERITE_API UFloatingActorComponent : public UActorComponent
 
 public:	
 	UFloatingActorComponent();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	virtual void BeginPlay() override;
 
 	void ActivateComponent();
 	void StopComponent();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
 	void BindTimeLine();
 	
 	UFUNCTION()

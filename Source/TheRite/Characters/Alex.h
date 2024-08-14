@@ -49,11 +49,6 @@ public:
 	float GetInteractionRange() const;
 	
 	UCameraComponent* GetCamera() const;
-	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-	virtual void Tick(float DeltaTime) override;
 
 //---------------- Action Methods
 	UFUNCTION()
@@ -87,10 +82,15 @@ public:
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
 	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation);
-	void MoveCamera(FVector NewCameraPos);
-	void MakeCameraView(FRotator Rot);
+	void MoveCamera(FVector NewCameraPos) const;
+	void MakeCameraView(FRotator Rot) const;
 	
 private:
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void Tick(float DeltaTime) override;
+	
 //---------------- Checker Methods
 	bool IsDoorCheck(IIInteractuable* checked);
 	
@@ -115,7 +115,7 @@ private:
 	void CreateConsumableWidget();
 	
 //---------------- Tick Methods
-	void HeadBob();
+	void HeadBob() const;
 	
 	void CheckLighterOn();
 	
@@ -156,7 +156,7 @@ private:
 
 	UFUNCTION()
 	void ShowLighterReminder();
-	void HideLighterReminder();
+	void HideLighterReminder() const;
 
 //---------------- Audio Methods
 	void MakeTalk();
@@ -167,6 +167,9 @@ private:
 	void StopTalking();
 	
 //---------------- TimeLine
+	void HideOpenInventoryWidget() const;
+	void HideConsumableWidget() const;
+	
 	void BindTimeLineMethods();
 	
 	UFUNCTION()
@@ -297,11 +300,10 @@ private:
 	USoundBase* BreathSound;
 	
 	//-------- TimeLine
-	FTimerHandle ScreamerTimerHanlde;
-	FTimerHandle OpeninventorywidgetTimerHandle;
-	FTimerHandle LighterReminderTimer;
-	FTimerHandle ConsumibleWidgetTimer;
-	FTimerHandle aa;
+	FTimerHandle TimerHandle_Screamer;
+	FTimerHandle TimerHandle_OpenInventoryWidget;
+	FTimerHandle TimerHandle_LighterReminder;
+	FTimerHandle TimerHandle_ConsumableWidget;
 
 	FTimeline TargetCameraTimeLine;
 	FTimeline FocusCameraTimeLine;

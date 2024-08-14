@@ -10,7 +10,7 @@
 #include "GameFramework/Actor.h"
 #include "Rite.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClockGain);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FObjectsObtain);
 
 class ULevelSequence;
 class UAudioComponent;
@@ -29,14 +29,17 @@ public:
 	ARite();
 	
 //---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interaction() override;
 
 	UFUNCTION()
 	void SetClockReady(AInteractor* obj);
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+	void PlayFadeSequence();
+	
 	UFUNCTION()
 	void CheckAudio();
 
@@ -46,18 +49,23 @@ private:
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
 	UFUNCTION()
-	void OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
+	void OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
 	
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Clock")
-	FClockGain OnClockGain;
+	FObjectsObtain OnObjectsObtain;
 	
 private:
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
 	bool bObjectReady = false;
 
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	bool bBeginRite = false;
+	
 	bool bPlayerInside;
 	bool bReady = false;
+
+	int8 Count = -1;
 	
 	FName NextLevel;
 	
@@ -100,5 +108,5 @@ private:
 	AActor* InsideActor;
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
-	AClock* CurrentMainObject;
+	TArray<AClock*> CurrentMainObject;
 };
