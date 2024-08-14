@@ -25,12 +25,12 @@ class THERITE_API IFader
 	GENERATED_BODY()
 
 public:
-	AActor* GetActor();
+	AActor* GetActor() const;
 	
-	void OnFadeActivate();
-	void OnFadeDeActivate();
-
-	void SetAlpha(float alpha);
+	void OnFadeActivate() const;
+	void OnFadeDeActivate() const;
+	
+	void SetAlpha(float alpha) const;
 
 protected:
 	void SetFaderComponent(UFadeObjectComponent* FaderComponent);

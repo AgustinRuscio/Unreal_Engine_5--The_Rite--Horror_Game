@@ -8,34 +8,38 @@
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAutomaticCloseDoorTrigger::AAutomaticCloseDoorTrigger()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAutomaticCloseDoorTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	BindTriggers();
 
-	BinddTimeLinesMethods();
+	BindTimeLinesMethods();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAutomaticCloseDoorTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	CloseDoorTimeLine.TickTimeline(DeltaTime);
 }
 
-void AAutomaticCloseDoorTrigger::BindTriggers()
-{
-	RoomTrigger->OnActorBeginOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorIn);
-	RoomTrigger->OnActorEndOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorOut);
-}
-
-//---------------- Timelines Methods
-void AAutomaticCloseDoorTrigger::BinddTimeLinesMethods()
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Timelines Methods
+void AAutomaticCloseDoorTrigger::BindTimeLinesMethods()
 {
 	FOnTimelineFloat CloseDoorTimeLienTick;
 	CloseDoorTimeLienTick.BindUFunction(this, FName(""));
@@ -46,14 +50,24 @@ void AAutomaticCloseDoorTrigger::BinddTimeLinesMethods()
 	CloseDoorTimeLine.SetTimelineFinishedFunc(FirstTurnOnCallbackFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAutomaticCloseDoorTrigger::OnTimerFinished()
 {
 	if(playerInside) return;
 
 	DoorToClose->AutomaticClose();
 }
+#pragma endregion
 
-//---------------- Collider Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collider Methods
+void AAutomaticCloseDoorTrigger::BindTriggers()
+{
+	RoomTrigger->OnActorBeginOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorIn);
+	RoomTrigger->OnActorEndOverlap.AddDynamic(this, &AAutomaticCloseDoorTrigger::CheckActorOut);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAutomaticCloseDoorTrigger::CheckActorIn(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor)) return;
@@ -61,6 +75,7 @@ void AAutomaticCloseDoorTrigger::CheckActorIn(AActor* OverlappedActor, AActor* O
 	playerInside = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAutomaticCloseDoorTrigger::CheckActorOut(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!playerInside) return;
@@ -70,4 +85,4 @@ void AAutomaticCloseDoorTrigger::CheckActorOut(AActor* OverlappedActor, AActor* 
 
 	CloseDoorTimeLine.PlayFromStart();
 }
-
+#pragma endregion

@@ -7,6 +7,10 @@
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ARecordPlayer::ARecordPlayer()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -20,7 +24,35 @@ ARecordPlayer::ARecordPlayer()
 	Latch->SetupAttachment(Base);
 }
 
-//---------------- System Class Methods
+//----------------------------------------------------------------------------------------------------------------------
+void ARecordPlayer::Interaction()
+{
+	Super::Interaction();
+
+	bIsPaused ? PlaySong() : PauseSong();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Action Methods
+void ARecordPlayer::PlaySong()
+{
+	bIsPaused = false;
+	AudioComponent->SetPaused(bIsPaused);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARecordPlayer::PauseSong()
+{
+	bIsPaused = true;
+	AudioComponent->SetPaused(bIsPaused);
+	OnSongPaused.Broadcast();
+}
+#pragma endregion
+
+//*****************************Private***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ARecordPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,6 +62,7 @@ void ARecordPlayer::BeginPlay()
 	AudioComponent->SetPaused(bIsPaused);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARecordPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -39,25 +72,3 @@ void ARecordPlayer::Tick(float DeltaTime)
 	Latch->AddLocalRotation(FRotator(0,0,1));
 	Disc->AddLocalRotation(FRotator(0,1,0));
 }
-
-void ARecordPlayer::Interaction()
-{
-	Super::Interaction();
-
-	bIsPaused ? PlaySong() : PauseSong();
-}
-
-//---------------- Action Methods
-void ARecordPlayer::PlaySong()
-{
-	bIsPaused = false;
-	AudioComponent->SetPaused(bIsPaused);
-}
-
-void ARecordPlayer::PauseSong()
-{
-	bIsPaused = true;
-	AudioComponent->SetPaused(bIsPaused);
-	OnSongPaused.Broadcast();
-}
-

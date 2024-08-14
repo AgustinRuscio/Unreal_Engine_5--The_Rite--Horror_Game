@@ -7,6 +7,10 @@
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetKeyMode(bool isGamepad)
 {
 	isGamepad ? SetGamepadImages() : SetKeyboardImages();
@@ -14,11 +18,16 @@ void UChangingdWidget::SetKeyMode(bool isGamepad)
 	Index = 0;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetChangingText(FText newText)
 {
 	ChangingText->SetText(newText);
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetGamepadImages()
 {
 	for (auto Element : DisplayImmages)
@@ -30,6 +39,7 @@ void UChangingdWidget::SetGamepadImages()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetKeyboardImages()
 {
 	for (auto Element : DisplayImmages)

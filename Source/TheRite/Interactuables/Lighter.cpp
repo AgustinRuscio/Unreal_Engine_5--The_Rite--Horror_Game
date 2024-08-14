@@ -11,6 +11,10 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ALighter::ALighter()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -25,26 +29,14 @@ ALighter::ALighter()
 	PointLight->SetupAttachment(LighterBody);
 }
 
-//---------------- System Class Methods
-void ALighter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	CreateWidgets();
-
-	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	
-	if(alexController)
-		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ALighter::Interaction()
 {	
 	Super::Interaction();
 	
 	auto Player = Cast<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 
-	Player->SetPlayerOptions(true, true, true);
+	Player->SetPlayerOptions(bWillPlayerRun, true, bWillShowReminder);
 
 	KeySpectralWritting->EnableInteraction();
 	TutorialWidget->SetVisibility(ESlateVisibility::Visible);
@@ -59,17 +51,7 @@ void ALighter::Interaction()
 		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 4.f, false);
 }
 
-void ALighter::Deactivate()
-{
-	Super::Deactivate();
-	
-	LighterBody->SetVisibility(false);
-	LighterBody->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-	LighterWheel->SetVisibility(false);
-	LighterTop->SetVisibility(false);
-	PointLight->SetVisibility(false);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ALighter::Activate()
 {
 	Super::Activate();
@@ -81,6 +63,32 @@ void ALighter::Activate()
 	PointLight->SetVisibility(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void ALighter::Deactivate()
+{
+	Super::Deactivate();
+	
+	LighterBody->SetVisibility(false);
+	LighterBody->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	LighterWheel->SetVisibility(false);
+	LighterTop->SetVisibility(false);
+	PointLight->SetVisibility(false);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALighter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	CreateWidgets();
+
+	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	
+	if(alexController)
+		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ALighter::CreateWidgets()
 {
 	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialMenu);
@@ -89,6 +97,7 @@ void ALighter::CreateWidgets()
 	TutorialWidget->SetIsFocusable(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALighter::TurnTutorialOff()
 {
 	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);

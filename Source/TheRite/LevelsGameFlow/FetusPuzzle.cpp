@@ -12,17 +12,25 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AFetusPuzzle::AFetusPuzzle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool AFetusPuzzle::IsActive() const
 {
 	return bActive;
 }
 
-//---------------- System Class Methods
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::BeginPlay()
 {
 	if(!bActive)
@@ -61,6 +69,19 @@ void AFetusPuzzle::BeginPlay()
 	ReLocateFetus();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AFetusPuzzle::OnInteraction(AInteractor* interactor)
+{
+	Player->ForceLighterOff();
+	Player->SetPlayerOptions(false, false, false);
+	
+	for (auto Element : AllFetus)
+	{
+		Element->SetCanInteract(false);
+	}
+}
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Lights Manipulation Methods
 void AFetusPuzzle::LightsOut()
 {
 	for (auto Element : RoomLights)
@@ -69,6 +90,7 @@ void AFetusPuzzle::LightsOut()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::LightsOn()
 {
 	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOn))
@@ -92,18 +114,10 @@ void AFetusPuzzle::LightsOn()
 		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOn, timerDelegate, OffsetLightsOn, false);
 	}
 }
+#pragma endregion
 
-void AFetusPuzzle::OnInteraction(AInteractor* interactor)
-{
-	Player->ForceLighterOff();
-	Player->SetPlayerOptions(false, false, false);
-	
-	for (auto Element : AllFetus)
-	{
-		Element->SetCanInteract(false);
-	}
-}
-
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Puzzle Steps
 void AFetusPuzzle::ResetPuzzle()
 {
 	LightsOut();
@@ -134,6 +148,7 @@ void AFetusPuzzle::ResetPuzzle()
 	LightsOn();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::CheckNextPuzzleStep()
 {
 	LightsOut();
@@ -147,6 +162,7 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 	TotalPuzzleStps == RightFetus.Num() ? PuzzleComplete() : NextStep();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::NextStep()
 {
 	if(bFirstInteraction)
@@ -167,6 +183,7 @@ void AFetusPuzzle::NextStep()
 	LightsOn();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::PuzzleComplete()
 {
 	OnPuzzleComplete.Broadcast();
@@ -181,6 +198,7 @@ void AFetusPuzzle::PuzzleComplete()
 	Destroy();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::ReLocateFetus()
 {
 	RemoveFirstRightFetus();
@@ -214,6 +232,7 @@ void AFetusPuzzle::ReLocateFetus()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::RemoveFirstRightFetus()
 {
 	auto currentFetus = AUXRightFetus[0];
@@ -235,3 +254,4 @@ void AFetusPuzzle::RemoveFirstRightFetus()
 	AUXRightFetus[0] = EndAuxFetus;
 	AUXRightFetus.RemoveAt(AUXRightFetus.Num()-1);
 }
+#pragma endregion

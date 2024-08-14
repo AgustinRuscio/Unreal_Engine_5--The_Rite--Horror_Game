@@ -19,9 +19,10 @@ class THERITE_API ARealWorldGameFlow : public AActor
 
 public:
 	ARealWorldGameFlow();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	void PlayerMethods();
 	
 //---------------- Widgets Methods

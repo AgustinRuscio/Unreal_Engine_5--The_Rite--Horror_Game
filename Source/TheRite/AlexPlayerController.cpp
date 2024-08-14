@@ -13,6 +13,10 @@
 
 #define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAlexPlayerController::AAlexPlayerController()
 {
 	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
@@ -24,6 +28,7 @@ AAlexPlayerController::AAlexPlayerController()
 		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 AAlexPlayerController::~AAlexPlayerController()
 {
 	OnPlayerMovement.Clear();
@@ -42,29 +47,22 @@ AAlexPlayerController::~AAlexPlayerController()
 	OnAnyKeyPressed.Clear();
 }
 
-//---------------- Getter Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Getter Methods
 bool AAlexPlayerController::GetIsUsingGamepad() const
 {
 	return bIsUsingGamepad;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 float AAlexPlayerController::GetMouseSensitivity() const
 {
 	return MouseSensitivity;
 }
+#pragma endregion
 
-void AAlexPlayerController::BeginPlay()
-{
-	bEnableClickEvents = true; 
-	bEnableMouseOverEvents = true;
-	
-	FSlateApplication::Get().OnApplicationActivationStateChanged()
-	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
-	
-	BindActions();
-}
-
-//---------------- Actions Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Actions Methods
 void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
 {
 	Super::EnableInput(PlayerController);
@@ -72,6 +70,7 @@ void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
 	SetIgnoreMoveInput(false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 {
 	Super::DisableInput(PlayerController);
@@ -79,11 +78,13 @@ void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 	SetIgnoreMoveInput(true);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetNormalInput()
 {
 	BindActions();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetPauseGame(bool PauseState)
 {
 	SetPause(PauseState);
@@ -95,12 +96,14 @@ void AAlexPlayerController::SetPauseGame(bool PauseState)
 		SetInputMode(FInputModeGameOnly());
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetDoorMode(bool newMode)
 {
 	newMode ?
 		SetDoorInputs() : BindActions();
-	
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetUIOnly(bool uiMode)
 {
 	bShowMouseCursor = uiMode;
@@ -110,6 +113,7 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 	BindActions();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetEventInput()
 {
 	UnbindActions();
@@ -125,6 +129,7 @@ void AAlexPlayerController::SetEventInput()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetFocusInput()
 {
 	UnbindActions();
@@ -144,25 +149,44 @@ void AAlexPlayerController::SetFocusInput()
 		enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::BackFromFocus);
 	}
 }
+#pragma endregion 
 
-//----------------
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
 {
 	MouseSensitivity = newSensitivity;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool RLarge,
 	bool RSmall)
 {
 	PlayDynamicForceFeedback(intensity, duration, LLarge, LSmall, RLarge, RSmall,  EDynamicForceFeedbackAction::Start);
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 bool AAlexPlayerController::GetIsGamepad() const
 {
 	return bIsUsingGamepad;
 }
 
-//---------------- Binding Methods
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::BeginPlay()
+{
+	bEnableClickEvents = true; 
+	bEnableMouseOverEvents = true;
+	
+	FSlateApplication::Get().OnApplicationActivationStateChanged()
+	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
+	
+	BindActions();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Binding Methods
 void AAlexPlayerController::BindActions()
 {
 	UnbindActions();
@@ -194,6 +218,7 @@ void AAlexPlayerController::BindActions()
 	SetInputMode(FInputModeGameOnly());
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::UnbindActions()
 {
 	if(UEnhancedInputComponent* enhantedComponent =  CastChecked<UEnhancedInputComponent>(InputComponent))
@@ -201,77 +226,91 @@ void AAlexPlayerController::UnbindActions()
 		enhantedComponent->ClearActionBindings();
 	}
 }
+#pragma endregion
 
-//---------------- Input Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Input Methods
 void AAlexPlayerController::PlayerMovement(const FInputActionValue& value)
 {
 	FVector2D moveAxis = value.Get<FVector2D>();
 	OnPlayerMovement.Broadcast(moveAxis);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::StartSprint(const FInputActionValue& value)
 {
 	OnStartSprint.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::StopSprint(const FInputActionValue& value)
 {
 	OnStopSprint.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::LighterOn(const FInputActionValue& value)
 {
 	OnLighter.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::InteractionPressed(const FInputActionValue& value)
 {
 	OnInteractionPressed.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::HoldingBTN(const FInputActionValue& value)
 {
 	OnHoldingBtn.Broadcast(value.Get<bool>());
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::CameraMoved(const FInputActionValue& value)
 {
 	FVector2d moveAxis = value.Get<FVector2d>();
 	OnCameraMoved.Broadcast(moveAxis);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::DoorMoved(const FInputActionValue& value)
 {
 	FVector2d moveAxis = value.Get<FVector2d>();
 	OnCameraMovedDoor.Broadcast(moveAxis);
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::Paused(const FInputActionValue& value)
 {
 	OnPause.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::Inventory(const FInputActionValue& value)
 {
 	OnInventory.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::NextInventoryItem(const FInputActionValue& value)
 {
 	OnNextInventoryItem.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 {
 	OnPrevInventoryItem.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::BackFromFocus(const FInputActionValue& value)
 {
 	OnLeaveFocus.Broadcast();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetInventoryInputs()
 {
 	UnbindActions();
@@ -292,6 +331,7 @@ void AAlexPlayerController::SetInventoryInputs()
 	SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetDoorInputs()
 {
 	UnbindActions();
@@ -309,26 +349,32 @@ void AAlexPlayerController::SetDoorInputs()
 		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
 	}
 }
+#pragma endregion 
 
-//---------------- Loading Methods
-void AAlexPlayerController::RecieveLoadedData(float newSensitivity)
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Loading Methods
+void AAlexPlayerController::ReceiveLoadedData(float newSensitivity)
 {
 	MouseSensitivity = newSensitivity;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::LoadValues()
 {
 	auto saveData = gs->GetSaveData();
 	MouseSensitivity = saveData.MouseSensitivity;
 	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(" Mouse sens: %f"),MouseSensitivity ));
 }
+#pragma endregion 
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
 {
 	bIsUsingGamepad = bIsGamepad;
 	OnKeyPressed.Broadcast(bIsGamepad);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::OnWindowFocusChanged(bool bIsFocused)
 {
 	if (bIsFocused)

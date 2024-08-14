@@ -16,6 +16,10 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ALadder::ALadder()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -36,58 +40,16 @@ ALadder::ALadder()
 	BoxCollider->SetupAttachment(LadderMesh);
 }
 
-void ALadder::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	
-	FOnTimelineFloat CameraTargetTick;
-	CameraTargetTick.BindUFunction(this, FName("OnReLocationPlayerTimeLineTick"));
-	Timer_ReLocatePlayerTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
-	
-	FOnTimelineEventStatic CameraTargettingFinished;
-	CameraTargettingFinished.BindUFunction(this, FName("OnReLocationPlayerTimeLineFinished"));
-	Timer_ReLocatePlayerTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
-}
-
-void ALadder::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	Timer_ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
-
-	if(bDoOnceOpenByNear) return;
-	if(!bCanInteract) return;
-
-	if(UE::Geometry::Distance(player->GetActorLocation(), GetActorLocation()) <= DistanceToNearAnim)
-	{
-		bDoOnceOpenByNear = true;
-		bCanInteract = false;
-		
-		LadderSkeletal->PlayAnimation(Animation_PartialOpen, false);
-
-		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_PartialOpenAnim))
-		{
-			FTimerDelegate delegate;
-
-			delegate.BindLambda([&]
-			{
-				bCanInteract = true;
-			});
-
-			GetWorld()->GetTimerManager().SetTimer(Timer_PartialOpenAnim, delegate, Animation_PartialOpen->GetPlayLength(), false);
-		}
-	}
-}
-
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Interactions
 void ALadder::Interaction()
 {
 	if(!bCanInteract) return;
 
 	bFirstInteraction ? FirstInteraction() : NormalInteraction();
-	
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::FirstInteraction()
 {
 	LadderSkeletal->PlayAnimation(Animation_FullyOpen, false);
@@ -106,6 +68,7 @@ void ALadder::FirstInteraction()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::NormalInteraction()
 {
 	bCanInteract = false;
@@ -137,7 +100,10 @@ void ALadder::NormalInteraction()
 	
 	Timer_ReLocatePlayerTimeLine.PlayFromStart();
 }
+#pragma endregion
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Activation
 void ALadder::EnableLadder()
 {
 	LadderSkeletal->SetAnimation(Animation_EnableLadder);
@@ -150,6 +116,7 @@ void ALadder::EnableLadder()
 	bCanInteract = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::DisableLadder()
 {
 	LadderSkeletal->SetAnimation(Animation_DisableLadder);
@@ -158,7 +125,52 @@ void ALadder::DisableLadder()
 	
 	bCanInteract = false;	
 }
+#pragma endregion
 
+//*****************************Private***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALadder::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
+	BindTimeLineMethods();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALadder::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	Timer_ReLocatePlayerTimeLine.TickTimeline(DeltaTime);
+
+	if(bDoOnceOpenByNear) return;
+	if(!bCanInteract) return;
+
+	if(UE::Geometry::Distance(player->GetActorLocation(), GetActorLocation()) <= DistanceToNearAnim)
+	{
+		bDoOnceOpenByNear = true;
+		bCanInteract = false;
+		
+		LadderSkeletal->PlayAnimation(Animation_PartialOpen, false);
+
+		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_PartialOpenAnim))
+		{
+			FTimerDelegate delegate;
+
+			delegate.BindLambda([&]
+			{
+				bCanInteract = true;
+			});
+
+			GetWorld()->GetTimerManager().SetTimer(Timer_PartialOpenAnim, delegate, Animation_PartialOpen->GetPlayLength(), false);
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::OnCinematicFinished()
 {
 	bCanInteract = true;
@@ -174,6 +186,20 @@ void ALadder::OnCinematicFinished()
 	bFlipFlop = !bFlipFlop;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Timeline Methods
+void ALadder::BindTimeLineMethods()
+{
+	FOnTimelineFloat CameraTargetTick;
+	CameraTargetTick.BindUFunction(this, FName("OnReLocationPlayerTimeLineTick"));
+	Timer_ReLocatePlayerTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
+	
+	FOnTimelineEventStatic CameraTargettingFinished;
+	CameraTargettingFinished.BindUFunction(this, FName("OnReLocationPlayerTimeLineFinished"));
+	Timer_ReLocatePlayerTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::OnReLocationPlayerTimeLineTick(float delta)
 {
 	auto LerpedLocation = FMath::Lerp(PlayerTransform.GetLocation(), POVLocation, delta);
@@ -183,6 +209,7 @@ void ALadder::OnReLocationPlayerTimeLineTick(float delta)
 	player->MakeCameraView(LerpedRotation);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALadder::OnReLocationPlayerTimeLineFinished()
 {
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
@@ -199,3 +226,4 @@ void ALadder::OnReLocationPlayerTimeLineFinished()
 	TempLevelSequenceActor->GetSequencePlayer()->OnFinished.AddDynamic(this, &ALadder::OnCinematicFinished);
 	TempLevelSequenceActor->GetSequencePlayer()->Play();
 }
+#pragma endregion

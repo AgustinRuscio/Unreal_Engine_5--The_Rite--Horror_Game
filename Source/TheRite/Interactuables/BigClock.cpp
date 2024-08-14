@@ -14,7 +14,10 @@
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
 
-//--------------------- System Class methods
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ABigClock::ABigClock()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -33,21 +36,7 @@ ABigClock::ABigClock()
 	AllNeedles.Add(MinuturesNeedleMesh);
 }
 
-void ABigClock::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	
-	BindTimeLine();
-}
-
-void ABigClock::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	MoveNeedleTimeLine.TickTimeline(DeltaTime);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::Interaction()
 {
 	if(bIsFocus || !bCanInteract) return;
@@ -94,11 +83,34 @@ void ABigClock::Interaction()
 	//CheckNeedlesPosition();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::SetReadyToUse()
 {
 	bReadyToUse = true;
 }
 
+//*****************************Private*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABigClock::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
+	BindTimeLine();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABigClock::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	MoveNeedleTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Action Methods
 void ABigClock::LeaveFocus()
 {
 	if(!bCanInteract || TimeLineMoving || Player->GetFocusingState()) return;
@@ -117,6 +129,7 @@ void ABigClock::LeaveFocus()
 	controller->OnLeaveFocus.RemoveDynamic(this, &ABigClock::LeaveFocus);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::PrevNeedle()
 {
 	if(TimeLineMoving || Player->GetFocusingState()) return;
@@ -131,6 +144,7 @@ void ABigClock::PrevNeedle()
 	ChangeNeedle();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::NextNeedle()
 {
 	if(TimeLineMoving || Player->GetFocusingState()) return;
@@ -145,6 +159,7 @@ void ABigClock::NextNeedle()
 	ChangeNeedle();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::NeedleInteraction()
 {
 	if(TimeLineMoving || Player->GetFocusingState() || !bCanInteract) return;
@@ -196,6 +211,7 @@ void ABigClock::NeedleInteraction()
 		}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::ChangeNeedle()
 {
 	CurrentSelected = AllNeedles[CurrentNeedle];
@@ -203,6 +219,7 @@ void ABigClock::ChangeNeedle()
 	AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::CheckNeedlesPosition()
 {
 	if(!bReadyToUse)
@@ -225,13 +242,16 @@ void ABigClock::CheckNeedlesPosition()
 	
 	bCanInteract = false;
 }
+#pragma endregion 
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::HideClue()
 {
 	Widget_ClockClue->RemoveFromParent();
 }
 
-//--------------------- TimeLine methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine methods
 void ABigClock::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -243,6 +263,7 @@ void ABigClock::BindTimeLine()
 	MoveNeedleTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::MoveNeedleTimeLineTick(float deltaTime)
 {
 	auto newPitch = FMath::Lerp(InitialNeedleRotation, EndNeedleRotation, deltaTime);
@@ -250,6 +271,7 @@ void ABigClock::MoveNeedleTimeLineTick(float deltaTime)
 	AllNeedles[CurrentNeedle]->SetWorldRotation(newPitch);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABigClock::MoveNeedleTimeLineFinished()
 {
 	if(EndNeedleRotation.Pitch == 360)
@@ -264,3 +286,4 @@ void ABigClock::MoveNeedleTimeLineFinished()
 	
 	CheckNeedlesPosition();
 }
+#pragma endregion 

@@ -20,14 +20,13 @@ class THERITE_API UTimerActionComponent : public UActorComponent
 public:	
 	UTimerActionComponent();
 	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	void ActionFinished();
 
 private:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
 	void RunTimer(float deltaTime);
 
-	
 public:
 	FOnTimerBroadcast TimerReach;
 	

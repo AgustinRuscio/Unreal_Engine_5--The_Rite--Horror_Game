@@ -7,11 +7,19 @@
 #include "InOrdenSelectionPuzzleFlow.h"
 #include "TheRite/Interactuables/SpectralObstacle.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ATransitionToDiaryWorld::ATransitionToDiaryWorld()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ATransitionToDiaryWorld::BeginPlay()
 {
 	Super::BeginPlay();
@@ -19,6 +27,7 @@ void ATransitionToDiaryWorld::BeginPlay()
 	InOrderPuzzleFlow->OnPuzzleFinished.AddDynamic(this, &ATransitionToDiaryWorld::OnPuzzleFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATransitionToDiaryWorld::OnPuzzleFinished()
 {
 	Obstacle->ObstacleDestroy();

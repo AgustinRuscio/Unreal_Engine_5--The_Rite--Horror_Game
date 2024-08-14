@@ -17,12 +17,13 @@ class THERITE_API AManikin : public AActor
 	
 public:	
 	AManikin();
-	virtual void Tick(float DeltaTime) override;
 
 	void Activate();
 	void Deactivate();
 
 private:
+	virtual void Tick(float DeltaTime) override;
+	
 	void ReLocateObject();
 	
 private:

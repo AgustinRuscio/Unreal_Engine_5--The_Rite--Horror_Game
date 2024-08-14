@@ -5,6 +5,10 @@
 
 #include "BaseDrawer.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ABaseDrawer::ABaseDrawer()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,32 +17,19 @@ ABaseDrawer::ABaseDrawer()
 	RootComponent = DrawerModel;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool ABaseDrawer::IsOpen() const
 {
 	return bIsOpen;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool ABaseDrawer::IsKeyContainer() const
 {
 	return bKeyConteiner;
 }
 
-//---------------- System Class Methods
-void ABaseDrawer::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimeLines();
-}
-
-void ABaseDrawer::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	
-	OpenTimeLine.TickTimeline(DeltaSeconds);
-	CloseTimeLine.TickTimeline(DeltaSeconds);
-	WaitTimeLine.TickTimeline(DeltaSeconds);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::Interaction()
 {
 	Super::Interaction();
@@ -70,12 +61,14 @@ void ABaseDrawer::Interaction()
 		bFlipFlop = true;
 	}
 }
-//----------------
+
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::SetKeyContainer()
 {
 	bKeyConteiner = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::AddingForce()
 {
 	DrawerModel->SetSimulatePhysics(true);
@@ -87,7 +80,28 @@ void ABaseDrawer::AddingForce()
 	WaitTimeLine.PlayFromStart();
 }
 
-//---------------- Timeline Methods
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABaseDrawer::BeginPlay()
+{
+	Super::BeginPlay();
+	BindTimeLines();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABaseDrawer::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	OpenTimeLine.TickTimeline(DeltaSeconds);
+	CloseTimeLine.TickTimeline(DeltaSeconds);
+	WaitTimeLine.TickTimeline(DeltaSeconds);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region Timeline Methods
 void ABaseDrawer::BindTimeLines()
 {
 	//------------------- Open Time line
@@ -118,10 +132,10 @@ void ABaseDrawer::BindTimeLines()
 	WaitTimeLine.SetTimelineFinishedFunc(WaitTimelineFinishedCallback);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::OpenTimeLineUpdate(float value)
 {
 	FVector A = GetActorLocation();
-	FVector B = A + MoveDir;
 
 	FVector values = FMath::Lerp(StartLocation,EndLocation, value);
 	
@@ -131,22 +145,24 @@ void ABaseDrawer::OpenTimeLineUpdate(float value)
 void ABaseDrawer::CloseTimeLineUpdate(float value)
 {
 	FVector A = GetActorLocation();
-	FVector B = A - MoveDir;
 
 	FVector values = FMath::Lerp(StartLocation,EndLocation, value);
 	
 	SetActorRelativeLocation(values);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::WaitTimeLineUpdate(float value) { }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::TimelineFinished()
 {
 	bCanInteract = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ABaseDrawer::WaitTimelineFinished()
 {
 	Destroy();
 }
+#pragma endregion 

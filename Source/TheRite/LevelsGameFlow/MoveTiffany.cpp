@@ -12,8 +12,10 @@
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
 
-class AAlex;
+//*****************************Public*********************************************
+//********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 AMoveTiffany::AMoveTiffany()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -22,6 +24,17 @@ AMoveTiffany::AMoveTiffany()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AMoveTiffany::OnOverlapBegin);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AMoveTiffany::AssignTiffany(ATiffany* newTiff)
+{
+	Tiffany = newTiff;
+	bActionReady = true;
+}
+
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AMoveTiffany::BeginPlay()
 {
 	Super::BeginPlay();
@@ -29,13 +42,8 @@ void AMoveTiffany::BeginPlay()
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
-void AMoveTiffany::AsignTiffany(ATiffany* newTiff)
-{
-	Tiffany = newTiff;
-	bActionReady = true;
-}
-
-//---------------- Timelines Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Timelines Methods
 void AMoveTiffany::FirstTurnOn()
 {
 	if(InGameSportLight)
@@ -58,9 +66,9 @@ void AMoveTiffany::FirstTurnOn()
 		GetWorldTimerManager().SetTimer(SecondTurnLightsOff, this, &AMoveTiffany::SecondTurnOff, .75f, false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AMoveTiffany::SecondTurnOff()
 {
-
 	if(InGameSportLight)
 	{
 		InGameSportLight->GetLightComponent()->SetIntensity(0.f);
@@ -87,6 +95,7 @@ void AMoveTiffany::SecondTurnOff()
 		GetWorldTimerManager().SetTimer(FirstWait,WaitDelegate, .5f, false);
 	}
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 void AMoveTiffany::SecondTurnOn()
 {
@@ -100,8 +109,9 @@ void AMoveTiffany::SecondTurnOn()
 	OnFinishedEvent.Broadcast();
 	Destroy();
 }
+#pragma endregion
 
-//----------------
+//----------------------------------------------------------------------------------------------------------------------
 void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

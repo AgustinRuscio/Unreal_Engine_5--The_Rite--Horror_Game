@@ -27,16 +27,16 @@ public:
 	AFetusPuzzle();
 
 	bool IsActive() const;
-	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
 
 private:
-	void LightsOut();
-	void LightsOn();
+	virtual void BeginPlay() override;
 
 	UFUNCTION()
 	void OnInteraction(AInteractor* interactor);
+	
+//---------------- TimeLine
+	void LightsOut();
+	void LightsOn();
 	
 	UFUNCTION()
 	void ResetPuzzle();

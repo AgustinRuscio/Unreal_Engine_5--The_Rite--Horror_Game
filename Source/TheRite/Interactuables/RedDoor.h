@@ -22,12 +22,12 @@ class THERITE_API ARedDoor : public AInteractor
 public:
 	ARedDoor();
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 	void CreateEditorComponents();
 	
 	UFUNCTION()

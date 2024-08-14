@@ -19,9 +19,10 @@ class THERITE_API ATransitionToDiaryWorld : public AActor
 	
 public:	
 	ATransitionToDiaryWorld();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void OnPuzzleFinished();
 	

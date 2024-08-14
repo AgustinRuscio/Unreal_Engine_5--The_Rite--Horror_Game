@@ -15,7 +15,10 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 ARite::ARite()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -30,43 +33,10 @@ ARite::ARite()
 	Sphere->SetupAttachment(Mesh);
 
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ARite::OnActorOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverapFinished);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARite::OnActorOverlapFinished);
 }
 
-//---------------- System Class Methods
-void ARite::BeginPlay()
-{
-	Super::BeginPlay();
-
-	CheckAudio();
-	
-	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
-	OriginalPostProcessValues = PostProcessComponent->GetProperties();
-	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
-	bReady = true;
-
-	for (auto Element : CurrentMainObject)
-	{
-		Element->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
-	}
-}
-
-void ARite::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	
-	if(!bPlayerInside && bReady) return;
-	
-	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());
-	
-	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
-	
-	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
-
-	
-	DynamicMaterial->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::Interaction()
 {
 	if(!bObjectReady) return;
@@ -81,6 +51,7 @@ void ARite::Interaction()
 		PlayFadeSequence();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::SetClockReady(AInteractor* obj)
 {
 	if(bBeginRite)
@@ -103,6 +74,44 @@ void ARite::SetClockReady(AInteractor* obj)
 	}
 }
 
+//*****************************Private************************************************
+//************************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CheckAudio();
+	
+	DynamicMaterial = UMaterialInstanceDynamic::Create(PostProcesRealWorldMaterial, this);
+	OriginalPostProcessValues = PostProcessComponent->GetProperties();
+	PostProcessComponent->AddOrUpdateBlendable(DynamicMaterial);
+	bReady = true;
+
+	for (auto Element : CurrentMainObject)
+	{
+		Element->OnInteractionTrigger.AddDynamic(this, &ARite::SetClockReady);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	if(!bPlayerInside && bReady) return;
+	
+	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());
+	
+	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
+	
+	float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
+	
+	DynamicMaterial->SetScalarParameterValue(TEXT("SpectralProximity"),AlphaValue);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::PlayFadeSequence()
 {
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
@@ -123,6 +132,7 @@ void ARite::PlayFadeSequence()
 	sequencePlayer->Play();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::CheckAudio()
 {
 	if(bObjectReady)
@@ -133,11 +143,14 @@ void ARite::CheckAudio()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARite::ChangeLevel()
 {
 	UGameplayStatics::OpenLevel(GetWorld(),NextLevel);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Collision Methods
 void ARite::OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
 	UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult)
 {
@@ -147,7 +160,8 @@ void ARite::OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Acto
 	bPlayerInside = true;
 }
 
-void ARite::OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
+//----------------------------------------------------------------------------------------------------------------------
+void ARite::OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor,
 	UPrimitiveComponent* PrimitiveComponent1, int I)
 {
 	if(!Cast<AAlex>(Actor)) return;
@@ -155,3 +169,4 @@ void ARite::OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActo
 	bPlayerInside = false;
 	InsideActor = nullptr;
 }
+#pragma endregion

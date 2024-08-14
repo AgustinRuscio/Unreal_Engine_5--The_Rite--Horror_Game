@@ -22,9 +22,10 @@ class THERITE_API ATransitionWorldFlow : public AActor
 	
 public:	
 	ATransitionWorldFlow();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void RedDoorOpen(AInteractor* interactor);
 	

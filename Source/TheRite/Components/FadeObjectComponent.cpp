@@ -7,36 +7,24 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "MathUtil.h"
 
+//*****************************Public********************************************
+//*******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 UFadeObjectComponent::UFadeObjectComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 
-//---------------- System Class Methods
-void UFadeObjectComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	BindTimeLine();
-
-	ObtainOwnerMaterial();
-}
-
-
-void UFadeObjectComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	FadeTimeLine.TickTimeline(DeltaTime);
-}
-
-//---------------- Action Methods
-void UFadeObjectComponent::SetMaterialAlpha(float alpha)
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Action Methods
+void UFadeObjectComponent::SetMaterialAlpha(float alpha) const
 {
 	if(bFading || bPermanentTurnedOn) return;
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),alpha);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::ActivateFade()
 {
 	if(bPermanentTurnedOn) return;
@@ -46,6 +34,7 @@ void UFadeObjectComponent::ActivateFade()
 	FadeTimeLine.PlayFromStart();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::DeActivateFade()
 {
 	if(bPermanentTurnedOn) return;
@@ -56,6 +45,7 @@ void UFadeObjectComponent::DeActivateFade()
 	FadeTimeLine.ReverseFromEnd();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::PermanentActivation()
 {
 	bPermanentTurnedOn = true;
@@ -63,7 +53,29 @@ void UFadeObjectComponent::PermanentActivation()
 	FadeTimeLine.Stop();
 	FadeTimeLine.PlayFromStart();
 }
+#pragma endregion
 
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void UFadeObjectComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	BindTimeLine();
+
+	ObtainOwnerMaterial();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UFadeObjectComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	FadeTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::ObtainOwnerMaterial()
 {
 	GetOwner()->GetComponents<UMeshComponent>(OwnerMesh);
@@ -74,7 +86,8 @@ void UFadeObjectComponent::ObtainOwnerMaterial()
 	DeActivateFade();
 }
 
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void UFadeObjectComponent::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -86,6 +99,7 @@ void UFadeObjectComponent::BindTimeLine()
 	FadeTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::FadeTick(float deltaSeconds)
 {
 	float value = FMathf::Lerp(0,1.f,deltaSeconds);
@@ -93,6 +107,7 @@ void UFadeObjectComponent::FadeTick(float deltaSeconds)
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),value);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UFadeObjectComponent::FadeFinished()
 {
 	bFading = false;
@@ -101,3 +116,4 @@ void UFadeObjectComponent::FadeFinished()
 	
 	DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 }
+#pragma endregion 

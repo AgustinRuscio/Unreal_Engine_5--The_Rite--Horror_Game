@@ -26,10 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetWalkingState() const;
 	
-	bool SetHasToMove(bool hasToMoveState);
-	
-	virtual void Tick(float DeltaSeconds) override;
-	virtual void BeginPlay() override;
+	bool SetHasToMove(bool hasToMoveState) const;
 	
 	UFUNCTION()
 	void StartMovement(ATargetPoint* newTarget);
@@ -40,10 +37,13 @@ public:
 	UFUNCTION()
 	void SetWaypoints(TArray<ATargetPoint*> targets);
 
-	void Activate();
+	void Activate() const;
 
-	void Deactivate();
+	void Deactivate() const;
+	
 private:
+	virtual void BeginPlay() override;
+	
 //---------------- Collider Methods
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

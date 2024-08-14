@@ -45,13 +45,15 @@ class THERITE_API AClockLevelGameFlow : public AActor
 
 public:
 	AClockLevelGameFlow();
+	
+private:
 //---------------- System Class Methods
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
-private:
 	UFUNCTION()
 	void HideTutorialWidget();
+	
 //---------------- Initialize Methods
 	void SetAudioSettings();
 	void BindPuzzleEvents();
@@ -82,7 +84,7 @@ private:
 	
 //---------------- Audio Methods
 	UFUNCTION()
-	void VoicesSoundSetOrigialVolumen();
+	void VoicesSoundSetOriginalVolume();
 	
 	UFUNCTION()
 	void VoicesSoundIncrease();
@@ -90,10 +92,10 @@ private:
 	UFUNCTION()
 	void OnSoundPaused();
 	
-//---------------- Blocking volumen Methods
-	void PlaceBlockingVolumen(FVector NewLocation, FRotator NewRot);
+//---------------- Blocking volume Methods
+	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRot);
 
-	void ResetBlockingVolumenPosition();
+	void ResetBlockingVolumePosition();
 	
 //---------------- Spawn Methods
 	UFUNCTION()
@@ -121,7 +123,7 @@ private:
 	UFUNCTION()
 	void OnSecondJumpscareTimelineFinished();
 	
-//---------------- Bind Colliders Methods
+//---------------- Colliders Methods
 	UFUNCTION()
 	void OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor);
 

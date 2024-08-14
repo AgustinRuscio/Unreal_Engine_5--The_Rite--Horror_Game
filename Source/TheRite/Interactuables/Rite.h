@@ -29,14 +29,15 @@ public:
 	ARite();
 	
 //---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interaction() override;
 
 	UFUNCTION()
 	void SetClockReady(AInteractor* obj);
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
 	void PlayFadeSequence();
 	
 	UFUNCTION()
@@ -48,7 +49,7 @@ private:
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
 	UFUNCTION()
-	void OnActorOverapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
+	void OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
 	
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Clock")

@@ -22,11 +22,19 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Triggers/DoorSlapper.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AGameFlowGameBegin::AGameFlowGameBegin()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::BeginPlay()
 {
 	Super::BeginPlay();
@@ -36,6 +44,7 @@ void AGameFlowGameBegin::BeginPlay()
 	PlayBeginSequence();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::SetNeededValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
@@ -67,6 +76,7 @@ void AGameFlowGameBegin::SetNeededValues()
 	EndDoorSlapper->Deactivate();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::CreateWidgets()
 {
 	FirstTutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), FirstTutorialMenu);
@@ -93,6 +103,7 @@ void AGameFlowGameBegin::CreateWidgets()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::PlayBeginSequence()
 {
 	Player->ForceDisableInput();
@@ -112,6 +123,7 @@ void AGameFlowGameBegin::PlayBeginSequence()
 	sequencePlayer->Play();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::BeginSequenceFinished()
 {
 	Player->ForceEnableInput();
@@ -122,6 +134,7 @@ void AGameFlowGameBegin::BeginSequenceFinished()
 	ShowingFirstTutorialWidget();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::PlayRiteSequence()
 {
 	Player->ForceDisableInput();
@@ -141,11 +154,13 @@ void AGameFlowGameBegin::PlayRiteSequence()
 	sequencePlayer->Play();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::RiteSequenceFinished()
 {
 	UGameplayStatics::OpenLevel(GetWorld(),NextLevel);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 {
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -157,6 +172,7 @@ void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 	PlayRiteSequence();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::OnRiteReady()
 {
 	Fog->GetNiagaraComponent()->Activate();
@@ -184,6 +200,7 @@ void AGameFlowGameBegin::OnRiteReady()
 	EndDoorSlapper->Activate();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::OnRiteObjetObtain(AInteractor* Interactable)
 {
 	switch (Interactable->GetItemID())
@@ -200,10 +217,12 @@ void AGameFlowGameBegin::OnRiteObjetObtain(AInteractor* Interactable)
 			RiteMesh_Pacifier->GetStaticMeshComponent()->SetVisibility(true);
 			break;
 					
-		default: ;
+		default:
+			break;
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 {
 	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
@@ -234,6 +253,7 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::ShowingSecondTutorialWidget()
 {
 	SecondTutorialWidget->SetVisibility(ESlateVisibility::Visible);

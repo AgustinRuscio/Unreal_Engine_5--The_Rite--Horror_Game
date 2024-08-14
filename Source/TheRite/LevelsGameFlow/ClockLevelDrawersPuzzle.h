@@ -21,11 +21,12 @@ class THERITE_API AClockLevelDrawersPuzzle : public AActor
 
 public:
 	AClockLevelDrawersPuzzle();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
-	void OnKeySpectralWrittingUsed(AInteractor* interactor);
+	void OnKeySpectralWritingUsed(AInteractor* interactor);
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Construction")

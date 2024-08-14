@@ -1,4 +1,7 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
 
 #pragma once
 
@@ -6,9 +9,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "TheRiteGameModeBase.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class THERITE_API ATheRiteGameModeBase : public AGameModeBase
 {

@@ -1,8 +1,15 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
 
 
 #include "EmergencyLights.h"
 #include "Components/RectLightComponent.h"
 
+//*****************************Public******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AEmergencyLights::AEmergencyLights()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,6 +20,24 @@ AEmergencyLights::AEmergencyLights()
 	Light->SetupAttachment(Mesh);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AEmergencyLights::TurnOn() const
+{
+	Light->SetIntensity(LightIntensity);
+	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),EmmisiveMultiplierValue);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmergencyLights::TurnOff() const
+{
+	Light->SetIntensity(0);
+	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),0);
+}
+
+//*****************************Private******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AEmergencyLights::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,16 +48,4 @@ void AEmergencyLights::BeginPlay()
 
 	if(bStartTurnedOff)
 		TurnOff();
-}
-
-void AEmergencyLights::TurnOn()
-{
-	Light->SetIntensity(LightIntensity);
-	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),EmmisiveMultiplierValue);
-}
-
-void AEmergencyLights::TurnOff()
-{
-	Light->SetIntensity(0);
-	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),0);
 }

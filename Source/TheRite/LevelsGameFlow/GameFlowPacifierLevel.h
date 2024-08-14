@@ -39,29 +39,32 @@ class THERITE_API AGameFlowPacifierLevel : public AActor
 public:	
 	AGameFlowPacifierLevel();
 
-	//---------------- System Class Methods
+	
+private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
-private:
-	//---------------- Initiliatization Methods
+//---------------- Initialization Methods
 	void BindColliderMethods();
 	void InitializeValues();
 	
-	UFUNCTION()
-	void OnLightsOnEvent(AInteractor* Interactor);
-	
+//---------------- Blocking volume Methods
 	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation);
 	void ResetBlockingVolumePosition();
 	
+//---------------- Audio Methods
 	void RaiseAmbientVolume(float newVolumeMultiplier);
 	void ResetAmbientVolume();
-
+	
+//---------------- Events Methods
 	UFUNCTION()
 	void PlaceMannequinsInCorridor(AInteractor* Interactor);
 	
 	UFUNCTION()
 	void PlaceMannequinsStairs(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void OnLightsOnEvent(AInteractor* Interactor);
 	
 	UFUNCTION()
 	void LightsOnBedRoom(AInteractor* Interactor);
@@ -78,7 +81,7 @@ private:
 	UFUNCTION()
 	void OnLasPuzzleTimerFinished();
 	
-	//---------------- Bind Colliders Methods
+//---------------- Colliders Methods
 	UFUNCTION()
 	void OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
 

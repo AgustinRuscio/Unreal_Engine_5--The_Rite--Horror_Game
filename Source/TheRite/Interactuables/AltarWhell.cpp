@@ -8,6 +8,10 @@
 #include "Statuette.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAltarWhell::AAltarWhell()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -15,6 +19,7 @@ AAltarWhell::AAltarWhell()
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 bool AAltarWhell::CheckRotation()
 {
 	float actualRoll = Statuette->GetRotation().Yaw;
@@ -22,20 +27,7 @@ bool AAltarWhell::CheckRotation()
 	return  actualRoll == DesiredRotation;
 }
 
-//---------------- System Class Methods
-void AAltarWhell::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	MoveTimeLine.TickTimeline(DeltaTime);
-}
-
-void AAltarWhell::BeginPlay()
-{
-	Super::BeginPlay();
-
-	BindTimeLines();
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void AAltarWhell::Interaction()
 {
 	if(!bCanInteract || !bStatuette) return;
@@ -48,29 +40,55 @@ void AAltarWhell::Interaction()
 	MoveTimeLine.PlayFromStart();
 }
 
-//---------------- States Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region States Methods
 void AAltarWhell::EnableInteraction()
 {
 	bCanInteract = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltarWhell::DisableInteraction()
 {
 	bCanInteract = false;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAltarWhell::StatuetteReady()
 {
 	bStatuette = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltarWhell::ASignValues(AStatuette* statuette, float desiredRotation, float rotationToAdd)
 {
 	Statuette = statuette;
 	DesiredRotation = desiredRotation;
 	RotationToAdd = rotationToAdd;
 }
+#pragma endregion 
 
-//---------------- TimeLines Methods
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAltarWhell::BeginPlay()
+{
+	Super::BeginPlay();
+
+	BindTimeLines();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAltarWhell::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	MoveTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLines Methods
 void AAltarWhell::BindTimeLines()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -78,14 +96,14 @@ void AAltarWhell::BindTimeLines()
 	MoveTimeLine.AddInterpFloat(CurveFloat, CameraTargetTick);
 	
 	FOnTimelineEventStatic CameraTargettingFinished;
-	CameraTargettingFinished.BindUFunction(this, FName("MoveTimeLineFinisehd"));
+	CameraTargettingFinished.BindUFunction(this, FName("MoveTimeLineFinished"));
 	MoveTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltarWhell::MoveTimeLineTick(float deltaSeconds)
 {
 	auto newPich = FMathf::Lerp(InteractionRotator.Pitch, InteractionRotator.Pitch + RotationToAdd, deltaSeconds);
-
 
 	auto newStatuetteYaw = FMathf::Lerp(StatuateRotator.Yaw, StatuateRotator.Yaw + RotationToAdd, deltaSeconds);
 	FRotator newStatuetteRotator = FRotator(StatuateRotator.Pitch, newStatuetteYaw, StatuateRotator.Roll);
@@ -94,7 +112,9 @@ void AAltarWhell::MoveTimeLineTick(float deltaSeconds)
 	Statuette->SetActorRotation(newStatuetteRotator);
 }
 
-void AAltarWhell::MoveTimeLineFinisehd()
+//----------------------------------------------------------------------------------------------------------------------
+void AAltarWhell::MoveTimeLineFinished()
 {
 	bCanInteract = true;
 }
+#pragma endregion 

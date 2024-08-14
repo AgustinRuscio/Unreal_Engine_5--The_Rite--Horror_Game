@@ -7,6 +7,10 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/PointLightComponent.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AOverlayInventoryActor::AOverlayInventoryActor()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -23,6 +27,10 @@ AOverlayInventoryActor::AOverlayInventoryActor()
 	PointLightComponent->SetupAttachment(SceneCaptureComponent2D);
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AOverlayInventoryActor::BeginPlay()
 {
 	Super::BeginPlay();

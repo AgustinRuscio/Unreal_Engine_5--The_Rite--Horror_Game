@@ -21,31 +21,31 @@ class THERITE_API AAltar : public AInteractor
 {
 	GENERATED_BODY()
 
-
 public:
 	AAltar();
 
-//--------------------- System Class methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
-//--------------------- Focus methods
 	void DisableAltarInteraction();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	void DisableInteraction();
+	
 	UFUNCTION()
 	void LeaveFocus();
 	
-//--------------------- Objects methods
+//--------------------- Actions methods
 	UFUNCTION()
-	void WhellInteraction();
+	void WheelInteraction();
 
 	UFUNCTION()
-	void PrevWhell();
+	void PrevWheel();
 
 	UFUNCTION()
-	void NextWhell();
+	void NextWheel();
 
 	void ChangeCameraPosition();
 	

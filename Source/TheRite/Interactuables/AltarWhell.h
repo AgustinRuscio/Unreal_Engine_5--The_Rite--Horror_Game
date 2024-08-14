@@ -21,9 +21,6 @@ class THERITE_API AAltarWhell : public AInteractor
 public:
 	AAltarWhell();
 	bool CheckRotation();
-	
-	virtual void Tick(float DeltaTime) override;
-	virtual void BeginPlay() override;
 
 	virtual void Interaction() override;
 	
@@ -34,12 +31,16 @@ public:
 	void ASignValues(AStatuette* Statuette, float DesiredRotation, float RotationToAdd);
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 	void BindTimeLines();
+	
 	UFUNCTION()
 	void MoveTimeLineTick(float deltaSeconds);
 	
 	UFUNCTION()
-	void MoveTimeLineFinisehd();
+	void MoveTimeLineFinished();
 	
 private:
 	float DesiredRotation;

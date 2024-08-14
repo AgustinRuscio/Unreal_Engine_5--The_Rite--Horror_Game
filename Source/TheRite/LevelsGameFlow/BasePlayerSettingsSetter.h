@@ -19,10 +19,13 @@ class THERITE_API ABasePlayerSettingsSetter : public AActor
 
 public:
 	ABasePlayerSettingsSetter();
-	virtual void BeginPlay() override;
 
+//---------------- Setter Methods
 	void SetUseLighter(bool WillUseLighter);
 	void SetCanRun(bool WillRun);
+
+private:
+	virtual void BeginPlay() override;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "Player Settings for running in begin play"))

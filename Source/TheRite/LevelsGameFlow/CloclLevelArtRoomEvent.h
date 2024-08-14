@@ -33,10 +33,11 @@ class THERITE_API ACloclLevelArtRoomEvent : public AActor
 public:
 	ACloclLevelArtRoomEvent();
 	
+	
+private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
-private:
 	UFUNCTION()
 	void OnEventStarted(AActor* OverlappedActor, AActor* OtherActor);
 	

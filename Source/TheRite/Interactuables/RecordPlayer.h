@@ -20,9 +20,6 @@ class THERITE_API ARecordPlayer : public AInteractor
 public:
 	ARecordPlayer();
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 	
 //---------------- Action Methods
@@ -31,6 +28,10 @@ public:
 
 	UFUNCTION()
 	void PauseSong();
+
+private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 	
 public:	
 	UPROPERTY(BlueprintAssignable, Category = "Song Delegate")

@@ -31,13 +31,11 @@ public:
 	bool KeyUnlocked() const;
 	
 //---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
 //---------------- Action Door Methods
 	UFUNCTION()
-	void ObteinKey();
+	void ObtainKey();
 	
 	UFUNCTION()
 	void Open();
@@ -53,12 +51,16 @@ public:
 //---------------- Setter Methods
 	void SetDoorKeyValues(FString itemName, PickableItemsID id);
 	void SetCanDragFalse();
-	void SetLockedState(bool lockednewState);
+	void SetLockedState(bool LockedNewState);
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 //---------------- Initializer Methods
 	void CreateWidgets();
 	void InitializeNeededValues();
+	
 //---------------- Tutorial Methods
 	void SetTutorialDoor();
 	void TutorialInteraction();
@@ -127,7 +129,7 @@ private:
 	void HardClosingTimeLineUpdate(float value);
 	
 	UFUNCTION()
-	void HardClosingTielineFinished();
+	void HardClosingTimelineFinished();
 
 private:
 	UPROPERTY(EditAnywhere, Category= "States")

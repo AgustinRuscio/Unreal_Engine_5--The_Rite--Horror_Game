@@ -25,17 +25,19 @@ class THERITE_API ABigClock : public AInteractor
 	
 public:	
 	ABigClock();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
+	
 	virtual void Interaction() override;
 
 	void SetReadyToUse();
 	
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//--------------------- Action methods
 	UFUNCTION()
 	void LeaveFocus();
-
-//--------------------- Objects methods
+	
 	UFUNCTION()
 	void PrevNeedle();
 	
@@ -47,6 +49,7 @@ private:
 
 	void ChangeNeedle();
 	void CheckNeedlesPosition();
+	
 //--------------------- TimeLine methods
 	void HideClue();
 	
@@ -57,6 +60,7 @@ private:
 	
 	UFUNCTION()
 	void MoveNeedleTimeLineFinished();
+	
 public:
 	FOnClockPuzzleFinished OnClockPuzzleCompleted;
 	

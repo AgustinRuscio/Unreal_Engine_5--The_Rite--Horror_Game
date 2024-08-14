@@ -25,12 +25,13 @@ class THERITE_API ALockedDoor : public AInteractor
 public:
 	ALockedDoor();
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
 private:
+	//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 //---------------- FeedBack Methods
 	UFUNCTION()
 	void ItsLocked();

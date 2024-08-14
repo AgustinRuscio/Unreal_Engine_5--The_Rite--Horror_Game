@@ -25,7 +25,6 @@ public:
 	float GetIntensity() const;
 	HouseZone GetLightZone() const;
 	
-	virtual void BeginPlay() override;
 	
 	UFUNCTION()
 	void SetAggressiveMaterial() const;
@@ -40,6 +39,9 @@ public:
 	
 	UFUNCTION()
 	void TurnOn() const;
+
+private:
+	virtual void BeginPlay() override;
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off"))

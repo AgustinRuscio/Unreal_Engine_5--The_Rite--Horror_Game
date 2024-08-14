@@ -13,29 +13,17 @@
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
-//--------------------- System Class methods
+//*****************************Public********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAltar::AAltar()
 {
  	PrimaryActorTick.bCanEverTick = true;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 }
 
-void AAltar::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-
-	BindTimeLine();
-}
-
-void AAltar::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	MoveCameraTimeLine.TickTimeline(DeltaTime);
-}
-
-//--------------------- Focus methods
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::Interaction()
 {
 	if(bIsFocus || !bCanInteract) return;
@@ -45,9 +33,9 @@ void AAltar::Interaction()
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
 
-	controller->OnPrevInventoryItem.AddDynamic(this, &AAltar::PrevWhell);
-	controller->OnNextInventoryItem.AddDynamic(this, &AAltar::NextWhell);
-	controller->OnInteractionPressed.AddDynamic(this, &AAltar::WhellInteraction);
+	controller->OnPrevInventoryItem.AddDynamic(this, &AAltar::PrevWheel);
+	controller->OnNextInventoryItem.AddDynamic(this, &AAltar::NextWheel);
+	controller->OnInteractionPressed.AddDynamic(this, &AAltar::WheelInteraction);
 	controller->OnLeaveFocus.AddDynamic(this, &AAltar::LeaveFocus);
 
 	for (auto Element : Whells)
@@ -58,11 +46,39 @@ void AAltar::Interaction()
 	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform(), ExittingRotation);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::DisableAltarInteraction()
+{
+	DisableInteraction();
+}
+
+//*****************************Private********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAltar::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+
+	BindTimeLine();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAltar::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	MoveCameraTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAltar::DisableInteraction()
 {
 	bCanInteract = false;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::LeaveFocus()
 {
 	if(!bCanInteract || Player->GetFocusingState()) return;
@@ -73,9 +89,9 @@ void AAltar::LeaveFocus()
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
 
-	controller->OnPrevInventoryItem.RemoveDynamic(this, &AAltar::PrevWhell);
-	controller->OnNextInventoryItem.RemoveDynamic(this, &AAltar::NextWhell);
-	controller->OnInteractionPressed.RemoveDynamic(this, &AAltar::WhellInteraction);
+	controller->OnPrevInventoryItem.RemoveDynamic(this, &AAltar::PrevWheel);
+	controller->OnNextInventoryItem.RemoveDynamic(this, &AAltar::NextWheel);
+	controller->OnInteractionPressed.RemoveDynamic(this, &AAltar::WheelInteraction);
 	controller->OnLeaveFocus.RemoveDynamic(this, &AAltar::LeaveFocus);
 	
 	for (auto Element : Whells)
@@ -84,15 +100,17 @@ void AAltar::LeaveFocus()
 	}
 }
 
-//--------------------- Objects methods
-void AAltar::WhellInteraction()
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Actions methods
+void AAltar::WheelInteraction()
 {
 	if(!bCanInteract || Player->GetFocusingState()) return;
 	
 	Whells[WhellIndex]->Interaction();
 }
 
-void AAltar::PrevWhell()
+//----------------------------------------------------------------------------------------------------------------------
+void AAltar::PrevWheel()
 {
 	if(!bCanInteract || Player->GetFocusingState()) return;
 	
@@ -104,7 +122,8 @@ void AAltar::PrevWhell()
 	ChangeCameraPosition();
 }
 
-void AAltar::NextWhell()
+//----------------------------------------------------------------------------------------------------------------------
+void AAltar::NextWheel()
 {
 	if(!bCanInteract || Player->GetFocusingState()) return;
 	
@@ -116,14 +135,17 @@ void AAltar::NextWhell()
 	ChangeCameraPosition();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::ChangeCameraPosition()
 {
 	bCanInteract = false;
 	cameraPos = Player->GetCamera()->GetComponentLocation();
 	MoveCameraTimeLine.PlayFromStart();
 }
+#pragma endregion
 
-//--------------------- TimeLine methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine methods
 void AAltar::BindTimeLine()
 {
 	FOnTimelineFloat CameraTargetTick;
@@ -135,6 +157,7 @@ void AAltar::BindTimeLine()
 	MoveCameraTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::MoveCameraTick(float deltaSecinds)
 {
 	auto newX = FMath::Lerp(cameraPos, CameraPos[WhellIndex]->GetActorLocation(), deltaSecinds);
@@ -142,7 +165,9 @@ void AAltar::MoveCameraTick(float deltaSecinds)
 	Player->MoveCamera(newX);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAltar::MoveCameraFinished()
 {
 	bCanInteract = true;
 }
+#pragma endregion 

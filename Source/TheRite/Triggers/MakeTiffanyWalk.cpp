@@ -12,6 +12,10 @@
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AMakeTiffanyWalk::AMakeTiffanyWalk()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,25 +24,32 @@ AMakeTiffanyWalk::AMakeTiffanyWalk()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AMakeTiffanyWalk::OnOverlapBegin);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AMakeTiffanyWalk::KeyObtain(ATiffany* newTiff)
+{
+	Tiffany = newTiff;
+	bKeyReady = true;
+}
+
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::BeginPlay()
 {
 	Super::BeginPlay();
 	BindTimeLines();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::Tick(float DeltaTime)
 {
 	FirstTimeLine.TickTimeline(DeltaTime);
 	SecondsTimeLine.TickTimeline(DeltaTime);
 }
 
-void AMakeTiffanyWalk::KeyObtein(ATiffany* newTiff)
-{
-	Tiffany = newTiff;
-	bKeyReady = true;
-}
-
-//---------------- TimeLine Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLine Methods
 void AMakeTiffanyWalk::BindTimeLines()
 {
 	//------------------- Open Time line
@@ -58,9 +69,9 @@ void AMakeTiffanyWalk::BindTimeLines()
 	FOnTimelineEventStatic CloseTimelineFinishedCallback;
 	CloseTimelineFinishedCallback.BindUFunction(this, FName("SecondsTimelineFinished"));
 	SecondsTimeLine.SetTimelineFinishedFunc(CloseTimelineFinishedCallback);
-
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::FirstTimeLineUpdate(float value)
 {
 	if(FVector::Dist(MoveTarget->GetActorLocation(), Tiffany->GetActorLocation()) > 200.0f)
@@ -90,6 +101,7 @@ void AMakeTiffanyWalk::FirstTimeLineUpdate(float value)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::FirstTimelineFinished()
 {
 	for (auto Element : OtherLights)
@@ -105,7 +117,7 @@ void AMakeTiffanyWalk::FirstTimelineFinished()
 	SecondsTimeLine.PlayFromStart();
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::SecondsTimeLineUpdate(float value) { }
 
 void AMakeTiffanyWalk::SecondsTimelineFinished()
@@ -126,8 +138,9 @@ void AMakeTiffanyWalk::SecondsTimelineFinished()
 	OnFinishedEvent.Broadcast();
 	Destroy();
 }
+#pragma endregion
 
-
+//----------------------------------------------------------------------------------------------------------------------
 void AMakeTiffanyWalk::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

@@ -18,11 +18,13 @@ class THERITE_API ATimerSound : public AActor
 	
 public:
 	ATimerSound();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	USoundBase* CurrentAudio() const;
+	
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 	void ChangeCoolDown();
 	void SpawnAudio();
 	

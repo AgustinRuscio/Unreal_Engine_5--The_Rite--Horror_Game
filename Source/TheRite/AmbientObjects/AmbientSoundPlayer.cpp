@@ -7,18 +7,27 @@
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public******************************************
+//*****************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AAmbientSoundPlayer::AAmbientSoundPlayer()
 {
 	bAllowTickBeforeBeginPlay = true;
-	AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Component");
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 AAmbientSoundPlayer::~AAmbientSoundPlayer()
 {
-	if(AudioComponent != nullptr)
-		AudioComponent->OnAudioFinished.Clear();
+	if(AudioComp != nullptr)
+		AudioComp->OnAudioFinished.Clear();
 }
 
+//*****************************Private******************************************
+//******************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,15 +35,16 @@ void AAmbientSoundPlayer::BeginPlay()
 	CreateAudio();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::CreateAudio()
 {
-	if(AudioComponent != nullptr)
-		AudioComponent->OnAudioFinished.Clear();
+	if(AudioComp != nullptr)
+		AudioComp->OnAudioFinished.Clear();
 
-	if(IsTwoDimentional)
-		AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), CueToSound);
+	if(bIs2D)
+		AudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), CueToSound);
 	else
-		AudioComponent = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), CueToSound, GetActorLocation());
+		AudioComp = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), CueToSound, GetActorLocation());
 	
-	AudioComponent->OnAudioFinished.AddDynamic(this, &AAmbientSoundPlayer::CreateAudio);
+	AudioComp->OnAudioFinished.AddDynamic(this, &AAmbientSoundPlayer::CreateAudio);
 }

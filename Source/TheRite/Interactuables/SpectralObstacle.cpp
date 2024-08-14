@@ -9,6 +9,10 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public************************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ASpectralObstacle::ASpectralObstacle()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -19,6 +23,27 @@ ASpectralObstacle::ASpectralObstacle()
 	NiagaraSystemComponent->SetupAttachment(BoxCollider);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region Destroy Methods
+void ASpectralObstacle::DestroyObject(UNiagaraComponent* comp)
+{
+	FirstTimeLine.PlayFromStart();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASpectralObstacle::ObstacleDestroy()
+{
+	UGameplayStatics::SpawnSound2D(GetWorld(), SpectralSound);
+	
+	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
+	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestroyObject);
+}
+#pragma endregion
+
+//*****************************Private************************************************
+//************************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralObstacle::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,26 +55,16 @@ void ASpectralObstacle::BeginPlay()
 	BindTimeLines();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralObstacle::Tick(float DeltaSeconds)
 {
+	Super::Tick(DeltaSeconds);
+	
 	FirstTimeLine.TickTimeline(DeltaSeconds);
 }
 
-//---------------- Destroy Methods
-void ASpectralObstacle::DestryoObject(UNiagaraComponent* comp)
-{
-	FirstTimeLine.PlayFromStart();
-}
-
-void ASpectralObstacle::ObstacleDestroy()
-{
-	UGameplayStatics::SpawnSound2D(GetWorld(), SpectralSound);
-	
-	NiagaraSystemComponent->SetIntParameter(TEXT("Loop Count"), 1.f);
-	NiagaraSystemComponent->OnSystemFinished.AddDynamic(this, &ASpectralObstacle::DestryoObject);
-}
-
-//---------------- TimeLines Methods
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region TimeLines Methods
 void ASpectralObstacle::BindTimeLines()
 {
 	FOnTimelineFloat TimelineCallback;
@@ -61,6 +76,7 @@ void ASpectralObstacle::BindTimeLines()
 	FirstTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralObstacle::FirstTimeLineUpdate(float time)
 {
 	float value = FMathf::Lerp(1,2,time);
@@ -68,8 +84,10 @@ void ASpectralObstacle::FirstTimeLineUpdate(float time)
 	DynamicMaterial->SetScalarParameterValue("Corruption", value);
 }	
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASpectralObstacle::FirstTimelineFinished()
 {
 	OnObstacleDestroy.Broadcast();
 	Destroy();
 }
+#pragma endregion

@@ -1,3 +1,7 @@
+//--------------------------------------------
+//			Made by	Agustin Ruscio
+//--------------------------------------------
+
 
 #pragma once
 
@@ -16,12 +20,14 @@ class THERITE_API AEmergencyLights : public AActor
 	
 public:	
 	AEmergencyLights();
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
 
 //---------------- Functionality Methods
-	void TurnOn();
-	void TurnOff();
+	void TurnOn() const;
+	void TurnOff() const;
+	
+private:
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
 	
 private:
 //-------- Settings

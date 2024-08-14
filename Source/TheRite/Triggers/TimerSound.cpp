@@ -7,11 +7,28 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ATimerSound::ATimerSound()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+USoundBase* ATimerSound::CurrentAudio() const
+{
+	int8 rand = FMath::RandRange(0, PosibleSounds.Num()-1);
+	auto curretnAudio = PosibleSounds[rand];
+	curretnAudio->AttenuationSettings = FxAttenuation;
+	return curretnAudio;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ATimerSound::BeginPlay()
 {
 	Super::BeginPlay();
@@ -21,6 +38,7 @@ void ATimerSound::BeginPlay()
 	ChangeCoolDown();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATimerSound::Tick(float DeltaTime)
 {
 	Timer += DeltaTime;
@@ -30,19 +48,13 @@ void ATimerSound::Tick(float DeltaTime)
 	SpawnAudio();
 }
 
-USoundBase* ATimerSound::CurrentAudio() const
-{
-	int8 rand = FMath::RandRange(0, PosibleSounds.Num()-1);
-	auto curretnAudio = PosibleSounds[rand];
-	curretnAudio->AttenuationSettings = FxAttenuation;
-	return curretnAudio;
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 void ATimerSound::ChangeCoolDown()
 {
 	CooldDown = FMath::RandRange(MinCoolDown, MaxCooldDown);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ATimerSound::SpawnAudio()
 {
 	auto playerPosition = Player->GetActorLocation() ;

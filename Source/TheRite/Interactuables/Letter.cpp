@@ -7,6 +7,10 @@
 
 #include "Kismet/GameplayStatics.h"
 
+//*****************************Public***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ALetter::ALetter()
 {
  	PrimaryActorTick.bCanEverTick = true;
@@ -14,6 +18,7 @@ ALetter::ALetter()
 	LetterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Letter mesh");
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALetter::Interaction()	
 {
 	OnInteractionTrigger.Broadcast(this);

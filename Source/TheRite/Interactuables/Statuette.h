@@ -26,26 +26,29 @@ public:
 //---------------- Getter Methods
 	bool IsFirstInteraction() const;
 	float GetDesiredRotation() const;
-	float GetRotatioToAdd() const;
+	float GetRotationToAdd() const;
 	FRotator GetRotation() const;
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interaction() override;
+
+	
+//---------------- Setter Methods
+	void SetAltarPosition(FVector pos, FRotator rot);
+	void SetBase(AStaticMeshActor* base);
 	
 //---------------- Action Methods
 	void EnableInteraction();
 	void RestoreInitialValues();
-	void SetAltarPosition(FVector pos, FRotator rot);
-	void SetBase(AStaticMeshActor* base);
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
 //---------------- TimeLine Methods
 	void BindTimeLine();
 	
 	UFUNCTION()
-	void OpenTimeLineUpdate(float value);
+	void OpenTimeLineTick(float value);
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Settings")

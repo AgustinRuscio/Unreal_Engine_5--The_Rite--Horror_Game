@@ -21,14 +21,14 @@ class THERITE_API ALightSwitch : public AInteractor
 public:
 	ALightSwitch();
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void Interaction() override;
 
 	virtual void SetSpecialReady();
 
 private:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
 //---------------- TimeLine Methods
 	void BindTimeLine();
 	

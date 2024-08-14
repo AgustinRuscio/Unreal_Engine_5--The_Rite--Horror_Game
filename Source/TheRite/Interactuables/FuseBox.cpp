@@ -11,6 +11,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 
+
+//*****************************Public***********************************************
+//**********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 AFuseBox::AFuseBox()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -34,7 +39,54 @@ AFuseBox::AFuseBox()
 	EndSecondPosition->SetupAttachment(FusibleBoxMesh);
 }
 
-//--------------------- System Class methods
+//----------------------------------------------------------------------------------------------------------------------
+void AFuseBox::Interaction()
+{
+	if(!bCanInteract) return;
+
+	if(!bHastFusibleToPut) 
+	{
+		if(!bBothFusesSameTime)
+			return;
+	}
+	
+	bCanInteract = false;
+	bHastFusibleToPut = false;
+	FusesQuantity++;
+
+	
+	if(FusesQuantity == 1)
+		FirstFusible->SetVisibility(true);
+	else
+		SecondsFusible->SetVisibility(true);
+	
+	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	player->RemoveFromInventory(FusesNames[0], FusesId[0]);
+
+	FusesNames.RemoveAt(0);
+	FusesId.RemoveAt(0);
+	
+	ThermalSwitch->SetCanInteract(false);
+	
+	LocateFusibleTimeLine.PlayFromStart();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AFuseBox::GrabFusible(FString FuseName, PickableItemsID FuseId)
+{
+	FusesNames.Add(FuseName);
+	FusesId.Add(FuseId);
+	
+	if(!bHastFusibleToPut)
+		bHastFusibleToPut = true;
+	else
+		bBothFusesSameTime = true;
+}
+
+//*****************************Private***********************************************
+//***********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void AFuseBox::BeginPlay()
 {
 	Super::BeginPlay();
@@ -48,6 +100,7 @@ void AFuseBox::BeginPlay()
 	LocateFusibleTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFuseBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -55,53 +108,11 @@ void AFuseBox::Tick(float DeltaTime)
 	LocateFusibleTimeLine.TickTimeline(DeltaTime);
 }
 
-void AFuseBox::Interaction()
-{
-	if(!bCanInteract) return;
-
-	if(!bHastFusibleToPut) 
-	{
-		if(!bBothFusiblesSameTime)
-			return;
-	}
-	
-	bCanInteract = false;
-	bHastFusibleToPut = false;
-	FusiblesQuantity++;
-
-	
-	if(FusiblesQuantity == 1)
-		FirstFusible->SetVisibility(true);
-	else
-		SecondsFusible->SetVisibility(true);
-
-	
-	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	player->RemoveFromInventory(FusesNames[0], FusesId[0]);
-
-	FusesNames.RemoveAt(0);
-	FusesId.RemoveAt(0);
-	
-	ThermalSwitch->SetCanInteract(false);
-	
-	LocateFusibleTimeLine.PlayFromStart();
-}
-
-void AFuseBox::GrabFusible(FString FuseName, PickableItemsID FuseId)
-{
-	FusesNames.Add(FuseName);
-	FusesId.Add(FuseId);
-	
-	if(!bHastFusibleToPut)
-		bHastFusibleToPut = true;
-	else
-		bBothFusiblesSameTime = true;
-}
-
-//--------------------- TimeLine methods
+//----------------------------------------------------------------------------------------------------------------------
+# pragma region TimeLine Methods
 void AFuseBox::LocateFusibleTick(float deltaSeconds)
 {
-	if(FusiblesQuantity == 1)
+	if(FusesQuantity == 1)
 	{
 		auto lerpingPos = FMath::Lerp(InitialPosition->GetRelativeLocation(), EndFirstPosition->GetRelativeLocation(), deltaSeconds);
 		
@@ -115,17 +126,18 @@ void AFuseBox::LocateFusibleTick(float deltaSeconds)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFuseBox::LocateFusibleFinished()
 {
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_Sparking,GetActorLocation());
 	
 
-	if(FusiblesQuantity == 1)
+	if(FusesQuantity == 1)
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndFirstPosition->GetComponentLocation());
 	else
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSytem_Sparks, EndSecondPosition->GetComponentLocation());
 	
-	if(MaxFusiblesQuantity == FusiblesQuantity)
+	if(MaxFusesQuantity == FusesQuantity)
 	{
 		bCanInteract = false;
 		OnFuseBoxComplete.Broadcast();
@@ -137,3 +149,4 @@ void AFuseBox::LocateFusibleFinished()
 		bCanInteract = true;
 	}
 }
+#pragma endregion 

@@ -30,9 +30,10 @@ class THERITE_API AGameFlowGameBegin : public AActor
 	
 public:	
 	AGameFlowGameBegin();
-	virtual void BeginPlay() override;
 
 private:
+	virtual void BeginPlay() override;
+	
 	void SetNeededValues();
 	void CreateWidgets();
 	

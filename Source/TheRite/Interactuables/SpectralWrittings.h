@@ -28,12 +28,8 @@ public:
 	~ASpectralWrittings();
 	
 //---------------- Getter Methods
-	bool GetDiscoverdStatus() const;
+	bool GetDiscoveredStatus() const;
 	
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void BeginDestroy() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void Interaction() override;
 	
 //---------------- Actions Methods
@@ -45,6 +41,12 @@ public:
 	void SetMaterialAlpha(float alpha);
 
 private:
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void BeginDestroy() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+//---------------- Fade Methods
 	void SetFaderValues();
 	
 	UFUNCTION()
@@ -53,18 +55,19 @@ private:
 	UFUNCTION()
 	void OnFadeDeactivate();
 	
-	
+//---------------- Collision Methods
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnActorOverapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnActorOverlapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	
 //---------------- TimeLine Methods
 	void BindTimeLine();
 	
 	UFUNCTION()
 	void FadeTick(float deltaSeconds);
+	
 	UFUNCTION()
 	void FadeFinished();
 	
@@ -79,6 +82,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FName PostProcessToModifyParameterName;
+	
 	//-------- Mesh / Colliders
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Mesh;
@@ -106,7 +110,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	UCurveFloat* FadeCurve;
-
 	
 	UPROPERTY(EditAnywhere, Category = "Component")
 	UFadeObjectComponent* FadeComponent;

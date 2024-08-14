@@ -6,33 +6,45 @@
 #include "Fader.h"
 #include "FadeObjectComponent.h"
 
-AActor* IFader::GetActor()
+//*****************************Public********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+AActor* IFader::GetActor() const
 {
 	return Parentactor;
 }
 
-void IFader::OnFadeActivate()
+//----------------------------------------------------------------------------------------------------------------------
+void IFader::OnFadeActivate() const
 {
 	FadeComponent->ActivateFade();
 	OnActivate.Broadcast();
 }
 
-void IFader::OnFadeDeActivate()
+//----------------------------------------------------------------------------------------------------------------------
+void IFader::OnFadeDeActivate() const
 {
 	FadeComponent->DeActivateFade();
 	OnDeactivate.Broadcast();
 }
 
-void IFader::SetAlpha(float alpha)
+//----------------------------------------------------------------------------------------------------------------------
+void IFader::SetAlpha(float alpha) const
 {
 	FadeComponent->SetMaterialAlpha(alpha);
 }
 
+//*****************************Protected********************************************
+//**********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void IFader::SetFaderComponent(UFadeObjectComponent* FaderComponent)
 {
 	FadeComponent = FaderComponent;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void IFader::SetActor(AActor* Parent)
 {
 	Parentactor = Parent;

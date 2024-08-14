@@ -25,8 +25,8 @@ public:
 //---------------- Getter Methods
 	virtual bool IsPickable() const override;
 	virtual bool IsMainItem() const override;
-	virtual bool IsRemovable() override;
-	virtual bool GetCanInteract() override;
+	virtual bool GetCanInteract() const override;
+	virtual bool IsRemovable() const override;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual FString GetItemName() const override;
@@ -34,10 +34,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual PickableItemsID GetItemID() const override;
 	
-	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() override;
-	
 	UFUNCTION()
-	virtual USoundBase* GetSound() override;
+	virtual USoundBase* GetSound() const override;
+	
+	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() const override;
 
 //---------------- System Class Methods
 	UFUNCTION()
@@ -52,6 +52,7 @@ public:
 
 	virtual void Deactivate() override;
 	virtual void Activate() override;
+	
 public:
 	FInteractionTrigger OnInteractionTrigger;
 	

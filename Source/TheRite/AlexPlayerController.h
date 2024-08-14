@@ -56,8 +56,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetMouseSensitivity() const;
 	
-	virtual void BeginPlay() override;
-	
 //---------------- Actions Methods
 	void EnableInput(APlayerController* PlayerController) override;
 	void DisableInput(APlayerController* PlayerController) override;
@@ -73,14 +71,16 @@ public:
 	void SetMouseSensitivity(float newSensitivity);
 
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
+	
 private:
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	bool GetIsGamepad() const;
-
+	
+	virtual void BeginPlay() override;
+	
 //---------------- Binding Methods
 	void BindActions();
 	void UnbindActions();
-
 	
 //---------------- Input Methods
 	void PlayerMovement(const FInputActionValue& value);
@@ -107,7 +107,8 @@ private:
 	
 //---------------- Loading Methods
 	UFUNCTION()
-	void RecieveLoadedData(float newSensitivity);
+	void ReceiveLoadedData(float newSensitivity);
+	
 	UFUNCTION()
 	void LoadValues();
 

@@ -7,12 +7,19 @@
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Interactuables/Interactor.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 ACandleGuideController::ACandleGuideController()
 {
  	PrimaryActorTick.bCanEverTick = true;
-
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ACandleGuideController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -20,6 +27,8 @@ void ACandleGuideController::BeginPlay()
 	MyInteractor->OnInteractionTrigger.AddDynamic(this, &ACandleGuideController::GuideChange);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+#pragma region Action Methods
 void ACandleGuideController::GuideChange(AInteractor* interactor)
 {
 	TurnOffPrevCandles();
@@ -27,6 +36,7 @@ void ACandleGuideController::GuideChange(AInteractor* interactor)
 	TurnOnNextCandles();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACandleGuideController::TurnOffPrevCandles()
 {
 	if(PlaceGuideCandles.Num() == 0) return;
@@ -37,6 +47,7 @@ void ACandleGuideController::TurnOffPrevCandles()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACandleGuideController::TurnOnNextCandles()
 {
 	if(NextPlaceGuideCandles.Num() == 0) return;
@@ -46,3 +57,4 @@ void ACandleGuideController::TurnOnNextCandles()
 		Element->TurnOn();
 	}
 }
+#pragma endregion

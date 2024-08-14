@@ -10,12 +10,19 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/AlexPlayerController.h"
 
+//*****************************Public*********************************************
+//********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 ARealWorldGameFlow::ARealWorldGameFlow()
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
 
+//*****************************Private*********************************************
+//*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
 void ARealWorldGameFlow::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,9 +30,9 @@ void ARealWorldGameFlow::BeginPlay()
 	PlayerMethods();
 	
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
-	
-	}
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARealWorldGameFlow::PlayerMethods()
 {
 	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
@@ -33,6 +40,7 @@ void ARealWorldGameFlow::PlayerMethods()
 	Player->SetPlayerOptions(true, false, false);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ARealWorldGameFlow::OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!Cast<AAlex>(OtherActor))return;
