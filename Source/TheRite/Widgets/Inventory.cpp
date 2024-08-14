@@ -147,3 +147,4 @@ void UInventory::ShowPrevItem()
 	Brush.SetResourceObject(CurrentPair.Value); 
 	OverlayImage->SetBrush(Brush);
 }
+#pragma endregion
