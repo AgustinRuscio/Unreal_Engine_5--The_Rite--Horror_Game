@@ -108,8 +108,7 @@ void AAlexPlayerController::SetUIOnly(bool uiMode)
 {
 	bShowMouseCursor = uiMode;
 	
-	uiMode ? 
-	SetInventoryInputs():
+	uiMode ? SetInventoryInputs():
 	BindActions();
 }
 
