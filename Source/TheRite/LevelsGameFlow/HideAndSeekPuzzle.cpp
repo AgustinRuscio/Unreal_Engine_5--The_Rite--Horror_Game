@@ -4,6 +4,8 @@
 
 
 #include "HideAndSeekPuzzle.h"
+
+#include "ProsProcessModifier.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
@@ -59,6 +61,9 @@ void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 	{
 		bFirstInteractionDone = true;
 		OnPuzzleStarted.Broadcast();
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 1);
+		UGameplayStatics::PlaySound2D(GetWorld(), SFX_ClockTicking, 1.5f, 0.5f);
+		UGameplayStatics::PlaySound2D(GetWorld(), SFX_EventBegin, 1.5f);
 	}
 	
 	PlayerLighterStateSetter(false);
@@ -138,6 +143,9 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 void AHideAndSeekPuzzle::PuzzleCompleted()
 {
 	OnPuzzleComplete.Broadcast();
+
+	
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0);
 	
 	if(bLightsOnAfterCompleted)
 		LightsOn();
