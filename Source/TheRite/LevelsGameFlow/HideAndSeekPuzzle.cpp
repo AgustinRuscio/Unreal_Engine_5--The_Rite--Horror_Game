@@ -65,6 +65,10 @@ void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 		UGameplayStatics::PlaySound2D(GetWorld(), SFX_ClockTicking, 1.5f, 0.5f);
 		UGameplayStatics::PlaySound2D(GetWorld(), SFX_EventBegin, 1.5f);
 	}
+	else
+	{
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0.5f);
+	}
 	
 	PlayerLighterStateSetter(false);
 	
@@ -133,7 +137,7 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
-
+	
 	UGameplayStatics::SpawnSound2D(GetWorld(),SFX_InteractionFX);
 
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
@@ -143,7 +147,6 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 void AHideAndSeekPuzzle::PuzzleCompleted()
 {
 	OnPuzzleComplete.Broadcast();
-
 	
 	PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0);
 	
