@@ -43,8 +43,6 @@ AGameFlowPacifierLevel::AGameFlowPacifierLevel()
 void AGameFlowPacifierLevel::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Lights_LastFetus->GetLightComponent()->SetIntensity(0.f);
 	
 	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
 
@@ -257,10 +255,7 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 
 //----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::EndGame()
-{
-	
-	Lights_LastFetus->GetLightComponent()->SetIntensity(6.f);
-	
+{	
 	for (auto Element : Candles_EndGame)
 	{
 		Element->Appear();
@@ -269,7 +264,7 @@ void AGameFlowPacifierLevel::EndGame()
 
 	Door_EndGmae->SetLockedState(false);
 
-	Player->SetPlayerOptions(true, false, false);
+	Player->SetPlayerOptions(true, true, false);
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndGame);
 }

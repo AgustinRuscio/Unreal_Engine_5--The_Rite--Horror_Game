@@ -161,6 +161,10 @@ private:
 	bool bcanDrag;
 	bool bIsPlayerForward;
 	bool bDoOnceTut;
+
+	bool bDoOnceOpenLatchAnim = true;
+	bool bLatchPlay = true;
+	bool bLatchReversePlay = true;
 	
 	int8 FirstTimeKeySound = 0;
 	int8 AudioCounterItsLocked = 0;

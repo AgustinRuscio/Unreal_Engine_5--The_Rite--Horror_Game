@@ -166,9 +166,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ACandle*> Candles_EndGame;
-
-	UPROPERTY(EditAnywhere, Category="Lights")
-	ASpotLight* Lights_LastFetus;
 	
 	//-------- Flows & Puzzles
 	FTimerHandle Timer_FirstStairsEvent;

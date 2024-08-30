@@ -518,10 +518,26 @@ void ADoor::LatchAnim()
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::LatchHolding(bool isOppening)
 {
+	
 	if(isOppening)
-		TimeLineLatchHold.PlayFromStart();
+	{
+		if(!bDoOnceOpenLatchAnim) return;
+		
+		if(bLatchPlay)
+		{
+			bDoOnceOpenLatchAnim = false;
+			bLatchPlay = false;
+			TimeLineLatchHold.PlayFromStart();
+		}
+	}
 	else
-		TimeLineLatchHold.ReverseFromEnd();
+	{
+		if(bLatchReversePlay)
+		{
+			bLatchReversePlay = false;
+			TimeLineLatchHold.ReverseFromEnd();
+		}
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -645,7 +661,19 @@ void ADoor::LatchHoldTimeLineUpdate(float value)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ADoor::LatchHoldTimelineFinished() { }
+void ADoor::LatchHoldTimelineFinished()
+{
+	if(!bLatchPlay)
+	{
+		bLatchPlay = true;
+	}
+
+	if(!bLatchReversePlay)
+	{
+		bLatchReversePlay = true;
+		bDoOnceOpenLatchAnim = true;
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::HardClosingTimeLineUpdate(float value)
