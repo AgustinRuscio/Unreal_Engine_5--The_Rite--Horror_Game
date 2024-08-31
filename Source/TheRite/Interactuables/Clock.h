@@ -26,6 +26,10 @@ public:
 	virtual void Interaction() override;
 
 private:
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bTest;
+	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FName NextLevelName;
 	
@@ -37,4 +41,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Light")
 	UPointLightComponent* Light;
+
+	UPROPERTY(EditAnywhere, Category= "Light")
+	TArray<class ALightsTheRite*> TurnedOfLights;
 };

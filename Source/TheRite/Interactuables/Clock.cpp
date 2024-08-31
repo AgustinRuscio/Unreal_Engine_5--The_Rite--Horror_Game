@@ -5,7 +5,9 @@
 
 #include "Clock.h"
 #include "Components/PointLightComponent.h"
+#include "Engine/PointLight.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -41,9 +43,19 @@ FName AClock::GetObjectData() const
 //----------------------------------------------------------------------------------------------------------------------
 void AClock::Interaction()
 {
-	Super::Interaction();
-	
-	OnInteractionTrigger.Broadcast(this);
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
-	Destroy();
+	if(bTest)
+	{
+		for (auto Element : TurnedOfLights)
+		{
+			Element->TurnOff();
+		}
+	}
+	else
+	{
+		Super::Interaction();
+		
+		OnInteractionTrigger.Broadcast(this);
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
+		Destroy();
+	}
 }

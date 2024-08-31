@@ -32,6 +32,9 @@ private:
 	void HidingSecondTutorialWidget();
 	
 	UFUNCTION()
+	void MainObjectGrabbed(class AInteractor* interactable);
+	
+	UFUNCTION()
 	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
 	
 private:
@@ -45,6 +48,12 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	USoundBase* SFX_Knocking;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	class AClock* Clock;
+
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	TArray<USoundBase*> MainObjctGrabbedSound;
 	
 	AAlex* Player;
 };

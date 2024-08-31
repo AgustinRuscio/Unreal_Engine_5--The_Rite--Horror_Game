@@ -9,6 +9,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/AlexPlayerController.h"
+#include "TheRite/Interactuables/Clock.h"
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -30,6 +31,7 @@ void ARealWorldGameFlow::BeginPlay()
 	PlayerMethods();
 	
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
+	Clock->OnInteractionTrigger.AddDynamic(this, &ARealWorldGameFlow::MainObjectGrabbed);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -38,6 +40,29 @@ void ARealWorldGameFlow::PlayerMethods()
 	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	Player->ForceTalk(FirstTalkAudio);
 	Player->SetPlayerOptions(true, false, false);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ARealWorldGameFlow::MainObjectGrabbed(AInteractor* interactable)
+{
+	Player->ForceDisableInput();
+
+	for (auto Element : MainObjctGrabbedSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), Element);
+	}
+
+	FTimerHandle WaitTimer;
+
+	FTimerDelegate Del;
+
+	Del.BindLambda([&]
+	{
+		UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
+	});
+
+	if(!GetWorldTimerManager().IsTimerActive(WaitTimer))
+		GetWorldTimerManager().SetTimer(WaitTimer,Del,10, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
