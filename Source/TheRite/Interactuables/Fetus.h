@@ -36,6 +36,7 @@ public:
 	void StartAudioComponent();
 	
 private:
+	virtual void BeginPlay() override;
 	void SetFaderValues();
 
 	UFUNCTION()

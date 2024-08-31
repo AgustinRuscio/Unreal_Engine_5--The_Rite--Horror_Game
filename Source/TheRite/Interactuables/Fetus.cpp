@@ -73,19 +73,29 @@ void AFetus::StartAudioComponent()
 	AudioComponent->Play();
 }
 
+void AFetus::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	OnFadeDeActivate();
+}
+
 //*****************************Private**********************************************
 //**********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 void AFetus::SetFaderValues()
 {
+	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
+	
 	OnActivate.AddDynamic(this, &AFetus::OnFadeActivated);
 	OnDeactivate.AddDynamic(this, &AFetus::OnFadeDeactivate);
 	
-	FadeComponent = CreateDefaultSubobject<UFadeObjectComponent>("Fader Component");
-	
 	SetActor(this);
 	SetFaderComponent(FadeComponent);
+	
+	FadeComponent->DeActivateFade();
+	OnFadeDeactivate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

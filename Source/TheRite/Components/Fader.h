@@ -35,7 +35,7 @@ public:
 protected:
 	void SetFaderComponent(UFadeObjectComponent* FaderComponent);
 	void SetActor(AActor* Parent);
-	
+
 public:
 	FOnActivation OnActivate;
 	FOnDeactivation OnDeactivate;

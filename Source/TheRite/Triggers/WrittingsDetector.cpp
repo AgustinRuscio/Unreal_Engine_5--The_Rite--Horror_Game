@@ -5,6 +5,7 @@
 
 #include "WrittingsDetector.h"
 #include "Components/SphereComponent.h"
+#include "TheRite/Components/FadeObjectComponent.h"
 #include "TheRite/Components/Fader.h"
 #include "TheRite/Interactuables/SpectralWrittings.h"
 
@@ -131,16 +132,17 @@ void AWrittingsDetector::OnOverlapBegins(UPrimitiveComponent* OverlappedComponen
 	
 	if(!castedComponent) return;
 
-		if(!OverlappedFadeObjects.Contains(castedComponent))
-			OverlappedFadeObjects.Add(castedComponent);
-		
+	if(!OverlappedFadeObjects.Contains(castedComponent))
+		OverlappedFadeObjects.Add(castedComponent);
+
 	castedComponent->OnFadeActivate();
-	
+
+
 	//auto castedActor = Cast<ASpectralWrittings>(OtherActor);
 	//if(!castedActor) return;
-//
+
 	//currentWritting = castedActor;
-//
+
 	//bwrittingDetected = true;
 	//currentWritting->Activate();
 }

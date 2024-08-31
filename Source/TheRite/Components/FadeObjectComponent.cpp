@@ -30,6 +30,7 @@ void UFadeObjectComponent::ActivateFade()
 	if(bPermanentTurnedOn) return;
 	
 	bFading = true;
+	
 	FadeTimeLine.Stop();
 	FadeTimeLine.PlayFromStart();
 }
@@ -41,7 +42,6 @@ void UFadeObjectComponent::DeActivateFade()
 	
 	bFading = true;
 	FadeTimeLine.Stop();
-
 	FadeTimeLine.ReverseFromEnd();
 }
 
