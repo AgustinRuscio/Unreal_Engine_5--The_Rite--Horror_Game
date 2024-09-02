@@ -32,6 +32,11 @@ void ARealWorldGameFlow::BeginPlay()
 	
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
 	Clock->OnInteractionTrigger.AddDynamic(this, &ARealWorldGameFlow::MainObjectGrabbed);
+
+	Del.BindLambda([&]
+	{
+		UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
+	});
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -49,20 +54,11 @@ void ARealWorldGameFlow::MainObjectGrabbed(AInteractor* interactable)
 
 	for (auto Element : MainObjctGrabbedSound)
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), Element);
+		UGameplayStatics::PlaySound2D(GetWorld(), Element, 3.0f);
 	}
 
-	FTimerHandle WaitTimer;
-
-	FTimerDelegate Del;
-
-	Del.BindLambda([&]
-	{
-		UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
-	});
-
 	if(!GetWorldTimerManager().IsTimerActive(WaitTimer))
-		GetWorldTimerManager().SetTimer(WaitTimer,Del,10, false);
+		GetWorldTimerManager().SetTimer(WaitTimer,Del,7.5f, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

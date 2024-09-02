@@ -56,4 +56,8 @@ private:
 	TArray<USoundBase*> MainObjctGrabbedSound;
 	
 	AAlex* Player;
+	
+	FTimerHandle WaitTimer;
+
+	FTimerDelegate Del;
 };

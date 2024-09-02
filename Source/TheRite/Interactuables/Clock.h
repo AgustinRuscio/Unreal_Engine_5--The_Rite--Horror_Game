@@ -44,4 +44,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Light")
 	TArray<class ALightsTheRite*> TurnedOfLights;
+	
+	UPROPERTY(EditAnywhere, Category= "Light")
+	TArray<class ACandle*> ObjCandles;
 };
