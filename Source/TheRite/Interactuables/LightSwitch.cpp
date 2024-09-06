@@ -34,8 +34,9 @@ void ALightSwitch::Interaction()
 
 	bAnimReady = false;
 
-	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
-
+	if(!bOneUse)
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
+	
 	if(bEspecial)
 	{
 		SwitchTimeLine.PlayFromStart();
@@ -129,7 +130,10 @@ void ALightSwitch::SwitchTimeLineFinished()
 {
 	bAnimReady = true;
 	
+	
 	if(!bOneUse) return;
+	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), AudioToPlay, GetActorLocation());
 	
 	bOneUseReady = true;
 	bCanInteract = false;
