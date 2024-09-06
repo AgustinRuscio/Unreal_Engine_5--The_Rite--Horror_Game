@@ -57,7 +57,7 @@ void AClock::Interaction()
 		{
 			Element->Disappear();
 		}
-		
+
 		Destroy();
 	}
 	else

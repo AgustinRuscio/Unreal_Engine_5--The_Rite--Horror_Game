@@ -31,12 +31,6 @@ void ARealWorldGameFlow::BeginPlay()
 	PlayerMethods();
 	
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
-	Clock->OnInteractionTrigger.AddDynamic(this, &ARealWorldGameFlow::MainObjectGrabbed);
-
-	Del.BindLambda([&]
-	{
-		UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
-	});
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -45,20 +39,6 @@ void ARealWorldGameFlow::PlayerMethods()
 	Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
 	Player->ForceTalk(FirstTalkAudio);
 	Player->SetPlayerOptions(true, false, false);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ARealWorldGameFlow::MainObjectGrabbed(AInteractor* interactable)
-{
-	Player->ForceDisableInput();
-
-	for (auto Element : MainObjctGrabbedSound)
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), Element, 3.0f);
-	}
-
-	if(!GetWorldTimerManager().IsTimerActive(WaitTimer))
-		GetWorldTimerManager().SetTimer(WaitTimer,Del,7.5f, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
