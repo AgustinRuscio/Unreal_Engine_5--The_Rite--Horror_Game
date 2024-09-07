@@ -4,11 +4,15 @@
 
 
 #include "Clock.h"
+
+#include "VectorTypes.h"
 #include "Components/PointLightComponent.h"
 #include "Engine/PointLight.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -66,5 +70,37 @@ void AClock::Interaction()
 		OnInteractionTrigger.Broadcast(this);
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 		Destroy();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AClock::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AClock::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	CalculateDistanceWithPlayer();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AClock::CalculateDistanceWithPlayer()
+{
+	float DistanceFromPlayer = UE::Geometry::Distance(GetActorLocation(), Player->GetActorLocation());
+	
+	if(DistanceFromPlayer > MinimumDistanceForPostProces)
+	{
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0.f);
+	}
+	else
+	{
+		float calculatedDistance = ((DistanceFromPlayer / MinimumDistanceForPostProces)*-1) + 1.2f;
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, calculatedDistance);
 	}
 }
