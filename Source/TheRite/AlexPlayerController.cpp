@@ -148,6 +148,12 @@ void AAlexPlayerController::SetFocusInput()
 		enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::BackFromFocus);
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::SetNewCursorVisibilityState(bool IsActive)
+{
+	bShowMouseCursor = IsActive;
+}
 #pragma endregion 
 
 //----------------------------------------------------------------------------------------------------------------------

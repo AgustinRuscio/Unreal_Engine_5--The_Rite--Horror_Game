@@ -66,6 +66,7 @@ public:
 	void SetUIOnly(bool uiMode);
 	void SetEventInput();
 	void SetFocusInput();
+	void SetNewCursorVisibilityState(bool IsActive);
 	
 	UFUNCTION(BlueprintCallable)
 	void SetMouseSensitivity(float newSensitivity);
