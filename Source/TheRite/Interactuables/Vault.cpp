@@ -17,13 +17,8 @@ AVault::AVault()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	VaultMesh = CreateDefaultSubobject<UStaticMeshComponent>("Vault Mesh");
-	
-	VaultDoorMesh = CreateDefaultSubobject<UStaticMeshComponent>("Vault Door Mesh");
-	VaultDoorMesh->SetupAttachment(VaultMesh);
+	VaultMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Vault Mesh");
 
-	DoorOpenRotator = VaultDoorMesh->GetRelativeRotation() + FRotator(0,90,0);
-	
 	FrontArrow = CreateDefaultSubobject<UArrowComponent>("Front Arrow");
 	FrontArrow->SetupAttachment(VaultMesh);
 }
@@ -49,8 +44,6 @@ void AVault::Interaction()
 void AVault::BeginPlay()
 {
 	Super::BeginPlay();
-
-	BindTimeLine();
 	
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 	
@@ -59,10 +52,20 @@ void AVault::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AVault::Tick(float DeltaSeconds)
+void AVault::BeginDestroy()
 {
-	Super::Tick(DeltaSeconds);
-	OpenVaultDoorTimeLine.TickTimeline(DeltaSeconds);
+	Super::BeginDestroy();
+
+	if(GetWorld())
+	{
+		if(GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
+			GetWorld()->GetTimerManager().ClearTimer(OpeningTimerHandle);
+	}
+
+	if(OpeningTimerDelegate.IsBound())
+	{
+		OpeningTimerDelegate.Unbind();
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -83,35 +86,17 @@ void AVault::LeaveFocus()
 void AVault::OnVaultOpened()
 {
 	bCanInteract = false;
-	
-	OpenVaultDoorTimeLine.PlayFromStart();
-}
 
-#pragma region Time line methods
-//----------------------------------------------------------------------------------------------------------------------
-void AVault::BindTimeLine()
-{
-	FOnTimelineFloat OpeningDoorTick;
-	OpeningDoorTick.BindUFunction(this, FName("OpeningVaultDoorTick"));
-	OpenVaultDoorTimeLine.AddInterpFloat(CurveFloat, OpeningDoorTick);
-	
-	FOnTimelineEventStatic OpeningDoorFinished;
-	OpeningDoorFinished.BindUFunction(this, FName("OpeningVaultDoorFinished"));
-	OpenVaultDoorTimeLine.SetTimelineFinishedFunc(OpeningDoorFinished);
-}
+	VaultMesh->PlayAnimation(OpenSequence, false);
 
-//----------------------------------------------------------------------------------------------------------------------
-void AVault::OpeningVaultDoorTick(float deltaSeconds)
-{
-	auto NewRotation = FMath::Lerp(VaultDoorMesh->GetRelativeRotation(), DoorOpenRotator, deltaSeconds);
-	VaultDoorMesh->SetRelativeRotation(NewRotation);
+	if(!GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
+	{
+		OpeningTimerDelegate.BindLambda([&]
+		{
+			VaultMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+			LeaveFocus();
+		});
+		
+		GetWorld()->GetTimerManager().SetTimer(OpeningTimerHandle, OpeningTimerDelegate,OpenSequence->GetPlayLength(),false);
+	}
 }
-
-//----------------------------------------------------------------------------------------------------------------------
-void AVault::OpeningVaultDoorFinished()
-{
-	VaultMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-	VaultDoorMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-	LeaveFocus();
-}
-#pragma endregion 

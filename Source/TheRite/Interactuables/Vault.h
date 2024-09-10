@@ -24,11 +24,8 @@ public:
 	//Constructor
 	AVault();
 
-	UPROPERTY(EditDefaultsOnly, Category = Visual)
-	UStaticMeshComponent* VaultMesh;
-	
-	UPROPERTY(EditDefaultsOnly, Category = Visual)
-	UStaticMeshComponent* VaultDoorMesh;
+	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* VaultMesh; 
 
 	UPROPERTY(EditDefaultsOnly, Category = Visual)
 	class UArrowComponent* FrontArrow;
@@ -55,17 +52,17 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	FRotator ExitingRotation;
-
-	FRotator DoorOpenRotator;
 	
 	UPROPERTY(EditDefaultsOnly, Category = VFX)
 	TSubclassOf<class UVaultWidget> VaultWidgetBase;
 	
 	class UVaultWidget* VaultWidget;
 
-	FTimeline OpenVaultDoorTimeLine;
-	UPROPERTY(EditDefaultsOnly, Category = TimeLine)
-	UCurveFloat* CurveFloat;
+	UPROPERTY(EditDefaultsOnly, Category = VFX)
+	UAnimSequence* OpenSequence;
+
+	FTimerHandle OpeningTimerHandle;
+	FTimerDelegate OpeningTimerDelegate;
 	
 	class AAlex* Player;
 	
@@ -73,19 +70,11 @@ private:
 	//								PRIVATE METHODS								...// 
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void BeginDestroy() override;
 	
 	UFUNCTION()
 	void LeaveFocus();
 	
 	UFUNCTION()
 	void OnVaultOpened();
-	
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void OpeningVaultDoorTick(float deltaSeconds);
-
-	UFUNCTION()
-	void OpeningVaultDoorFinished();
 };
