@@ -86,7 +86,8 @@ void AVault::LeaveFocus()
 void AVault::OnVaultOpened()
 {
 	bCanInteract = false;
-
+	
+	VaultWidget->RemoveFromParent();
 	VaultMesh->PlayAnimation(OpenSequence, false);
 
 	if(!GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
