@@ -7,6 +7,7 @@
 
 #include "Blueprint/UserWidget.h"
 #include "Components/ArrowComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
@@ -21,6 +22,9 @@ AVault::AVault()
 
 	FrontArrow = CreateDefaultSubobject<UArrowComponent>("Front Arrow");
 	FrontArrow->SetupAttachment(VaultMesh);
+
+	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>("Widget Component");
+	WidgetComponent->SetupAttachment(VaultMesh);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -44,11 +48,15 @@ void AVault::Interaction()
 void AVault::BeginPlay()
 {
 	Super::BeginPlay();
+
+	VaultWidget = Cast<UVaultWidget>(WidgetComponent->GetUserWidgetObject());
+	VaultWidget->OnCodeCorrect.AddDynamic(this, &AVault::OnVaultOpened);
+	
 	
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 	
-	VaultWidget = CreateWidget<UVaultWidget>(GetWorld(), VaultWidgetBase);
-	VaultWidget->OnCodeCorrect.AddDynamic(this, &AVault::OnVaultOpened);
+	//VaultWidget = CreateWidget<UVaultWidget>(GetWorld(), VaultWidgetBase);
+	//VaultWidget->OnCodeCorrect.AddDynamic(this, &AVault::OnVaultOpened);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -90,12 +98,14 @@ void AVault::OnVaultOpened()
 	VaultWidget->RemoveFromParent();
 	VaultMesh->PlayAnimation(OpenSequence, false);
 
+	VaultWidget->OnCodeCorrect.RemoveDynamic(this, &AVault::OnVaultOpened);
+	WidgetComponent->DestroyComponent();
+
 	if(!GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
 	{
 		OpeningTimerDelegate.BindLambda([&]
 		{
 			VaultMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-			LeaveFocus();
 		});
 		
 		GetWorld()->GetTimerManager().SetTimer(OpeningTimerHandle, OpeningTimerDelegate,OpenSequence->GetPlayLength(),false);

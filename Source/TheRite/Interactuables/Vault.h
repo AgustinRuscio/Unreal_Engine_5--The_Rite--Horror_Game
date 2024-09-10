@@ -29,6 +29,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Visual)
 	class UArrowComponent* FrontArrow;
+
+	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
+	class UWidgetComponent* WidgetComponent;
+
+	class UVaultWidget* VaultWidget;
 	
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   // 
@@ -52,11 +57,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	FRotator ExitingRotation;
-	
-	UPROPERTY(EditDefaultsOnly, Category = VFX)
-	TSubclassOf<class UVaultWidget> VaultWidgetBase;
-	
-	class UVaultWidget* VaultWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category = VFX)
 	UAnimSequence* OpenSequence;

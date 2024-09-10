@@ -255,6 +255,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	USkeletalMeshComponent* ScreamerSkeleton;
 
+	UPROPERTY(EditAnywhere, Category = "Components", meta=(AllowPrivateAccess = "true"))
+	class UWidgetInteractionComponent* WidgetInteraction;
+	
 	//-------- Spring Arms
 
 	UPROPERTY(EditAnywhere)

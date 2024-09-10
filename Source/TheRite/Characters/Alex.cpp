@@ -16,12 +16,15 @@
 #include "TheRite/Widgets/PauseMenuWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Components/WidgetInteractionComponent.h"
 #include "TheRite/Interactuables/Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "TheRite/Widgets/TutorialWidget.h"
+#include "InputCore.h"
+
 
 
 //*****************************Public********************************************
@@ -54,6 +57,11 @@ AAlex::AAlex()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	ScreamerSkeleton = CreateDefaultSubobject<USkeletalMeshComponent>("Screammer Skeleton");
 
+	WidgetInteraction = CreateDefaultSubobject<UWidgetInteractionComponent>("Widget Interaction Component");
+	WidgetInteraction->SetupAttachment(Camera);
+	WidgetInteraction->bShowDebug		 = true;
+	WidgetInteraction->bEnableHitTesting = true;
+	
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
 	
 	BodyLight->SetupAttachment(Camera);
@@ -445,6 +453,11 @@ bool AAlex::IsDoorCheck(IIInteractuable* checked)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::CheckHolding(bool IsHolding)
 {
+	if(!IsHolding)
+	{
+		WidgetInteraction->ReleasePointerKey(EKeys::LeftMouseButton);
+	}
+	
 	if(bFocusing  || bFocus) return;
 				
 	bHoldingInteractBTN = IsHolding;
@@ -740,6 +753,8 @@ void AAlex::MoveCamera(FVector2D vector)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::Interaction()
 {
+	WidgetInteraction->PressPointerKey(EKeys::LeftMouseButton);
+	
 	if(!bCanTalk || !bCanInteract || bFocus || bFocusing) return;
 	
 	if(TalkSound != nullptr)
