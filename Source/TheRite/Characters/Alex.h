@@ -81,9 +81,11 @@ public:
 	
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
-	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation);
+	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget);
 	void MoveCamera(FVector NewCameraPos) const;
 	void MakeCameraView(FRotator Rot) const;
+
+	void MakeCameraFade(float FromAlpha, float ToAlpha, float FadeDuration, FLinearColor FadeColor, bool HoldFade);
 	
 private:
 //---------------- System Class Methods

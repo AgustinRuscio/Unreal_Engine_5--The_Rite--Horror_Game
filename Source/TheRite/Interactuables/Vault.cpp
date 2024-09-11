@@ -32,7 +32,7 @@ void AVault::Interaction()
 {
 	if(bIsFocus || !bCanInteract) return;
 
-	Player->OnFocusMode(FrontArrow->GetComponentTransform(), GetActorRotation());
+	Player->OnFocusMode(FrontArrow->GetComponentTransform(), GetActorRotation(), false);
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
@@ -40,8 +40,20 @@ void AVault::Interaction()
 	controller->OnLeaveFocus.AddDynamic	(this, &AVault::LeaveFocus);
 	
 	bIsFocus = true;
+	
+	VaultMesh->PlayAnimation(OpenSequence, false);
 
-	VaultWidget->AddToViewport(2);
+	if(!GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
+	{
+		OpeningTimerDelegate.BindLambda([&]
+		{
+			VaultMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+			bCanInteract = false;
+			LeaveFocus();
+		});
+		
+		GetWorld()->GetTimerManager().SetTimer(OpeningTimerHandle, OpeningTimerDelegate,OpenSequence->GetPlayLength(),false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,11 +64,7 @@ void AVault::BeginPlay()
 	VaultWidget = Cast<UVaultWidget>(WidgetComponent->GetUserWidgetObject());
 	VaultWidget->OnCodeCorrect.AddDynamic(this, &AVault::OnVaultOpened);
 	
-	
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	
-	//VaultWidget = CreateWidget<UVaultWidget>(GetWorld(), VaultWidgetBase);
-	//VaultWidget->OnCodeCorrect.AddDynamic(this, &AVault::OnVaultOpened);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -87,27 +95,13 @@ void AVault::LeaveFocus()
 	controller->SetNewCursorVisibilityState(false);
 	
 	controller->OnLeaveFocus.RemoveDynamic(this, &AVault::LeaveFocus);
-	VaultWidget->RemoveFromParent();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AVault::OnVaultOpened()
 {
-	bCanInteract = false;
-	
-	VaultWidget->RemoveFromParent();
-	VaultMesh->PlayAnimation(OpenSequence, false);
-
 	VaultWidget->OnCodeCorrect.RemoveDynamic(this, &AVault::OnVaultOpened);
 	WidgetComponent->DestroyComponent();
 
-	if(!GetWorld()->GetTimerManager().IsTimerActive(OpeningTimerHandle))
-	{
-		OpeningTimerDelegate.BindLambda([&]
-		{
-			VaultMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-		});
-		
-		GetWorld()->GetTimerManager().SetTimer(OpeningTimerHandle, OpeningTimerDelegate,OpenSequence->GetPlayLength(),false);
-	}
+	bCanInteract = true;
 }

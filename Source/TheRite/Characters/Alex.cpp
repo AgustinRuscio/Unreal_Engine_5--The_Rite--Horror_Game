@@ -313,10 +313,9 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
+void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool bShorWidget)
 {
 	ForceLighterOff();
-	
 	bFocus = true;
 	bFocusing = true;
 
@@ -328,9 +327,11 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation)
 	FocusCamTransform = newTransform;
 	
 	FocusCameraTimeLine.PlayFromStart();
-
-	AltarWidget->SetVisibility(ESlateVisibility::Visible);
+	
 	DotWidget->SetVisibility(ESlateVisibility::Hidden);
+
+	if(bShorWidget)
+		AltarWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -343,6 +344,12 @@ void AAlex::MoveCamera(FVector NewCameraPos) const
 void AAlex::MakeCameraView(FRotator Rotta) const
 {
 	MyController->SetControlRotation(Rotta);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::MakeCameraFade(float FromAlpha, float ToAlpha, float FadeDuration, FLinearColor FadeColor, bool HoldFade)
+{
+	UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->StartCameraFade(FromAlpha, ToAlpha, FadeDuration, FadeColor, HoldFade);
 }
 #pragma endregion 
 

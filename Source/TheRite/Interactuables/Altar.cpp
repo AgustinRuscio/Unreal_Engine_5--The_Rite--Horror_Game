@@ -43,7 +43,7 @@ void AAltar::Interaction()
 		Element->EnableInteraction();
 	}
 	
-	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform(), ExittingRotation);
+	Player->OnFocusMode(CameraPos[WhellIndex]->GetActorTransform(), ExittingRotation, true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
