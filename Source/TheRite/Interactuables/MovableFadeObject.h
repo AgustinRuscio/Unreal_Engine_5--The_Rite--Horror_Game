@@ -40,7 +40,7 @@ public:
 	
 private:
 	//*****************************************************************************//
-	//								PUBLIC VARIABLES							   // 
+	//								PRIVATE VARIABLES							   // 
 	//*****************************************************************************//
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)

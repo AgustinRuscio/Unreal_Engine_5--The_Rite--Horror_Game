@@ -20,7 +20,8 @@ enum class PickableItemsID : uint8
 	Minutes,
 	Diary,
 	Pacifier,
-	Fuse
+	Fuse,
+	ChestKey
 };
 
 UENUM(BlueprintType)
