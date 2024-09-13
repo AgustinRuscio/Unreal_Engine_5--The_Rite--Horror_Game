@@ -48,6 +48,7 @@ FName AClock::GetObjectData() const
 //----------------------------------------------------------------------------------------------------------------------
 void AClock::Interaction()
 {
+	Super::Interaction();
 	
 	if(bTest)
 	{
@@ -61,7 +62,6 @@ void AClock::Interaction()
 			Element->Disappear();
 		}
 
-		Super::Interaction();
 		Destroy();
 	}
 	else
