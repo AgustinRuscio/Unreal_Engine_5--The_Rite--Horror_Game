@@ -38,13 +38,14 @@ private:
 		
 	FTimerHandle WaitTimer;
 
-	FTimerDelegate Del;
-	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								...// 
 	//*****************************************************************************//
 	
 	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void OpenLevel();
 	
 	UFUNCTION()
 	void MainObjectGrabbed(class AInteractor* interactable);

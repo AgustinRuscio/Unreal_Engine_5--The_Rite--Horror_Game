@@ -21,13 +21,13 @@ void AMainObjectInteractionTrigger::BeginPlay()
 	Super::BeginPlay();
 
 	Clock->OnInteractionTrigger.AddDynamic(this, &AMainObjectInteractionTrigger::MainObjectGrabbed);
+}
 
-	Del.BindLambda([&]
-	{
-		Del.Unbind();
-		GetWorldTimerManager().ClearTimer(WaitTimer);
-		UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
-	});
+//----------------------------------------------------------------------------------------------------------------------
+void AMainObjectInteractionTrigger::OpenLevel()
+{
+	GetWorldTimerManager().ClearTimer(WaitTimer);
+	UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -42,5 +42,5 @@ void AMainObjectInteractionTrigger::MainObjectGrabbed(AInteractor* interactable)
 	}
 
 	if(!GetWorldTimerManager().IsTimerActive(WaitTimer))
-		GetWorldTimerManager().SetTimer(WaitTimer,Del,7.5f, false);
+		GetWorldTimerManager().SetTimer(WaitTimer,this, &AMainObjectInteractionTrigger::OpenLevel,7.5f, false);
 }
