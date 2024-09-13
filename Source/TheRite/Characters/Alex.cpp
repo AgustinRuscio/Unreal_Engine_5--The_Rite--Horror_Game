@@ -24,7 +24,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "InputCore.h"
-
+#include "Components/WidgetComponent.h"
 
 
 //*****************************Public********************************************
@@ -61,6 +61,7 @@ AAlex::AAlex()
 	WidgetInteraction->SetupAttachment(Camera);
 	WidgetInteraction->bShowDebug		 = true;
 	WidgetInteraction->bEnableHitTesting = true;
+	WidgetInteraction->OnHoveredWidgetChanged.AddDynamic(this, &AAlex::WidgetOnSight);
 	
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
 	
@@ -470,6 +471,11 @@ void AAlex::CheckHolding(bool IsHolding)
 	bHoldingInteractBTN = IsHolding;
 }
 
+void AAlex::WidgetOnSight(class UWidgetComponent* a, class UWidgetComponent* b)
+{
+	bWidgetOnSight = a ? true : false;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::InteractableCheck()
 {
@@ -666,7 +672,7 @@ void AAlex::CreateConsumableWidget()
 //---------------- Tick Methods
 void AAlex::HeadBob() const
 {
-	if(bFocus || bFocusing) return;
+	if(bFocus || bFocusing || bWidgetOnSight) return;
 	
 	if(bStun)
 		MyController->ClientStartCameraShake(CameraShakeStun);

@@ -61,13 +61,13 @@ void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 	{
 		bFirstInteractionDone = true;
 		OnPuzzleStarted.Broadcast();
-		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, .5f);
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, .35f);
 		UGameplayStatics::PlaySound2D(GetWorld(), SFX_ClockTicking, 1.5f, 0.5f);
 		UGameplayStatics::PlaySound2D(GetWorld(), SFX_EventBegin, 1.5f);
 	}
 	else
 	{
-		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 1.f);
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0.75f);
 	}
 	
 	PlayerLighterStateSetter(false);

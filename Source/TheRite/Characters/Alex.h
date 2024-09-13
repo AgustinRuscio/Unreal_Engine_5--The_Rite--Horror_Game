@@ -98,6 +98,9 @@ private:
 	
 	UFUNCTION()
 	void CheckHolding(bool HoldingState);
+
+	UFUNCTION()
+	void WidgetOnSight(class UWidgetComponent* a,  class UWidgetComponent* b);
 	
 	void InteractableCheck();
 	
@@ -204,6 +207,7 @@ private:
 	bool bCanInteract = false;
 	bool bFocusing = false;
 	
+	bool bWidgetOnSight = false;
 	bool bFocus = false;
 	bool bStun = false;
 	bool bOnEvent = false;
