@@ -6,75 +6,66 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "Vault.generated.h"
+#include "Simon.generated.h"
 
 UCLASS()
-class THERITE_API AVault : public AInteractor
+class THERITE_API ASimon : public AActor
 {
 	GENERATED_BODY()
 	
-public:
+public:	
 	//*****************************************************************************//
-	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
-	//*****************************************************************************//
+    //						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+    //*****************************************************************************//
+	ASimon();
 
-	//Constructor
-	AVault();
-
-	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* VaultMesh; 
-
-	UPROPERTY(EditDefaultsOnly, Category = Visual)
-	class UArrowComponent* FrontArrow;
-
+	UPROPERTY(EditDefaultsOnly, Category = Visual, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* SimonMesh;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Visual, meta= (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* CenterMesh;
+	
 	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
 	class UWidgetComponent* WidgetComponent;
 
-	class UVaultWidget* VaultWidget;
+	class USimonWidget* SimonWidget;
 	
-	//*****************************************************************************//
+    //*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
-	virtual void Interaction() override;
 	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	bool bIsFocus;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
-	FVector ExitingVector;
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
+	FVector CenterLocationToAdd;
 	
-	UPROPERTY(EditAnywhere, Category = Settings)
-	FRotator ExitingRotation;
-
-	UPROPERTY(EditDefaultsOnly, Category = VFX)
-	UAnimSequence* OpenSequence;
-
-	FTimerHandle OpeningTimerHandle;
-	FTimerDelegate OpeningTimerDelegate;
-	
-	class AAlex* Player;
+	FTimeline MoveCenterTimeline;
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
+	UCurveFloat* MoveCenterCurve; 
 	
 	//*****************************************************************************//
-	//								PRIVATE METHODS								   //
-	//*****************************************************************************//
+    //								PRIVATE METHODS								   //
+    //*****************************************************************************//
 	virtual void BeginPlay() override;
-	virtual void BeginDestroy() override;
-	
+	virtual void Tick(float DeltaTime) override;
+
 	UFUNCTION()
-	void LeaveFocus();
-	
+	void SimonCompleted();
+
+	void BindTimeLine();
+
 	UFUNCTION()
-	void OnVaultOpened();
+	void MoveCenterTick(float deltaSeconds);
+	UFUNCTION()
+	void MoveCenterFinished();
+	
 };
