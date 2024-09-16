@@ -21,7 +21,9 @@ enum class PickableItemsID : uint8
 	Diary,
 	Pacifier,
 	Fuse,
-	ChestKey
+	ChestKey,
+	PasswordVault26,
+	PasswordVault47
 };
 
 UENUM(BlueprintType)
