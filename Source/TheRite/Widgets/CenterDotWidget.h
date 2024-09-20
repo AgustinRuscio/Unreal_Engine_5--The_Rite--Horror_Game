@@ -17,16 +17,20 @@ class THERITE_API UCenterDotWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintImplementableEvent)
 	void Interact(bool InteractionDisable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetMainInteractionTexture();
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetInteractionTexture();
+	
 private:
 	void SetLockedDoorImage();
 	void SetCantInteractTexture();
 	void SetNoneInteractionTexture();
-	void SetMainInteractionTexture();
-	void SetInteractionTexture();
-	
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* NoneInteractionTexture;
