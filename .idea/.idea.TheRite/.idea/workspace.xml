@@ -8,44 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e98bee5-79a2-464f-8c98-1286be856700" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Body_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Body_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Body_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Metals.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Metals_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Metals_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Metals_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_Metals_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/M_Chest_Body.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/M_Chest_body_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/M_Simon.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/M_Simon_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SK_Simon_Skeleton.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SM_Simon_Body.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SM_Simon_Center.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/Simon_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/Simon_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/Simon_OcclusionRoughnessMetallic.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheRite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/Chest_part2.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_Chest.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_Chest.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_ChestKey.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_ChestKey.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_Lock.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SK_Lock.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SM_Key.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/SM_Key.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Chest/chest_part1.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SK_Simon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SK_Simon.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SK_Simon_pCube404.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/SK_Simon_polySurface18155.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Art/Assets/Simon/Simon.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Clock.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Diary.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/OtherWorlds/TheOtherWorld_Pacifier.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Begin.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Clock.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Diary.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Levels/LevesC++/RealWorlds/RealWorld_Pacifier.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Interactuables/Clock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MainObjectInteractionTrigger.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MainObjectInteractionTrigger.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MainObjectInteractionTrigger.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/MainObjectInteractionTrigger.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_BabyCrying1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Sound/SoundFX/SFX_BabyCrying1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_MenuPrincipal.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TheRite_Content/Ui/WBP_Paused.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/LevelsGameFlow/GameFlowGameBegin.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TheRite/Widgets/PauseMenuWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheRite.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/TheRite.uproject" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +32,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://0" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/EmergencyLights.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/TheRite/AmbientObjects/Manikin.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -633,6 +608,13 @@
       <workItem from="1726232164776" duration="880000" />
       <workItem from="1726233326476" duration="2283000" />
       <workItem from="1726235922550" duration="785000" />
+      <workItem from="1726684560948" duration="190000" />
+      <workItem from="1726697837175" duration="195000" />
+      <workItem from="1726705609843" duration="288000" />
+      <workItem from="1726789096229" duration="1480000" />
+      <workItem from="1726798089373" duration="502000" />
+      <workItem from="1726801833312" duration="1761000" />
+      <workItem from="1726804071935" duration="1328000" />
     </task>
     <servers />
   </component>

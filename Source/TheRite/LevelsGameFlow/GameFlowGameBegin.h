@@ -33,6 +33,7 @@ public:
 
 private:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	void SetNeededValues();
 	void CreateWidgets();
@@ -79,6 +80,10 @@ private:
 	FTimerHandle HideFirstTutorialWidget;
 	FTimerHandle ShowSecondTutorialWidget;
 	FTimerHandle HideSecondTutorialWidget;
+
+	FTimerDelegate FirstTimer;
+	FTimerDelegate SecondsTimer;
+	FTimerDelegate TutorialTimerDelegate;
 
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = "Audio")

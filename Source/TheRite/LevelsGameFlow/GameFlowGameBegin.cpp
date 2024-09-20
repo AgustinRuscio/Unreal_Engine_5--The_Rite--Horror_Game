@@ -45,6 +45,28 @@ void AGameFlowGameBegin::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AGameFlowGameBegin::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if(!GetWorld()) return;
+	GetWorld()->GetTimerManager().ClearTimer(ShowFirstTutorialWidget);
+	GetWorld()->GetTimerManager().ClearTimer(HideFirstTutorialWidget);
+	GetWorld()->GetTimerManager().ClearTimer(ShowSecondTutorialWidget);
+	GetWorld()->GetTimerManager().ClearTimer(HideSecondTutorialWidget);
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+
+	if(FirstTimer.IsBound())
+		FirstTimer.Unbind();
+
+	if(SecondsTimer.IsBound())
+		SecondsTimer.Unbind();
+
+	if(TutorialTimerDelegate.IsBound())
+		TutorialTimerDelegate.Unbind();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::SetNeededValues()
 {
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
@@ -227,16 +249,12 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 {
 	if (!GetWorldTimerManager().IsTimerActive(ShowFirstTutorialWidget))
 	{
-		FTimerDelegate FirstTimer;
-
 		FirstTimer.BindLambda([&]
 		{
 			FirstTutorialWidget->SetVisibility(ESlateVisibility::Visible);
 	
 			if (!GetWorldTimerManager().IsTimerActive(HideFirstTutorialWidget))
 			{
-				FTimerDelegate SecondsTimer;
-
 				SecondsTimer.BindLambda([&]
 				{
 					FirstTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -260,13 +278,11 @@ void AGameFlowGameBegin::ShowingSecondTutorialWidget()
 	
 	if (!GetWorldTimerManager().IsTimerActive(HideSecondTutorialWidget))
 	{
-		FTimerDelegate Delegate;
-		
-		Delegate.BindLambda([&]
+		TutorialTimerDelegate.BindLambda([&]
 		{
 			SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 		});
 		
-		GetWorldTimerManager().SetTimer(HideSecondTutorialWidget, Delegate, 3.0f, false);
+		GetWorldTimerManager().SetTimer(HideSecondTutorialWidget, TutorialTimerDelegate, 3.0f, false);
 	}
 }
