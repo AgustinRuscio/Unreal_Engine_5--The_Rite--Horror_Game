@@ -53,7 +53,7 @@ bool ASpectralWrittings::GetDiscoveredStatus() const
 //----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::Interaction()
 {
-	if(bDiscovered || !bCanInteract ) return;
+	if(bDiscovered || !bCanInteract) return;
 	
 	Super::Interaction();
 	
