@@ -24,9 +24,13 @@ ASimon::ASimon()
 //----------------------------------------------------------------------------------------------------------------------
 void ASimon::Interaction()
 {
+	if(!bCanInteract) return;
+
 	Super::Interaction();
 
-	
+	bCanInteract = false;
+	StartSequence();
+	ChangeButtonsInteractionState(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +58,7 @@ void ASimon::BeginPlay()
 	{
 		Element->OnInteractionStart.AddDynamic(this, &ASimon::OnButtonPressed);
 		Element->OnInteractionFinished.AddDynamic(this, &ASimon::OnButtonPressedFinished);
-		Element->SetCanInteract(false);
+		Element->Deactivate();
 	}
 }
 
@@ -64,6 +68,31 @@ void ASimon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	MoveCenterTimeline.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimon::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if(GetWorld())
+	{
+		GetWorldTimerManager().ClearTimer(RePlaySequenceTimerHandle);
+	}
+
+	if(RePlaySequenceTimerDelegate.IsBound())
+	{
+		RePlaySequenceTimerDelegate.Unbind();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimon::Deactivate()
+{
+	Super::Deactivate();
+
+	SimonMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	CenterMesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -82,7 +111,7 @@ void ASimon::CreateSequence()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ASimon::StarSequence()
+void ASimon::StartSequence()
 {
 	bIsShowingCurrentSequence = true;
 	bReEnableButtons		  =  true;
@@ -131,7 +160,9 @@ void ASimon::ChangeSequenceLevel()
 	else
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_NextLevelReach, GetActorLocation());
-		//Dispatcher
+		ShowSequenceTimerRate = SFX_NextLevelReach->Duration;
+		
+		PlayShowSequenceTimerHandle();
 	}
 }
 
@@ -148,7 +179,10 @@ void ASimon::ChangeButtonsInteractionState(bool NewState)
 {
 	for (auto Element : SimonButtons)
 	{
-		Element->SetCanInteract(NewState);
+		if (NewState)
+			Element->Activate();
+		else
+			Element->Deactivate();
 	}
 }
 
@@ -157,7 +191,7 @@ void ASimon::OnButtonPressed(int8 ColorPressed)
 {
 	for (auto Element : SimonButtons)
 	{
-		Element->SetCanInteract(false);
+		Element->Deactivate();
 	}
 
 	if(ColorPressed == CurrenSequence[CheckCountIndex])
@@ -176,21 +210,33 @@ void ASimon::OnButtonPressed(int8 ColorPressed)
 //----------------------------------------------------------------------------------------------------------------------
 void ASimon::OnButtonPressedFinished()
 {
-	for (auto Element : SimonButtons)
+	if(bSimonCompleted)
 	{
-		Element->SetCanInteract(true);
+		Deactivate();
+		ChangeButtonsInteractionState(false);
+	}
+	else
+	{
+		if(bIsShowingCurrentSequence)
+		{
+			ShowNextSequence();
+		}
+		else
+		{
+			ChangeButtonsInteractionState(bReEnableButtons);
+		}
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ASimon::SimonCompleted()
 {
-	bCanInteract = false;
+	bSimonCompleted = true;
 	
-	for (auto Element : SimonButtons)
-	{
-		Element->Deactivate();
-	}
+	Deactivate();
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_SimonCompleted, GetActorLocation());
+	
+	ChangeButtonsInteractionState(false);
 	
 	MoveCenterTimeline.PlayFromStart();
 }
@@ -205,6 +251,19 @@ void ASimon::Failure()
 	bReEnableButtons = false;
 	
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_Failure, GetActorLocation());
+	bCanInteract = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimon::PlayShowSequenceTimerHandle()
+{
+	if(GetWorld())
+	{
+		if(!GetWorldTimerManager().IsTimerActive(RePlaySequenceTimerHandle))
+		{
+			GetWorldTimerManager().SetTimer(RePlaySequenceTimerHandle, RePlaySequenceTimerDelegate, ShowSequenceTimerRate, false);
+		}
+	}
 }
 
 #pragma region Bind TimeLine
@@ -218,6 +277,11 @@ void ASimon::BindTimeLine()
 	FOnTimelineEventStatic MoveCenterFinished;
 	MoveCenterFinished.BindUFunction(this, FName("MoveCenterFinished"));
 	MoveCenterTimeline.SetTimelineFinishedFunc(MoveCenterFinished);
+
+	RePlaySequenceTimerDelegate.BindLambda([&]
+	{
+		StartSequence();
+	});
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -233,14 +297,5 @@ void ASimon::MoveCenterFinished()
 {
 	SimonMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	CenterMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	if(bIsShowingCurrentSequence)
-	{
-		ShowNextSequence();
-	}
-	else
-	{
-		ChangeButtonsInteractionState(bReEnableButtons);
-	}
 }
 #pragma endregion

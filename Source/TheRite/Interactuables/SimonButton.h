@@ -52,6 +52,7 @@ public:
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 	virtual void Interaction() override;
+	virtual void Activate() override;
 	virtual void Deactivate() override;
 	
 	void PressForced();
@@ -64,6 +65,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Settings, meta=(ClampMin = 0, ClampMax = 3))
 	int8 Color;
 
+	FVector PressedLocation;
+	FVector NormalLocation;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FVector LocationToSubtract;
+	
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 	USoundBase* PressedSounds;
 
@@ -79,6 +86,8 @@ private:
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	void PlayInteractionFeedBack();
 	
 	void BindTimeLineMethods();
 

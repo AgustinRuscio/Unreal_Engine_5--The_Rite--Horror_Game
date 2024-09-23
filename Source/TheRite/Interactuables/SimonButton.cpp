@@ -5,9 +5,7 @@
 
 #include "SimonButton.h"
 #include "Components/PointLightComponent.h"
-
-static float PressedLocation;
-static float NormalLocation;
+#include "Kismet/GameplayStatics.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ASimonButton::ASimonButton()
@@ -21,9 +19,9 @@ ASimonButton::ASimonButton()
 	PointLightComponent->SetupAttachment(MeshComponent);
 
 	//Set Light settings
-	PointLightComponent->SetAttenuationRadius(6.f);
+	PointLightComponent->SetAttenuationRadius(10.f);
 	PointLightComponent->SetIntensity(0.f);
-	PointLightComponent->SetLightColor(SetPointLightColor());
+	PointLightComponent->SetIntensityUnits(ELightUnits::Lumens);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -31,10 +29,17 @@ void ASimonButton::Interaction()
 {
 	if(!bCanInteract) return;
 
-	OnInteractionStart.Broadcast(static_cast<int8>(Color));
+	OnInteractionStart.Broadcast(Color);
 	
 	bCanInteract = false;
-	InteractionTimeLine.PlayFromStart();
+	PlayInteractionFeedBack();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimonButton::Activate()
+{
+	Super::Activate();
+	MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -47,7 +52,7 @@ void ASimonButton::Deactivate()
 //----------------------------------------------------------------------------------------------------------------------
 void ASimonButton::PressForced()
 {
-	InteractionTimeLine.PlayFromStart();
+	PlayInteractionFeedBack();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -76,8 +81,8 @@ void ASimonButton::BeginPlay()
 {
 	Super::BeginPlay();
 
-	NormalLocation	= GetActorLocation().Z;
-	PressedLocation = GetActorLocation().Z - 0.4f;
+	NormalLocation	= GetActorLocation();
+	PressedLocation = GetActorLocation() - LocationToSubtract;
 	
 	BindTimeLineMethods();
 }
@@ -88,6 +93,13 @@ void ASimonButton::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	InteractionTimeLine.TickTimeline(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimonButton::PlayInteractionFeedBack()
+{
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), PressedSounds, GetActorLocation());
+	InteractionTimeLine.PlayFromStart();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -106,10 +118,9 @@ void ASimonButton::BindTimeLineMethods()
 void ASimonButton::InteractionTick(float deltaSeconds)
 {
 	PointLightComponent->SetIntensity(deltaSeconds);
-	auto newZ = FMath::Lerp(NormalLocation, PressedLocation, deltaSeconds);
+	auto newLocation = FMath::Lerp(NormalLocation, PressedLocation, deltaSeconds);
 
-	auto NewLocation = FVector(GetActorLocation().X, GetActorLocation().Y, newZ);
-	SetActorLocation(NewLocation);
+	SetActorLocation(newLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

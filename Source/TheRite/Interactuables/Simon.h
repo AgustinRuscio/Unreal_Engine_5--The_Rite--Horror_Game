@@ -47,26 +47,36 @@ private:
 
 	bool bIsShowingCurrentSequence;
 	bool bReEnableButtons;
+	bool bSimonCompleted;
 
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	int8 LevelQuantity;
+	float ShowSequenceTimerRate;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	int8 LevelQuantity = 2;
 	
 	int8 CheckCountIndex;
 	int8 SequenceCurrentIndex;
 	int8 SequenceLevel;
 
 	TArray<int8> CurrenSequence;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FVector CenterLocationToAdd;
 	
 	UPROPERTY(EditAnywhere, Category = Buttons)
 	TArray<class ASimonButton*> SimonButtons;
 	
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	FVector CenterLocationToAdd;
-
 	UPROPERTY(EditDefaultsOnly, Category = SFX)
 	USoundBase* SFX_NextLevelReach;
+
+	UPROPERTY(EditDefaultsOnly, Category = SFX)
+	USoundBase* SFX_SimonCompleted;
+	
 	UPROPERTY(EditDefaultsOnly, Category = SFX)
 	USoundBase* SFX_Failure;
+
+	FTimerHandle RePlaySequenceTimerHandle;
+	FTimerDelegate RePlaySequenceTimerDelegate;
 	
 	FTimeline MoveCenterTimeline;
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
@@ -81,9 +91,11 @@ private:
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	virtual void Deactivate() override;
 
 	void CreateSequence();
-	void StarSequence();
+	void StartSequence();
 	void PlaySequence(int8 PlayedIndex);
 	void ShowNextSequence();
 	void ChangeSequenceLevel();
@@ -103,6 +115,8 @@ private:
 
 	void Failure();
 
+	void PlayShowSequenceTimerHandle();
+	
 	void BindTimeLine();
 
 	UFUNCTION()
