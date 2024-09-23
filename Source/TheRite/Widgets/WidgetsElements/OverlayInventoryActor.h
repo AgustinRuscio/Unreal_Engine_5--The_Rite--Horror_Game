@@ -22,6 +22,11 @@ public:
 	
 private:
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void Activate();
+	UFUNCTION()
+	void DeActivate();
 	
 private:
 	UPROPERTY(EditAnywhere)
@@ -35,4 +40,6 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	UPointLightComponent* PointLightComponent;
+
+	class AAlex* PlayerRef;
 };

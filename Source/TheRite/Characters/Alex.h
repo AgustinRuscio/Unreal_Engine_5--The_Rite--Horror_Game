@@ -14,6 +14,8 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLighterMontage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryOpen);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryClose);
 
 class UInputMappingContext;
 class UInputAction;
@@ -196,6 +198,9 @@ public:
 	FAllItemsCollected OnAllItemCollected;
 	FLighterMontage OnLighterAnimMontage;
 	FJumpscaredFinished OnJumpscaredFinished;
+	
+	FInventoryOpen OnInventoryOpen;
+	FInventoryClose OnInventoryClose;
 	
 private:
 	//UPROPERTY(EditAnywhere, Category = "Lighter values")
