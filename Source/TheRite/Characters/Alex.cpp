@@ -842,7 +842,7 @@ void AAlex::OpenPause()
 	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
-	PauseWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	PauseWidget->SetVisibility(ESlateVisibility::Visible);
 	PauseWidget->OnPauseOpen.Broadcast();
 }
 
@@ -854,7 +854,7 @@ void AAlex::OpenInventory()
 	if(bInventoryFlip)
 	{
 		OnInventoryOpen.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
 		bInventoryFlip = false;
 		InventoryWidget->OnInventoryOpen();
 	}
