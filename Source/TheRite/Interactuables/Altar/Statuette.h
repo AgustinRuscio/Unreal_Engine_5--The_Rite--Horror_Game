@@ -6,9 +6,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Pawn.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "Statuette.generated.h"
 
 class UMaterialInterface;

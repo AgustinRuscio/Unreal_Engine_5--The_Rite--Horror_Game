@@ -6,8 +6,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "Components/TimelineComponent.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "BaseDrawer.generated.h"
 
 

@@ -6,10 +6,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "Components/TimelineComponent.h"
 #include "EnumsContainer.generated.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "FuseBox.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFuseBoxCompleted);

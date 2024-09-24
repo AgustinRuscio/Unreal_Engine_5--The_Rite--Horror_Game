@@ -6,9 +6,9 @@
 #include "InOrdenSelectionPuzzleFlow.h"
 #include "Engine/TargetPoint.h"
 #include "Engine/StaticMeshActor.h"
-#include "TheRite/Interactuables/AltarWhell.h"
-#include "TheRite/Interactuables/Altar.h"
-#include "TheRite/Interactuables/Statuette.h"
+#include "TheRite/Interactuables/Altar/AltarWhell.h"
+#include "TheRite/Interactuables/Altar/Altar.h"
+#include "TheRite/Interactuables/Altar/Statuette.h"
 #include "TheRite/Interactuables/Interactor.h"
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));

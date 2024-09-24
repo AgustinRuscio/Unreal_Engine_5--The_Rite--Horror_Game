@@ -5,7 +5,7 @@
 
 #include "FuseBox.h"
 #include "Components/ArrowComponent.h"
-#include "LightSwitch.h"
+#include "TheRite/Interactuables/LightSwitch.h"
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
