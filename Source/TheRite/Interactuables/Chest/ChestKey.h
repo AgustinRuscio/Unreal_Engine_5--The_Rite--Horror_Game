@@ -6,8 +6,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "ChestKey.generated.h"
 
 UCLASS()

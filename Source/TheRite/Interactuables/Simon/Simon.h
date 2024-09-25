@@ -6,10 +6,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactor.h"
 #include "SimonButton.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
+#include "TheRite/Interactuables/Interactor.h"
 #include "Simon.generated.h"
 
 UCLASS()
