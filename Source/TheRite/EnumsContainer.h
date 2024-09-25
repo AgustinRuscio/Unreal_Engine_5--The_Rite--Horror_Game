@@ -52,5 +52,13 @@ enum class HouseZone : uint8
 	Attic,
 	UpStarirsCorridor,
 	BabyRoom,
-	Stairs
+	Stairs 
+};
+UENUM(BlueprintType)
+enum class HospitalZone : uint8
+{
+	Reception,
+	Morgue,
+	Catwalk,
+	Rooms
 };

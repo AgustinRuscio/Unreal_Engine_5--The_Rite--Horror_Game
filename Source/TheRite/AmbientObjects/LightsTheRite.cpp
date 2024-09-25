@@ -49,6 +49,12 @@ HouseZone ALightsTheRite::GetLightZone() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+HospitalZone ALightsTheRite::GetHospitalZone() const
+{
+	return HospitalZone;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 //---------------- Material Setter Methods
 void ALightsTheRite::SetAggressiveMaterial() const
 {

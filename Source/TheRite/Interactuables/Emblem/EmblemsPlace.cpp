@@ -18,9 +18,16 @@ AEmblemsPlace::AEmblemsPlace()
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh Component");
 	RootComponent = MeshComponent;
 
-	EmblemsState = 0;
+	bFistInteraction = true;
+	EmblemsState	 = 0;
 	
 	SetUpComponents();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+bool AEmblemsPlace::GetIsFirstInteraction()
+{
+	return bFistInteraction;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -32,7 +39,17 @@ int8 AEmblemsPlace::GetEmblemsState() const
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::Interaction()
 {
-	if(!bCanInteract || EmblemsPickedType.Num() <= 0) return;
+	if(!bCanInteract) return;
+
+	if(EmblemsPickedType.Num() <= 0)
+	{
+		if(!bFistInteraction) return;
+		
+		OnInteractionTrigger.Broadcast(this);
+		bFistInteraction = false;
+		
+		return;
+	}
 	
 	bCanInteract = false;
 	++EmblemsState;
@@ -168,7 +185,7 @@ void AEmblemsPlace::PlaceEmblemTick(float deltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::PlaceEmblemFinished()
 {
-	Super::Interaction();
+	OnInteractionTrigger.Broadcast(this);
 	
 	bCanInteract = MapEmblem.Num() > 0;
 }

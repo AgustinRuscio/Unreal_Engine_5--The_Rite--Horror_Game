@@ -24,6 +24,7 @@ public:
 	bool IsLightOn() const;
 	float GetIntensity() const;
 	HouseZone GetLightZone() const;
+	HospitalZone GetHospitalZone() const;
 	
 	
 	UFUNCTION()
@@ -54,6 +55,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "Set in whitch part of the house the light is"))
 	HouseZone LightHouseZone;
+
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "Set in whitch part of the house the light is"))
+	HospitalZone HospitalZone;
 	
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* Mesh;
@@ -69,5 +73,4 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
 	UMaterialInterface* Material_Aggressive;
-
 };

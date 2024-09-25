@@ -59,7 +59,7 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
+	bool GetIsFirstInteraction();
 	int8 GetEmblemsState() const;
 	
 	virtual void Interaction() override;
@@ -68,6 +68,8 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	bool bFistInteraction;
+	
 	int8 EmblemsState;
 	
 	TArray<AInteractor*> EmblemsPickedType;
