@@ -13,6 +13,7 @@ ASimpleGrabbableActor::ASimpleGrabbableActor()
 	bCanInteract = true;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
+	RootComponent = MeshComponent;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -5,8 +5,10 @@
 
 #include "EmblemsPlace.h"
 
-#include "Emblem.h"
 #include "Components/ArrowComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/SimpleGrabbableActor.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 AEmblemsPlace::AEmblemsPlace()
@@ -16,23 +18,15 @@ AEmblemsPlace::AEmblemsPlace()
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh Component");
 	RootComponent = MeshComponent;
 
-	EmblemA = CreateDefaultSubobject<UStaticMeshComponent>("Emblem A");
-	EmblemB = CreateDefaultSubobject<UStaticMeshComponent>("Emblem B");
-	EmblemC = CreateDefaultSubobject<UStaticMeshComponent>("Emblem C");
+	EmblemsState = 0;
+	
+	SetUpComponents();
+}
 
-	EmblemA->SetupAttachment(MeshComponent);
-	EmblemB->SetupAttachment(MeshComponent);
-	EmblemC->SetupAttachment(MeshComponent);
-
-	EmblemAEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem A End Location");
-	EmblemBEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem B End Location");
-	EmblemCEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem C End Location");
-
-	EmblemAEndLocation->SetupAttachment(MeshComponent);
-	EmblemBEndLocation->SetupAttachment(MeshComponent);
-	EmblemCEndLocation->SetupAttachment(MeshComponent);
-
-	SetLocationData();
+//----------------------------------------------------------------------------------------------------------------------
+int8 AEmblemsPlace::GetEmblemsState() const
+{
+	return EmblemsState;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -40,14 +34,22 @@ void AEmblemsPlace::Interaction()
 {
 	if(!bCanInteract || EmblemsPickedType.Num() <= 0) return;
 	
-	Super::Interaction();
-
 	bCanInteract = false;
+	++EmblemsState;
 	
-	auto currentPair = MapEmblem[MapEmblem.Num()-1];
-
+	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
+	auto currentPair = MapEmblem[0];
 	CurrentEmblem = currentPair.Key;
 	CurrentEndLocation = currentPair.Value;
+	CurrentEmblem->SetVisibility(true);
+
+	
+	auto currentEmblem = EmblemsPickedType[0];
+	player->RemoveFromInventory(currentEmblem->GetItemName(), currentEmblem->GetItemID());
+
+	MapEmblem.Remove(currentPair);
+	EmblemsPickedType.Remove(currentEmblem);
 
 	PlaceEmblemTimeLine.PlayFromStart();
 }
@@ -74,7 +76,47 @@ void AEmblemsPlace::Tick(float DeltaTime)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AEmblemsPlace::SetLocationData()
+void AEmblemsPlace::SetUpComponents()
+{
+	SetUpEmblems();
+	SetUpArrows();
+	SetUpPairs();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmblemsPlace::SetUpEmblems()
+{
+	EmblemA = CreateDefaultSubobject<UStaticMeshComponent>("Emblem A");
+	EmblemB = CreateDefaultSubobject<UStaticMeshComponent>("Emblem B");
+	EmblemC = CreateDefaultSubobject<UStaticMeshComponent>("Emblem C");
+	
+	EmblemA->SetupAttachment(MeshComponent);
+	EmblemA->SetVisibility(false);
+	EmblemA->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+
+	EmblemB->SetupAttachment(MeshComponent);
+	EmblemB->SetVisibility(false);
+	EmblemB->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+
+	EmblemC->SetupAttachment(MeshComponent);
+	EmblemC->SetVisibility(false);
+	EmblemC->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmblemsPlace::SetUpArrows()
+{
+	EmblemAEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem A End Location");
+	EmblemBEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem B End Location");
+	EmblemCEndLocation = CreateDefaultSubobject<UArrowComponent>("Emblem C End Location");
+
+	EmblemAEndLocation->SetupAttachment(MeshComponent);
+	EmblemBEndLocation->SetupAttachment(MeshComponent);
+	EmblemCEndLocation->SetupAttachment(MeshComponent);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmblemsPlace::SetUpPairs()
 {
 	AllEndsLocation.Add(EmblemAEndLocation);
 	AllEndsLocation.Add(EmblemBEndLocation);
@@ -98,9 +140,9 @@ void AEmblemsPlace::SetLocationData()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AEmblemsPlace::EmblemObtained(AInteractor* Interactor)
+void AEmblemsPlace::EmblemObtained(AInteractor* Interactable)
 {
-	EmblemsPickedType.Add(Interactor);
+	EmblemsPickedType.Add(Interactable);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -126,5 +168,7 @@ void AEmblemsPlace::PlaceEmblemTick(float deltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::PlaceEmblemFinished()
 {
-	bCanInteract = true;
+	Super::Interaction();
+	
+	bCanInteract = MapEmblem.Num() > 0;
 }

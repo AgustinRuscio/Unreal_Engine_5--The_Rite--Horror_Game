@@ -6,7 +6,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Emblem.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -37,6 +36,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Visuals, meta=(AllowPrivateAccess = "true"))
 	UStaticMeshComponent* EmblemC;
 
+	UStaticMeshComponent* CurrentEmblem;
+	
 	//------------Arrows
 	UPROPERTY(EditDefaultsOnly, Category = Visuals, meta=(AllowPrivateAccess = "true"))
 	class UArrowComponent* EmblemAEndLocation;
@@ -59,20 +60,22 @@ public:
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 
+	int8 GetEmblemsState() const;
+	
 	virtual void Interaction() override;
 	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
+	int8 EmblemsState;
+	
+	TArray<AInteractor*> EmblemsPickedType;
+	
 	TArray< TPair<UStaticMeshComponent*, UArrowComponent*> > MapEmblem;
 	
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPrivateAccess = "true"));
-	TArray<class AEmblem*> NeededEmblems;
-
-	TArray<AInteractor*> EmblemsPickedType;
-	UStaticMeshComponent* CurrentEmblem;
+	TArray<class ASimpleGrabbableActor*> NeededEmblems;
 	
 	FTimeline PlaceEmblemTimeLine;
 
@@ -85,10 +88,13 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	void SetLocationData();
+	void SetUpComponents();
+	void SetUpEmblems();
+	void SetUpArrows();
+	void SetUpPairs();
 	
 	UFUNCTION()
-	void EmblemObtained(AInteractor* Interactor);
+	void EmblemObtained(AInteractor* Interactable);
 
 	void BindTimeline();
 
