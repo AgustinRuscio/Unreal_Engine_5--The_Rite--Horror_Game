@@ -72,7 +72,7 @@ private:
 	
 	int8 EmblemsState;
 	
-	TArray<AInteractor*> EmblemsPickedType;
+	TArray<class ASimpleGrabbableActor*> EmblemsPickedType;
 	
 	TArray< TPair<UStaticMeshComponent*, UArrowComponent*> > MapEmblem;
 	

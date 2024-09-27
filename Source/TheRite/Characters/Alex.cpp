@@ -783,11 +783,11 @@ void AAlex::Interaction()
 		
 		if (!GetWorldTimerManager().IsTimerActive(TimerHandle_OpenInventoryWidget))
 		{
-			FTimerDelegate TimerDelegate;
-			TimerDelegate.BindLambda([&]
-			{
-				OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-			});
+			//FTimerDelegate TimerDelegate;
+			//TimerDelegate.BindLambda([&]
+			//{
+			//	OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+			//});
 			
 			//GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, TimerDelegate, 1.5f, false);
 			GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, this, &AAlex::HideOpenInventoryWidget, 1.5f, false);
@@ -964,9 +964,10 @@ void AAlex::StopTalking()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region TimeLine
-void AAlex::HideOpenInventoryWidget() const
+void AAlex::HideOpenInventoryWidget()
 {
 	OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+	GetWorldTimerManager().ClearTimer(TimerHandle_OpenInventoryWidget);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -174,7 +174,7 @@ private:
 	void StopTalking();
 	
 //---------------- TimeLine
-	void HideOpenInventoryWidget() const;
+	void HideOpenInventoryWidget();
 	void HideConsumableWidget() const;
 	
 	void BindTimeLineMethods();

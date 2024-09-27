@@ -48,7 +48,7 @@ public:
 	void SetCanWillSound(bool newWillSoundState);
 	void SetAudioToPlay(USoundBase* NewAudio);
 	
-	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
+//	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
 
 	virtual void Deactivate() override;
 	virtual void Activate() override;

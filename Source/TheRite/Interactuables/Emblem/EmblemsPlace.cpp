@@ -65,10 +65,10 @@ void AEmblemsPlace::Interaction()
 	auto currentEmblem = EmblemsPickedType[0];
 	player->RemoveFromInventory(currentEmblem->GetItemName(), currentEmblem->GetItemID());
 
+	PlaceEmblemTimeLine.PlayFromStart();
+
 	MapEmblem.Remove(currentPair);
 	EmblemsPickedType.Remove(currentEmblem);
-
-	PlaceEmblemTimeLine.PlayFromStart();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ void AEmblemsPlace::SetUpPairs()
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::EmblemObtained(AInteractor* Interactable)
 {
-	EmblemsPickedType.Add(Interactable);
+	EmblemsPickedType.Add(Cast<ASimpleGrabbableActor>(Interactable));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
