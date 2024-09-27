@@ -41,13 +41,13 @@ void AEmblemsPlace::Interaction()
 {
 	if(!bCanInteract) return;
 
-	if(EmblemsPickedType.Num() <= 0)
+	if(EmblemsPicked == 0)
 	{
 		if(!bFistInteraction) return;
-		
+
 		OnInteractionTrigger.Broadcast(this);
 		bFistInteraction = false;
-		
+
 		return;
 	}
 	
@@ -60,15 +60,12 @@ void AEmblemsPlace::Interaction()
 	CurrentEmblem = currentPair.Key;
 	CurrentEndLocation = currentPair.Value;
 	CurrentEmblem->SetVisibility(true);
-
 	
-	auto currentEmblem = EmblemsPickedType[0];
-	player->RemoveFromInventory(currentEmblem->GetItemName(), currentEmblem->GetItemID());
+	player->RemoveFromInventory(CurrentEmblemName,  CurrentEmblemId);
 
 	PlaceEmblemTimeLine.PlayFromStart();
 
 	MapEmblem.Remove(currentPair);
-	EmblemsPickedType.Remove(currentEmblem);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -106,7 +103,7 @@ void AEmblemsPlace::SetUpEmblems()
 	EmblemA = CreateDefaultSubobject<UStaticMeshComponent>("Emblem A");
 	EmblemB = CreateDefaultSubobject<UStaticMeshComponent>("Emblem B");
 	EmblemC = CreateDefaultSubobject<UStaticMeshComponent>("Emblem C");
-	
+
 	EmblemA->SetupAttachment(MeshComponent);
 	EmblemA->SetVisibility(false);
 	EmblemA->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
@@ -159,7 +156,9 @@ void AEmblemsPlace::SetUpPairs()
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::EmblemObtained(AInteractor* Interactable)
 {
-	EmblemsPickedType.Add(Cast<ASimpleGrabbableActor>(Interactable));
+	CurrentEmblemName = Interactable->GetItemName();
+	CurrentEmblemId = Interactable->GetItemID();
+	EmblemsPicked++;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

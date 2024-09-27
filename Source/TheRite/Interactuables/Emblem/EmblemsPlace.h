@@ -71,8 +71,10 @@ private:
 	bool bFistInteraction;
 	
 	int8 EmblemsState;
+	int8 EmblemsPicked;
 	
-	TArray<class ASimpleGrabbableActor*> EmblemsPickedType;
+	FString CurrentEmblemName;
+	PickableItemsID CurrentEmblemId;
 	
 	TArray< TPair<UStaticMeshComponent*, UArrowComponent*> > MapEmblem;
 	
