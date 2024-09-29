@@ -38,10 +38,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> InitialDoors;
-	
+	 
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> RoomsDoors;
 
+	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
 
 	

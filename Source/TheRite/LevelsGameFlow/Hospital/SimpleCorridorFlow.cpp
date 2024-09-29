@@ -48,5 +48,6 @@ void ASimpleCorridorFlow::OnPuzzleFinished(AInteractor* Interactable)
 	for (auto Element : AllLights)
 	{
 		Element->SetAggressiveMaterial();
+		Element->ChangeLightIntensity(Element->GetIntensity() - 150.f, false);
 	}
 }
