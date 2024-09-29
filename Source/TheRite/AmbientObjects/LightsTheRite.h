@@ -6,7 +6,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SpotLightComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheRite/EnumsContainer.h"
 #include "LightsTheRite.generated.h"
@@ -63,7 +62,10 @@ private:
 	UStaticMeshComponent* Mesh;
 	
 	UPROPERTY(EditAnywhere, Category= "Lights")
-	UPointLightComponent* PointLight;
+	class UPointLightComponent* PointLight;
+
+	UPROPERTY(EditAnywhere, Category = "SFX", meta=(AllowPrivateAccess = "true"))
+	class UAudioComponent* AudioComponent;
 	
 	UPROPERTY()
 	USphereComponent* Sphere;

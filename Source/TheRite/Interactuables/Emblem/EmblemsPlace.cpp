@@ -19,7 +19,6 @@ AEmblemsPlace::AEmblemsPlace()
 	RootComponent = MeshComponent;
 
 	bFistInteraction = true;
-	EmblemsState	 = 0;
 	
 	SetUpComponents();
 }
@@ -31,19 +30,19 @@ bool AEmblemsPlace::GetIsFirstInteraction()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-int8 AEmblemsPlace::GetEmblemsState() const
-{
-	return EmblemsState;
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::Interaction()
 {
 	if(!bCanInteract) return;
 
+	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
 	if(EmblemsPicked == 0)
 	{
-		if(!bFistInteraction) return;
+		if(!bFistInteraction)
+		{
+			player->ForceTalk(AudioToPlay);
+			return;
+		}
 
 		OnInteractionTrigger.Broadcast(this);
 		bFistInteraction = false;
@@ -51,10 +50,8 @@ void AEmblemsPlace::Interaction()
 		return;
 	}
 	
+	--EmblemsPicked;
 	bCanInteract = false;
-	++EmblemsState;
-	
-	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 	
 	auto currentPair = MapEmblem[0];
 	CurrentEmblem = currentPair.Key;

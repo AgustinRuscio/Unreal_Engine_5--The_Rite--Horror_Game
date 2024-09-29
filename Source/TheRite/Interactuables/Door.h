@@ -213,6 +213,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FRotator CloseRotation;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	FRotator OpenRotation;
+	
 	FRotator CurrentRotation;
 	
 	FString keyName;
