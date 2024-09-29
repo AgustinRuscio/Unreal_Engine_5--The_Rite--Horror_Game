@@ -69,6 +69,7 @@ private:
 	FVector ExitingVector;
 
 	FVector InitialKeyLocation;
+	FVector EndKeyKeyLocation;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	FRotator ExitingRotation;
@@ -81,6 +82,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = VFX)
 	UAnimSequence* OpenLockSequence;
+
+	UPROPERTY(EditDefaultsOnly, Category = VFX)
+	USoundBase* SFX_ChestUnlocked;
 	
 	FTimerHandle OpeningLockTimerHandle;
 	FTimerDelegate OpeningLockTimerDelegate;

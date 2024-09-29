@@ -58,7 +58,8 @@ void AChest::Interaction()
 	bIsFocus = true;
 
 	InitialKeyLocation = Player->GetActorLocation();
-
+	EndKeyKeyLocation = KeyMeshComponent->GetComponentLocation();
+	
 	KeyMeshComponent->SetVisibility(true);
 	
 	MoveKeyTimeLine.PlayFromStart();
@@ -136,7 +137,7 @@ void AChest::BindTimeLines()
 //----------------------------------------------------------------------------------------------------------------------
 void AChest::MoveKeyTick(float DeltaSeconds)
 {
-	auto newLocation = FMath::Lerp(InitialKeyLocation, ArrowEndLocation->GetComponentLocation(), DeltaSeconds);
+	auto newLocation = FMath::Lerp(InitialKeyLocation, EndKeyKeyLocation, DeltaSeconds);
 
 	KeyMeshComponent->SetWorldLocation(newLocation);
 }
@@ -145,14 +146,15 @@ void AChest::MoveKeyTick(float DeltaSeconds)
 void AChest::MoveKeyFinished()
 {
 	RotateKeyTimeLine.PlayFromStart();
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_ChestUnlocked, GetActorLocation());
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AChest::RotateKeyTick(float DeltaSeconds)
 {
-	auto mewRotation = FMath::Lerp(KeyMeshComponent->GetComponentRotation().Pitch, EndKeyRotation.Pitch, DeltaSeconds);
+	auto mewRotation = FMath::Lerp(KeyMeshComponent->GetRelativeRotation(), EndKeyRotation, DeltaSeconds);
 
-	KeyMeshComponent->SetWorldRotation(FRotator(mewRotation, KeyMeshComponent->GetComponentRotation().Yaw, KeyMeshComponent->GetComponentRotation().Roll));
+	KeyMeshComponent->SetRelativeRotation(mewRotation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -63,7 +63,7 @@ public:
 	void SetNormalInput();
 	void SetPauseGame(bool PauseState);
 	void SetDoorMode(bool newMode);
-	void SetUIOnly(bool uiMode);
+	void SetUIOnly(bool uiMode, bool ShowCursor);
 	void SetEventInput();
 	void SetFocusInput();
 	void SetNewCursorVisibilityState(bool IsActive);

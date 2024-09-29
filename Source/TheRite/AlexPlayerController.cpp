@@ -104,9 +104,9 @@ void AAlexPlayerController::SetDoorMode(bool newMode)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::SetUIOnly(bool uiMode)
+void AAlexPlayerController::SetUIOnly(bool uiMode, bool showCursos)
 {
-	bShowMouseCursor = uiMode;
+	bShowMouseCursor = showCursos;
 	
 	uiMode ? SetInventoryInputs():
 	BindActions();

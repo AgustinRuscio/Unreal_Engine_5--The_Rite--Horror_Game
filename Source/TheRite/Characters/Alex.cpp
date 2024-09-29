@@ -237,10 +237,10 @@ void AAlex::SetDraggingState(bool shouldCheck, ADoor* door)
 	else
 		bIsDragging = false;
 
-		
+
 	if(DoorChecked != door)
 	{
-		door->SetCanDragFalse();
+		door->SetCanDragState(false);
 	}
 	
 	MyController->SetDoorMode(bIsDragging);
@@ -481,7 +481,7 @@ void AAlex::InteractableCheck()
 {
 	if(!bCanTalk)
 	{
-		DotWidget->Interact(false, false,true, false);
+		DotWidget->Interact(false, false, false,true, false);
 	}
 	else
 	{
@@ -505,8 +505,11 @@ void AAlex::InteractableCheck()
 			ActualInteractuable = nullptr;
 			TalkSound = nullptr;
 			bCanInteract = false;
-			
-			DotWidget->Interact(true, false,false, false);
+
+			if(currentCheck != nullptr)
+				DotWidget->Interact(true, false,false,false, false);
+			else
+				DotWidget->Interact(false, true,false,false, false);
 		}
 		else
 		{
@@ -519,18 +522,18 @@ void AAlex::InteractableCheck()
 				if(bDoorWasLocked)
 				{
 					bCanInteract = true;
-					DotWidget->Interact(false, true,false, currentCheck->IsMainItem());
+					DotWidget->Interact(false, false, true,false, currentCheck->IsMainItem());
 				}	
 				else
 				{
 					bCanInteract = true;
-					DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
+					DotWidget->Interact(false, false, false,false, currentCheck->IsMainItem());
 				}
 			}
 			else
 			{
 				bCanInteract = true;
-				DotWidget->Interact(false, false,false, currentCheck->IsMainItem());
+				DotWidget->Interact(false, false, false,false, currentCheck->IsMainItem());
 			}
 		}
 	}
@@ -854,7 +857,7 @@ void AAlex::OpenInventory()
 	if(bInventoryFlip)
 	{
 		OnInventoryOpen.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		InventoryWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 		bInventoryFlip = false;
 		InventoryWidget->OnInventoryOpen();
 	}
@@ -866,7 +869,7 @@ void AAlex::OpenInventory()
 		InventoryWidget->OnInventoryClose();
 	}
 	
-	MyController->SetUIOnly(!bInventoryFlip);
+	MyController->SetUIOnly(!bInventoryFlip, false);
 }
 #pragma endregion 
 
