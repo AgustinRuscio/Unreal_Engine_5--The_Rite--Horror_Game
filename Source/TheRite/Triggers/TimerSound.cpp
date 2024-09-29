@@ -62,7 +62,7 @@ void ATimerSound::SpawnAudio()
 
 	auto audioPosition = FVector(forwardMinus, playerPosition.Y, playerPosition.Z);
 
-	UGameplayStatics::SpawnSoundAtLocation(this, CurrentAudio(), audioPosition);
+	UGameplayStatics::PlaySoundAtLocation(this, CurrentAudio(), audioPosition);
 
 	ChangeCoolDown();
 	Timer = 0;

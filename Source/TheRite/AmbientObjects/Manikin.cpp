@@ -36,9 +36,9 @@ void AManikin::Deactivate()
 //----------------------------------------------------------------------------------------------------------------------
 void AManikin::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-
 	if(!bActive) return;
+
+	Super::Tick(DeltaTime);
 	
 	if(WasRecentlyRendered(.3f)) return;
 	
@@ -56,10 +56,11 @@ void AManikin::ReLocateObject()
 
 	TArray<ATargetPoint*> AuxArray;
 
-	for (auto Array : PossiblesLocations)
+	for (auto Element : PossiblesLocations)
 	{
-		if(Array->GetActorLocation().Equals(GetActorLocation())) continue;
-		AuxArray.Add(Array);
+		if(Element->GetActorLocation().Equals(GetActorLocation())) continue;
+		if(Element->WasRecentlyRendered(.3f)) continue;
+		AuxArray.Add(Element);
 	}
 	
 	int8 rand = FMath::RandRange(0, PossiblesLocations.Num()-1);

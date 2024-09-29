@@ -19,6 +19,9 @@ public:
 	//*****************************************************************************//
 	//Constructor
 	ASimpleCorridorFlow();
+
+	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* TriggerEnableManikin;
 	
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -45,7 +48,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
 
-	
+	UPROPERTY(EditAnywhere, Category = Ambient)
+	class AManikin* Manikin;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -56,6 +60,10 @@ private:
 
 	void BindInteractables();
 
+	UFUNCTION()
+	void OnTriggerBeginEnableManikin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 	UFUNCTION()
 	void OnPuzzleFinished(class AInteractor* Interactable);
 };
