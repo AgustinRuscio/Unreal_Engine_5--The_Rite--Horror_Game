@@ -19,9 +19,15 @@ public:
 	//*****************************************************************************//
 	//Constructor
 	ASimpleCorridorFlow();
-
+	
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* TriggerEnableManikin;
+	class ATriggerBox* TriggerEnableManikin;
+	
+	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
+	class ATriggerBox* TriggerEnd;
+	
+	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
+	class ATriggerBox* TriggerOutSideEnd;
 	
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -35,7 +41,8 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
+	bool bPuzzleEnd;
+	
 	UPROPERTY(EditAnywhere, Category = Interactables)
 	class AInteractor* EndInteractable;
 
@@ -50,6 +57,16 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class AManikin* Manikin;
+
+	UPROPERTY(EditAnywhere, Category = Ambient)
+	class ATimerSound* TimerSound;
+	
+	UPROPERTY(EditAnywhere, Category = Ambient)
+	class ASkeletalMeshActor* EndTiffany;
+
+	FTimerHandle TimerHandleEnd;
+	
+	FTimerDelegate TimerDelegateEnd;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -57,13 +74,20 @@ private:
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void BindInteractables();
-
-	UFUNCTION()
-	void OnTriggerBeginEnableManikin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void BindTriggers();
 	
 	UFUNCTION()
 	void OnPuzzleFinished(class AInteractor* Interactable);
+
+	UFUNCTION()
+	void OnTriggerBeginEnableAmbientInteractions(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerBeginEnd(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor);
 };
