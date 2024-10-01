@@ -4,6 +4,9 @@
 
 
 #include "LightsTheRite.h"
+
+#include "Components/SpotLightComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 
 
@@ -25,9 +28,11 @@ ALightsTheRite::ALightsTheRite()
 	Sphere->SetSphereRadius(177.0f);
 	
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
 	
 	PointLight->SetupAttachment(NewRootComponent);
 	Sphere->SetupAttachment(NewRootComponent);
+	AudioComponent->SetupAttachment(NewRootComponent);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

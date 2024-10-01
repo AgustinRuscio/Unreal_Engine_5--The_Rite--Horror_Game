@@ -36,6 +36,7 @@ public:
 //---------------- Action Door Methods
 	UFUNCTION()
 	void ObtainKey();
+	void UnlockDooUnlockedFromSisterDoor();
 	
 	UFUNCTION()
 	void Open();
@@ -50,7 +51,7 @@ public:
 	
 //---------------- Setter Methods
 	void SetDoorKeyValues(FString itemName, PickableItemsID id);
-	void SetCanDragFalse();
+	void SetCanDragState(bool newDragState);
 	void SetLockedState(bool LockedNewState);
 
 private:
@@ -81,6 +82,8 @@ private:
 	void CheckIfLookingDoor();
 
 //---------------- FeedBack Methods
+
+	void UnlockDoorWithKey();
 	UFUNCTION()
 	void ItsLocked();
 
@@ -131,6 +134,12 @@ private:
 	UFUNCTION()
 	void HardClosingTimelineFinished();
 
+	UFUNCTION()
+	void UnlockDoorTimeLineTick(float value);
+	
+	UFUNCTION()
+	void UnlockDoorTimeLineFinished();
+
 private:
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool DEBUGGING;
@@ -154,6 +163,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	bool bIsTutorialDoor = false;
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	bool bDisapearKey = false;
 	
 	bool bHolding;
 	bool bIsLookingDoor;
@@ -161,6 +172,7 @@ private:
 	bool bcanDrag;
 	bool bIsPlayerForward;
 	bool bDoOnceTut;
+	bool bOpenFromSisterDoor;
 
 	bool bDoOnceOpenLatchAnim = true;
 	bool bLatchPlay = true;
@@ -192,12 +204,19 @@ private:
 	float DoorOpenOffsetCD;
 
 	FVector forward;
+
+	FVector KeyStartLocation;
+	FVector KeyEndLocation;
 	
 	FRotator InitialRot;
 	FRotator CurrentRot;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	FRotator CloseRotation;
+	
+	UPROPERTY(EditAnywhere, Category= "Settings")
+	FRotator OpenRotation;
+	
 	FRotator CurrentRotation;
 	
 	FString keyName;
@@ -212,6 +231,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Door mesh")
 	UStaticMeshComponent* BaseBack;
+	
+	UPROPERTY(EditAnywhere, Category = "Door mesh")
+	UStaticMeshComponent* KeyMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Door mesh")
 	USkeletalMeshComponent* LatchFront;
@@ -253,6 +275,7 @@ private:
 
 	//--------- Time Line
 	FTimerHandle TutorialTimerHandle;
+	FTimerHandle UnlockedDoorTimerHandle;
 	
 	FTimeline TimeLineOpenDoor;
 	
@@ -262,6 +285,7 @@ private:
 	FTimeline TimeLineLatchHold;
 	
 	FTimeline TimeLineHardClosing;
+	FTimeline TimeLineUnlockDoor;
 
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
@@ -275,6 +299,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* ItsLockedCurve;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	ADoor* SisterDoor;
 	
 	AAlex* Player;
 };

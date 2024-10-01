@@ -60,7 +60,6 @@ public:
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 	bool GetIsFirstInteraction();
-	int8 GetEmblemsState() const;
 	
 	virtual void Interaction() override;
 	
@@ -70,9 +69,10 @@ private:
 	//*****************************************************************************//
 	bool bFistInteraction;
 	
-	int8 EmblemsState;
+	int8 EmblemsPicked;
 	
-	TArray<AInteractor*> EmblemsPickedType;
+	FString CurrentEmblemName;
+	PickableItemsID CurrentEmblemId;
 	
 	TArray< TPair<UStaticMeshComponent*, UArrowComponent*> > MapEmblem;
 	

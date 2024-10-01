@@ -5,6 +5,7 @@
 
 #include "MoveTiffany.h"
 #include "Components/BoxComponent.h"
+#include "Components/LightComponent.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"

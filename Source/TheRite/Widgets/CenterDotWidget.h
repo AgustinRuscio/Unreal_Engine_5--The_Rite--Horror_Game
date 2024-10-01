@@ -18,7 +18,7 @@ class THERITE_API UCenterDotWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void Interact(bool InteractionDisable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
+	void Interact(bool InteractionDisable, bool NoIntractable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetMainInteractionTexture();

@@ -16,6 +16,18 @@ ATimerSound::ATimerSound()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void ATimerSound::Activate()
+{
+	bIsActive = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ATimerSound::Deactivate()
+{
+	bIsActive = false;
+}
+
 //*****************************Private*********************************************
 //*********************************************************************************
 
@@ -41,6 +53,8 @@ void ATimerSound::BeginPlay()
 //----------------------------------------------------------------------------------------------------------------------
 void ATimerSound::Tick(float DeltaTime)
 {
+	if(!bIsActive) return;
+	
 	Timer += DeltaTime;
 
 	if(Timer < CooldDown) return;
@@ -62,7 +76,7 @@ void ATimerSound::SpawnAudio()
 
 	auto audioPosition = FVector(forwardMinus, playerPosition.Y, playerPosition.Z);
 
-	UGameplayStatics::SpawnSoundAtLocation(this, CurrentAudio(), audioPosition);
+	UGameplayStatics::PlaySoundAtLocation(this, CurrentAudio(), audioPosition);
 
 	ChangeCoolDown();
 	Timer = 0;

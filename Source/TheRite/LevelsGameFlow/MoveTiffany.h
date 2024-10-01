@@ -89,7 +89,7 @@ private:
 	TArray<ALightsTheRite*> OtherLights;
 
 	UPROPERTY(EditAnywhere, Category="Ambient")
-	ASpotLight* InGameSportLight;
+	class ASpotLight* InGameSportLight;
 
 	ATiffany* Tiffany;
 	AAlex* Player;

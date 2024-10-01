@@ -19,7 +19,6 @@ AEmblemsPlace::AEmblemsPlace()
 	RootComponent = MeshComponent;
 
 	bFistInteraction = true;
-	EmblemsState	 = 0;
 	
 	SetUpComponents();
 }
@@ -31,44 +30,39 @@ bool AEmblemsPlace::GetIsFirstInteraction()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-int8 AEmblemsPlace::GetEmblemsState() const
-{
-	return EmblemsState;
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::Interaction()
 {
 	if(!bCanInteract) return;
 
-	if(EmblemsPickedType.Num() <= 0)
+	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	
+	if(EmblemsPicked == 0)
 	{
-		if(!bFistInteraction) return;
-		
+		if(!bFistInteraction)
+		{
+			player->ForceTalk(AudioToPlay);
+			return;
+		}
+
 		OnInteractionTrigger.Broadcast(this);
 		bFistInteraction = false;
-		
+
 		return;
 	}
 	
+	--EmblemsPicked;
 	bCanInteract = false;
-	++EmblemsState;
-	
-	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
 	
 	auto currentPair = MapEmblem[0];
 	CurrentEmblem = currentPair.Key;
 	CurrentEndLocation = currentPair.Value;
 	CurrentEmblem->SetVisibility(true);
-
 	
-	auto currentEmblem = EmblemsPickedType[0];
-	player->RemoveFromInventory(currentEmblem->GetItemName(), currentEmblem->GetItemID());
-
-	MapEmblem.Remove(currentPair);
-	EmblemsPickedType.Remove(currentEmblem);
+	player->RemoveFromInventory(CurrentEmblemName,  CurrentEmblemId);
 
 	PlaceEmblemTimeLine.PlayFromStart();
+
+	MapEmblem.Remove(currentPair);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -106,7 +100,7 @@ void AEmblemsPlace::SetUpEmblems()
 	EmblemA = CreateDefaultSubobject<UStaticMeshComponent>("Emblem A");
 	EmblemB = CreateDefaultSubobject<UStaticMeshComponent>("Emblem B");
 	EmblemC = CreateDefaultSubobject<UStaticMeshComponent>("Emblem C");
-	
+
 	EmblemA->SetupAttachment(MeshComponent);
 	EmblemA->SetVisibility(false);
 	EmblemA->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
@@ -159,7 +153,9 @@ void AEmblemsPlace::SetUpPairs()
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::EmblemObtained(AInteractor* Interactable)
 {
-	EmblemsPickedType.Add(Interactable);
+	CurrentEmblemName = Interactable->GetItemName();
+	CurrentEmblemId = Interactable->GetItemID();
+	EmblemsPicked++;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

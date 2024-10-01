@@ -19,6 +19,9 @@ class THERITE_API ATimerSound : public AActor
 public:
 	ATimerSound();
 
+	void Activate();
+	void Deactivate();
+
 private:
 	USoundBase* CurrentAudio() const;
 	
@@ -28,7 +31,10 @@ private:
 	void ChangeCoolDown();
 	void SpawnAudio();
 	
-private:	
+private:
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bIsActive = true;
+	
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	float MinCoolDown;
 	UPROPERTY(EditAnywhere, Category= "Settings")

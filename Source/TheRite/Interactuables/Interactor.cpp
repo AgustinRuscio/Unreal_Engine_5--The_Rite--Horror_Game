@@ -94,12 +94,12 @@ void AInteractor::SetAudioToPlay(USoundBase* NewAudio)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AInteractor::SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id)
-{
-	bIsPickeable = isPickeable;
-	DisplayName = nameToDisplay;
-	ItemID = id;
-}
+//void AInteractor::SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id)
+//{
+//	bIsPickeable = isPickeable;
+//	DisplayName = nameToDisplay;
+//	ItemID = id;
+//}
 #pragma endregion
 
 //----------------------------------------------------------------------------------------------------------------------

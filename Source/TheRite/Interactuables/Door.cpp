@@ -42,6 +42,12 @@ ADoor::ADoor()
 	BaseBack->SetMobility(EComponentMobility::Movable);
 	BaseFront->SetMobility(EComponentMobility::Movable);
 
+	KeyMesh = CreateDefaultSubobject<UStaticMeshComponent>("Key Mesh");
+	KeyMesh->SetMobility(EComponentMobility::Movable);
+	KeyMesh->SetupAttachment(DoorItself);
+	KeyMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	KeyMesh->SetVisibility(false);
+	
 	LatchFront = CreateDefaultSubobject<USkeletalMeshComponent>("Front Latch");
 	LatchBack = CreateDefaultSubobject<USkeletalMeshComponent>("Back Latch");
 	LatchFront->SetMobility(EComponentMobility::Movable);
@@ -82,6 +88,8 @@ bool ADoor::KeyUnlocked() const
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::Interaction()
 {
+	if(!bCanInteract) return;
+	
 	OnInteractionTrigger.Broadcast(this);
 
 	CurrentYaw = GetActorRotation().Yaw;
@@ -98,11 +106,21 @@ void ADoor::Interaction()
 void ADoor::ObtainKey()
 {
 	bKeyUnlocked = true;
+
+	if(SisterDoor != nullptr)
+		SisterDoor->UnlockDooUnlockedFromSisterDoor();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::UnlockDooUnlockedFromSisterDoor()
+{
+	bOpenFromSisterDoor = true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::Open()
 {
+	bCanInteract	= false;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.PlayFromStart();
 }
@@ -110,6 +128,7 @@ void ADoor::Open()
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::Close()
 {
+	bCanInteract	= false;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 }
@@ -124,6 +143,7 @@ void ADoor::HardClosing()
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::AutomaticClose()
 {
+	bCanInteract	= false;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
@@ -139,9 +159,9 @@ void ADoor::SetDoorKeyValues(FString itemName, PickableItemsID id)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ADoor::SetCanDragFalse()
+void ADoor::SetCanDragState(bool newDragState)
 {
-	bcanDrag = false;
+	bcanDrag = newDragState;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -312,10 +332,12 @@ void ADoor::CheckLocked()
 			{
 				if(FirstTimeKeySound == 0)
 				{
-					FirstTimeKeySound++;
-					UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
-					Player->RemoveFromInventory(keyName ,keyId);
+					UnlockDoorWithKey();
 				}
+			}
+			else if(bOpenFromSisterDoor)
+			{
+				UnlockDoorWithKey();
 			}
 			else
 				ItsLocked();
@@ -495,6 +517,31 @@ void ADoor::CheckIfLookingDoor()
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::UnlockDoorWithKey()
+{
+	if(SisterDoor != nullptr)
+	{
+		SisterDoor->SetCanDragState(false);
+		SisterDoor->SetCanInteract(false);
+	}
+
+	bCanInteract = false;
+	bcanDrag = false;
+	bIsLocked = true;
+
+	FirstTimeKeySound++;
+	KeyMesh->SetVisibility(true);
+
+	KeyStartLocation = Player->GetActorLocation();
+	KeyEndLocation = KeyMesh->GetComponentLocation();
+
+	Player->RemoveFromInventory(keyName ,keyId);
+
+	TimeLineUnlockDoor.PlayFromStart();
+}
+
 #pragma endregion 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -595,6 +642,15 @@ void ADoor::BindTimeLines()
 	FOnTimelineEventStatic HardClosingTimelineFinishedCallback;
 	HardClosingTimelineFinishedCallback.BindUFunction(this, FName("HardClosingTimelineFinished"));
 	TimeLineHardClosing.SetTimelineFinishedFunc(HardClosingTimelineFinishedCallback);
+
+	//------- Unlock door timeline
+	FOnTimelineFloat UnlockDoorTimelineTickCallback;
+	UnlockDoorTimelineTickCallback.BindUFunction(this, FName("UnlockDoorTimeLineTick"));
+	TimeLineUnlockDoor.AddInterpFloat(CurveOpenDoor, UnlockDoorTimelineTickCallback);
+	
+	FOnTimelineEventStatic UnlockDoorTimelineFinishCallback;
+	UnlockDoorTimelineFinishCallback.BindUFunction(this, FName("UnlockDoorTimeLineFinished"));
+	TimeLineUnlockDoor.SetTimelineFinishedFunc(UnlockDoorTimelineFinishCallback);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -605,20 +661,28 @@ void ADoor::RunTimeLinesTick(float DeltaTime)
 	TimeLineLatchAnim.TickTimeline(DeltaTime);
 	TimeLineHardClosing.TickTimeline(DeltaTime);
 	TimeLineLatchHold.TickTimeline(DeltaTime);
+	TimeLineUnlockDoor.TickTimeline(DeltaTime);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::OpenCloseTimeLineUpdate(float value)
 {
-	auto newRot = FMath::Lerp(CloseRotation.Yaw,LastYaw, value);
-	
-	LastYaw = newRot;
+	float newRot;
+
+	if(CloseRotation.Yaw == LastYaw)
+		newRot = FMath::Lerp(CloseRotation.Yaw,OpenRotation.Yaw, value);
+	else
+		newRot = FMath::Lerp(CloseRotation.Yaw,LastYaw, value);
+
 	SetActorRotation(FRotator(GetActorRotation().Pitch, newRot, GetActorRotation().Roll));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::OpenCloseTimelineFinished()
 {
+	LastYaw		 = GetActorRotation().Yaw;
+	bCanInteract = true;
+	
 	CalculateRotation();
 }
 
@@ -688,5 +752,49 @@ void ADoor::HardClosingTimeLineUpdate(float value)
 void ADoor::HardClosingTimelineFinished()
 {
 	CalculateRotation();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::UnlockDoorTimeLineTick(float value)
+{
+	auto lerp = FMath::Lerp(KeyStartLocation, KeyEndLocation, value);
+	KeyMesh->SetWorldLocation(lerp);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::UnlockDoorTimeLineFinished()
+{
+	if(!GetWorld()->GetTimerManager().IsTimerActive(UnlockedDoorTimerHandle))
+	{
+		FTimerDelegate timerDelegate;
+		timerDelegate.BindLambda([&]
+		{
+			if(bDisapearKey)
+			{
+				KeyMesh->SetVisibility(false);
+
+				bCanInteract = true;
+				bcanDrag = true;
+				
+				bIsLocked = false;
+				bKeyUnlocked = true;
+			
+				if(SisterDoor != nullptr)
+				{
+					SisterDoor->SetCanDragState(true);
+					SisterDoor->bIsLocked = false;
+					SisterDoor->bKeyUnlocked = true;
+					SisterDoor->FirstTimeKeySound = 1;
+					SisterDoor->SetCanInteract(true);
+				}
+				UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
+
+				GetWorld()->GetTimerManager().ClearTimer(UnlockedDoorTimerHandle);
+				timerDelegate.Unbind();
+			}
+		});
+		
+		GetWorld()->GetTimerManager().SetTimer(UnlockedDoorTimerHandle, timerDelegate, 1.5f, false);
+	}
 }
 #pragma endregion
