@@ -54,6 +54,30 @@ void ALevelsGameState::LoadData()
 void ALevelsGameState::BeginPlay()
 {
 	Super::BeginPlay();
+
+	WaitForInitializationDelegate.BindLambda([&]
+	{
+		LoadData();
+	});
 	
-	LoadData();
+	if(!GetWorld()->GetTimerManager().IsTimerActive(WaitForInitializationTimerHandle))
+	{
+		GetWorld()->GetTimerManager().SetTimer(WaitForInitializationTimerHandle,WaitForInitializationDelegate, 0.1f, false);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALevelsGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if(GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(WaitForInitializationTimerHandle);
+	}
+
+	if(WaitForInitializationDelegate.IsBound())
+	{
+		WaitForInitializationDelegate.Unbind();
+	}
 }

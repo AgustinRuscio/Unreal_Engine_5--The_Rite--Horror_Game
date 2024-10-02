@@ -4,11 +4,11 @@
 
 
 #include "AlexPlayerController.h"
-#include "LevelsGameState.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "EnhancedInput/Public/EnhancedInputComponent.h"
 #include "Framework/Application/SlateApplication.h"
 #include "EnhancedInputSubsystems.h"
+#include "PlayerStateTheRite.h"
 #include "Kismet/GameplayStatics.h"
 
 #define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
@@ -21,11 +21,6 @@ AAlexPlayerController::AAlexPlayerController()
 {
 	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteractionComp"));
 	WidgetInteractionComponent->SetupAttachment(RootComponent);
-
-	gs = Cast<ALevelsGameState>(UGameplayStatics::GetGameState(GetWorld()));
-	
-	if(gs)
-		gs->OnGameLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -155,9 +150,9 @@ void AAlexPlayerController::SetNewCursorVisibilityState(bool IsActive)
 	bShowMouseCursor = IsActive;
 }
 #pragma endregion 
-
 //----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
+// borrar porque esta en UI vieja
 {
 	MouseSensitivity = newSensitivity;
 }
@@ -183,12 +178,23 @@ void AAlexPlayerController::BeginPlay()
 {
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
+
+	LoadValues();
 	
 	FSlateApplication::Get().OnApplicationActivationStateChanged()
 	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
-	
+		
 	BindActions();
 }
+#pragma region Loading Methods
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::LoadValues()
+{
+	auto ps = Cast<APlayerStateTheRite>(PlayerState);
+	MouseSensitivity = ps->GetMouseSensitivity();
+}
+#pragma endregion
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Binding Methods
@@ -353,22 +359,6 @@ void AAlexPlayerController::SetDoorInputs()
 		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::HoldingBTN);
 		enhantedComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AAlexPlayerController::HoldingBTN);
 	}
-}
-#pragma endregion 
-
-//----------------------------------------------------------------------------------------------------------------------
-#pragma region Loading Methods
-void AAlexPlayerController::ReceiveLoadedData(float newSensitivity)
-{
-	MouseSensitivity = newSensitivity;
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::LoadValues()
-{
-	auto saveData = gs->GetSaveData();
-	MouseSensitivity = saveData.MouseSensitivity;
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(" Mouse sens: %f"),MouseSensitivity ));
 }
 #pragma endregion 
 

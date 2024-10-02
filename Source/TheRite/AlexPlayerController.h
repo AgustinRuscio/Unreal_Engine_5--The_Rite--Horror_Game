@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
+#include "SaveData.h"
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/PlayerController.h"
 #include "AlexPlayerController.generated.h"
@@ -68,9 +69,9 @@ public:
 	void SetFocusInput();
 	void SetNewCursorVisibilityState(bool IsActive);
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable) // borrar porque esta en UI vieja
 	void SetMouseSensitivity(float newSensitivity);
-
+	
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 	
 private:
@@ -78,6 +79,9 @@ private:
 	bool GetIsGamepad() const;
 	
 	virtual void BeginPlay() override;
+	
+	//---------------- Loading Methods
+	void LoadValues();
 	
 //---------------- Binding Methods
 	void BindActions();
@@ -105,13 +109,6 @@ private:
 	
 	void SetInventoryInputs();
 	void SetDoorInputs();
-	
-//---------------- Loading Methods
-	UFUNCTION()
-	void ReceiveLoadedData(float newSensitivity);
-	
-	UFUNCTION()
-	void LoadValues();
 
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	void SetIsGamepad(const bool bIsGamepad);
@@ -185,8 +182,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputAction* PrevInventoryItemAction;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	ALevelsGameState* GameState;
-	ALevelsGameState* gs;
 };

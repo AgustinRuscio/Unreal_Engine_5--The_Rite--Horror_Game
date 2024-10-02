@@ -1,32 +1,16 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.2.1						//
+//----------------------------------------------//
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameStateBase.h"
-#include "LevelsGameState.generated.h"
-
-
-struct FSaveGameData
-{
-	float MouseSensitivity;
-	uint8 PuzzleResolveIndex;
-
-	FSaveGameData()
-	{
-		MouseSensitivity = 1.f;
-		PuzzleResolveIndex = 0;
-	}
-};
-
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameLoaded);
+#include "GameFramework/PlayerState.h"
+#include "PlayerStateTheRite.generated.h"
 
 UCLASS()
-class THERITE_API ALevelsGameState : public AGameStateBase
+class THERITE_API APlayerStateTheRite : public APlayerState
 {
 	GENERATED_BODY()
 
@@ -34,34 +18,31 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	FSaveGameData GetSaveData() const;
 
-	FGameLoaded OnGameLoaded;
-	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
+	UFUNCTION(BlueprintCallable)
+	void SetMouseSensitivity(float NewSensitivity);
 	
 	UFUNCTION(BlueprintCallable)
-	void SaveData(float mouseSensitivity);
-
-	UFUNCTION(BlueprintCallable)
-	void LoadData();
-
+	float GetMouseSensitivity() const;
+	
 private:
-
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	FSaveGameData GameData;
-
-	FTimerHandle WaitForInitializationTimerHandle;
-	FTimerDelegate WaitForInitializationDelegate;
 	
+	float MouseSensitivity;
+
+	class ALevelsGameState* GameState;
+	class AAlexPlayerController* PlayerController;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
-	
 	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+virtual void Tick(float DeltaSeconds) override;
+	UFUNCTION()
+	void LoadValues();
 };
