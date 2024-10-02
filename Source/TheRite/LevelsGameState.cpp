@@ -43,7 +43,7 @@ void ALevelsGameState::LoadData()
 	GameData.PuzzleResolveIndex = saveGameDataInstance->PuzzleResolveIndex;
 
 	OnGameLoaded.Broadcast();
-	
+
 	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
 }
 
