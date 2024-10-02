@@ -103,6 +103,8 @@ void ASimpleCorridorFlow::OnTriggerBeginEnd(AActor* OverlappedActor, AActor* Oth
 {
 	if(!bPuzzleEnd) return;
 
+	// Play Audio ENd
+	
 	for (auto Element : AllLights)
 	{
 		Element->TurnOff();
@@ -142,7 +144,8 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 		Element->HardClosing();
 		Element->SetLockedState(true);
 	}
-	
+
+	//Detener sonidos
 	TriggerOutSideEnd->Destroy();
 	Manikin->Destroy();
 	Destroy();

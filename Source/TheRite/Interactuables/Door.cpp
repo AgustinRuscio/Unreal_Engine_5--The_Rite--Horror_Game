@@ -769,28 +769,28 @@ void ADoor::UnlockDoorTimeLineFinished()
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
 		{
+			bCanInteract = true;
+			bcanDrag = true;
+			
+			bIsLocked = false;
+			bKeyUnlocked = true;
+			
+			if(SisterDoor != nullptr)
+			{
+				SisterDoor->SetCanDragState(true);
+				SisterDoor->bIsLocked = false;
+				SisterDoor->bKeyUnlocked = true;
+				SisterDoor->FirstTimeKeySound = 1;
+				SisterDoor->SetCanInteract(true);
+			}
+			UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
+
+			GetWorld()->GetTimerManager().ClearTimer(UnlockedDoorTimerHandle);
+			timerDelegate.Unbind();
+			
 			if(bDisapearKey)
 			{
 				KeyMesh->SetVisibility(false);
-
-				bCanInteract = true;
-				bcanDrag = true;
-				
-				bIsLocked = false;
-				bKeyUnlocked = true;
-			
-				if(SisterDoor != nullptr)
-				{
-					SisterDoor->SetCanDragState(true);
-					SisterDoor->bIsLocked = false;
-					SisterDoor->bKeyUnlocked = true;
-					SisterDoor->FirstTimeKeySound = 1;
-					SisterDoor->SetCanInteract(true);
-				}
-				UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
-
-				GetWorld()->GetTimerManager().ClearTimer(UnlockedDoorTimerHandle);
-				timerDelegate.Unbind();
 			}
 		});
 		
