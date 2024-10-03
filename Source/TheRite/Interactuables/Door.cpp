@@ -709,8 +709,8 @@ void ADoor::ItLockedTimelineFinished()
 void ADoor::LatchAnimTimeLineUpdate(float value)
 {
 	float lerpValue = FMath::Lerp(5, 50, value);
-	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
-	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, LatchFront->GetRelativeRotation().Yaw, LatchFront->GetRelativeRotation().Roll));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, LatchBack->GetRelativeRotation().Yaw, LatchBack->GetRelativeRotation().Roll));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -720,8 +720,9 @@ void ADoor::LatchAnimTimelineFinished() { }
 void ADoor::LatchHoldTimeLineUpdate(float value)
 {
 	float lerpValue = FMath::Lerp(50, 0, value);
-	LatchFront->SetRelativeRotation(FRotator(lerpValue, 0, 0));
-	LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, LatchFront->GetRelativeRotation().Yaw, LatchFront->GetRelativeRotation().Roll));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, LatchBack->GetRelativeRotation().Yaw, LatchBack->GetRelativeRotation().Roll));
+	//LatchBack->SetRelativeRotation(FRotator(lerpValue, 0, -180));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
