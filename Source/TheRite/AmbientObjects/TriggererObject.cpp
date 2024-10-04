@@ -52,10 +52,9 @@ void ATriggererObject::OnTriggerBegin(UPrimitiveComponent* OverlappedComp, AActo
 	
 	if(!Cast<AAlex>(OtherActor)) return;
 	
-	OnTriggererObjectEvent.Broadcast();
-	
 	for (auto Element : TriggererObjects)
 	{
+		OnTriggererObjectEvent.Broadcast();
 		Element->Trigger();
 	}
 	

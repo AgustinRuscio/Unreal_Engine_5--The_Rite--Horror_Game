@@ -30,9 +30,17 @@ AMovableActor::AMovableActor()
 void AMovableActor::Trigger()
 {
 	Super::Trigger();
-	StartPoint = GetActorLocation();
-	MoveTimeLine.PlayFromStart();
-	PlayBeginFeedBack();
+	if(bForce)
+	{
+		MeshComponent->SetSimulatePhysics(true);
+		MeshComponent->AddImpulse(ForceDirection);
+	}
+	else
+	{
+		StartPoint = GetActorLocation();
+		MoveTimeLine.PlayFromStart();
+		PlayBeginFeedBack();
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -12,6 +12,8 @@
 class UBoxComponent;
 class ADoor;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSlappedDoor);
+
 UCLASS()
 class THERITE_API ADoorSlapper : public AActor
 {
@@ -23,6 +25,8 @@ public:
 
 	void Activate();
 	void Deactivate();
+
+	FOnSlappedDoor OnSlappedDoor;
 	
 private:
 	virtual void BeginPlay() override;

@@ -54,5 +54,7 @@ void ADoorSlapper::SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 		Element->SetLockedState(true);
 	}
 	
+	OnSlappedDoor.Broadcast();
+
 	Destroy();
 }

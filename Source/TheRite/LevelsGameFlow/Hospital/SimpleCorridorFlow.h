@@ -55,6 +55,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
 
+	UPROPERTY(EditAnywhere, Category = Triggers)
+	class ADoorSlapper* DoorSlapperHangedMan;
+
+	UPROPERTY(EditAnywhere, Category = Triggers)
+	class ATriggererObject* TriggererObjectWheelChair;
+	
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class AManikin* Manikin;
 
@@ -90,4 +96,7 @@ private:
 	
 	UFUNCTION()
 	void OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerBeginDoorSlapperHangedMan();
 };

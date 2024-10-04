@@ -44,7 +44,13 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	UPROPERTY(EditAnywhere, Category= Settings)
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bForce;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FVector ForceDirection;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATargetPoint* EndLocation;
 
 	UPROPERTY(EditAnywhere, Category = Lights)
@@ -58,7 +64,7 @@ private:
 	
 	FTimeline MoveTimeLine;
 	
-	UPROPERTY(EditDefaultsOnly, Category = TimeLine)
+	UPROPERTY(EditAnywhere, Category = TimeLine)
 	UCurveFloat* CurveFloat;
 	
 	//*****************************************************************************//
