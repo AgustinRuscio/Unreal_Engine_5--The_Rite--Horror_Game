@@ -217,7 +217,7 @@ void AGameFlowPacifierLevel::OnLightsOnEvent(AInteractor* Interactor)
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_PowerRestored);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_TiffanyNear);
 	Door_BedRoom->SetLockedState(false);
-	Door_BedRoom->Open();
+	//Door_BedRoom->Open();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

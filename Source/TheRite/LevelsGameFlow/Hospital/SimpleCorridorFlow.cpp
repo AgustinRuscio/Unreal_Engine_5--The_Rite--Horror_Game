@@ -9,9 +9,11 @@
 #include "Engine/TriggerBox.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
+#include "TheRite/AmbientObjects/TriggererObject.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/Triggers/DoorSlapper.h"
 #include "TheRite/Triggers/TimerSound.h"
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -64,6 +66,8 @@ void ASimpleCorridorFlow::BindTriggers()
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
 	TriggerEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnd);
 	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
+	
+	DoorSlapperHangedMan->OnSlappedDoor.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -149,4 +153,10 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 	TriggerOutSideEnd->Destroy();
 	Manikin->Destroy();
 	Destroy();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan()
+{
+	TriggererObjectWheelChair->Activate();
 }

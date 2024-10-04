@@ -21,7 +21,7 @@ public:
 	//*****************************************************************************//
 	ASimpleGrabbableActor();
 
-	UPROPERTY(EditDefaultsOnly, Category = Visual, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Visual, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* MeshComponent;
 	
 	//*****************************************************************************//

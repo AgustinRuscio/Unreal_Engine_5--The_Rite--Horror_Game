@@ -28,16 +28,16 @@ public:
 	
 	void SetDoor(ADoor* NewDoor);
 
-public:	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Mesh")
+	UStaticMeshComponent* KeyMesh;
+	
 	FOnKeyCollected OnKeyCollected;
 	
 private:
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool bKeyReady;
 	
-	UPROPERTY(EditAnywhere, Category= "Mesh")
-	UStaticMeshComponent* KeyMesh;
-
 	UPROPERTY(EditAnywhere, Category= "Light")
 	UPointLightComponent* PointLight;
 

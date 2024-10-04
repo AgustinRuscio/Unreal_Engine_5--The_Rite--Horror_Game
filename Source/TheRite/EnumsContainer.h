@@ -23,7 +23,11 @@ enum class PickableItemsID : uint8
 	Fuse,
 	ChestKey,
 	PasswordVault26,
-	PasswordVault47
+	PasswordVault47,
+	SecurityCard,
+	EmblemLion,
+	EmblemLady,
+	EmblemTeddy,
 };
 
 UENUM(BlueprintType)
