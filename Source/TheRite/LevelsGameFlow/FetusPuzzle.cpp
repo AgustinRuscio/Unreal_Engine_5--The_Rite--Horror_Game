@@ -7,7 +7,6 @@
 #include "TheRite/Interactuables/Fetus.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Interactor.h"
-#include "TheRite/Interactuables/Door.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
@@ -19,12 +18,26 @@
 AFetusPuzzle::AFetusPuzzle()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	bActive			   = false;
+	bFirstInteraction  = true;
+	MaxObjectsPerRound = 8;
+	Player			   = nullptr;
+
+	SFX_CorrectInteraction	= nullptr;
+	SFX_WrongInteraction	= nullptr;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 bool AFetusPuzzle::IsActive() const
 {
 	return bActive;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AFetusPuzzle::SetPuzzleState(bool NewPuzzleState)
+{
+	bActive = NewPuzzleState;
 }
 
 //*****************************Private*********************************************
@@ -52,10 +65,20 @@ void AFetusPuzzle::BeginPlay()
 		else
 			RegularFetus.Add(Element);
 	}
-
-	for (auto Element : PosiblePosition)
+//----- New objects
+	for (auto Element : RegularObjects)
 	{
-		AUXPosiblePosition.Add(Element);
+		
+	}
+	for (auto Element : CorrectObjects)
+	{
+		
+	}
+//------
+	
+	for (auto Element : PossiblePosition)
+	{
+		AUXPossiblePosition.Add(Element);
 	}
 
 	for (auto Element : RightFetus)
@@ -63,14 +86,23 @@ void AFetusPuzzle::BeginPlay()
 		AUXRightFetus.Add(Element);
 	}
 
-	if(MaxFetusPerRound > AllFetus.Num() -1)
-		MaxFetusPerRound = AllFetus.Num() -1;
+	if(MaxObjectsPerRound > AllFetus.Num() -1)
+		MaxObjectsPerRound = AllFetus.Num() -1;
 	
-	ReLocateFetus();
+	ReLocateObjects();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFetusPuzzle::OnInteraction(AInteractor* interactor)
+void AFetusPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
+	LightsOn_TimerDelegate.Unbind();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AFetusPuzzle::OnInteraction(AInteractor* interactable)
 {
 	Player->ForceLighterOff();
 	Player->SetPlayerOptions(false, false, false);
@@ -84,7 +116,7 @@ void AFetusPuzzle::OnInteraction(AInteractor* interactor)
 #pragma region Lights Manipulation Methods
 void AFetusPuzzle::LightsOut()
 {
-	for (auto Element : RoomLights)
+	for (auto Element : AllLights)
 	{
 		Element->TurnOff();
 	}
@@ -93,12 +125,11 @@ void AFetusPuzzle::LightsOut()
 //----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::LightsOn()
 {
-	if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_LightsOn))
+	if (!GetWorld()->GetTimerManager().IsTimerActive(LightsOn_TimerHandle))
 	{
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([&]
+		LightsOn_TimerDelegate.BindLambda([&]
 		{
-			for (auto Element : RoomLights)
+			for (auto Element : AllLights)
 			{
 				Element->TurnOn();
 			}
@@ -108,10 +139,10 @@ void AFetusPuzzle::LightsOn()
 				Element->SetCanInteract(true);
 			}
 			
-			Player->SetPlayerOptions(false, true, false);
+			//Player->SetPlayerOptions(false, true, false);
 		});
 		
-		GetWorld()->GetTimerManager().SetTimer(Timer_LightsOn, timerDelegate, OffsetLightsOn, false);
+		GetWorld()->GetTimerManager().SetTimer(LightsOn_TimerHandle, LightsOn_TimerDelegate, OffsetLightsOn, false);
 	}
 }
 #pragma endregion
@@ -125,9 +156,7 @@ void AFetusPuzzle::ResetPuzzle()
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
 	
-	bPuzzleActivated = false;
 	bFirstInteraction = true;
-	RoomDoor->SetLockedState(false);
 	
 	for (auto Element : AllFetus)
 	{
@@ -141,9 +170,9 @@ void AFetusPuzzle::ResetPuzzle()
 		AUXRightFetus.Add(Element);
 	}
 
-	TotalPuzzleStps = 0;
+	TotalPuzzleSteps = 0;
 	
-	ReLocateFetus();
+	ReLocateObjects();
 	
 	LightsOn();
 }
@@ -157,9 +186,9 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_CorrectInteraction);
 
-	TotalPuzzleStps++;
+	TotalPuzzleSteps++;
 	
-	TotalPuzzleStps == RightFetus.Num() ? PuzzleComplete() : NextStep();
+	TotalPuzzleSteps == RightFetus.Num() ? PuzzleComplete() : NextStep();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -168,9 +197,6 @@ void AFetusPuzzle::NextStep()
 	if(bFirstInteraction)
 	{
 		bFirstInteraction = false;
-		
-		RoomDoor->SetLockedState(true);
-		RoomDoor->HardClosing();
 	}
 	
 	for (auto Element : AllFetus)
@@ -178,7 +204,7 @@ void AFetusPuzzle::NextStep()
 		Element->ResetFetus();
 	}
 	
-	ReLocateFetus();
+	ReLocateObjects();
 	
 	LightsOn();
 }
@@ -192,61 +218,74 @@ void AFetusPuzzle::PuzzleComplete()
 	{
 		Element->Destroy();
 	}
-	
-	Player->SetPlayerOptions(false, true, false);
+
+	for (auto Element : RegularObjects)
+	{
+		Element->Destroy();
+	}
+
+	for (auto Element : CorrectObjects)
+	{
+		Element->Destroy();
+	}
+
+	LightsOn_TimerDelegate.Unbind();
+	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
+
+	//Player->SetPlayerOptions(false, true, false);
 
 	Destroy();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFetusPuzzle::ReLocateFetus()
+void AFetusPuzzle::ReLocateObjects()
 {
-	RemoveFirstRightFetus();
+	RemoveFirstRightObjects();
 	
 	int counter = 0;
 	
 	for (auto Element : RegularFetus)
 	{
-		if(counter >= MaxFetusPerRound ||AUXPosiblePosition.Num() == 0) break;
+		if(counter >= MaxObjectsPerRound ||AUXPossiblePosition.Num() == 0) break;
 		counter++;
 		
-		auto randomizer = FMath::RandRange(0, AUXPosiblePosition.Num() - 1);
-		auto newPos = AUXPosiblePosition[randomizer];
+		auto randomizer = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
+		auto newPos = AUXPossiblePosition[randomizer];
 		
 		Element->SetActorLocation(newPos->GetActorLocation());
 		Element->SetActorRotation(newPos->GetActorRotation() + FRotator(0,-90,0));
 		
-		auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
+		auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
 		
-		AUXPosiblePosition[AUXPosiblePosition.Num()-1] = newPos;
-		AUXPosiblePosition[randomizer] = EndAuxTarget;
+		AUXPossiblePosition[AUXPossiblePosition.Num()-1] = newPos;
+		AUXPossiblePosition[randomizer] = EndAuxTarget;
 		
-		AUXPosiblePosition.RemoveAt(AUXPosiblePosition.Num()-1);
+		AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
 	}
 
-	AUXPosiblePosition.Empty();
+	AUXPossiblePosition.Empty();
 	
-	for (auto Element : PosiblePosition)
+	for (auto Element : PossiblePosition)
 	{
-		AUXPosiblePosition.Add(Element);
+		AUXPossiblePosition.Add(Element);
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFetusPuzzle::RemoveFirstRightFetus()
+void AFetusPuzzle::RemoveFirstRightObjects()
 {
 	auto currentFetus = AUXRightFetus[0];
 	
-	auto rand = FMath::RandRange(0, AUXPosiblePosition.Num() - 1);
-	auto currentTarget = AUXPosiblePosition[rand];
+	auto rand = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
+	auto currentTarget = AUXPossiblePosition[rand];
 		
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
 	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
 		
-	auto EndAuxTarget = AUXPosiblePosition[AUXPosiblePosition.Num()-1];
-	AUXPosiblePosition[AUXPosiblePosition.Num()-1] = currentTarget;
-	AUXPosiblePosition[rand] = EndAuxTarget;
-	AUXPosiblePosition.RemoveAt(AUXPosiblePosition.Num()-1);
+	auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
+	AUXPossiblePosition[AUXPossiblePosition.Num()-1] = currentTarget;
+	AUXPossiblePosition[rand] = EndAuxTarget;
+	AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
 
 
 	auto EndAuxFetus = AUXRightFetus[AUXRightFetus.Num()-1];

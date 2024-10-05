@@ -9,11 +9,9 @@
 #include "GameFramework/Actor.h"
 #include "FetusPuzzle.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFetuPuzzleComplete);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFetchPuzzleCompleted);
 
 class ATargetPoint;
-class AFetus;
-class ADoor;
 class ALightsTheRite;
 class AInteractor;
 class AAlex;
@@ -23,16 +21,92 @@ class THERITE_API AFetusPuzzle : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AFetusPuzzle();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnFetchPuzzleCompleted OnPuzzleComplete;
+	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	bool IsActive() const;
 
+	void SetPuzzleState(bool NewPuzzleState);
+	
 private:
-	virtual void BeginPlay() override;
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
+	bool bActive;
+	
+	bool bFirstInteraction = true;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
+	int MaxObjectsPerRound;
+	
+	int TotalPuzzleSteps = 0;
+	
+	float OffsetLightsOn;
+	
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
+	USoundBase* SFX_CorrectInteraction;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
+	USoundBase* SFX_WrongInteraction;
+	
+	//-------- Lights
+	UPROPERTY(EditAnywhere, Category = "Lights", meta=(AllowPrivateAccess = true))
+	TArray<ALightsTheRite*> AllLights;
+	
+	//-------- Target Points
+	UPROPERTY(EditAnywhere, Category = "Position", meta=(AllowPrivateAccess = true))
+	TArray<ATargetPoint*> PossiblePosition;
+	
+	TArray<ATargetPoint*> AUXPossiblePosition;
+	
+	//-------- TimeLine
+	FTimerHandle LightsOn_TimerHandle;
+	FTimerDelegate LightsOn_TimerDelegate;
 
+	//---------------------------------------- In game Objects
+	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
+	TArray<AFetus*> AllFetus;
+
+	TArray<AFetus*> RegularFetus;
+
+	TArray<AFetus*> RightFetus;
+
+	TArray<AFetus*> AUXRightFetus;
+
+	//--------
+
+	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
+	TArray<AInteractor*> RegularObjects;
+	
+	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
+	TArray<AInteractor*> CorrectObjects;
+	
+	//--------
+	
+	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 	UFUNCTION()
-	void OnInteraction(AInteractor* interactor);
+	void OnInteraction(AInteractor* interactable);
 	
 //---------------- TimeLine
 	void LightsOut();
@@ -50,58 +124,7 @@ private:
 	UFUNCTION()
 	void PuzzleComplete();
 
-	void ReLocateFetus();
+	void ReLocateObjects();
 
-	void RemoveFirstRightFetus();
-
-public:	
-	FOnFetuPuzzleComplete OnPuzzleComplete;
-	
-private:
-	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
-	bool bActive;
-	
-	bool bPuzzleActivated;
-	bool bFirstInteraction = true;
-	
-	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
-	int MaxFetusPerRound;
-	
-	int TotalPuzzleStps = 0;
-	
-	float OffsetLightsOn;
-	//-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
-	USoundBase* SFX_CorrectInteraction;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
-	USoundBase* SFX_WrongInteraction;
-	
-	//-------- Lights
-	UPROPERTY(EditAnywhere, Category = "Lights", meta=(AllowPrivateAccess = true))
-	TArray<ALightsTheRite*> RoomLights;
-	
-	//-------- Taregt Points
-	UPROPERTY(EditAnywhere, Category = "Position", meta=(AllowPrivateAccess = true))
-	TArray<ATargetPoint*> PosiblePosition;
-	
-	TArray<ATargetPoint*> AUXPosiblePosition;
-	
-	//-------- TimeLine
-	FTimerHandle Timer_LightsOn;
-
-//---------------------------------------- In game Objects
-	UPROPERTY(EditAnywhere, Category = "Fetus", meta=(AllowPrivateAccess = true))
-	TArray<AFetus*> AllFetus;
-
-	TArray<AFetus*> RegularFetus;
-
-	TArray<AFetus*> RightFetus;
-
-	TArray<AFetus*> AUXRightFetus;
-	
-	UPROPERTY(EditAnywhere, Category = "Door", meta=(AllowPrivateAccess = true))
-	ADoor* RoomDoor;
-
-	AAlex* Player;
+	void RemoveFirstRightObjects();
 };

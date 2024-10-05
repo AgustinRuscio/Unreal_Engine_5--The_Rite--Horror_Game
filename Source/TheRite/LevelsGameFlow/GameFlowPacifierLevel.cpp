@@ -22,7 +22,6 @@
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "Engine/SpotLight.h"
-#include "FetusPuzzle.h"
 #include "Components/AudioComponent.h"
 #include "Engine/BlockingVolume.h"
 #include "Misc/TextFilterExpressionEvaluator.h"
@@ -45,10 +44,7 @@ void AGameFlowPacifierLevel::BeginPlay()
 	Super::BeginPlay();
 	
 	LightSwitch_ThermalSwitch->OnInteractionTrigger.AddDynamic(this, &AGameFlowPacifierLevel::OnLightsOnEvent);
-
-	if(GameFlow_FetusPuzzle->IsActive())
-		GameFlow_FetusPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
-
+	
 	if(GameFlow_HideAndSeekPuzzle->IsActive())
 	{
 		GameFlow_HideAndSeekPuzzle->OnPuzzleComplete.AddDynamic(this, &AGameFlowPacifierLevel::EndGame);
