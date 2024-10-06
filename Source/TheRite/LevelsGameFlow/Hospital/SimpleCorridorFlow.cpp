@@ -78,11 +78,11 @@ void ASimpleCorridorFlow::OnPuzzleFinished(AInteractor* Interactable)
 	EndTiffany->GetSkeletalMeshComponent()->SetVisibility(true);
 	TimerSound->Destroy();
 	
-	for (auto Element : InitialDoors)
-	{
-		Element->SetLockedState(false);
-		Element->Open();
-	}
+	//for (auto Element : InitialDoors)
+	//{
+	//	Element->SetLockedState(false);
+	//	Element->Open();
+	//}
 
 	for (auto Element : AllLights)
 	{
@@ -140,14 +140,14 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 
 	for (auto Element : AllLights)
 	{
-		Element->TurnOff();
+		Element->SetAggressiveMaterial();
 	}
 	
-	for (auto Element : InitialDoors)
-	{
-		Element->HardClosing();
-		Element->SetLockedState(true);
-	}
+	//for (auto Element : InitialDoors)
+	//{
+	//	Element->HardClosing();
+	//	Element->SetLockedState(true);
+	//}
 
 	//Detener sonidos
 	TriggerOutSideEnd->Destroy();

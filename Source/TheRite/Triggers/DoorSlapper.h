@@ -38,6 +38,8 @@ private:
 private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bActive = true;
+	UPROPERTY(EditAnywhere, Category="Settings")
+	bool bLockDoor = true;
 	
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta=(AllowPrivateAccess="true"))
 	UBoxComponent* ClosingTrigger;

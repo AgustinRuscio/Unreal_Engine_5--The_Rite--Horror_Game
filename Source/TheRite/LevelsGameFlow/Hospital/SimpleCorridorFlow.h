@@ -46,9 +46,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Interactables)
 	class AInteractor* EndInteractable;
 
-	UPROPERTY(EditAnywhere, Category = Doors)
-	TArray<class ADoor*> InitialDoors;
-	 
+	//UPROPERTY(EditAnywhere, Category = Doors)
+	//TArray<class ADoor*> InitialDoors;
+	
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> RoomsDoors;
 

@@ -86,6 +86,25 @@ public:
 	void SetCanDragState(bool newDragState);
 	void SetLockedState(bool LockedNewState);
 
+protected:
+	//*****************************************************************************//
+	//								PROTECTED VARIABLES							   //
+	//*****************************************************************************//
+	//-------- Audio
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* SFXDoorUnlocked;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorClinck;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXVoiceLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorSlam;
+	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
@@ -170,21 +189,6 @@ private:
 	
 	FString keyName;
 	PickableItemsID keyId;
-
-	//-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorUnlocked;
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorClinck;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXVoiceLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorSlam;
 	
 	//--------- Widget
 
