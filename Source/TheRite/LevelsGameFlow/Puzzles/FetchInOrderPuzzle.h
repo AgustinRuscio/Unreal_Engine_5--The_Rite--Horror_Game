@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FetusPuzzle.generated.h"
+#include "FetchInOrderPuzzle.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFetchPuzzleCompleted);
 
@@ -17,7 +17,7 @@ class AInteractor;
 class AAlex;
 
 UCLASS()
-class THERITE_API AFetusPuzzle : public AActor
+class THERITE_API AFetchInOrderPuzzle : public AActor
 {
 	GENERATED_BODY()
 	
@@ -26,7 +26,7 @@ public:
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	AFetusPuzzle();
+	AFetchInOrderPuzzle();
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -39,6 +39,7 @@ public:
 	bool IsActive() const;
 
 	void SetPuzzleState(bool NewPuzzleState);
+	void ActivatePuzzle();
 	
 private:
 	//*****************************************************************************//
@@ -81,7 +82,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = Objects)
 	TArray<AInteractor*> RegularObjects;
 	
-	UPROPERTY(EditAnywhere, Category = Objects)
+	UPROPERTY(EditAnywhere, Category = Objects, meta=(ToolTip = "Objects should be in the desired order to interact being 0 first to interact"))
 	TArray<AInteractor*> CorrectObjects;
 	
 	TArray<AInteractor*> AllObjects;
@@ -98,7 +99,6 @@ private:
 	UFUNCTION()
 	void InteractionFeedBack();
 	
-//---------------- TimeLine
 	void LightsOut();
 	void LightsOn();
 	
