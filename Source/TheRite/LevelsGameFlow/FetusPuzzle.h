@@ -57,18 +57,18 @@ private:
 	float OffsetLightsOn;
 	
 	//-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Audio, meta=(AllowPrivateAccess = true))
 	USoundBase* SFX_CorrectInteraction;
 	
-	UPROPERTY(EditAnywhere, Category = "Audio", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Audio, meta=(AllowPrivateAccess = true))
 	USoundBase* SFX_WrongInteraction;
 	
 	//-------- Lights
-	UPROPERTY(EditAnywhere, Category = "Lights", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
 	TArray<ALightsTheRite*> AllLights;
 	
 	//-------- Target Points
-	UPROPERTY(EditAnywhere, Category = "Position", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Position, meta=(AllowPrivateAccess = true))
 	TArray<ATargetPoint*> PossiblePosition;
 	
 	TArray<ATargetPoint*> AUXPossiblePosition;
@@ -78,24 +78,14 @@ private:
 	FTimerDelegate LightsOn_TimerDelegate;
 
 	//---------------------------------------- In game Objects
-	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
-	TArray<AFetus*> AllFetus;
-
-	TArray<AFetus*> RegularFetus;
-
-	TArray<AFetus*> RightFetus;
-
-	TArray<AFetus*> AUXRightFetus;
-
-	//--------
-
-	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Objects)
 	TArray<AInteractor*> RegularObjects;
 	
-	UPROPERTY(EditAnywhere, Category = "Objects", meta=(AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, Category = Objects)
 	TArray<AInteractor*> CorrectObjects;
 	
-	//--------
+	TArray<AInteractor*> AllObjects;
+	TArray<AInteractor*> AuxCorrectObjects;
 	
 	AAlex* Player;
 	
@@ -106,17 +96,17 @@ private:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	UFUNCTION()
-	void OnInteraction(AInteractor* interactable);
+	void InteractionFeedBack();
 	
 //---------------- TimeLine
 	void LightsOut();
 	void LightsOn();
 	
 	UFUNCTION()
-	void ResetPuzzle();
+	void ResetPuzzle(class AInteractor* Interactable);
 	
 	UFUNCTION()
-	void CheckNextPuzzleStep();
+	void CheckNextPuzzleStep(class AInteractor* Interactable);
 	
 	UFUNCTION()
 	void NextStep();

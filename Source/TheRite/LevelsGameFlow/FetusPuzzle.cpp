@@ -4,7 +4,6 @@
 
 
 #include "FetusPuzzle.h"
-#include "TheRite/Interactuables/Fetus.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TargetPoint.h"
@@ -53,26 +52,30 @@ void AFetusPuzzle::BeginPlay()
 
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
-	for (auto Element : AllFetus)
-	{
-		Element->OnInteractionTrigger.AddDynamic(this, &AFetusPuzzle::OnInteraction);
-		
-		Element->OnCorrectFetus.AddDynamic(this, &AFetusPuzzle::CheckNextPuzzleStep);
-		Element->OnWrongFetus.AddDynamic(this, &AFetusPuzzle::ResetPuzzle);
-		
-		if(Element->GetIsCorrectFetus())
-			RightFetus.Add(Element);
-		else
-			RegularFetus.Add(Element);
-	}
+	//for (auto Element : AllFetus)
+	//{
+	//	//Element->OnInteractionTrigger.AddDynamic(this, &AFetusPuzzle::OnInteraction);
+	//	
+	//	//Element->OnCorrectFetus.AddDynamic(this, &AFetusPuzzle::CheckNextPuzzleStep);
+	//	//Element->OnWrongFetus.AddDynamic(this, &AFetusPuzzle::ResetPuzzle);
+	//	
+	//	if(Element->GetIsCorrectFetus())
+	//		RightFetus.Add(Element);
+	//	else
+	//		RegularFetus.Add(Element);
+	//}
+	
 //----- New objects
 	for (auto Element : RegularObjects)
 	{
-		
+		Element->OnInteractionTrigger.AddDynamic(this, &AFetusPuzzle::ResetPuzzle);
+		AllObjects.Add(Element);
 	}
 	for (auto Element : CorrectObjects)
 	{
-		
+		Element->OnInteractionTrigger.AddDynamic(this, &AFetusPuzzle::CheckNextPuzzleStep);
+		AllObjects.Add(Element);
+		AuxCorrectObjects.Add(Element);
 	}
 //------
 	
@@ -81,13 +84,13 @@ void AFetusPuzzle::BeginPlay()
 		AUXPossiblePosition.Add(Element);
 	}
 
-	for (auto Element : RightFetus)
-	{
-		AUXRightFetus.Add(Element);
-	}
+	//for (auto Element : RightFetus)
+	//{
+	//	AUXRightFetus.Add(Element);
+	//}
 
-	if(MaxObjectsPerRound > AllFetus.Num() -1)
-		MaxObjectsPerRound = AllFetus.Num() -1;
+	if(MaxObjectsPerRound > AllObjects.Num() -1)
+		MaxObjectsPerRound = AllObjects.Num() -1;
 	
 	ReLocateObjects();
 }
@@ -102,12 +105,23 @@ void AFetusPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFetusPuzzle::OnInteraction(AInteractor* interactable)
+void AFetusPuzzle::InteractionFeedBack()
 {
+	LightsOut();
+	
 	Player->ForceLighterOff();
 	Player->SetPlayerOptions(false, false, false);
 	
-	for (auto Element : AllFetus)
+	//for (auto Element : AllFetus)
+	//{
+	//	Element->SetCanInteract(false);
+	//}
+	
+	for (auto Element : RegularObjects)
+	{
+		Element->SetCanInteract(false);
+	}
+	for (auto Element : CorrectObjects)
 	{
 		Element->SetCanInteract(false);
 	}
@@ -134,7 +148,7 @@ void AFetusPuzzle::LightsOn()
 				Element->TurnOn();
 			}
 
-			for (auto Element : AllFetus)
+			for (auto Element : AllObjects)
 			{
 				Element->SetCanInteract(true);
 			}
@@ -149,25 +163,25 @@ void AFetusPuzzle::LightsOn()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Puzzle Steps
-void AFetusPuzzle::ResetPuzzle()
+void AFetusPuzzle::ResetPuzzle(AInteractor* Interactable)
 {
-	LightsOut();
+	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
 	
 	bFirstInteraction = true;
 	
-	for (auto Element : AllFetus)
-	{
-		Element->ResetFetus();
-	}
+	//for (auto Element : AllFetus)
+	//{
+	//	Element->ResetFetus();
+	//}
 
-	AUXRightFetus.Empty();
+	AuxCorrectObjects.Empty();
 	
-	for (auto Element : RightFetus)
+	for (auto Element : CorrectObjects)
 	{
-		AUXRightFetus.Add(Element);
+		AuxCorrectObjects.Add(Element);
 	}
 
 	TotalPuzzleSteps = 0;
@@ -178,9 +192,9 @@ void AFetusPuzzle::ResetPuzzle()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFetusPuzzle::CheckNextPuzzleStep()
+void AFetusPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 {
-	LightsOut();
+	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_CorrectInteraction->GetDuration();
 	
@@ -188,7 +202,7 @@ void AFetusPuzzle::CheckNextPuzzleStep()
 
 	TotalPuzzleSteps++;
 	
-	TotalPuzzleSteps == RightFetus.Num() ? PuzzleComplete() : NextStep();
+	TotalPuzzleSteps == CorrectObjects.Num() ? PuzzleComplete() : NextStep();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -199,10 +213,10 @@ void AFetusPuzzle::NextStep()
 		bFirstInteraction = false;
 	}
 	
-	for (auto Element : AllFetus)
-	{
-		Element->ResetFetus();
-	}
+	//for (auto Element : AllFetus)
+	//{
+	//	Element->ResetFetus();
+	//}
 	
 	ReLocateObjects();
 	
@@ -214,10 +228,10 @@ void AFetusPuzzle::PuzzleComplete()
 {
 	OnPuzzleComplete.Broadcast();
 
-	for (auto Element : AllFetus)
-	{
-		Element->Destroy();
-	}
+	//for (auto Element : AllFetus)
+	//{
+	//	Element->Destroy();
+	//}
 
 	for (auto Element : RegularObjects)
 	{
@@ -244,7 +258,7 @@ void AFetusPuzzle::ReLocateObjects()
 	
 	int counter = 0;
 	
-	for (auto Element : RegularFetus)
+	for (auto Element : RegularObjects)
 	{
 		if(counter >= MaxObjectsPerRound ||AUXPossiblePosition.Num() == 0) break;
 		counter++;
@@ -274,7 +288,7 @@ void AFetusPuzzle::ReLocateObjects()
 //----------------------------------------------------------------------------------------------------------------------
 void AFetusPuzzle::RemoveFirstRightObjects()
 {
-	auto currentFetus = AUXRightFetus[0];
+	auto currentFetus = AuxCorrectObjects[0];
 	
 	auto rand = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
 	auto currentTarget = AUXPossiblePosition[rand];
@@ -288,9 +302,9 @@ void AFetusPuzzle::RemoveFirstRightObjects()
 	AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
 
 
-	auto EndAuxFetus = AUXRightFetus[AUXRightFetus.Num()-1];
-	AUXRightFetus[AUXRightFetus.Num()-1] = currentFetus;
-	AUXRightFetus[0] = EndAuxFetus;
-	AUXRightFetus.RemoveAt(AUXRightFetus.Num()-1);
+	auto EndAuxFetus = AuxCorrectObjects[AuxCorrectObjects.Num()-1];
+	AuxCorrectObjects[AuxCorrectObjects.Num()-1] = currentFetus;
+	AuxCorrectObjects[0] = EndAuxFetus;
+	AuxCorrectObjects.RemoveAt(AuxCorrectObjects.Num()-1);
 }
 #pragma endregion
