@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.2.1						//
+//----------------------------------------------//
 
 #include "FetchInOrderPuzzle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
@@ -62,12 +62,19 @@ void AFetchInOrderPuzzle::BeginPlay()
 		Element->OnInteractionTrigger.AddDynamic(this, &AFetchInOrderPuzzle::ResetPuzzle);
 		AllObjects.Add(Element);
 	}
+	
 	for (auto Element : CorrectObjects)
 	{
 		Element->OnInteractionTrigger.AddDynamic(this, &AFetchInOrderPuzzle::CheckNextPuzzleStep);
 		AllObjects.Add(Element);
 		AuxCorrectObjects.Add(Element);
 	}
+
+	for (auto Element : AllObjects)
+	{
+		map.Add(Element, Element->GetActorLocation());
+	}
+
 //------
 	
 	for (auto Element : PossiblePosition)
@@ -104,6 +111,8 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	{
 		Element->SetCanInteract(false);
 	}
+
+	ResetObjects();
 }
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Lights Manipulation Methods
@@ -137,6 +146,15 @@ void AFetchInOrderPuzzle::LightsOn()
 	}
 }
 #pragma endregion
+
+//----------------------------------------------------------------------------------------------------------------------
+void AFetchInOrderPuzzle::ResetObjects()
+{
+	for (auto Element : map)
+	{
+		Element.Key->SetActorLocation(Element.Value);
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Puzzle Steps

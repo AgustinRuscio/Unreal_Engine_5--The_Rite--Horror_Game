@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.2.1						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -87,6 +87,8 @@ private:
 	
 	TArray<AInteractor*> AllObjects;
 	TArray<AInteractor*> AuxCorrectObjects;
+
+	TMap<AInteractor*, FVector> map;
 	
 	AAlex* Player;
 	
@@ -101,6 +103,8 @@ private:
 	
 	void LightsOut();
 	void LightsOn();
+
+	void ResetObjects();
 	
 	UFUNCTION()
 	void ResetPuzzle(class AInteractor* Interactable);

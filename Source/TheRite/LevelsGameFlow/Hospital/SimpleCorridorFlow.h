@@ -52,6 +52,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> RoomsDoors;
 
+	UPROPERTY(EditAnywhere, Category = Doors)
+	TArray<class ADoor*> InitialDoors;
+	
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
 
@@ -70,6 +73,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class ASkeletalMeshActor* EndTiffany;
 
+	UPROPERTY(EditAnywhere, Category = Ambient)
+	TArray<class AStaticMeshActor*> PuzzleWalls;
+
+	UPROPERTY(EditAnywhere, Category = Ambient)
+	class AFetchInOrderPuzzle* FetchPuzzle;
+	
 	FTimerHandle TimerHandleEnd;
 	
 	FTimerDelegate TimerDelegateEnd;
@@ -86,7 +95,10 @@ private:
 	void BindTriggers();
 	
 	UFUNCTION()
-	void OnPuzzleFinished(class AInteractor* Interactable);
+	void OnFetchPuzzleStarted(class AInteractor* Interactable);
+	UFUNCTION()
+	void OnFetchPuzzleFinished();
+	
 
 	UFUNCTION()
 	void OnTriggerBeginEnableAmbientInteractions(AActor* OverlappedActor, AActor* OtherActor);

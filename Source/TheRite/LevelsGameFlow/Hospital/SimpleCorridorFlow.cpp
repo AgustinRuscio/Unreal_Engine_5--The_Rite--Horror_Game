@@ -6,6 +6,7 @@
 #include "SimpleCorridorFlow.h"
 
 #include "Animation/SkeletalMeshActor.h"
+#include "Engine/StaticMeshActor.h"
 #include "Engine/TriggerBox.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
@@ -13,6 +14,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/LevelsGameFlow/Puzzles/FetchInOrderPuzzle.h"
 #include "TheRite/Triggers/DoorSlapper.h"
 #include "TheRite/Triggers/TimerSound.h"
 
@@ -27,6 +29,12 @@ void ASimpleCorridorFlow::BeginPlay()
 {
 	Super::BeginPlay();
 	EndTiffany->GetSkeletalMeshComponent()->SetVisibility(false);
+
+	for (auto Element : PuzzleWalls)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(false);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 	
 	BindTriggers();
 	BindInteractables();
@@ -57,7 +65,8 @@ void ASimpleCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 //----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::BindInteractables()
 {
-	EndInteractable->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::OnPuzzleFinished);
+	EndInteractable->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::OnFetchPuzzleStarted);
+	FetchPuzzle->OnPuzzleComplete.AddDynamic(this, &ASimpleCorridorFlow::OnFetchPuzzleFinished);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -66,14 +75,37 @@ void ASimpleCorridorFlow::BindTriggers()
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
 	TriggerEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnd);
 	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
-	
+
 	DoorSlapperHangedMan->OnSlappedDoor.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::OnPuzzleFinished(AInteractor* Interactable)
+void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
+{
+	for (auto Element : PuzzleWalls)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(true);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	}
+
+	for (auto Element : InitialDoors)
+	{
+		Element->HardClosing();
+	}
+
+	FetchPuzzle->ActivatePuzzle();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 {
 	bPuzzleEnd = true;
+
+	for (auto Element : PuzzleWalls)
+	{
+		Element->GetStaticMeshComponent()->SetVisibility(false);
+		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 	
 	EndTiffany->GetSkeletalMeshComponent()->SetVisibility(true);
 	TimerSound->Destroy();
