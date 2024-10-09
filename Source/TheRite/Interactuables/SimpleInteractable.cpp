@@ -16,6 +16,7 @@ ASimpleInteractable::ASimpleInteractable()
 	bDestroy = false;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ASimpleInteractable::Interaction()
 {
 	if(!bCanInteract) return;

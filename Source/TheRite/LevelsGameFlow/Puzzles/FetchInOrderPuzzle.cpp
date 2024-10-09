@@ -8,6 +8,7 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/ChangingActor.h"
 #include "TheRite/Characters/Alex.h"
 
 //*****************************Public*********************************************
@@ -18,11 +19,13 @@ AFetchInOrderPuzzle::AFetchInOrderPuzzle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	bActive			   = false;
-	bFirstInteraction  = true;
-	MaxObjectsPerRound = 8;
+	bActive				 = false;
+	bFirstInteraction	 = true;
+	MaxObjectsPerRound	 = 8;
+	TotalPuzzleSteps	 = 0;
+	ChangingObjectsIndex = -1;
+	
 	Player			   = nullptr;
-
 	SFX_CorrectInteraction	= nullptr;
 	SFX_WrongInteraction	= nullptr;
 }
@@ -41,8 +44,14 @@ void AFetchInOrderPuzzle::SetPuzzleState(bool NewPuzzleState)
 
 void AFetchInOrderPuzzle::ActivatePuzzle()
 {
-	bActive = true;
-	
+	bActive				 = true;
+	ChangingObjectsIndex = 0;
+
+	for (auto Element : ChangingActors)
+	{
+		Element->ChangeObjectVisuals(FeedbackInfo[ChangingObjectsIndex].GetNextMaterial(), FeedbackInfo[ChangingObjectsIndex].GetNextMesh());
+	}
+
 	ReLocateObjects();
 }
 
@@ -99,9 +108,15 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AFetchInOrderPuzzle::InteractionFeedBack()
 {
 	LightsOut();
+
+	for (auto Element : ChangingActors)
+	{
+		Element->ChangeObjectVisuals(FeedbackInfo[ChangingObjectsIndex].GetNextMaterial(), FeedbackInfo[ChangingObjectsIndex].GetNextMesh());
+	}
 	
 	Player->ForceLighterOff();
 	//Player->SetPlayerOptions(false, false, false);
+
 	
 	for (auto Element : RegularObjects)
 	{
@@ -111,9 +126,10 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	{
 		Element->SetCanInteract(false);
 	}
-
+	
 	ResetObjects();
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Lights Manipulation Methods
 void AFetchInOrderPuzzle::LightsOut()
@@ -160,6 +176,8 @@ void AFetchInOrderPuzzle::ResetObjects()
 #pragma region Puzzle Steps
 void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 {
+	ChangingObjectsIndex = 0;
+	
 	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
@@ -184,6 +202,13 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 {
+	++ChangingObjectsIndex;
+
+	if(ChangingObjectsIndex >= FeedbackInfo.Num())
+	{
+		ChangingObjectsIndex = FeedbackInfo.Num()-1;
+	}
+	
 	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_CorrectInteraction->GetDuration();
@@ -223,6 +248,12 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 		Element->Destroy();
 	}
 
+	
+	for (auto Element : ChangingActors)
+	{
+		Destroy();
+	}
+	
 	LightsOn_TimerDelegate.Unbind();
 	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
 

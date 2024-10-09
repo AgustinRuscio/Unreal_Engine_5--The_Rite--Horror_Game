@@ -16,6 +16,23 @@ class ALightsTheRite;
 class AInteractor;
 class AAlex;
 
+USTRUCT(BlueprintType)
+struct FFeedbackData
+{
+	GENERATED_BODY()
+
+private:
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	UStaticMesh* Mesh;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	UMaterialInterface* Material;
+
+public:
+	UStaticMesh* GetNextMesh() const {return  Mesh;}
+	UMaterialInterface* GetNextMaterial() const {return  Material;}
+};
+
 UCLASS()
 class THERITE_API AFetchInOrderPuzzle : public AActor
 {
@@ -53,7 +70,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(AllowPrivateAccess = true))
 	int MaxObjectsPerRound;
 	
-	int TotalPuzzleSteps = 0;
+	int TotalPuzzleSteps;
+
+	int ChangingObjectsIndex;
 	
 	float OffsetLightsOn;
 	
@@ -74,6 +93,9 @@ private:
 	
 	TArray<ATargetPoint*> AUXPossiblePosition;
 	
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	TArray<FFeedbackData> FeedbackInfo;
+	
 	//-------- TimeLine
 	FTimerHandle LightsOn_TimerHandle;
 	FTimerDelegate LightsOn_TimerDelegate;
@@ -88,6 +110,9 @@ private:
 	TArray<AInteractor*> AllObjects;
 	TArray<AInteractor*> AuxCorrectObjects;
 
+	UPROPERTY(EditAnywhere, Category = Objects, meta=(ToolTip = "Objects that will change material or mesh if needed"))
+	TArray<class AChangingActor*> ChangingActors;
+	
 	TMap<AInteractor*, FVector> map;
 	
 	AAlex* Player;
