@@ -6,14 +6,18 @@
 #include "SimpleCorridorFlow.h"
 
 #include "Animation/SkeletalMeshActor.h"
+#include "Components/AudioComponent.h"
 #include "Engine/StaticMeshActor.h"
 #include "Engine/TriggerBox.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "TheRite/AmbientObjects/TriggererObject.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "TheRite/LevelsGameFlow/Puzzles/FetchInOrderPuzzle.h"
 #include "TheRite/Triggers/DoorSlapper.h"
 #include "TheRite/Triggers/TimerSound.h"
@@ -22,13 +26,13 @@
 ASimpleCorridorFlow::ASimpleCorridorFlow()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Comp");
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::BeginPlay()
 {
 	Super::BeginPlay();
-	EndTiffany->GetSkeletalMeshComponent()->SetVisibility(false);
 
 	for (auto Element : PuzzleWalls)
 	{
@@ -73,7 +77,6 @@ void ASimpleCorridorFlow::BindInteractables()
 void ASimpleCorridorFlow::BindTriggers()
 {
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
-	TriggerEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnd);
 	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
 
 	DoorSlapperHangedMan->OnSlappedDoor.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
@@ -82,6 +85,8 @@ void ASimpleCorridorFlow::BindTriggers()
 //----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
 {
+	PuzzleFeedBack(true);
+	
 	for (auto Element : PuzzleWalls)
 	{
 		Element->GetStaticMeshComponent()->SetVisibility(true);
@@ -101,13 +106,13 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 {
 	bPuzzleEnd = true;
 
+	AudioComp->Play();
+
 	for (auto Element : PuzzleWalls)
 	{
-		Element->GetStaticMeshComponent()->SetVisibility(false);
-		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Element->Destroy();
 	}
 	
-	EndTiffany->GetSkeletalMeshComponent()->SetVisibility(true);
 	TimerSound->Destroy();
 	
 	//for (auto Element : InitialDoors)
@@ -116,10 +121,33 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 	//	Element->Open();
 	//}
 
+	
 	for (auto Element : AllLights)
 	{
 		Element->SetAggressiveMaterial();
-		Element->ChangeLightIntensity(Element->GetIntensity() - 150.f, false);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::PuzzleFeedBack(bool bFeedBackOn)
+{
+	if(bFeedBackOn)
+	{
+		for (auto Element : AmbientSoundsOnPuzzle)
+		{
+			Element->Play();
+		}
+		
+		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .25f);
+	}
+	else
+	{
+		for (auto Element : AmbientSoundsOnPuzzle)
+		{
+			Element->Stop();
+		};
+		
+		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, 0.f);
 	}
 }
 
@@ -135,53 +163,22 @@ void ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions(AActor* Overla
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::OnTriggerBeginEnd(AActor* OverlappedActor, AActor* OtherActor)
-{
-	if(!bPuzzleEnd) return;
-
-	// Play Audio ENd
-	
-	for (auto Element : AllLights)
-	{
-		Element->TurnOff();
-		Element->SetAggressiveMaterial();
-	}
-
-	EndTiffany->Destroy();
-
-	if(!GetWorld()->GetTimerManager().IsTimerActive(TimerHandleEnd))
-	{
-		TimerDelegateEnd.BindLambda([&]
-		{
-			for (auto Element : AllLights)
-			{
-				Element->TurnOn();
-			}
-
-			TriggerEnd->Destroy();
-		});
-		
-		GetWorld()->GetTimerManager().SetTimer(TimerHandleEnd, TimerDelegateEnd, 3, false);
-	}
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(!bPuzzleEnd) return;
 
-	for (auto Element : AllLights)
-	{
-		Element->SetAggressiveMaterial();
-	}
-	
-	//for (auto Element : InitialDoors)
-	//{
-	//	Element->HardClosing();
-	//	Element->SetLockedState(true);
-	//}
+	PuzzleFeedBack(false);
 
-	//Detener sonidos
+	UGameplayStatics::PlaySound2D(GetWorld(), ZoneCompleted);
+	
+	for (auto Element : AmbientSoundsOnPuzzle)
+	{
+		Element->Destroy();
+	};
+	
+	AudioComp->Stop();
+	AudioComp->DestroyComponent();
+
 	TriggerOutSideEnd->Destroy();
 	Manikin->Destroy();
 	Destroy();

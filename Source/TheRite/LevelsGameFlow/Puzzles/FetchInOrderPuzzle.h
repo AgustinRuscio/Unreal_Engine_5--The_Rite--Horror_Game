@@ -113,7 +113,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = Objects, meta=(ToolTip = "Objects that will change material or mesh if needed"))
 	TArray<class AChangingActor*> ChangingActors;
 	
-	TMap<AInteractor*, FVector> map;
+	TMap<AInteractor*, FVector> MapObjectsAndLocations;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake;
 	
 	AAlex* Player;
 	
@@ -122,7 +125,8 @@ private:
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
+
+
 	UFUNCTION()
 	void InteractionFeedBack();
 	

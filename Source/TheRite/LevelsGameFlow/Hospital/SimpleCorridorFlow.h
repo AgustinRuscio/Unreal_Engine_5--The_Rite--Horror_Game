@@ -19,12 +19,12 @@ public:
 	//*****************************************************************************//
 	//Constructor
 	ASimpleCorridorFlow();
+
+	UPROPERTY(EditAnywhere, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* AudioComp;
 	
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
 	class ATriggerBox* TriggerEnableManikin;
-	
-	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
-	class ATriggerBox* TriggerEnd;
 	
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta = (AllowPrivateAccess = "true"))
 	class ATriggerBox* TriggerOutSideEnd;
@@ -43,18 +43,22 @@ private:
 	//*****************************************************************************//
 	bool bPuzzleEnd;
 	
+	FName PostProcessModiferValue = "SpectralProximity";
+	
 	UPROPERTY(EditAnywhere, Category = Interactables)
 	class AInteractor* EndInteractable;
 
 	//UPROPERTY(EditAnywhere, Category = Doors)
 	//TArray<class ADoor*> InitialDoors;
 	
+	//----- Doors
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> RoomsDoors;
 
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> InitialDoors;
-	
+
+	//----- Triggers
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
 
@@ -63,24 +67,32 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Triggers)
 	class ATriggererObject* TriggererObjectWheelChair;
-	
+
+	//----- Ambient
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class AManikin* Manikin;
 
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class ATimerSound* TimerSound;
-	
-	UPROPERTY(EditAnywhere, Category = Ambient)
-	class ASkeletalMeshActor* EndTiffany;
 
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	TArray<class AStaticMeshActor*> PuzzleWalls;
 
 	UPROPERTY(EditAnywhere, Category = Ambient)
 	class AFetchInOrderPuzzle* FetchPuzzle;
+
+	//----- Audios
+	UPROPERTY(EditAnywhere, Category = Audios)
+	TArray<class AAmbientSound*>  AmbientSoundsOnPuzzle;
+
+	UPROPERTY(EditAnywhere, Category = Audios)
+	class USoundBase* ZoneCompleted;
 	
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	class AProsProcessModifier* PostProcessModifier;
+	
+	//---- Timers
 	FTimerHandle TimerHandleEnd;
-	
 	FTimerDelegate TimerDelegateEnd;
 	
 	//*****************************************************************************//
@@ -96,15 +108,15 @@ private:
 	
 	UFUNCTION()
 	void OnFetchPuzzleStarted(class AInteractor* Interactable);
+	
 	UFUNCTION()
 	void OnFetchPuzzleFinished();
-	
+
+	void PuzzleFeedBack(bool bFeedBackOn);
 
 	UFUNCTION()
 	void OnTriggerBeginEnableAmbientInteractions(AActor* OverlappedActor, AActor* OtherActor);
 	
-	UFUNCTION()
-	void OnTriggerBeginEnd(AActor* OverlappedActor, AActor* OtherActor);
 	
 	UFUNCTION()
 	void OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor);

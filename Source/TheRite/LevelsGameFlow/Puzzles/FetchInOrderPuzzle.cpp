@@ -8,6 +8,7 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/ChangingActor.h"
 #include "TheRite/Characters/Alex.h"
 
@@ -81,7 +82,7 @@ void AFetchInOrderPuzzle::BeginPlay()
 
 	for (auto Element : AllObjects)
 	{
-		map.Add(Element, Element->GetActorLocation());
+		MapObjectsAndLocations.Add(Element, Element->GetActorLocation());
 	}
 
 //------
@@ -107,6 +108,12 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::InteractionFeedBack()
 {
+
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
+	
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
+	
 	LightsOut();
 
 	for (auto Element : ChangingActors)
@@ -166,7 +173,7 @@ void AFetchInOrderPuzzle::LightsOn()
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::ResetObjects()
 {
-	for (auto Element : map)
+	for (auto Element : MapObjectsAndLocations)
 	{
 		Element.Key->SetActorLocation(Element.Value);
 	}
@@ -208,8 +215,6 @@ void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 	{
 		ChangingObjectsIndex = FeedbackInfo.Num()-1;
 	}
-	
-	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_CorrectInteraction->GetDuration();
 	
@@ -223,6 +228,8 @@ void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::NextStep()
 {
+	InteractionFeedBack();
+	
 	if(bFirstInteraction)
 	{
 		bFirstInteraction = false;
