@@ -217,6 +217,8 @@ private:
 	FTimeline TimeLineHardClosing;
 	FTimeline TimeLineUnlockDoor;
 
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* CurveUnlockDoor;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* CurveOpenDoor;

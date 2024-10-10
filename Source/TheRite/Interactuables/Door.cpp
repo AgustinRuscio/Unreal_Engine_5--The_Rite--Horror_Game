@@ -646,7 +646,7 @@ void ADoor::BindTimeLines()
 	//------- Unlock door timeline
 	FOnTimelineFloat UnlockDoorTimelineTickCallback;
 	UnlockDoorTimelineTickCallback.BindUFunction(this, FName("UnlockDoorTimeLineTick"));
-	TimeLineUnlockDoor.AddInterpFloat(CurveOpenDoor, UnlockDoorTimelineTickCallback);
+	TimeLineUnlockDoor.AddInterpFloat(CurveUnlockDoor, UnlockDoorTimelineTickCallback);
 	
 	FOnTimelineEventStatic UnlockDoorTimelineFinishCallback;
 	UnlockDoorTimelineFinishCallback.BindUFunction(this, FName("UnlockDoorTimeLineFinished"));
