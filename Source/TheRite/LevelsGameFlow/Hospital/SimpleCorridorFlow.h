@@ -84,6 +84,9 @@ private:
 	//----- Audios
 	UPROPERTY(EditAnywhere, Category = Audios)
 	TArray<class AAmbientSound*>  AmbientSoundsOnPuzzle;
+	
+	UPROPERTY(EditAnywhere, Category = Audios)
+	class AAmbientSound*  SFX_PuzzleClueLocation;
 
 	UPROPERTY(EditAnywhere, Category = Audios)
 	class USoundBase* ZoneCompleted;

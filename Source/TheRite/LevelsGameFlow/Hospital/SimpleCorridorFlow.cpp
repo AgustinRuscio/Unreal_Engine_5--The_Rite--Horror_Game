@@ -86,6 +86,7 @@ void ASimpleCorridorFlow::BindTriggers()
 void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
 {
 	PuzzleFeedBack(true);
+	SFX_PuzzleClueLocation->Play();
 	
 	for (auto Element : PuzzleWalls)
 	{
@@ -105,7 +106,9 @@ void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
 void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 {
 	bPuzzleEnd = true;
-
+	
+	SFX_PuzzleClueLocation->Destroy();
+	
 	AudioComp->Play();
 
 	for (auto Element : PuzzleWalls)
