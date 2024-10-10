@@ -90,6 +90,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Audios)
 	class USoundBase* ZoneCompleted;
+
+	//---- Feed back
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	class AProsProcessModifier* PostProcessModifier;

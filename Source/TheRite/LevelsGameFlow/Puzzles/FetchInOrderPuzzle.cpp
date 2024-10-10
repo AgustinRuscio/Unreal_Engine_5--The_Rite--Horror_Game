@@ -112,8 +112,6 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
 	
-	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
-	
 	LightsOut();
 
 	for (auto Element : ChangingActors)
@@ -184,7 +182,8 @@ void AFetchInOrderPuzzle::ResetObjects()
 void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 {
 	ChangingObjectsIndex = 0;
-	
+
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_WrongObject,Player->GetActorLocation(),0,1000);
 	InteractionFeedBack();
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
@@ -209,6 +208,8 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 {
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_CorrectObject,Player->GetActorLocation(),0,1000);
+
 	++ChangingObjectsIndex;
 
 	if(ChangingObjectsIndex >= FeedbackInfo.Num())

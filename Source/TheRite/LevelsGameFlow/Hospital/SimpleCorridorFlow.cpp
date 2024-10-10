@@ -140,7 +140,7 @@ void ASimpleCorridorFlow::PuzzleFeedBack(bool bFeedBackOn)
 		{
 			Element->Play();
 		}
-		
+
 		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .25f);
 	}
 	else
@@ -152,6 +152,8 @@ void ASimpleCorridorFlow::PuzzleFeedBack(bool bFeedBackOn)
 		
 		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, 0.f);
 	}
+	
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -173,6 +175,11 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 	PuzzleFeedBack(false);
 
 	UGameplayStatics::PlaySound2D(GetWorld(), ZoneCompleted);
+
+	for (auto Element : AllLights)
+	{
+		Element->SetNormalMaterial();
+	}
 	
 	for (auto Element : AmbientSoundsOnPuzzle)
 	{

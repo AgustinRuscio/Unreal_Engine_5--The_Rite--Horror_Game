@@ -116,7 +116,10 @@ private:
 	TMap<AInteractor*, FVector> MapObjectsAndLocations;
 
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
-	TSubclassOf<UCameraShakeBase> CameraShake;
+	TSubclassOf<UCameraShakeBase> CameraShake_CorrectObject;
+	
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake_WrongObject;
 	
 	AAlex* Player;
 	
