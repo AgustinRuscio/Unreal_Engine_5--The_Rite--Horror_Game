@@ -46,10 +46,18 @@ public:
 	UStaticMeshComponent* KeyMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
+	UStaticMeshComponent* NumberMesh0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
+	UStaticMeshComponent* NumberMesh1;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	USkeletalMeshComponent* LatchFront;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	USkeletalMeshComponent* LatchBack;
+
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	UBoxComponent* BoxCollision;
@@ -93,6 +101,7 @@ protected:
 	//-------- Audio
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	USoundBase* SFXDoorUnlocked;
+	
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFXDoorClinck;
 	

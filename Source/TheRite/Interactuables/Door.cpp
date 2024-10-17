@@ -29,14 +29,14 @@ ADoor::ADoor()
 
 //------------------------------------ Mesh Creation
 	DoorItself = CreateDefaultSubobject<UStaticMeshComponent>("Door Itself");
-	
+
 	USceneComponent* NewRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("NewRootComponent"));
 	SetRootComponent(NewRootComponent);
 
 	DoorItself->SetupAttachment(NewRootComponent);
-	
+
 	DoorItself->SetMobility(EComponentMobility::Movable);
-	
+
 	BaseFront = CreateDefaultSubobject<UStaticMeshComponent>("Front base");
 	BaseBack = CreateDefaultSubobject<UStaticMeshComponent>("Back base");
 	BaseBack->SetMobility(EComponentMobility::Movable);
@@ -47,14 +47,26 @@ ADoor::ADoor()
 	KeyMesh->SetupAttachment(DoorItself);
 	KeyMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	KeyMesh->SetVisibility(false);
-	
+
+	NumberMesh0 = CreateDefaultSubobject<UStaticMeshComponent>("Number Mesh");
+	NumberMesh0->SetMobility(EComponentMobility::Movable);
+	NumberMesh0->SetupAttachment(DoorItself);
+	NumberMesh0->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	NumberMesh0->SetVisibility(false);
+
+	NumberMesh1 = CreateDefaultSubobject<UStaticMeshComponent>("Number Mesh _ 1");
+	NumberMesh1->SetMobility(EComponentMobility::Movable);
+	NumberMesh1->SetupAttachment(DoorItself);
+	NumberMesh1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	NumberMesh1->SetVisibility(false);
+
 	LatchFront = CreateDefaultSubobject<USkeletalMeshComponent>("Front Latch");
 	LatchBack = CreateDefaultSubobject<USkeletalMeshComponent>("Back Latch");
 	LatchFront->SetMobility(EComponentMobility::Movable);
 	LatchBack->SetMobility(EComponentMobility::Movable);
-	
+
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>("Box Collision");
-	
+
 	BaseFront->SetupAttachment(DoorItself);
 	BaseBack->SetupAttachment(DoorItself);
 	LatchFront->SetupAttachment(DoorItself);
