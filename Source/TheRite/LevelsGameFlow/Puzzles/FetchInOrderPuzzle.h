@@ -11,11 +11,6 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFetchPuzzleCompleted);
 
-class ATargetPoint;
-class ALightsTheRite;
-class AInteractor;
-class AAlex;
-
 USTRUCT(BlueprintType)
 struct FFeedbackData
 {
@@ -30,7 +25,7 @@ private:
 
 public:
 	UStaticMesh* GetNextMesh() const {return  Mesh;}
-	UMaterialInterface* GetNextMaterial() const {return  Material;}
+	class UMaterialInterface* GetNextMaterial() const {return  Material;}
 };
 
 UCLASS()
@@ -85,13 +80,13 @@ private:
 	
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
-	TArray<ALightsTheRite*> AllLights;
+	TArray<class ALightsTheRite*> AllLights;
 	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere, Category = Position, meta=(AllowPrivateAccess = true))
-	TArray<ATargetPoint*> PossiblePosition;
+	TArray<class ATargetPoint*> PossiblePosition;
 	
-	TArray<ATargetPoint*> AUXPossiblePosition;
+	TArray<class ATargetPoint*> AUXPossiblePosition;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	TArray<FFeedbackData> FeedbackInfo;
@@ -99,29 +94,31 @@ private:
 	//-------- TimeLine
 	FTimerHandle LightsOn_TimerHandle;
 	FTimerDelegate LightsOn_TimerDelegate;
+	
+	FTimerHandle LightsWit;
 
 	//---------------------------------------- In game Objects
 	UPROPERTY(EditAnywhere, Category = Objects)
-	TArray<AInteractor*> RegularObjects;
+	TArray<class AInteractor*> RegularObjects;
 	
 	UPROPERTY(EditAnywhere, Category = Objects, meta=(ToolTip = "Objects should be in the desired order to interact being 0 first to interact"))
-	TArray<AInteractor*> CorrectObjects;
+	TArray<class AInteractor*> CorrectObjects;
 	
-	TArray<AInteractor*> AllObjects;
-	TArray<AInteractor*> AuxCorrectObjects;
+	TArray<class AInteractor*> AllObjects;
+	TArray<class AInteractor*> AuxCorrectObjects;
 
 	UPROPERTY(EditAnywhere, Category = Objects, meta=(ToolTip = "Objects that will change material or mesh if needed"))
 	TArray<class AChangingActor*> ChangingActors;
 	
-	TMap<AInteractor*, FVector> MapObjectsAndLocations;
+	TMap<class AInteractor*, FVector> MapObjectsAndLocations;
 
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
-	TSubclassOf<UCameraShakeBase> CameraShake_CorrectObject;
+	TSubclassOf<class UCameraShakeBase> CameraShake_CorrectObject;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UCameraShakeBase> CameraShake_WrongObject;
 	
-	AAlex* Player;
+	class AAlex* Player;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

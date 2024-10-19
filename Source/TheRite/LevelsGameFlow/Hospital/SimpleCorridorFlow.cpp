@@ -106,6 +106,9 @@ void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
 void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 {
 	bPuzzleEnd = true;
+
+	
+	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .75f);
 	
 	SFX_PuzzleClueLocation->Destroy();
 	

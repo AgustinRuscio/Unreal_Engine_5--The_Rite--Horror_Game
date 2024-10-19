@@ -4,6 +4,9 @@
 //----------------------------------------------//
 
 #include "FetchInOrderPuzzle.h"
+
+#include "Components/LightComponent.h"
+#include "Engine/SpotLight.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TargetPoint.h"
@@ -48,12 +51,22 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	bActive				 = true;
 	ChangingObjectsIndex = 0;
 
+	LightsOut();
+	
 	for (auto Element : ChangingActors)
 	{
 		Element->ChangeObjectVisuals(FeedbackInfo[ChangingObjectsIndex].GetNextMaterial(), FeedbackInfo[ChangingObjectsIndex].GetNextMesh());
 	}
-
+	
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
+	
 	ReLocateObjects();
+
+	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
+	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
+	
+	LightsOn();
 }
 
 //*****************************Private*********************************************
@@ -102,13 +115,13 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 
 	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
+	GetWorldTimerManager().ClearTimer(LightsWit);
 	LightsOn_TimerDelegate.Unbind();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::InteractionFeedBack()
 {
-
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
 	
@@ -122,7 +135,6 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	Player->ForceLighterOff();
 	//Player->SetPlayerOptions(false, false, false);
 
-	
 	for (auto Element : RegularObjects)
 	{
 		Element->SetCanInteract(false);
@@ -199,10 +211,19 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 	}
 
 	TotalPuzzleSteps = 0;
-	
-	ReLocateObjects();
-	
-	LightsOn();
+
+	if (!GetWorld()->GetTimerManager().IsTimerActive(LightsWit))
+	{
+		FTimerDelegate TimerDelegate;
+		TimerDelegate.BindLambda([&]
+		{
+			ReLocateObjects();
+			LightsOn();
+		});
+		
+		float time = OffsetLightsOn - (OffsetLightsOn*.5f);
+		GetWorld()->GetTimerManager().SetTimer(LightsWit, TimerDelegate, time, false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -236,14 +257,28 @@ void AFetchInOrderPuzzle::NextStep()
 		bFirstInteraction = false;
 	}
 	
-	ReLocateObjects();
-	
-	LightsOn();
+	if (!GetWorld()->GetTimerManager().IsTimerActive(LightsWit))
+	{
+		FTimerDelegate TimerDelegate;
+		TimerDelegate.BindLambda([&]
+		{
+			ReLocateObjects();
+			LightsOn();
+		});
+		
+		float time = OffsetLightsOn - (OffsetLightsOn*.5f);
+		GetWorld()->GetTimerManager().SetTimer(LightsWit, TimerDelegate, time, false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::PuzzleComplete()
 {
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
+	
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_WrongObject,Player->GetActorLocation(),0,1000);
+	
 	OnPuzzleComplete.Broadcast();
 
 	for (auto Element : RegularObjects)
@@ -314,7 +349,7 @@ void AFetchInOrderPuzzle::RemoveFirstRightObjects()
 		
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
 	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
-		
+	
 	auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
 	AUXPossiblePosition[AUXPossiblePosition.Num()-1] = currentTarget;
 	AUXPossiblePosition[rand] = EndAuxTarget;
