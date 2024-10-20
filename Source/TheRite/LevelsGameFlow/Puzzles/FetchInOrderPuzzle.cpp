@@ -58,6 +58,8 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 
 	Player->SetPlayerOptions(true, true, false);
 	Player->ForceTurnLighterOn();
+
+	ClueLight->GetLightComponent()->SetIntensity(125.f);
 	
 	LightsOut();
 	
@@ -118,6 +120,8 @@ void AFetchInOrderPuzzle::BeginPlay()
 		Element->GetLightComponent()->SetIntensity(0.f);
 		AUXRoomsSpotLights.Add(Element);
 	}
+
+	ClueLight->GetLightComponent()->SetIntensity(0.f);
 
 	
 	if(MaxObjectsPerRound > AllObjects.Num() -1)
@@ -310,6 +314,9 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 	
 	OnPuzzleComplete.Broadcast();
 
+	ClueLight->GetLightComponent()->SetIntensity(0.f);
+	ClueLight->Destroy();
+	
 	for (auto Element : RegularObjects)
 	{
 		Element->Destroy();

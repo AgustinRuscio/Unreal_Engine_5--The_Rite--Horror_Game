@@ -92,6 +92,9 @@ private:
 	TArray<class ASpotLight*> RoomsSpotLights;
 	TArray<class ASpotLight*> AUXRoomsSpotLights;
 	TArray<class ASpotLight*> SpotlightsTurnedOn;
+
+	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
+	class ASpotLight* ClueLight;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	TArray<FFeedbackData> FeedbackInfo;
