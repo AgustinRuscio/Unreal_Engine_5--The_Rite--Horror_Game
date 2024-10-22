@@ -87,6 +87,7 @@ private:
 	TArray<class ATargetPoint*> PossiblePosition;
 	
 	TArray<class ATargetPoint*> AUXPossiblePosition;
+	class ATargetPoint* AUXLastCorrectTarget;
 
 	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
 	TArray<class ASpotLight*> RoomsSpotLights;
@@ -95,6 +96,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
 	class ASpotLight* ClueLight;
+	class ASpotLight* AUXLastLight;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	TArray<FFeedbackData> FeedbackInfo;

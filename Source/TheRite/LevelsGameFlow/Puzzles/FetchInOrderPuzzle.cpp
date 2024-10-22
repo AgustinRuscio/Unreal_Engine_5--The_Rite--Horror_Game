@@ -15,6 +15,8 @@
 #include "TheRite/AmbientObjects/ChangingActor.h"
 #include "TheRite/Characters/Alex.h"
 
+static float OriginalLightIntensity;
+
 //*****************************Public*********************************************
 //********************************************************************************
 
@@ -50,6 +52,8 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 {
 	bActive				 = true;
 	ChangingObjectsIndex = 0;
+
+	OriginalLightIntensity = AllLights[0]->GetIntensity();
 
 	for (auto Element : AllLights)
 	{
@@ -316,6 +320,11 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 
 	ClueLight->GetLightComponent()->SetIntensity(0.f);
 	ClueLight->Destroy();
+
+	for (auto Element : AllLights)
+	{
+		Element->ChangeLightIntensity(OriginalLightIntensity, true);
+	}
 	
 	for (auto Element : RegularObjects)
 	{
@@ -398,28 +407,53 @@ void AFetchInOrderPuzzle::ReLocateObjects()
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::RemoveFirstRightObjects()
 {
+	TArray<class ATargetPoint*> RandLocations;
+	TArray<class ASpotLight*> RandLights;
+	
+	for (auto Element : AUXPossiblePosition)
+	{
+		if(Element == AUXLastCorrectTarget) continue;
+		RandLocations.Add(Element);
+	}
+
+	for (auto Element : AUXRoomsSpotLights)
+	{
+		if(Element == AUXLastLight) continue;
+		RandLights.Add(Element);
+	}
+	
 	auto currentFetus = AuxCorrectObjects[0];
 	
-	auto rand = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
-	auto currentTarget = AUXPossiblePosition[rand];
+	auto rand = FMath::RandRange(0, RandLocations.Num() - 1);
+	auto currentTarget = RandLocations[rand];
 	
-	auto currentLight = AUXRoomsSpotLights[rand];
+	auto currentLight = RandLights[rand];
 	currentLight->GetLightComponent()->SetIntensity(67.5f);
 	SpotlightsTurnedOn.Add(currentLight);
 		
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
 	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
-
+	
+	AUXLastCorrectTarget = currentTarget;
+	AUXLastLight = currentLight;
+	
 	//------  Realign AUX array
-	auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
-	AUXPossiblePosition[AUXPossiblePosition.Num()-1] = currentTarget;
-	AUXPossiblePosition[rand] = EndAuxTarget;
-	AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
+	auto EndAuxTarget = RandLocations[RandLocations.Num()-1];
+	RandLocations[RandLocations.Num()-1] = currentTarget;
+	RandLocations[rand] = EndAuxTarget;
+	RandLocations.RemoveAt(RandLocations.Num()-1);
 
-	auto EndAuxLight = AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1];
-	AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1] = currentLight;
-	AUXRoomsSpotLights[rand] = EndAuxLight;
-	AUXRoomsSpotLights.RemoveAt(AUXRoomsSpotLights.Num()-1);
+	AUXPossiblePosition.Empty();
+	AUXPossiblePosition = RandLocations;
+
+	auto EndAuxLight = RandLights[RandLights.Num()-1];
+	RandLights[RandLights.Num()-1] = currentLight;
+	RandLights[rand] = EndAuxLight;
+	RandLights.RemoveAt(RandLights.Num()-1);
+
+	AUXRoomsSpotLights.Empty();
+	AUXRoomsSpotLights = RandLights;
+
 	//------------
 
 	auto EndAuxFetus = AuxCorrectObjects[AuxCorrectObjects.Num()-1];
