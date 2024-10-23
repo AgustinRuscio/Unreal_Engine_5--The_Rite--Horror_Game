@@ -57,13 +57,13 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 
 	for (auto Element : AllLights)
 	{
-		Element->ChangeLightIntensity(30.f, true);
+		Element->ChangeLightIntensity(70.f, true);
 	}
 
 	Player->SetPlayerOptions(true, true, false);
 	Player->ForceTurnLighterOn();
 
-	ClueLight->GetLightComponent()->SetIntensity(125.f);
+	ClueLight->GetLightComponent()->SetIntensity(150.f);
 	
 	LightsOut();
 	
@@ -140,6 +140,10 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
 	GetWorldTimerManager().ClearTimer(LightsWit);
 	LightsOn_TimerDelegate.Unbind();
+}
+
+void AFetchInOrderPuzzle::PrepareTargets()
+{
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -108,7 +108,7 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 	bPuzzleEnd = true;
 
 	
-	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .75f);
+	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .5f);
 	
 	SFX_PuzzleClueLocation->Destroy();
 	
