@@ -74,7 +74,8 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
-	
+
+	PrepareTargets();
 	ReLocateObjects();
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
@@ -142,8 +143,30 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	LightsOn_TimerDelegate.Unbind();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::PrepareTargets()
 {
+	AUXPossiblePosition.Empty();
+	
+	for (auto Element : PossiblePosition)
+	{
+		if(AUXLastsCorrectedTargets.Contains(Element)) continue;
+
+		AUXPossiblePosition.Add(Element);
+	}
+	
+	AUXLastsCorrectedTargets.Empty();
+	
+	AUXRoomsSpotLights.Empty();
+
+	for (auto Element : RoomsSpotLights)
+	{
+		if(AUXLastsLightsUsed.Contains(Element)) continue;
+
+		AUXRoomsSpotLights.Add(Element);
+	}
+	
+	AUXLastsLightsUsed.Empty();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -159,16 +182,9 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 		Element->ChangeObjectVisuals(FeedbackInfo[ChangingObjectsIndex].GetNextMaterial(), FeedbackInfo[ChangingObjectsIndex].GetNextMesh());
 	}
 
-	for (auto Element : SpotlightsTurnedOn)
-	{
-		Element->GetLightComponent()->SetIntensity(0.f);
-	}
-	SpotlightsTurnedOn.Empty();
-
-	AUXRoomsSpotLights.Empty();
 	for (auto Element : RoomsSpotLights)
 	{
-		AUXRoomsSpotLights.Add(Element);
+		Element->GetLightComponent()->SetIntensity(0.f);
 	}
 	
 	Player->ForceLighterOff();
@@ -256,6 +272,7 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 		FTimerDelegate TimerDelegate;
 		TimerDelegate.BindLambda([&]
 		{
+			PrepareTargets();
 			ReLocateObjects();
 			LightsOn();
 		});
@@ -301,6 +318,7 @@ void AFetchInOrderPuzzle::NextStep()
 		FTimerDelegate TimerDelegate;
 		TimerDelegate.BindLambda([&]
 		{
+			PrepareTargets();
 			ReLocateObjects();
 			LightsOn();
 		});
@@ -376,33 +394,24 @@ void AFetchInOrderPuzzle::ReLocateObjects()
 		
 		auto currentLight = AUXRoomsSpotLights[randomizer];
 		currentLight->GetLightComponent()->SetIntensity(67.5f);
-		SpotlightsTurnedOn.Add(currentLight);
 		
 		Element->SetActorLocation(newPos->GetActorLocation());
 		Element->SetActorRotation(newPos->GetActorRotation() + FRotator(0,-90,0));
 		
-		auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
-		AUXPossiblePosition[AUXPossiblePosition.Num()-1] = newPos;
-		AUXPossiblePosition[randomizer] = EndAuxTarget;
-		AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
-
-		auto EndAuxLight = AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1];
-		AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1] = currentLight;
-		AUXRoomsSpotLights[randomizer] = EndAuxLight;
-		AUXRoomsSpotLights.RemoveAt(AUXRoomsSpotLights.Num()-1);
-		
+		AUXLastsCorrectedTargets.Add(newPos);
+		AUXLastsLightsUsed.Add(currentLight);
 	}
 
 	AUXPossiblePosition.Empty();
-	
+
 	for (auto Element : PossiblePosition)
 	{
 		AUXPossiblePosition.Add(Element);
 	}
-	
-	AUXRoomsSpotLights.Empty();
-	
-	for (auto Element : AUXRoomsSpotLights)
+
+	AUXRoomsSpotLights.Empty();	
+
+	for (auto Element : RoomsSpotLights)
 	{
 		AUXRoomsSpotLights.Add(Element);
 	}
@@ -411,53 +420,30 @@ void AFetchInOrderPuzzle::ReLocateObjects()
 //----------------------------------------------------------------------------------------------------------------------
 void AFetchInOrderPuzzle::RemoveFirstRightObjects()
 {
-	TArray<class ATargetPoint*> RandLocations;
-	TArray<class ASpotLight*> RandLights;
-	
-	for (auto Element : AUXPossiblePosition)
-	{
-		if(Element == AUXLastCorrectTarget) continue;
-		RandLocations.Add(Element);
-	}
-
-	for (auto Element : AUXRoomsSpotLights)
-	{
-		if(Element == AUXLastLight) continue;
-		RandLights.Add(Element);
-	}
-	
 	auto currentFetus = AuxCorrectObjects[0];
 	
-	auto rand = FMath::RandRange(0, RandLocations.Num() - 1);
-	auto currentTarget = RandLocations[rand];
-	
-	auto currentLight = RandLights[rand];
+	auto rand = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
+	auto currentTarget = AUXPossiblePosition[rand];
+
+	auto currentLight = AUXRoomsSpotLights[rand];
 	currentLight->GetLightComponent()->SetIntensity(67.5f);
-	SpotlightsTurnedOn.Add(currentLight);
-		
+
 	currentFetus->SetActorLocation(currentTarget->GetActorLocation());
 	currentFetus->SetActorRotation(currentTarget->GetActorRotation()+ FRotator(0,-90,0));
-	
-	AUXLastCorrectTarget = currentTarget;
-	AUXLastLight = currentLight;
-	
+
+	AUXLastsCorrectedTargets.Add(currentTarget);
+	AUXLastsLightsUsed.Add(currentLight);
+
 	//------  Realign AUX array
-	auto EndAuxTarget = RandLocations[RandLocations.Num()-1];
-	RandLocations[RandLocations.Num()-1] = currentTarget;
-	RandLocations[rand] = EndAuxTarget;
-	RandLocations.RemoveAt(RandLocations.Num()-1);
+	auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
+	AUXPossiblePosition[AUXPossiblePosition.Num()-1] = currentTarget;
+	AUXPossiblePosition[rand] = EndAuxTarget;
+	AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
 
-	AUXPossiblePosition.Empty();
-	AUXPossiblePosition = RandLocations;
-
-	auto EndAuxLight = RandLights[RandLights.Num()-1];
-	RandLights[RandLights.Num()-1] = currentLight;
-	RandLights[rand] = EndAuxLight;
-	RandLights.RemoveAt(RandLights.Num()-1);
-
-	AUXRoomsSpotLights.Empty();
-	AUXRoomsSpotLights = RandLights;
-
+	auto EndAuxLight = AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1];
+	AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1] = currentLight;
+	AUXRoomsSpotLights[rand] = EndAuxLight;
+	AUXRoomsSpotLights.RemoveAt(AUXRoomsSpotLights.Num()-1);
 	//------------
 
 	auto EndAuxFetus = AuxCorrectObjects[AuxCorrectObjects.Num()-1];
