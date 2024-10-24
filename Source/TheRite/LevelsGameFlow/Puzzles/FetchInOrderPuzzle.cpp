@@ -64,14 +64,14 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	Player->ForceTurnLighterOn();
 
 	ClueLight->GetLightComponent()->SetIntensity(150.f);
-	
+
 	LightsOut();
-	
+
 	for (auto Element : ChangingActors)
 	{
 		Element->ChangeObjectVisuals(FeedbackInfo[ChangingObjectsIndex].GetNextMaterial(), FeedbackInfo[ChangingObjectsIndex].GetNextMesh());
 	}
-	
+
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
 
@@ -80,7 +80,7 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
-	
+
 	LightsOn();
 }
 
@@ -93,14 +93,14 @@ void AFetchInOrderPuzzle::BeginPlay()
 	Super::BeginPlay();
 
 	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	
+
 //----- New objects
 	for (auto Element : RegularObjects)
 	{
 		Element->OnInteractionTrigger.AddDynamic(this, &AFetchInOrderPuzzle::ResetPuzzle);
 		AllObjects.Add(Element);
 	}
-	
+
 	for (auto Element : CorrectObjects)
 	{
 		Element->OnInteractionTrigger.AddDynamic(this, &AFetchInOrderPuzzle::CheckNextPuzzleStep);
@@ -128,7 +128,6 @@ void AFetchInOrderPuzzle::BeginPlay()
 
 	ClueLight->GetLightComponent()->SetIntensity(0.f);
 
-	
 	if(MaxObjectsPerRound > AllObjects.Num() -1)
 		MaxObjectsPerRound = AllObjects.Num() -1;
 }
@@ -147,16 +146,16 @@ void AFetchInOrderPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AFetchInOrderPuzzle::PrepareTargets()
 {
 	AUXPossiblePosition.Empty();
-	
+
 	for (auto Element : PossiblePosition)
 	{
 		if(AUXLastsCorrectedTargets.Contains(Element)) continue;
 
 		AUXPossiblePosition.Add(Element);
 	}
-	
+
 	AUXLastsCorrectedTargets.Empty();
-	
+
 	AUXRoomsSpotLights.Empty();
 
 	for (auto Element : RoomsSpotLights)
@@ -165,7 +164,7 @@ void AFetchInOrderPuzzle::PrepareTargets()
 
 		AUXRoomsSpotLights.Add(Element);
 	}
-	
+
 	AUXLastsLightsUsed.Empty();
 }
 
@@ -174,7 +173,7 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
-	
+
 	LightsOut();
 
 	for (auto Element : ChangingActors)
@@ -186,7 +185,7 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	{
 		Element->GetLightComponent()->SetIntensity(0.f);
 	}
-	
+
 	Player->ForceLighterOff();
 	//Player->SetPlayerOptions(false, false, false);
 
@@ -198,7 +197,7 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	{
 		Element->SetCanInteract(false);
 	}
-	
+
 	ResetObjects();
 }
 
@@ -255,11 +254,11 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 
 	OffsetLightsOn = SFX_WrongInteraction->GetDuration();
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_WrongInteraction);
-	
+
 	bFirstInteraction = true;
 
 	AuxCorrectObjects.Empty();
-	
+
 	for (auto Element : CorrectObjects)
 	{
 		AuxCorrectObjects.Add(Element);
@@ -276,7 +275,7 @@ void AFetchInOrderPuzzle::ResetPuzzle(AInteractor* Interactable)
 			ReLocateObjects();
 			LightsOn();
 		});
-		
+
 		float time = OffsetLightsOn - (OffsetLightsOn*.5f);
 		GetWorld()->GetTimerManager().SetTimer(LightsWit, TimerDelegate, time, false);
 	}
@@ -295,11 +294,11 @@ void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 	}
 
 	OffsetLightsOn = SFX_CorrectInteraction->GetDuration();
-	
+
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_CorrectInteraction);
 
 	TotalPuzzleSteps++;
-	
+
 	TotalPuzzleSteps == CorrectObjects.Num() ? PuzzleComplete() : NextStep();
 }
 
@@ -307,12 +306,12 @@ void AFetchInOrderPuzzle::CheckNextPuzzleStep(AInteractor* Interactable)
 void AFetchInOrderPuzzle::NextStep()
 {
 	InteractionFeedBack();
-	
+
 	if(bFirstInteraction)
 	{
 		bFirstInteraction = false;
 	}
-	
+
 	if (!GetWorld()->GetTimerManager().IsTimerActive(LightsWit))
 	{
 		FTimerDelegate TimerDelegate;
@@ -322,7 +321,7 @@ void AFetchInOrderPuzzle::NextStep()
 			ReLocateObjects();
 			LightsOn();
 		});
-		
+	
 		float time = OffsetLightsOn - (OffsetLightsOn*.5f);
 		GetWorld()->GetTimerManager().SetTimer(LightsWit, TimerDelegate, time, false);
 	}
@@ -333,11 +332,11 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
-	
+
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_WrongObject,Player->GetActorLocation(),0,1000);
 	Player->SetPlayerOptions(true, false, false);
 	Player->ForceLighterOff();
-	
+
 	OnPuzzleComplete.Broadcast();
 
 	ClueLight->GetLightComponent()->SetIntensity(0.f);
@@ -347,7 +346,7 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 	{
 		Element->ChangeLightIntensity(OriginalLightIntensity, true);
 	}
-	
+
 	for (auto Element : RegularObjects)
 	{
 		Element->Destroy();
@@ -358,17 +357,17 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 		Element->Destroy();
 	}
 	AUXRoomsSpotLights.Empty();
-	
+
 	for (auto Element : CorrectObjects)
 	{
 		Element->Destroy();
 	}
-	
+
 	for (auto Element : ChangingActors)
 	{
 		Destroy();
 	}
-	
+
 	LightsOn_TimerDelegate.Unbind();
 	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
 
@@ -381,22 +380,33 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 void AFetchInOrderPuzzle::ReLocateObjects()
 {
 	RemoveFirstRightObjects();
-	
+
 	int counter = 0;
-	
+
 	for (auto Element : RegularObjects)
 	{
-		if(counter >= MaxObjectsPerRound ||AUXPossiblePosition.Num() == 0) break;
+		if(counter >= MaxObjectsPerRound || AUXPossiblePosition.Num() == 0) break;
 		counter++;
-		
+
 		auto randomizer = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
 		auto newPos = AUXPossiblePosition[randomizer];
-		
+
 		auto currentLight = AUXRoomsSpotLights[randomizer];
 		currentLight->GetLightComponent()->SetIntensity(67.5f);
-		
+
 		Element->SetActorLocation(newPos->GetActorLocation());
 		Element->SetActorRotation(newPos->GetActorRotation() + FRotator(0,-90,0));
+
+		//------  Realign AUX array
+		auto EndAuxTarget = AUXPossiblePosition[AUXPossiblePosition.Num()-1];
+		AUXPossiblePosition[AUXPossiblePosition.Num()-1] = newPos;
+		AUXPossiblePosition[randomizer] = EndAuxTarget;
+		AUXPossiblePosition.RemoveAt(AUXPossiblePosition.Num()-1);
+
+		auto EndAuxLight = AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1];
+		AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1] = currentLight;
+		AUXRoomsSpotLights[randomizer] = EndAuxLight;
+		AUXRoomsSpotLights.RemoveAt(AUXRoomsSpotLights.Num()-1);
 		
 		AUXLastsCorrectedTargets.Add(newPos);
 		AUXLastsLightsUsed.Add(currentLight);
@@ -421,7 +431,7 @@ void AFetchInOrderPuzzle::ReLocateObjects()
 void AFetchInOrderPuzzle::RemoveFirstRightObjects()
 {
 	auto currentFetus = AuxCorrectObjects[0];
-	
+
 	auto rand = FMath::RandRange(0, AUXPossiblePosition.Num() - 1);
 	auto currentTarget = AUXPossiblePosition[rand];
 
@@ -444,8 +454,8 @@ void AFetchInOrderPuzzle::RemoveFirstRightObjects()
 	AUXRoomsSpotLights[AUXRoomsSpotLights.Num()-1] = currentLight;
 	AUXRoomsSpotLights[rand] = EndAuxLight;
 	AUXRoomsSpotLights.RemoveAt(AUXRoomsSpotLights.Num()-1);
-	//------------
 
+	//------------
 	auto EndAuxFetus = AuxCorrectObjects[AuxCorrectObjects.Num()-1];
 	AuxCorrectObjects[AuxCorrectObjects.Num()-1] = currentFetus;
 	AuxCorrectObjects[0] = EndAuxFetus;
