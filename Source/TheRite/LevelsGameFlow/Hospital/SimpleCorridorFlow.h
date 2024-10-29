@@ -2,6 +2,7 @@
 // *Author		: github.com/AgustinRuscio		//
 // *UE version	: UE 5.2.1						//
 //----------------------------------------------//
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -97,6 +98,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	class AProsProcessModifier* PostProcessModifier;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	TArray<class ACyclicAudios*> CyclicAudios;
 	
 	//---- Timers
 	FTimerHandle TimerHandleEnd;

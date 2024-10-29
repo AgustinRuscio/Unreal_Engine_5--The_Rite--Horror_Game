@@ -11,6 +11,7 @@
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/AmbientSound.h"
+#include "TheRite/AmbientObjects/CyclicAudios.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "TheRite/AmbientObjects/TriggererObject.h"
@@ -100,6 +101,11 @@ void ASimpleCorridorFlow::OnFetchPuzzleStarted(AInteractor* Interactable)
 	}
 
 	FetchPuzzle->ActivatePuzzle();
+
+	for (auto Element : CyclicAudios)
+	{
+		Element->Activate();
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -107,30 +113,33 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 {
 	bPuzzleEnd = true;
 
-	
 	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .5f);
-	
+
 	SFX_PuzzleClueLocation->Destroy();
-	
+
 	AudioComp->Play();
 
 	for (auto Element : PuzzleWalls)
 	{
 		Element->Destroy();
 	}
-	
+
 	TimerSound->Destroy();
-	
+
 	//for (auto Element : InitialDoors)
 	//{
 	//	Element->SetLockedState(false);
 	//	Element->Open();
 	//}
 
-	
 	for (auto Element : AllLights)
 	{
 		Element->SetAggressiveMaterial();
+	}
+
+	for (auto Element : CyclicAudios)
+	{
+		Element->Destroy();
 	}
 }
 
@@ -152,10 +161,10 @@ void ASimpleCorridorFlow::PuzzleFeedBack(bool bFeedBackOn)
 		{
 			Element->Stop();
 		};
-		
+
 		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, 0.f);
 	}
-	
+
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
 }
 
