@@ -31,6 +31,7 @@ void ATeleportPlayer::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 {
 	if(AAlex* player = Cast<AAlex>(OtherActor))
 	{
+		player->ForceLighterOff();
 		player->SetActorLocation(TeleportLocation->GetActorLocation());
 
 		if(bDestroyAfterUse)
