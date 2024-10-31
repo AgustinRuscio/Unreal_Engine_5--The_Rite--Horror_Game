@@ -5,6 +5,7 @@
 
 #include "SimpleCorridorFlow.h"
 
+#include "BackCorridorFlow.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
 #include "Engine/StaticMeshActor.h"
@@ -43,12 +44,6 @@ void ASimpleCorridorFlow::BeginPlay()
 	
 	BindTriggers();
 	BindInteractables();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -203,6 +198,7 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 
 	TriggerOutSideEnd->Destroy();
 	Manikin->Destroy();
+	NextPuzzle->ActivateZone();
 	Destroy();
 }
 

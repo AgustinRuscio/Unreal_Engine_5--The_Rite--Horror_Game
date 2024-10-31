@@ -33,7 +33,10 @@ void ATeleportPlayer::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	{
 		player->ForceLighterOff();
 		player->SetActorLocation(TeleportLocation->GetActorLocation());
+		player->SetActorRotation(TeleportLocation->GetActorRotation());
 
+		OnTeleportComplete.Broadcast();
+		
 		if(bDestroyAfterUse)
 			Destroy();
 	}
