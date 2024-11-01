@@ -12,6 +12,7 @@
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/AmbientSound.h"
+#include "TheRite/AmbientObjects/AppearanceEvent.h"
 #include "TheRite/AmbientObjects/CyclicAudios.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
@@ -41,6 +42,10 @@ void ASimpleCorridorFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetVisibility(false);
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
+
+	AppearanceInteractable->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::CallBackForAppearanceEvent);
+	HangedManAppearance->OnAppearanceEventEndStart.AddDynamic(this, &ASimpleCorridorFlow::LightsOff);
+	HangedManAppearance->OnAppearanceEventEndEnd.AddDynamic(this, &ASimpleCorridorFlow::LightsOn);
 	
 	BindTriggers();
 	BindInteractables();
@@ -76,6 +81,30 @@ void ASimpleCorridorFlow::BindTriggers()
 	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
 
 	DoorSlapperHangedMan->OnSlappedDoor.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::CallBackForAppearanceEvent(AInteractor* interactor)
+{
+	HangedManAppearance->MakeAppear();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::LightsOn()
+{
+	for (auto Element : AllLights)
+	{
+		Element->TurnOn();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::LightsOff()
+{
+	for (auto Element : AllLights)
+	{
+	Element->TurnOff();
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

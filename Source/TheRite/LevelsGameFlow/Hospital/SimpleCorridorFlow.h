@@ -104,6 +104,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	TArray<class ACyclicAudios*> CyclicAudios;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	class AInteractor* AppearanceInteractable;
+	
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	class AAppearanceEvent* HangedManAppearance;
 	
 	//---- Timers
 	FTimerHandle TimerHandleEnd;
@@ -118,6 +124,15 @@ private:
 
 	void BindInteractables();
 	void BindTriggers();
+
+	UFUNCTION()
+	void CallBackForAppearanceEvent(class AInteractor* interactor);
+	
+	UFUNCTION()
+	void LightsOn();
+	
+	UFUNCTION()
+	void LightsOff();
 	
 	UFUNCTION()
 	void OnFetchPuzzleStarted(class AInteractor* Interactable);

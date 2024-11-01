@@ -7,52 +7,79 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TeleportPlayer.generated.h"
+#include "AppearanceEvent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTeleportComplete);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAppreaceEventStart);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAppreaceEventEndStart);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAppreaceEventEndEnd);
 
 UCLASS()
-class THERITE_API ATeleportPlayer : public AActor
+class THERITE_API AAppearanceEvent : public AActor
 {
 	GENERATED_BODY()
-
+	
 public:
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	ATeleportPlayer();
+	AAppearanceEvent();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals, meta=(AllowPrivateAccess=true))
+	USkeletalMeshComponent* SkeletalMesh;
 	
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* BoxComponent;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals, meta=(AllowPrivateAccess=true))
+	UStaticMeshComponent* StaticMesh;
+
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 
-	FOnTeleportComplete OnTeleportComplete;
+	FOnAppreaceEventStart OnAppearanceEventStart;
+	FOnAppreaceEventEndStart OnAppearanceEventEndStart;
+	FOnAppreaceEventEndEnd OnAppearanceEventEndEnd;
 	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
+
+	UFUNCTION()
+	void MakeAppear();
 
 	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	bool bVisible;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	bool bDestroyAfterUse;
+	float DistanceWithPlayer;
 	
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPrivateAccess = true))
-	class ATargetPoint* TeleportLocation;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	float TimeForSecondCallback;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	float TimeToSee;
+
+	float counter;
 	
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	USoundBase* Sound;
+	
+	class AAlex* Player;
+
+	FTimerHandle TimerHandle;
+	FTimerDelegate TimerDelegate;
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
+	void ChangeMeshesVisibility(bool visibility);
+	
+	void MakeDisappear();
+	void CalculateDistance(float DeltaSecond);
 };
