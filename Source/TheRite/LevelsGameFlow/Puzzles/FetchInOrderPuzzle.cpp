@@ -60,7 +60,6 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 		Element->ChangeLightIntensity(40.f, true);
 	}
 
-	Player->SetPlayerOptions(true, true, false);
 	Player->ForceTurnLighterOn();
 
 	ClueLight->GetLightComponent()->SetIntensity(150.f);
@@ -187,7 +186,6 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 	}
 
 	Player->ForceLighterOff();
-	//Player->SetPlayerOptions(false, false, false);
 
 	for (auto Element : RegularObjects)
 	{
@@ -334,7 +332,6 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 	controller->PlayRumbleFeedBack(.5f, 1, false, true, false, true);
 
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_WrongObject,Player->GetActorLocation(),0,1000);
-	Player->SetPlayerOptions(true, false, false);
 	Player->ForceLighterOff();
 
 	OnPuzzleComplete.Broadcast();
@@ -370,8 +367,6 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 
 	LightsOn_TimerDelegate.Unbind();
 	GetWorldTimerManager().ClearTimer(LightsOn_TimerHandle);
-
-	//Player->SetPlayerOptions(false, true, false);
 
 	Destroy();
 }

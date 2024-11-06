@@ -18,7 +18,7 @@
 //***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-ASpectralWrittings::ASpectralWrittings()
+ASpectralWrittings::ASpectralWrittings() : bWillChangePostProcess(false)
 {
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
@@ -67,8 +67,9 @@ void ASpectralWrittings::Interaction()
 	
 	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),1);
 	FadeComponent->PermanentActivation();
-	
-	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
+
+	if(bWillChangePostProcess)
+		PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, 0);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

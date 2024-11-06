@@ -72,6 +72,10 @@ private:
 	void FadeFinished();
 	
 private:
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bWillChangePostProcess;
+	
 	bool bReady = false;
 	bool bPlayerInside;
 	bool bFading = false;
