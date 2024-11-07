@@ -102,7 +102,7 @@ void AAppearanceEvent::CalculateDistance(float DeltaSecond)
 	
 	UE_LOG(LogTemp, Display, TEXT("Distance is %f"), distance);
 
-	if(WasRecentlyRendered(.001f))
+	if(WasRecentlyRendered(.001f) && distance <= DistanceWithPlayer)
 	{
 		if(TimeToSee <= counter)
 		{
