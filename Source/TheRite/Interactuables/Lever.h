@@ -2,6 +2,7 @@
 // *Author		: github.com/AgustinRuscio		//
 // *UE version	: UE 5.2.1						//
 //----------------------------------------------//
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,6 +10,9 @@
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "Lever.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLeverUsageEnd, ALever*, caller);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLeverUsageStart, ALever*, caller);
 
 UCLASS()
 class THERITE_API ALever : public AInteractor
@@ -27,17 +31,24 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Visual, meta = (allowPrivateAccess = "true"))
 	class UPointLightComponent* PointLight;
-	
+
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 
+	FOnLeverUsageEnd OnLeverUsageEnd;
+	FOnLeverUsageStart OnLeverUsageStart;
+	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 
+	FORCEINLINE bool IsCorrect() const { return bIsCorrect; };
+
 	virtual void Interaction() override;
 
+	void ResetLever();
+	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
@@ -46,12 +57,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bIsCorrect;
 
+	bool bWasUsed;
+	bool bPlayForward;
 	
 	FTimeline Timeline;
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 	UCurveFloat* CurveFloat;
-	
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
@@ -64,6 +77,4 @@ private:
 
 	UFUNCTION()
 	void LeverTimeLineFinished();
-	
-	void ResetLever();
 };

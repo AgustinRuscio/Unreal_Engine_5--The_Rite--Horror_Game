@@ -4,11 +4,10 @@
 //----------------------------------------------//
 
 #include "Lever.h"
-
 #include "Components/PointLightComponent.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-ALever::ALever()
+ALever::ALever() : bIsCorrect(false),  bWasUsed(false), bPlayForward(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -17,23 +16,40 @@ ALever::ALever()
 
 	PointLight = CreateDefaultSubobject<UPointLightComponent>("PointLight");
 	PointLight->SetupAttachment(StaticMesh);
+
+	bCanInteract = true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALever::Interaction()
 {
 	if(!bCanInteract) return;
-	Super::Interaction();
+	bCanInteract = false;
 	
+	bWasUsed = true;
+
+	bPlayForward = true;
+	OnLeverUsageStart.Broadcast(this);
 	Timeline.PlayFromStart();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALever::ResetLever()
+{
+	//if(bCanInteract) return;
+	if(!bWasUsed) return;
+	
+	bPlayForward = false;
+	OnLeverUsageStart.Broadcast(this);
+	Timeline.ReverseFromEnd();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALever::BeginPlay()
 {
 	Super::BeginPlay();
-	PointLight->Intensity = 0;
-
+	PointLight->SetIntensity(0.f);
+	
 	FOnTimelineFloat LeverTimeLienTick;
 	LeverTimeLienTick.BindUFunction(this, FName("LeverTimeLineTick"));
 	Timeline.AddInterpFloat(CurveFloat, LeverTimeLienTick);
@@ -53,17 +69,20 @@ void ALever::Tick(float DeltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 void ALever::LeverTimeLineTick(float delta)
 {
-	PointLight->Intensity = delta * 100;
+	PointLight->SetIntensity(delta * 100);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALever::LeverTimeLineFinished()
 {
+	OnLeverUsageEnd.Broadcast(this);
 	
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ALever::ResetLever()
-{
-	Timeline.ReverseFromEnd();
+	if(bPlayForward)
+		OnInteractionTrigger.Broadcast(this);
+	else
+	{
+		if(!bWasUsed) return;
+		bCanInteract = true;
+		bWasUsed = false;
+	}
 }

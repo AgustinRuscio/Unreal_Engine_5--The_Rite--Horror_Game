@@ -9,6 +9,8 @@
 #include "GameFramework/Actor.h"
 #include "LeverPuzzle.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPuzzleCompleted);
+
 UCLASS()
 class THERITE_API ALeverPuzzle : public AActor
 {
@@ -20,10 +22,11 @@ public:
 	//*****************************************************************************//
 	//Constructor
 	ALeverPuzzle();
-
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
+
+	FOnPuzzleCompleted OnPuzzleCompleted;
 	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -34,11 +37,32 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
+	bool bPuzzleCorrect;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	int8 CorrectAmount;
+
+	int8 InteractionCounter;
+	
+	
 	UPROPERTY(EditAnywhere)
-	TArray<TWeakObjectPtr<class ALever>> CorrectLevels;
+	TArray<class ALever*> AllLevels;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void CheckLever(class AInteractor* interactor);
+
+	UFUNCTION()
+	void DisableLevers(class ALever* interactor);
+	UFUNCTION()
+	void EnableLevers(class ALever* interactor);
+	
+	void CheckPuzzleEnd();
+
+	void PuzzleCompleted() const;
+	void PuzzleFailed();
 };
