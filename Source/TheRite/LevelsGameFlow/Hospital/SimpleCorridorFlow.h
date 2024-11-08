@@ -96,6 +96,10 @@ private:
 	class USoundBase* ZoneCompleted;
 
 	//---- Feed back
+
+	UPROPERTY(EditAnywhere, Category = Lights)
+	class ASpotLight* HintSpotlight;
+	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
 	
@@ -110,6 +114,12 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	class AAppearanceEvent* HangedManAppearance;
+
+	UPROPERTY(EditAnywhere, Category = Obj)
+	TWeakObjectPtr<class AInteractor> Emblem;
+
+	UPROPERTY(EditAnywhere, Category = Obj)
+	TWeakObjectPtr<class AWalkerTiffany> Walker;
 	
 	//---- Timers
 	FTimerHandle TimerHandleEnd;
@@ -124,6 +134,9 @@ private:
 
 	void BindInteractables();
 	void BindTriggers();
+
+	UFUNCTION()
+	void ActivateWalk(class AInteractor* interactor);
 
 	UFUNCTION()
 	void CallBackForAppearanceEvent(class AInteractor* interactor);

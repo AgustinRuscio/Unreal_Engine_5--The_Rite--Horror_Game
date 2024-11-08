@@ -57,7 +57,7 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 
 	for (auto Element : AllLights)
 	{
-		Element->ChangeLightIntensity(40.f, true);
+		Element->ChangeLightIntensity(80.f, true);
 	}
 
 	Player->ForceTurnLighterOn();

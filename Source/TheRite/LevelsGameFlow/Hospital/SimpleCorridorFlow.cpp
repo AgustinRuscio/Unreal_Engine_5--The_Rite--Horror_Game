@@ -8,6 +8,8 @@
 #include "BackCorridorFlow.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
+#include "Components/LightComponent.h"
+#include "Engine/SpotLight.h"
 #include "Engine/StaticMeshActor.h"
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
@@ -17,6 +19,7 @@
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "TheRite/AmbientObjects/TriggererObject.h"
+#include "TheRite/AmbientObjects/WalkerTiffany.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -24,6 +27,8 @@
 #include "TheRite/LevelsGameFlow/Puzzles/FetchInOrderPuzzle.h"
 #include "TheRite/Triggers/DoorSlapper.h"
 #include "TheRite/Triggers/TimerSound.h"
+
+static float HintLightInitialIntensity;
 
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleCorridorFlow::ASimpleCorridorFlow()
@@ -43,9 +48,12 @@ void ASimpleCorridorFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
+	Emblem->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::ActivateWalk);
 	AppearanceInteractable->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::CallBackForAppearanceEvent);
 	HangedManAppearance->OnAppearanceEventEndStart.AddDynamic(this, &ASimpleCorridorFlow::LightsOff);
 	HangedManAppearance->OnAppearanceEventEndEnd.AddDynamic(this, &ASimpleCorridorFlow::LightsOn);
+
+	HintLightInitialIntensity = HintSpotlight->GetLightComponent()->Intensity;
 	
 	BindTriggers();
 	BindInteractables();
@@ -84,6 +92,12 @@ void ASimpleCorridorFlow::BindTriggers()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ASimpleCorridorFlow::ActivateWalk(AInteractor* interactor)
+{
+	Walker->Activate();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::CallBackForAppearanceEvent(AInteractor* interactor)
 {
 	HangedManAppearance->MakeAppear();
@@ -92,6 +106,8 @@ void ASimpleCorridorFlow::CallBackForAppearanceEvent(AInteractor* interactor)
 //----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::LightsOn()
 {
+	HintSpotlight->GetLightComponent()->SetIntensity(HintLightInitialIntensity);
+	
 	for (auto Element : AllLights)
 	{
 		Element->TurnOn();
@@ -101,9 +117,11 @@ void ASimpleCorridorFlow::LightsOn()
 //----------------------------------------------------------------------------------------------------------------------
 void ASimpleCorridorFlow::LightsOff()
 {
+	HintSpotlight->GetLightComponent()->SetIntensity(0);
+
 	for (auto Element : AllLights)
 	{
-	Element->TurnOff();
+		Element->TurnOff();
 	}
 }
 
@@ -177,7 +195,7 @@ void ASimpleCorridorFlow::PuzzleFeedBack(bool bFeedBackOn)
 			Element->Play();
 		}
 
-		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .25f);
+		PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .1f);
 	}
 	else
 	{

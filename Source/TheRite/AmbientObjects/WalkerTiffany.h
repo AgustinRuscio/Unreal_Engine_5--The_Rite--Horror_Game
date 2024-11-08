@@ -32,6 +32,8 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
+
+	void Activate();
 	
 private:
 	//*****************************************************************************//
@@ -41,23 +43,50 @@ private:
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bReadyToWalk;
 	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bUseLights;
+	
 	bool bDoOnce;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+	float AcceptanceDistance;;
+	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATargetPoint* SpawnTargetPoint;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATargetPoint* DesiredTargetPoint;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<TWeakObjectPtr<class ADoor>> OpeningDoors;
 	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<TWeakObjectPtr<class ALightsTheRite>> TheRiteLights;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<TWeakObjectPtr<class ASpotLight>> SpotLights;
+	TArray<float> spotIntensities;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<TWeakObjectPtr<class APointLight>> PointLights;
+	TArray<float> pointIntensities;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATiffany* WalkerTiffany;
+
+	FTimerHandle TimerHandle;
+	FTimerDelegate TimerDelegate;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+
+	void LightsOff();
+	void LightsOn();
+	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

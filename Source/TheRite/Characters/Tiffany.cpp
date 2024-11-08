@@ -83,11 +83,23 @@ void ATiffany::Activate() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ATiffany::MakeVisible() const
+{
+	GetMesh()->SetVisibility(true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::Deactivate() const
 {
 	GetMesh()->SetVisibility(false);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ATiffany::MakeInvisible() const
+{
+	GetMesh()->SetVisibility(false);
 }
 
 //*****************************Private********************************************

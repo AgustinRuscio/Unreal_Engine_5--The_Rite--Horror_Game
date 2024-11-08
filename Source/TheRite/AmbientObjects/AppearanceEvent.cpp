@@ -78,18 +78,17 @@ void AAppearanceEvent::MakeDisappear()
 	OnAppearanceEventEndStart.Broadcast();
 	UGameplayStatics::PlaySound2D(GetWorld(), Sound);
 	
-	ChangeMeshesVisibility(bVisible);
 
 	if(!GetWorldTimerManager().IsTimerActive(TimerHandle))
 	{
 		TimerDelegate.BindLambda([&]
 		{
+			ChangeMeshesVisibility(false);
 			OnAppearanceEventEndEnd.Broadcast();
 		});
 		
 		GetWorldTimerManager().SetTimer(TimerHandle, TimerDelegate, TimeForSecondCallback, false);
 	}
-	
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -107,7 +106,7 @@ void AAppearanceEvent::CalculateDistance(float DeltaSecond)
 		if(TimeToSee <= counter)
 		{
 			bVisible = false;
-			counter =0;
+			counter = 0;
 			MakeDisappear();
 		}
 		else

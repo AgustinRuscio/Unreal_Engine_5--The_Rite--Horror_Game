@@ -38,8 +38,10 @@ public:
 	void SetWaypoints(TArray<ATargetPoint*> targets);
 
 	void Activate() const;
+	void MakeVisible() const;
 
 	void Deactivate() const;
+	void MakeInvisible() const;
 	
 private:
 	virtual void BeginPlay() override;

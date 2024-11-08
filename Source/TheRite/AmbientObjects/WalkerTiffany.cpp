@@ -5,19 +5,31 @@
 
 #include "WalkerTiffany.h"
 
+#include "LightsTheRite.h"
+#include "VectorTypes.h"
 #include "Components/BoxComponent.h"
+#include "Components/LightComponent.h"
+#include "Engine/PointLight.h"
+#include "Engine/SpotLight.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
+#include "TheRite/Interactuables/Door.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-AWalkerTiffany::AWalkerTiffany() : bDoOnce(false)
+AWalkerTiffany::AWalkerTiffany() : bReadyToWalk(true), bUseLights(false), bDoOnce(false), AcceptanceDistance(0.f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("Box Collision");
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AWalkerTiffany::OnOverlapBegin);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AWalkerTiffany::Activate()
+{
+	bReadyToWalk = true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -27,6 +39,7 @@ void AWalkerTiffany::BeginPlay()
 
 	if(WalkerTiffany)
 	{
+		WalkerTiffany->MakeInvisible();
 		WalkerTiffany->SetActorLocation(SpawnTargetPoint->GetActorLocation());
 		WalkerTiffany->SetActorRotation(SpawnTargetPoint->GetActorRotation());
 		WalkerTiffany->SetData(true, false, true);
@@ -38,12 +51,95 @@ void AWalkerTiffany::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AWalkerTiffany::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if(bDoOnce)
+	{
+		if(UE::Geometry::Distance(WalkerTiffany->GetActorLocation(), DesiredTargetPoint->GetActorLocation()) <= AcceptanceDistance)
+		{
+			for (auto Element : OpeningDoors)
+			{
+				Element->HardClosing();
+			}
+
+			if(bUseLights)
+				LightsOff();
+			else
+				Destroy();
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AWalkerTiffany::LightsOff()
+{
+	for (auto Element : TheRiteLights)
+	{
+		Element->TurnOff();
+	}
+
+	for (auto Element : SpotLights)
+	{
+		spotIntensities.Add(Element->GetLightComponent()->Intensity);
+		Element->GetLightComponent()->SetIntensity(0.f);
+	}
+
+	for (auto Element : PointLights)
+	{
+		pointIntensities.Add(Element->GetLightComponent()->Intensity);
+		Element->GetLightComponent()->SetIntensity(0.f);
+	}
+
+	if(!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle))
+	{
+		TimerDelegate.BindLambda([&]
+		{
+			LightsOn();
+		});
+		
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDelegate, 2.f, false);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AWalkerTiffany::LightsOn()
+{
+	for (auto Element : TheRiteLights)
+	{
+		Element->TurnOn();
+	}
+
+	for (int i = 0; i< SpotLights.Num()-1 ; i++ )
+	{
+		SpotLights[i]->GetLightComponent()->SetIntensity(spotIntensities[i]);
+	}
+
+	for (int i = 0; i< PointLights.Num()-1 ; i++ )
+	{
+		PointLights[i]->GetLightComponent()->SetIntensity(pointIntensities[i]);
+	}
+	
+	spotIntensities.Empty();
+	pointIntensities.Empty();
+	
+	Destroy();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AWalkerTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if(!Cast<AAlex>(OtherActor) || bDoOnce || !bReadyToWalk) return;
 
 	bDoOnce = true;
+	
+	WalkerTiffany->MakeVisible();
 	WalkerTiffany->StartMovement(DesiredTargetPoint);
-	Destroy();
+
+	for (auto Element : OpeningDoors)
+	{
+		Element->Open();
+	}
 }
