@@ -39,10 +39,10 @@ void AWalkerTiffany::BeginPlay()
 
 	if(WalkerTiffany)
 	{
-		WalkerTiffany->MakeInvisible();
 		WalkerTiffany->SetActorLocation(SpawnTargetPoint->GetActorLocation());
 		WalkerTiffany->SetActorRotation(SpawnTargetPoint->GetActorRotation());
 		WalkerTiffany->SetData(true, false, true);
+		WalkerTiffany->MakeInvisible();
 	}
 	else
 	{

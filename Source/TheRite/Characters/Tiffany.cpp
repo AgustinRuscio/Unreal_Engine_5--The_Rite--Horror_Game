@@ -83,7 +83,7 @@ void ATiffany::Activate() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ATiffany::MakeVisible() const
+void ATiffany::MakeVisible()
 {
 	GetMesh()->SetVisibility(true);
 }
@@ -97,7 +97,7 @@ void ATiffany::Deactivate() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ATiffany::MakeInvisible() const
+void ATiffany::MakeInvisible()
 {
 	GetMesh()->SetVisibility(false);
 }
