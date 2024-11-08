@@ -51,6 +51,17 @@ void AWalkerTiffany::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AWalkerTiffany::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	
+	TimerHandle.Invalidate();
+	GetWorldTimerManager().ClearTimer(TimerHandle);
+	
+	TimerDelegate.Unbind();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AWalkerTiffany::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -59,9 +70,13 @@ void AWalkerTiffany::Tick(float DeltaSeconds)
 	{
 		if(UE::Geometry::Distance(WalkerTiffany->GetActorLocation(), DesiredTargetPoint->GetActorLocation()) <= AcceptanceDistance)
 		{
-			for (auto Element : OpeningDoors)
+			
+			if(OpeningDoors.Num() > 0)
 			{
-				Element->HardClosing();
+				for (auto Element : OpeningDoors)
+				{
+					Element->HardClosing();
+				}
 			}
 
 			if(bUseLights)
@@ -75,21 +90,21 @@ void AWalkerTiffany::Tick(float DeltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 void AWalkerTiffany::LightsOff()
 {
-	for (auto Element : TheRiteLights)
+	if(TheRiteLights.Num()>0)
 	{
-		Element->TurnOff();
+		for (auto Element : TheRiteLights)
+		{
+			Element->TurnOff();
+		}
 	}
-
-	for (auto Element : SpotLights)
+	
+	if(SpotLights.Num()>0)
 	{
-		spotIntensities.Add(Element->GetLightComponent()->Intensity);
-		Element->GetLightComponent()->SetIntensity(0.f);
-	}
-
-	for (auto Element : PointLights)
-	{
-		pointIntensities.Add(Element->GetLightComponent()->Intensity);
-		Element->GetLightComponent()->SetIntensity(0.f);
+		for (auto Element : SpotLights)
+		{
+			spotIntensities.Add(Element->GetLightComponent()->Intensity);
+			Element->GetLightComponent()->SetIntensity(0.f);
+		}
 	}
 
 	if(!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle))
@@ -99,7 +114,7 @@ void AWalkerTiffany::LightsOff()
 			LightsOn();
 		});
 		
-		GetWorldTimerManager().SetTimer(TimerHandle, TimerDelegate, 2.f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, 2.f, false);
 	}
 }
 
@@ -115,14 +130,8 @@ void AWalkerTiffany::LightsOn()
 	{
 		SpotLights[i]->GetLightComponent()->SetIntensity(spotIntensities[i]);
 	}
-
-	for (int i = 0; i< PointLights.Num()-1 ; i++ )
-	{
-		PointLights[i]->GetLightComponent()->SetIntensity(pointIntensities[i]);
-	}
 	
 	spotIntensities.Empty();
-	pointIntensities.Empty();
 	
 	Destroy();
 }
@@ -138,6 +147,7 @@ void AWalkerTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
 	WalkerTiffany->MakeVisible();
 	WalkerTiffany->StartMovement(DesiredTargetPoint);
 
+	if(OpeningDoors.Num() <= 0) return;
 	for (auto Element : OpeningDoors)
 	{
 		Element->Open();

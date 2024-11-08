@@ -49,7 +49,7 @@ private:
 	bool bDoOnce;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	float AcceptanceDistance;;
+	float AcceptanceDistance;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATargetPoint* SpawnTargetPoint;
@@ -58,18 +58,14 @@ private:
 	class ATargetPoint* DesiredTargetPoint;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	TArray<TWeakObjectPtr<class ADoor>> OpeningDoors;
+	TArray<class ADoor*> OpeningDoors;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
-	TArray<TWeakObjectPtr<class ALightsTheRite>> TheRiteLights;
+	TArray<class ALightsTheRite*> TheRiteLights;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	TArray<TWeakObjectPtr<class ASpotLight>> SpotLights;
+	TArray<class ASpotLight*> SpotLights;
 	TArray<float> spotIntensities;
-	
-	UPROPERTY(EditAnywhere, Category = Settings)
-	TArray<TWeakObjectPtr<class APointLight>> PointLights;
-	TArray<float> pointIntensities;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATiffany* WalkerTiffany;
@@ -81,7 +77,7 @@ private:
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
-
+virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 	void LightsOff();
