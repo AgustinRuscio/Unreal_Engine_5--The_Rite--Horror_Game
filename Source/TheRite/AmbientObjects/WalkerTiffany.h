@@ -67,9 +67,11 @@ private:
 	TArray<class ASpotLight*> SpotLights;
 	TArray<float> spotIntensities;
 	
-	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATiffany* WalkerTiffany;
-
+	
+	UPROPERTY(EditAnywhere, Category = "Ligher")
+	TSubclassOf<ATiffany> DetectorSubclass;
+	
 	FTimerHandle TimerHandle;
 	FTimerDelegate TimerDelegate;
 	

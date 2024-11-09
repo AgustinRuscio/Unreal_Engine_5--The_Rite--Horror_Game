@@ -37,6 +37,10 @@ void AWalkerTiffany::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FActorSpawnParameters SpawnParams;
+
+	WalkerTiffany =GetWorld()->SpawnActor<ATiffany>(DetectorSubclass.Get(), SpawnTargetPoint->GetActorLocation(), SpawnTargetPoint->GetActorRotation(), SpawnParams);
+
 	if(WalkerTiffany)
 	{
 		WalkerTiffany->SetActorLocation(SpawnTargetPoint->GetActorLocation());

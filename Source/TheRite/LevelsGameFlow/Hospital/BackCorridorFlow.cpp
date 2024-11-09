@@ -8,12 +8,13 @@
 #include "LeverPuzzle.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Triggers/TeleportPlayer.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-ABackCorridorFlow::ABackCorridorFlow()
+ABackCorridorFlow::ABackCorridorFlow() : TimeToMovePlayerOnEndPuzzle(5.f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -37,6 +38,13 @@ void ABackCorridorFlow::BeginPlay()
 
 	LeverPuzzle->OnPuzzleCompleted.AddDynamic(this, &ABackCorridorFlow::OnPuzzleEnd);
 	PLayer = Cast<AAlex>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABackCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -56,6 +64,24 @@ void ABackCorridorFlow::OnPuzzleStarted()
 //----------------------------------------------------------------------------------------------------------------------
 void ABackCorridorFlow::OnPuzzleEnd()
 {
-	PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());
-	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
+	if(!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle_PuzzleEnd))
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), SFX_PuzzleEnd_LightsOff);
+		for (auto Element : AllLights)
+		{
+			Element->TurnOff();
+		}
+
+		PLayer->SetCanUseLighterState(false);
+		PLayer->ForceLighterOff();
+		UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
+		UGameplayStatics::PlaySound2D(GetWorld(), SFX_PuzzleEnd);
+
+		TimerDelegate_PuzzleEnd.BindLambda([&]
+		{
+			PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());
+		});
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PuzzleEnd, TimerDelegate_PuzzleEnd,TimeToMovePlayerOnEndPuzzle, false);
+	}
 }

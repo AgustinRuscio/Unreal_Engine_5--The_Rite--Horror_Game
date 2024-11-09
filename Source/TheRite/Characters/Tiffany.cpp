@@ -109,9 +109,27 @@ void ATiffany::MakeInvisible()
 void ATiffany::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AIController = CastChecked<ATiffanyController>(GetController());
+			
+	//AIController = GetWorld()->SpawnActor<ATiffanyController>();
+	//this->PossessedBy(AIController);
 	
-	BlackBoard = AIController->GetBlackboardComponent();
+	if(!GetWorld()->GetTimerManager().IsTimerActive(timerHandle))
+	{
+		TimerDelegate.BindLambda([this]
+		{
+			AIController = Cast<ATiffanyController>(GetController());
+			if (AIController) // Null check for AIController
+			{
+				BlackBoard = AIController->GetBlackboardComponent();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("AIController is nullptr"));
+			}
+		});
+
+		GetWorld()->GetTimerManager().SetTimer(timerHandle, TimerDelegate,0.5f, false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -36,6 +36,9 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+	float TimeToMovePlayerOnEndPuzzle;
+	
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	TArray<class ADoor*> InitialDoors;
 	
@@ -56,14 +59,27 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TArray<class ALightsTheRite*> AllLights;
 	
-	class AAlex* PLayer; 
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	class USoundBase* SFX_PuzzleEnd;
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	class USoundBase* SFX_PuzzleEnd_LightsOff;
+	
+	class AAlex* PLayer;
+
+
+	FTimerHandle TimerHandle_PuzzleEnd;
+	FTimerDelegate TimerDelegate_PuzzleEnd;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
-
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 	UFUNCTION()
 	void OnPuzzleStarted();
 

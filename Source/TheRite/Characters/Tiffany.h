@@ -72,8 +72,14 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Waypoints")
 	TArray<ATargetPoint*> Waypoints;
+	
+	UPROPERTY(EditAnywhere, Category="Waypoints")
 	TSubclassOf<ATiffanyController> DefaultAIController;
+	ATiffanyController* AIController;
 	
 	UPROPERTY()
 	UBlackboardComponent* BlackBoard ;
+
+	FTimerHandle timerHandle;
+	FTimerDelegate TimerDelegate;
 };
