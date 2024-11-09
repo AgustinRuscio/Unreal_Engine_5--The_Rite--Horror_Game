@@ -27,7 +27,7 @@ public:
 	//*****************************************************************************//
 
 	FOnPuzzleCompleted OnPuzzleCompleted;
-	
+
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
@@ -36,14 +36,12 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
 	bool bPuzzleCorrect;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	int8 CorrectAmount;
 
 	int8 InteractionCounter;
-	
 	
 	UPROPERTY(EditAnywhere)
 	TArray<class ALever*> AllLevels;
@@ -60,7 +58,7 @@ private:
 	void DisableLevers(class ALever* interactor);
 	UFUNCTION()
 	void EnableLevers(class ALever* interactor);
-	
+
 	void CheckPuzzleEnd();
 
 	void PuzzleCompleted() const;

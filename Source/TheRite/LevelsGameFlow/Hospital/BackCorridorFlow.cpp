@@ -5,6 +5,8 @@
 
 #include "BackCorridorFlow.h"
 
+#include "LeverPuzzle.h"
+#include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
@@ -33,6 +35,7 @@ void ABackCorridorFlow::BeginPlay()
 
 	InitialTeleportPlayer->OnTeleportComplete.AddDynamic(this, &ABackCorridorFlow::OnPuzzleStarted);
 
+	LeverPuzzle->OnPuzzleCompleted.AddDynamic(this, &ABackCorridorFlow::OnPuzzleEnd);
 	PLayer = Cast<AAlex>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 }
 
@@ -48,6 +51,11 @@ void ABackCorridorFlow::OnPuzzleStarted()
 	{
 		Element->SetLockedState(false);
 	}
+}
 
-	PLayer->SetCanUseLighterState(true);
+//----------------------------------------------------------------------------------------------------------------------
+void ABackCorridorFlow::OnPuzzleEnd()
+{
+	PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
 }

@@ -8,6 +8,7 @@
 #include "Components/BoxComponent.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/Door.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ATeleportPlayer::ATeleportPlayer()
@@ -35,6 +36,11 @@ void ATeleportPlayer::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		player->SetActorLocation(TeleportLocation->GetActorLocation());
 		player->SetActorRotation(TeleportLocation->GetActorRotation());
 
+		for (auto Element : ClosingDoors)
+		{
+			Element->HardClosing();
+		}
+		
 		OnTeleportComplete.Broadcast();
 		
 		if(bDestroyAfterUse)

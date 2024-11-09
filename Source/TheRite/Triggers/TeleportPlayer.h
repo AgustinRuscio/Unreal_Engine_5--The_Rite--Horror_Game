@@ -47,6 +47,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPrivateAccess = true))
 	class ATargetPoint* TeleportLocation;
+
+	UPROPERTY(EditAnywhere, Category = Doors)
+	TArray<class ADoor*> ClosingDoors;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

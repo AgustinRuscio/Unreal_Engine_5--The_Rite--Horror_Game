@@ -48,6 +48,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	TArray<AActor*> ActorsToDestroyOnPuzzleBegin;
 
+	UPROPERTY(EditAnywhere, Category = Puzzle)
+	class ALeverPuzzle* LeverPuzzle;
+
+	UPROPERTY(EditAnywhere, Category = Puzzle)
+	class ATargetPoint* TargetPoint_EndPuzzle;
+	
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
+	
 	class AAlex* PLayer; 
 	
 	//*****************************************************************************//
@@ -57,4 +66,7 @@ private:
 
 	UFUNCTION()
 	void OnPuzzleStarted();
+
+	UFUNCTION()
+	void OnPuzzleEnd();
 };
