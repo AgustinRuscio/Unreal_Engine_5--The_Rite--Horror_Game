@@ -75,7 +75,7 @@ void AWalkerTiffany::Tick(float DeltaSeconds)
 	{
 		if(UE::Geometry::Distance(WalkerTiffany->GetActorLocation(), DesiredTargetPoint->GetActorLocation()) <= AcceptanceDistance)
 		{
-			
+			bDoOnce = false;
 			if(OpeningDoors.Num() > 0)
 			{
 				for (auto Element : OpeningDoors)
@@ -153,6 +153,8 @@ void AWalkerTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
 	WalkerTiffany->StartMovement(DesiredTargetPoint);
 
 	if(OpeningDoors.Num() <= 0) return;
+	UGameplayStatics::PlaySound2D(GetWorld(), OpenDoorSound);
+	
 	for (auto Element : OpeningDoors)
 	{
 		Element->Open();

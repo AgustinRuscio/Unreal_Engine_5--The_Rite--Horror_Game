@@ -69,6 +69,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Settings)
 	TArray<class ASpotLight*> SpotLights;
 	TArray<float> spotIntensities;
+
+	UPROPERTY(EditAnywhere, Category = Feedback)
+	USoundBase* OpenDoorSound;
 	
 	class ATiffany* WalkerTiffany;
 	

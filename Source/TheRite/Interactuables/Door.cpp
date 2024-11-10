@@ -133,6 +133,7 @@ void ADoor::UnlockDooUnlockedFromSisterDoor()
 void ADoor::Open()
 {
 	bCanInteract	= false;
+	bTimeLineOpen	= true;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.PlayFromStart();
 }
@@ -141,6 +142,7 @@ void ADoor::Open()
 void ADoor::Close()
 {
 	bCanInteract	= false;
+	bTimeLineOpen	= false;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 }
@@ -156,6 +158,7 @@ void ADoor::HardClosing()
 void ADoor::AutomaticClose()
 {
 	bCanInteract	= false;
+	bTimeLineOpen	= false;
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
@@ -681,10 +684,20 @@ void ADoor::OpenCloseTimeLineUpdate(float value)
 {
 	float newRot;
 
-	if(CloseRotation.Yaw == LastYaw)
-		newRot = FMath::Lerp(CloseRotation.Yaw,OpenRotation.Yaw, value);
+	if(bTimeLineOpen)
+	{
+		if(OpenRotation.Yaw == LastYaw)
+			newRot = FMath::Lerp(LastYaw, OpenRotation.Yaw, value);
+		else
+			newRot = FMath::Lerp(CloseRotation.Yaw,OpenRotation.Yaw, value);
+	}
 	else
-		newRot = FMath::Lerp(CloseRotation.Yaw,LastYaw, value);
+	{
+		if(CloseRotation.Yaw == LastYaw)
+			newRot = FMath::Lerp(CloseRotation.Yaw,OpenRotation.Yaw, value);
+		else
+			newRot = FMath::Lerp(CloseRotation.Yaw,LastYaw, value);
+	}
 
 	SetActorRotation(FRotator(GetActorRotation().Pitch, newRot, GetActorRotation().Roll));
 }

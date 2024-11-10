@@ -150,6 +150,7 @@ private:
 	bool bIsPlayerForward;
 	bool bDoOnceTut;
 	bool bOpenFromSisterDoor;
+	bool bTimeLineOpen;
 
 	bool bDoOnceOpenLatchAnim = true;
 	bool bLatchPlay = true;
