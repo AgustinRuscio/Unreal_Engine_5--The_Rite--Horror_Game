@@ -29,16 +29,20 @@ void ALeverPuzzle::BeginPlay()
 //----------------------------------------------------------------------------------------------------------------------
 void ALeverPuzzle::CheckLever(class AInteractor* interactor)
 {
-	if(!static_cast<ALever*>(interactor)->IsCorrect())
+	auto auxLever = static_cast<ALever*>(interactor);
+	
+	if(!auxLever->IsCorrect())
 	{
 		bPuzzleCorrect = false;
 	}
-
+	
+	AuxUsedLevers.Add(auxLever);
 	InteractionCounter++;
 
 	CheckPuzzleEnd();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALeverPuzzle::DisableLevers(ALever* interactor)
 {
 	for (auto var : AllLevels)
@@ -48,11 +52,13 @@ void ALeverPuzzle::DisableLevers(ALever* interactor)
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ALeverPuzzle::EnableLevers(ALever* interactor)
 {
 	for (auto var : AllLevels)
 	{
 		if(interactor == var) continue;
+		if(AuxUsedLevers.Contains(var)) continue;
 		var->Activate();
 	}
 }
@@ -69,10 +75,11 @@ void ALeverPuzzle::CheckPuzzleEnd()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALeverPuzzle::PuzzleCompleted() const
+void ALeverPuzzle::PuzzleCompleted()
 {
 	OnPuzzleCompleted.Broadcast();
-	
+
+	AuxUsedLevers.Empty();
 	for (auto var : AllLevels)
 	{
 		var->Destroy();
@@ -82,6 +89,7 @@ void ALeverPuzzle::PuzzleCompleted() const
 //----------------------------------------------------------------------------------------------------------------------
 void ALeverPuzzle::PuzzleFailed()
 {
+	AuxUsedLevers.Empty();
 	for (auto var : AllLevels)
 	{
 		var->ResetLever();

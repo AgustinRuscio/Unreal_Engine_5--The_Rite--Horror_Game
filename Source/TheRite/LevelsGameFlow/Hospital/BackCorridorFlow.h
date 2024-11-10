@@ -44,6 +44,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	TArray<class ADoor*> EndDoors; 
+	UPROPERTY(EditAnywhere, Category = InitialDoors)
+	class ADoor* EndPuzzleDoor; 
 
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	class ATeleportPlayer* InitialTeleportPlayer;

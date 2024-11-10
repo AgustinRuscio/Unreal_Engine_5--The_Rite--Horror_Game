@@ -45,6 +45,13 @@ void ABackCorridorFlow::BeginPlay()
 void ABackCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
+
+	if(GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle_PuzzleEnd);
+	}
+
+	TimerDelegate_PuzzleEnd.Unbind();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -72,6 +79,7 @@ void ABackCorridorFlow::OnPuzzleEnd()
 			Element->TurnOff();
 		}
 
+		EndPuzzleDoor->SetLockedState(false);
 		PLayer->SetCanUseLighterState(false);
 		PLayer->ForceLighterOff();
 		UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
@@ -80,6 +88,7 @@ void ABackCorridorFlow::OnPuzzleEnd()
 		TimerDelegate_PuzzleEnd.BindLambda([&]
 		{
 			PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());
+			PLayer->SetCanUseLighterState(true);
 		});
 
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PuzzleEnd, TimerDelegate_PuzzleEnd,TimeToMovePlayerOnEndPuzzle, false);

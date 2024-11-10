@@ -45,6 +45,8 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	TArray<class ALever*> AllLevels;
+
+	TArray<class ALever*> AuxUsedLevers;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -61,6 +63,6 @@ private:
 
 	void CheckPuzzleEnd();
 
-	void PuzzleCompleted() const;
+	void PuzzleCompleted();
 	void PuzzleFailed();
 };
