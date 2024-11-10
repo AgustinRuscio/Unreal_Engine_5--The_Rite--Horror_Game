@@ -32,7 +32,7 @@ public:
 	void StartMovement(ATargetPoint* newTarget);
 
 	UFUNCTION()
-	void SetData(bool IsVisible, bool NoCollision, bool HasToMove);
+	void SetData(bool IsVisible, bool NoCollision, bool HasToMove, bool Crawling);
 
 	UFUNCTION()
 	void SetWaypoints(TArray<ATargetPoint*> targets);
@@ -52,6 +52,10 @@ private:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="States")
+	bool bCrawling;
 	
 private:
 	UPROPERTY(EditAnywhere, Category="States")

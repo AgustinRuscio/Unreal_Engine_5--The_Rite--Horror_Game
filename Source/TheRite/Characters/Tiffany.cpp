@@ -58,7 +58,7 @@ void ATiffany::StartMovement(ATargetPoint* newTarget)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
+void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove, bool Crawling)
 {
 	GetMesh()->SetVisibility(IsVisible);
 
@@ -66,6 +66,7 @@ void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	bHasToMove = HasToMove;
+	bCrawling= Crawling;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

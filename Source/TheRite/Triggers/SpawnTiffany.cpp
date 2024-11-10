@@ -42,7 +42,7 @@ void ASpawnTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	
 	ATiffany* CastedTiffany = Cast<ATiffany>(spawnedTiffany);
 	
-	CastedTiffany->SetData(false,true,false);
+	CastedTiffany->SetData(false,true,false, false);
 	CastedTiffany->SetWaypoints(Waypoints);
 	
 	tif->GetMesh()->SetVisibility(true);

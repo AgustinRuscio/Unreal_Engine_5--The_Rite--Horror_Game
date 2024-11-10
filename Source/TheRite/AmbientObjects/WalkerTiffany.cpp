@@ -29,6 +29,7 @@ AWalkerTiffany::AWalkerTiffany() : bReadyToWalk(true), bUseLights(false), bDoOnc
 //----------------------------------------------------------------------------------------------------------------------
 void AWalkerTiffany::Activate()
 {
+	WalkerTiffany->Activate();
 	bReadyToWalk = true;
 }
 
@@ -45,8 +46,8 @@ void AWalkerTiffany::BeginPlay()
 	{
 		WalkerTiffany->SetActorLocation(SpawnTargetPoint->GetActorLocation());
 		WalkerTiffany->SetActorRotation(SpawnTargetPoint->GetActorRotation());
-		WalkerTiffany->SetData(true, false, true);
-		WalkerTiffany->MakeInvisible();
+		WalkerTiffany->SetData(true, false, true, bTiffanyCrawl);
+		WalkerTiffany->Deactivate();
 	}
 	else
 	{
@@ -148,7 +149,7 @@ void AWalkerTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
 
 	bDoOnce = true;
 	
-	WalkerTiffany->MakeVisible();
+	WalkerTiffany->Activate();
 	WalkerTiffany->StartMovement(DesiredTargetPoint);
 
 	if(OpeningDoors.Num() <= 0) return;

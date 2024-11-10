@@ -42,6 +42,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bReadyToWalk;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bTiffanyCrawl;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bUseLights;
