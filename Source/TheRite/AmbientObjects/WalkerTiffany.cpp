@@ -76,13 +76,6 @@ void AWalkerTiffany::Tick(float DeltaSeconds)
 		if(UE::Geometry::Distance(WalkerTiffany->GetActorLocation(), DesiredTargetPoint->GetActorLocation()) <= AcceptanceDistance)
 		{
 			bDoOnce = false;
-			if(OpeningDoors.Num() > 0)
-			{
-				for (auto Element : OpeningDoors)
-				{
-					Element->HardClosing();
-				}
-			}
 
 			if(bUseLights)
 				LightsOff();
