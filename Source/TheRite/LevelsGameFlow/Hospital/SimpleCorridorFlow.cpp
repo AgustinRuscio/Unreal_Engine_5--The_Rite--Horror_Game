@@ -25,7 +25,7 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "TheRite/LevelsGameFlow/Puzzles/FetchInOrderPuzzle.h"
-#include "TheRite/Triggers/DoorSlapper.h"
+#include "TheRite/Triggers/DoorScaryKnocking.h"
 #include "TheRite/Triggers/TimerSound.h"
 
 static float HintLightInitialIntensity;
@@ -88,7 +88,7 @@ void ASimpleCorridorFlow::BindTriggers()
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
 	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
 
-	DoorSlapperHangedMan->OnSlappedDoor.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
+	DoorSlapperHangedMan->OnTriggerActivatedDelegate.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

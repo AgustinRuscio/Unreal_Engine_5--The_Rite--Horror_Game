@@ -64,7 +64,7 @@ private:
 	TArray<class ALightsTheRite*> AllLights;
 
 	UPROPERTY(EditAnywhere, Category = Triggers)
-	class ADoorSlapper* DoorSlapperHangedMan;
+	class ADoorScaryKnocking* DoorSlapperHangedMan;
 
 	UPROPERTY(EditAnywhere, Category = Triggers)
 	class ATriggererObject* TriggererObjectWheelChair;

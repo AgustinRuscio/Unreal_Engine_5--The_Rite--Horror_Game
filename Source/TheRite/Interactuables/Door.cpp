@@ -18,6 +18,7 @@
 #include "Blueprint/UserWidget.h"
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
+#define END_KNOCKING_LOCATION CurrentRotation + FRotator(0, 3, 0)
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -162,6 +163,16 @@ void ADoor::AutomaticClose()
 	CurrentRotation = GetActorRotation();
 	TimeLineOpenDoor.ReverseFromEnd();
 	UGameplayStatics::PlaySoundAtLocation(this, SFXDoorClinck, GetActorLocation());
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::ScaryKnock()
+{
+	bCanInteract = false;
+	CurrentRotation = GetActorRotation();
+	TimeLineScaryKnock.PlayFromStart();
+	TimeLineLatchAnim.PlayFromStart();
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFXScaryKnocking, GetActorLocation());
 }
 #pragma endregion 
 
@@ -666,6 +677,16 @@ void ADoor::BindTimeLines()
 	FOnTimelineEventStatic UnlockDoorTimelineFinishCallback;
 	UnlockDoorTimelineFinishCallback.BindUFunction(this, FName("UnlockDoorTimeLineFinished"));
 	TimeLineUnlockDoor.SetTimelineFinishedFunc(UnlockDoorTimelineFinishCallback);
+
+	//------- Unlock door timeline
+	FOnTimelineFloat ScaryKnockTimelineTickCallback;
+	ScaryKnockTimelineTickCallback.BindUFunction(this, FName("ScaryKnockingTimeLineUpdate"));
+	TimeLineScaryKnock.AddInterpFloat(ScaryKnockingCurve, ScaryKnockTimelineTickCallback);
+	
+	FOnTimelineEventStatic ScaryKnockTimelineFinishCallback;
+	ScaryKnockTimelineFinishCallback.BindUFunction(this, FName("ScaryKnockingTimelineFinished"));
+	TimeLineScaryKnock.SetTimelineFinishedFunc(ScaryKnockTimelineFinishCallback);
+	
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -677,6 +698,7 @@ void ADoor::RunTimeLinesTick(float DeltaTime)
 	TimeLineHardClosing.TickTimeline(DeltaTime);
 	TimeLineLatchHold.TickTimeline(DeltaTime);
 	TimeLineUnlockDoor.TickTimeline(DeltaTime);
+	TimeLineScaryKnock.TickTimeline(DeltaTime);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -822,5 +844,22 @@ void ADoor::UnlockDoorTimeLineFinished()
 		
 		GetWorld()->GetTimerManager().SetTimer(UnlockedDoorTimerHandle, timerDelegate, 1.5f, false);
 	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::ScaryKnockingTimeLineUpdate(float value)
+{
+	auto lerpLocation = FMath::Lerp(CurrentRotation, END_KNOCKING_LOCATION, value);
+	SetActorRotation(lerpLocation);
+
+	float lerpValue = FMath::Lerp(5, 50, value);
+	LatchFront->SetRelativeRotation(FRotator(lerpValue, LatchFront->GetRelativeRotation().Yaw, LatchFront->GetRelativeRotation().Roll));
+	LatchBack->SetRelativeRotation(FRotator(lerpValue, LatchBack->GetRelativeRotation().Yaw, LatchBack->GetRelativeRotation().Roll));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::ScaryKnockingTimelineFinished()
+{
+	bCanInteract = true;
 }
 #pragma endregion

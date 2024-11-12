@@ -89,6 +89,8 @@ public:
 	
 	void AutomaticClose();
 	
+	void ScaryKnock();
+	
 //---------------- Setter Methods
 	void SetDoorKeyValues(FString itemName, PickableItemsID id);
 	void SetCanDragState(bool newDragState);
@@ -113,6 +115,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFXDoorSlam;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXScaryKnocking;
 	
 private:
 	//*****************************************************************************//
@@ -226,6 +231,8 @@ private:
 	
 	FTimeline TimeLineHardClosing;
 	FTimeline TimeLineUnlockDoor;
+	
+	FTimeline TimeLineScaryKnock;
 
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* CurveUnlockDoor;
@@ -242,6 +249,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* ItsLockedCurve;
 
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* ScaryKnockingCurve;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	ADoor* SisterDoor;
 	
@@ -280,7 +290,7 @@ private:
 	void UnlockDoorWithKey();
 	UFUNCTION()
 	void ItsLocked();
-
+	
 	UFUNCTION()
 	void LatchAnim();
 	
@@ -333,4 +343,11 @@ private:
 	
 	UFUNCTION()
 	void UnlockDoorTimeLineFinished();
+
+	UFUNCTION()
+	void ScaryKnockingTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void ScaryKnockingTimelineFinished();
+
 };
