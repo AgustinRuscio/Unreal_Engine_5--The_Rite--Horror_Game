@@ -4,19 +4,22 @@
 //----------------------------------------------//
 
 #include "Lever.h"
+
+#include "FrameTypes.h"
 #include "Components/PointLightComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ALever::ALever() : bIsCorrect(false),  bWasUsed(false), bPlayForward(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	StaticMesh	  = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
-	RootComponent = StaticMesh;
+	LeverBaseMesh	  = CreateDefaultSubobject<UStaticMeshComponent>("Base lever mesh");
+	RootComponent = LeverBaseMesh;
 
-	PointLight = CreateDefaultSubobject<UPointLightComponent>("PointLight");
-	PointLight->SetupAttachment(StaticMesh);
-
+	LeverMesh	  = CreateDefaultSubobject<UStaticMeshComponent>("Lever Mesh");
+	LeverMesh->SetupAttachment(LeverBaseMesh);
+	
 	bCanInteract = true;
 }
 
@@ -28,6 +31,7 @@ void ALever::Interaction()
 	
 	bWasUsed = true;
 
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 	bPlayForward = true;
 	OnLeverUsageStart.Broadcast(this);
 	Timeline.PlayFromStart();
@@ -48,7 +52,7 @@ void ALever::ResetLever()
 void ALever::BeginPlay()
 {
 	Super::BeginPlay();
-	PointLight->SetIntensity(0.f);
+	LeverMesh->SetRelativeRotation(InitialRotation);
 	
 	FOnTimelineFloat LeverTimeLienTick;
 	LeverTimeLienTick.BindUFunction(this, FName("LeverTimeLineTick"));
@@ -69,7 +73,9 @@ void ALever::Tick(float DeltaSeconds)
 //----------------------------------------------------------------------------------------------------------------------
 void ALever::LeverTimeLineTick(float delta)
 {
-	PointLight->SetIntensity(delta * 100);
+	auto lerpedRot = FMath::Lerp(InitialRotation, UsedRotation, delta);
+	
+	LeverMesh->SetRelativeRotation(lerpedRot);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

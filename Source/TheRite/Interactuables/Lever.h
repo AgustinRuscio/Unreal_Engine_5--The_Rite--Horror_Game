@@ -27,10 +27,10 @@ public:
 	ALever();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Visual, meta = (allowPrivateAccess = "true"))
-	UStaticMeshComponent* StaticMesh;
-
+	UStaticMeshComponent* LeverMesh;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Visual, meta = (allowPrivateAccess = "true"))
-	class UPointLightComponent* PointLight;
+	UStaticMeshComponent* LeverBaseMesh;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -59,6 +59,12 @@ private:
 
 	bool bWasUsed;
 	bool bPlayForward;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FRotator InitialRotation;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FRotator UsedRotation;
 	
 	FTimeline Timeline;
 
