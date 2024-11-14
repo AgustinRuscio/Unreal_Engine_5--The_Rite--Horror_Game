@@ -58,6 +58,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Doors)
 	TArray<class ADoor*> InitialDoors;
+	
+	UPROPERTY(EditAnywhere, Category = Doors)
+	TArray<class ADoor*> SecondPuzzleDoors;
 
 	//----- Triggers
 	UPROPERTY(EditAnywhere, Category = Lights)

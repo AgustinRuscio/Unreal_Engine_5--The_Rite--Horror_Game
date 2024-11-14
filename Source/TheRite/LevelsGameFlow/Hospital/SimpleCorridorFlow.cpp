@@ -239,6 +239,11 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 	{
 		Element->Destroy();
 	};
+
+	for (auto Element : SecondPuzzleDoors)
+	{
+		Element->SetLockedState(false);
+	};
 	
 	AudioComp->Stop();
 	AudioComp->DestroyComponent();
