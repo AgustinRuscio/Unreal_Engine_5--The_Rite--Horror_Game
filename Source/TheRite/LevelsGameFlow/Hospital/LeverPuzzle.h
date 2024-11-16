@@ -42,6 +42,9 @@ private:
 	int8 CorrectAmount;
 
 	int8 InteractionCounter;
+
+	UPROPERTY(EditDefaultsOnly, Category = Feedback)
+	USoundBase* PuzzleFailSound;
 	
 	UPROPERTY(EditAnywhere)
 	TArray<class ALever*> AllLevels;

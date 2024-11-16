@@ -6,7 +6,6 @@
 #include "SimpleCorridorFlow.h"
 
 #include "BackCorridorFlow.h"
-#include "Animation/SkeletalMeshActor.h"
 #include "Components/AudioComponent.h"
 #include "Components/LightComponent.h"
 #include "Engine/SpotLight.h"
@@ -15,8 +14,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/AppearanceEvent.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/CyclicAudios.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "TheRite/AmbientObjects/TriggererObject.h"
 #include "TheRite/AmbientObjects/WalkerTiffany.h"
@@ -108,7 +107,7 @@ void ASimpleCorridorFlow::LightsOn()
 {
 	HintSpotlight->GetLightComponent()->SetIntensity(HintLightInitialIntensity);
 	
-	for (auto Element : AllLights)
+	for (auto Element : AllLights2)
 	{
 		Element->TurnOn();
 	}
@@ -119,7 +118,7 @@ void ASimpleCorridorFlow::LightsOff()
 {
 	HintSpotlight->GetLightComponent()->SetIntensity(0);
 
-	for (auto Element : AllLights)
+	for (auto Element : AllLights2)
 	{
 		Element->TurnOff();
 	}
@@ -174,7 +173,7 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 	//	Element->Open();
 	//}
 
-	for (auto Element : AllLights)
+	for (auto Element : AllLights2)
 	{
 		Element->SetAggressiveMaterial();
 	}
@@ -230,7 +229,7 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 
 	UGameplayStatics::PlaySound2D(GetWorld(), ZoneCompleted);
 
-	for (auto Element : AllLights)
+	for (auto Element : AllLights2)
 	{
 		Element->SetNormalMaterial();
 	}

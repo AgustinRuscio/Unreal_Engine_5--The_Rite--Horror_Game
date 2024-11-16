@@ -8,9 +8,11 @@
 #include "LeverPuzzle.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
+#include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "TheRite/Triggers/TeleportPlayer.h"
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -71,10 +73,18 @@ void ABackCorridorFlow::OnPuzzleStarted()
 //----------------------------------------------------------------------------------------------------------------------
 void ABackCorridorFlow::OnPuzzleEnd()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), SFX_PuzzleEnd_LightsOff);
+
+	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .1f);
+	
+	for (auto Element : SFX_PuzzleEnd)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), Element);
+	}
+
 	if(!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle_PuzzleEnd))
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), SFX_PuzzleEnd_LightsOff);
-		for (auto Element : AllLights)
+		for (auto Element : AllLights2)
 		{
 			Element->TurnOff();
 		}
@@ -83,8 +93,7 @@ void ABackCorridorFlow::OnPuzzleEnd()
 		PLayer->SetCanUseLighterState(false);
 		PLayer->ForceLighterOff();
 		UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle,UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(),0,1000);
-		UGameplayStatics::PlaySound2D(GetWorld(), SFX_PuzzleEnd);
-
+		
 		TimerDelegate_PuzzleEnd.BindLambda([&]
 		{
 			PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());

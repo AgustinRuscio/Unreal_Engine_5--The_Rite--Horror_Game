@@ -65,6 +65,9 @@ private:
 	//----- Triggers
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> AllLights;
+	
+	UPROPERTY(EditAnywhere, Category = Lights)
+	TArray<class ACustomLight*> AllLights2;
 
 	UPROPERTY(EditAnywhere, Category = Triggers)
 	class ADoorScaryKnocking* DoorSlapperHangedMan;

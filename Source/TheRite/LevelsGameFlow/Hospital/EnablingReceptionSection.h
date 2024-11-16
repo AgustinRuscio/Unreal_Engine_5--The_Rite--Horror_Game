@@ -41,6 +41,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Puzzle)
 	TArray<class ALightsTheRite*> Lights;
+	UPROPERTY(EditAnywhere, Category = Puzzle)
+	TArray<class ACustomLight*> Lights2;
 	
 	UPROPERTY(EditAnywhere, Category = Puzzle)
 	class AEmblemsPlace* EmblemsPlace;

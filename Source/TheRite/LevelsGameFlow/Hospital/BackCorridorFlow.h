@@ -38,6 +38,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	float TimeToMovePlayerOnEndPuzzle;
+	FName PostProcessModiferValue = "SpectralProximity";
 	
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	TArray<class ADoor*> InitialDoors;
@@ -59,6 +60,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Puzzle)
 	class ATargetPoint* TargetPoint_EndPuzzle;
 	
+	UPROPERTY(EditAnywhere, Category = FeedBack)
+	class AProsProcessModifier* PostProcessModifier;
+	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
 
@@ -66,7 +70,11 @@ private:
 	TArray<class ALightsTheRite*> AllLights;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
-	class USoundBase* SFX_PuzzleEnd;
+	TArray<class ACustomLight*> AllLights2;
+	
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TArray<class USoundBase*> SFX_PuzzleEnd;
+	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	class USoundBase* SFX_PuzzleEnd_LightsOff;
 	

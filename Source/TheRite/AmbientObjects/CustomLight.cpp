@@ -1,20 +1,16 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.2.1						//
+//----------------------------------------------//
 
-
-#include "LightsTheRite.h"
-
+#include "CustomLight.h"
 #include "Components/SpotLightComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
-
-
-//*****************************Public******************************************
-//******************************************************************************
+#include "Engine/Light.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-ALightsTheRite::ALightsTheRite()
+ACustomLight::ACustomLight()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -27,56 +23,53 @@ ALightsTheRite::ALightsTheRite()
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->SetSphereRadius(177.0f);
 	
-	PointLight = CreateDefaultSubobject<UPointLightComponent>("Point Light");
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
 	
-	PointLight->SetupAttachment(NewRootComponent);
 	Sphere->SetupAttachment(NewRootComponent);
 	AudioComponent->SetupAttachment(NewRootComponent);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool ALightsTheRite::IsLightOn() const
+bool ACustomLight::IsLightOn() const
 {
-	//return PointLight->Intensity > 0;
-	return PointLight->IsVisible();
+	return CustomLight->GetLightComponent()->IsVisible();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-float ALightsTheRite::GetIntensity() const
+float ACustomLight::GetIntensity() const
 {
-	return PointLight->Intensity;
+	return CustomLight->GetLightComponent()->Intensity;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-HouseZone ALightsTheRite::GetLightZone() const
+HouseZone ACustomLight::GetLightZone() const
 {
 	return LightHouseZone;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-HospitalZone ALightsTheRite::GetHospitalZone() const
+HospitalZone ACustomLight::GetHospitalZone() const
 {
 	return HospitalZone;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 //---------------- Material Setter Methods
-void ALightsTheRite::SetAggressiveMaterial() const
+void ACustomLight::SetAggressiveMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(Material_Aggressive);
+	CustomLight->SetLightFunctionMaterial(Material_Aggressive);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALightsTheRite::SetNormalMaterial() const
+void ACustomLight::SetNormalMaterial() const
 {
-	PointLight->SetLightFunctionMaterial(Material_Normal);
+	CustomLight->SetLightFunctionMaterial(Material_Normal);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
+void ACustomLight::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
 {
-	PointLight->SetIntensity(NewIntensity);
+	CustomLight->GetLightComponent()->SetIntensity(NewIntensity);
 
 	if(!bUseAsNewDefault) return;
 	
@@ -88,31 +81,27 @@ void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefa
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region State Changer Methods
-void ALightsTheRite::TurnOff() const
+void ACustomLight::TurnOff() const
 {
-	PointLight->SetVisibility(false);
-	//PointLight->SetIntensity(0.0f);
+	CustomLight->GetLightComponent()->SetVisibility(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALightsTheRite::TurnOn() const
+void ACustomLight::TurnOn() const
 {
-	PointLight->SetVisibility(true);
-	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
-	//PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
+	CustomLight->GetLightComponent()->SetVisibility(true);
+	CustomLight->GetLightComponent()->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }
 #pragma endregion
 
-//*****************************Private******************************************
-//******************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALightsTheRite::BeginPlay()
+void ACustomLight::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	if(bWillStartOff)
-		PointLight->SetIntensity(0);
+		CustomLight->GetLightComponent()->SetVisibility(false);
 	
-	FirstPointIntensity = PointLight->Intensity;
+	FirstPointIntensity = CustomLight->GetLightComponent()->Intensity;
 }

@@ -4,6 +4,8 @@
 //----------------------------------------------//
 
 #include "LeverPuzzle.h"
+
+#include "Kismet/GameplayStatics.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Interactuables/Lever.h"
 
@@ -95,6 +97,7 @@ void ALeverPuzzle::PuzzleFailed()
 		var->ResetLever();
 	}
 
+	UGameplayStatics::PlaySound2D(GetWorld(), PuzzleFailSound);
 	bPuzzleCorrect	   = true;
 	InteractionCounter = 0;
 }
