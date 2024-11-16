@@ -51,7 +51,7 @@ void ADoorSlapper::SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 	for (auto Element : DoorsToSlap)
 	{
 		Element->HardClosing();
-		Element->SetLockedState(true);
+		Element->SetLockedState(bLockDoor);
 	}
 	
 	OnSlappedDoor.Broadcast();

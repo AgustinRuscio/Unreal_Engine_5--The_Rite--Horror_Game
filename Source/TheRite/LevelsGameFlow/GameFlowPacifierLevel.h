@@ -206,9 +206,6 @@ private:
 //-------- Flows & Puzzles
 	//-------- Fetus
 	UPROPERTY(EditAnywhere, Category="Flows")
-	AFetusPuzzle* GameFlow_FetusPuzzle;
-	
-	UPROPERTY(EditAnywhere, Category="Flows")
 	AHideAndSeekPuzzle* GameFlow_HideAndSeekPuzzle;
 
 	UPROPERTY(EditAnywhere, Category="Flows")

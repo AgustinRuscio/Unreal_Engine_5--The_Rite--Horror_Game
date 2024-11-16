@@ -46,10 +46,18 @@ public:
 	UStaticMeshComponent* KeyMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
+	UStaticMeshComponent* NumberMesh0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
+	UStaticMeshComponent* NumberMesh1;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	USkeletalMeshComponent* LatchFront;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	USkeletalMeshComponent* LatchBack;
+
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	UBoxComponent* BoxCollision;
@@ -81,11 +89,36 @@ public:
 	
 	void AutomaticClose();
 	
+	void ScaryKnock();
+	
 //---------------- Setter Methods
 	void SetDoorKeyValues(FString itemName, PickableItemsID id);
 	void SetCanDragState(bool newDragState);
 	void SetLockedState(bool LockedNewState);
 
+protected:
+	//*****************************************************************************//
+	//								PROTECTED VARIABLES							   //
+	//*****************************************************************************//
+	//-------- Audio
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* SFXDoorUnlocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorClinck;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXVoiceLocked;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXDoorSlam;
+	
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFXScaryKnocking;
+	
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
@@ -122,6 +155,7 @@ private:
 	bool bIsPlayerForward;
 	bool bDoOnceTut;
 	bool bOpenFromSisterDoor;
+	bool bTimeLineOpen;
 
 	bool bDoOnceOpenLatchAnim = true;
 	bool bLatchPlay = true;
@@ -170,21 +204,6 @@ private:
 	
 	FString keyName;
 	PickableItemsID keyId;
-
-	//-------- Audio
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorUnlocked;
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorClinck;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXVoiceLocked;
-	
-	UPROPERTY(EditAnywhere, Category = "Audio")
-	USoundBase* SFXDoorSlam;
 	
 	//--------- Widget
 
@@ -212,7 +231,11 @@ private:
 	
 	FTimeline TimeLineHardClosing;
 	FTimeline TimeLineUnlockDoor;
+	
+	FTimeline TimeLineScaryKnock;
 
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* CurveUnlockDoor;
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* CurveOpenDoor;
@@ -226,6 +249,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* ItsLockedCurve;
 
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* ScaryKnockingCurve;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	ADoor* SisterDoor;
 	
@@ -264,7 +290,7 @@ private:
 	void UnlockDoorWithKey();
 	UFUNCTION()
 	void ItsLocked();
-
+	
 	UFUNCTION()
 	void LatchAnim();
 	
@@ -317,4 +343,11 @@ private:
 	
 	UFUNCTION()
 	void UnlockDoorTimeLineFinished();
+
+	UFUNCTION()
+	void ScaryKnockingTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void ScaryKnockingTimelineFinished();
+
 };

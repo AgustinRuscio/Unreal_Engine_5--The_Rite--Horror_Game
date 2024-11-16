@@ -58,7 +58,7 @@ void ATiffany::StartMovement(ATargetPoint* newTarget)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
+void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove, bool Crawling)
 {
 	GetMesh()->SetVisibility(IsVisible);
 
@@ -66,6 +66,7 @@ void ATiffany::SetData(bool IsVisible, bool NoCollision, bool HasToMove)
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	bHasToMove = HasToMove;
+	bCrawling= Crawling;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -83,11 +84,23 @@ void ATiffany::Activate() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ATiffany::MakeVisible()
+{
+	GetMesh()->SetVisibility(true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ATiffany::Deactivate() const
 {
 	GetMesh()->SetVisibility(false);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ATiffany::MakeInvisible()
+{
+	GetMesh()->SetVisibility(false);
 }
 
 //*****************************Private********************************************
@@ -97,9 +110,27 @@ void ATiffany::Deactivate() const
 void ATiffany::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AIController = CastChecked<ATiffanyController>(GetController());
+			
+	//AIController = GetWorld()->SpawnActor<ATiffanyController>();
+	//this->PossessedBy(AIController);
 	
-	BlackBoard = AIController->GetBlackboardComponent();
+	if(!GetWorld()->GetTimerManager().IsTimerActive(timerHandle))
+	{
+		TimerDelegate.BindLambda([this]
+		{
+			AIController = Cast<ATiffanyController>(GetController());
+			if (AIController) // Null check for AIController
+			{
+				BlackBoard = AIController->GetBlackboardComponent();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("AIController is nullptr"));
+			}
+		});
+
+		GetWorld()->GetTimerManager().SetTimer(timerHandle, TimerDelegate,0.5f, false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -6,6 +6,7 @@
 #include "EnablingReceptionSection.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -23,7 +24,7 @@ void AEnablingReceptionSection::BeginPlay()
 {
 	Super::BeginPlay();
 
-	for (auto Element : Lights)
+	for (auto Element : Lights2)
 	{
 		Element->SetAggressiveMaterial();
 	}
@@ -48,7 +49,7 @@ void AEnablingReceptionSection::OnFirstInteractionWithEmblemsPlace(AInteractor* 
 //----------------------------------------------------------------------------------------------------------------------
 void AEnablingReceptionSection::ChangeReceptionLightsSettings()
 {
-	for (auto Element : Lights)
+	for (auto Element : Lights2)
 	{
 		if(Element->GetHospitalZone() != HospitalZone::Reception) continue;
 		

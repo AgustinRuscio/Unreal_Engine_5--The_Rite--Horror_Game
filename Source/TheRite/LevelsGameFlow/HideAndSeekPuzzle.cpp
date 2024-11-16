@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.2.1						//
+//----------------------------------------------//
 
 #include "HideAndSeekPuzzle.h"
 
@@ -54,6 +54,13 @@ void AHideAndSeekPuzzle::InitializeValues()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AHideAndSeekPuzzle::PlayerLighterStateSetter(bool UseOfLighter)
+{
+	Player->ForceLighterOff();
+	Player->SetPlayerOptions(false, UseOfLighter, false);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 #pragma region Puzzle Steps Methods
 void AHideAndSeekPuzzle::OnNextPuzzleStep(AInteractor* Interactable)
 {
@@ -95,6 +102,23 @@ void AHideAndSeekPuzzle::ReLocateInteractable()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AHideAndSeekPuzzle::PuzzleCompleted()
+{
+	OnPuzzleComplete.Broadcast();
+	
+	PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0);
+	
+	if(bLightsOnAfterCompleted)
+		LightsOn();
+
+	if(bDestroyInteractableAfterCompleted)
+		Interactables_MainInteractable->Destroy();
+	
+	Destroy();
+}
+#pragma endregion
+
+//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::LightsOff()
 {
 	for (auto Element : Lights_NeededLights)
@@ -126,13 +150,6 @@ void AHideAndSeekPuzzle::LightsOn()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AHideAndSeekPuzzle::PlayerLighterStateSetter(bool UseOfLighter)
-{
-	Player->ForceLighterOff();
-	Player->SetPlayerOptions(false, UseOfLighter, false);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::InteractionFeedBack()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -142,20 +159,3 @@ void AHideAndSeekPuzzle::InteractionFeedBack()
 
 	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake,Player->GetActorLocation(),0,1000);
 }
-
-//----------------------------------------------------------------------------------------------------------------------
-void AHideAndSeekPuzzle::PuzzleCompleted()
-{
-	OnPuzzleComplete.Broadcast();
-	
-	PostProcesModifierClass->ModifyPostProcessValues(PostProcessModiferValue, 0);
-	
-	if(bLightsOnAfterCompleted)
-		LightsOn();
-
-	if(bDestroyInteractableAfterCompleted)
-		Interactables_MainInteractable->Destroy();
-	
-	Destroy();
-}
-#pragma endregion

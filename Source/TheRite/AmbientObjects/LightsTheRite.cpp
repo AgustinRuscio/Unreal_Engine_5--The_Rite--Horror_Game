@@ -38,7 +38,8 @@ ALightsTheRite::ALightsTheRite()
 //----------------------------------------------------------------------------------------------------------------------
 bool ALightsTheRite::IsLightOn() const
 {
-	return PointLight->Intensity > 0;
+	//return PointLight->Intensity > 0;
+	return PointLight->IsVisible();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -89,13 +90,16 @@ void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefa
 #pragma region State Changer Methods
 void ALightsTheRite::TurnOff() const
 {
-	PointLight->SetIntensity(0.0f);
+	PointLight->SetVisibility(false);
+	//PointLight->SetIntensity(0.0f);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALightsTheRite::TurnOn() const
 {
+	PointLight->SetVisibility(true);
 	PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
+	//PointLight->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }
 #pragma endregion
 
