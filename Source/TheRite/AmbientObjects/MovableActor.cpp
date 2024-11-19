@@ -10,7 +10,12 @@
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 
-static FVector StartPoint;
+
+namespace
+{
+	FVector StartPoint;
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 AMovableActor::AMovableActor()
