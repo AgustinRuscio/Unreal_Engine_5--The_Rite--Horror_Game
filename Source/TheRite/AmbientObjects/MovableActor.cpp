@@ -10,10 +10,12 @@
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 
+
 namespace
 {
-	FVector StartPoint;
+	FVector ActorStartPoint;
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------
 AMovableActor::AMovableActor()
@@ -40,7 +42,7 @@ void AMovableActor::Trigger()
 	}
 	else
 	{
-		StartPoint = GetActorLocation();
+		ActorStartPoint = GetActorLocation();
 		MoveTimeLine.PlayFromStart();
 		PlayBeginFeedBack();
 	}
@@ -104,7 +106,7 @@ void AMovableActor::PlayEndFeedBack()
 //----------------------------------------------------------------------------------------------------------------------
 void AMovableActor::OnMovingTick(float DeltaTime)
 {
-	auto LerpLocation = FMath::LerpStable(StartPoint, EndLocation->GetActorLocation(), DeltaTime);
+	auto LerpLocation = FMath::LerpStable(ActorStartPoint, EndLocation->GetActorLocation(), DeltaTime);
 	SetActorLocation(LerpLocation);
 }
 
