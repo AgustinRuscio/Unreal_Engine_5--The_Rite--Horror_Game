@@ -5,6 +5,7 @@
 
 #include "WalkerTiffany.h"
 
+#include "CustomLight.h"
 #include "LightsTheRite.h"
 #include "VectorTypes.h"
 #include "Components/BoxComponent.h"
@@ -91,6 +92,14 @@ void AWalkerTiffany::LightsOff()
 	if(TheRiteLights.Num()>0)
 	{
 		for (auto Element : TheRiteLights)
+		{
+			Element->TurnOff();
+		}
+	}
+	
+	if(CustomLights.Num()>0)
+	{
+		for (auto Element : CustomLights)
 		{
 			Element->TurnOff();
 		}

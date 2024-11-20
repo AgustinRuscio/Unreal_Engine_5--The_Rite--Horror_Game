@@ -65,6 +65,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	TArray<class ALightsTheRite*> TheRiteLights;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<class ACustomLight*> CustomLights;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	TArray<class ASpotLight*> SpotLights;

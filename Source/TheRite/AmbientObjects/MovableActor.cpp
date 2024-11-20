@@ -5,6 +5,7 @@
 
 #include "MovableActor.h"
 
+#include "CustomLight.h"
 #include "LightsTheRite.h"
 #include "Components/AudioComponent.h"
 #include "Engine/TargetPoint.h"
@@ -85,6 +86,16 @@ void AMovableActor::PlayBeginFeedBack()
 			Element->TurnOff();
 		}
 	}
+
+	for (auto Element : NearLights2)
+	{
+		Element->SetAggressiveMaterial();
+		
+		if(FMath::RandRange(0, 1) == 1)
+		{
+			Element->TurnOff();
+		}
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -97,6 +108,12 @@ void AMovableActor::PlayEndFeedBack()
 	AudioComponent->Play();
 	
 	for (auto Element : NearLights)
+	{
+		Element->SetNormalMaterial();
+		Element->TurnOn();
+	}
+
+	for (auto Element : NearLights2)
 	{
 		Element->SetNormalMaterial();
 		Element->TurnOn();
