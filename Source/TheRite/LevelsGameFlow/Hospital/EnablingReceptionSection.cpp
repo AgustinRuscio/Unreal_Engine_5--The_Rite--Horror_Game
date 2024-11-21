@@ -46,13 +46,11 @@ void AEnablingReceptionSection::OnFirstInteractionWithEmblemsPlace(AInteractor* 
 	Destroy();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------	------------------------------------------------------------------------------------
 void AEnablingReceptionSection::ChangeReceptionLightsSettings()
 {
 	for (auto Element : Lights2)
 	{
-		if(Element->GetHospitalZone() != HospitalZone::Reception) continue;
-		
 		Element->SetNormalMaterial();
 		Element->ChangeLightIntensity(Element->GetIntensity() + IntensityToAddToReceptionLight, true);
 	}
