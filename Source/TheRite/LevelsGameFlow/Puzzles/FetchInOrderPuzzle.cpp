@@ -54,14 +54,8 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	bActive				 = true;
 	ChangingObjectsIndex = 0;
 
-	OriginalLightIntensity = AllLights[0]->GetIntensity();
 	OriginalLightIntensity = AllLights2[0]->GetIntensity();
-
-	for (auto Element : AllLights)
-	{
-		Element->ChangeLightIntensity(80.f, true);
-	}
-
+	
 	for (auto Element : AllLights2)
 	{
 		Element->ChangeLightIntensity(80.f, true);
@@ -211,10 +205,6 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 #pragma region Lights Manipulation Methods
 void AFetchInOrderPuzzle::LightsOut()
 {
-	for (auto Element : AllLights)
-	{
-		Element->TurnOff();
-	}
 	for (auto Element : AllLights2)
 	{
 		Element->TurnOff();
@@ -228,10 +218,6 @@ void AFetchInOrderPuzzle::LightsOn()
 	{
 		LightsOn_TimerDelegate.BindLambda([&]
 		{
-			for(auto Element : AllLights)
-			{
-				Element->TurnOn();
-			}
 			for (auto Element : AllLights2)
 			{
 				Element->TurnOn();
@@ -354,12 +340,7 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 
 	ClueLight->GetLightComponent()->SetIntensity(0.f);
 	ClueLight->Destroy();
-
-	for (auto Element : AllLights)
-	{
-		Element->ChangeLightIntensity(OriginalLightIntensity, true);
-	}
-
+	
 	for (auto Element : RegularObjects)
 	{
 		Element->Destroy();
