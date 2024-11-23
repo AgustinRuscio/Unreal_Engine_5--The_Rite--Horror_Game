@@ -55,6 +55,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ALightsTheRite*> NearLights;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<class ACustomLight*> NearLights2;
 	
 	UPROPERTY(EditAnywhere, Category = SFX)
 	USoundBase* SFX_Movement;

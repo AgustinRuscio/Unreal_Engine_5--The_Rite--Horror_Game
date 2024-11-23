@@ -50,9 +50,15 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	class ATeleportPlayer* InitialTeleportPlayer;
+	
+	UPROPERTY(EditAnywhere, Category = InitialDoors)
+	class ATeleportPlayer* ResetTeleportPlayer;
 
 	UPROPERTY(EditAnywhere, Category = InitialDoors)
 	TArray<AActor*> ActorsToDestroyOnPuzzleBegin;
+	
+	UPROPERTY(EditAnywhere, Category = InitialDoors)
+	TArray<AActor*> ActorsToDestroyOnPuzzleEnd;
 
 	UPROPERTY(EditAnywhere, Category = Puzzle)
 	class ALeverPuzzle* LeverPuzzle;
@@ -71,6 +77,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TArray<class ACustomLight*> AllLights2;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	class ALight* DirectionalLight;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TArray<class USoundBase*> SFX_PuzzleEnd;

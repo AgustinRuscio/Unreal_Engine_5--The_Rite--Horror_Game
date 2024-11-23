@@ -79,8 +79,9 @@ private:
 	USoundBase* SFX_WrongInteraction;
 	
 	//-------- Lights
+
 	UPROPERTY(EditAnywhere, Category = Lights, meta=(AllowPrivateAccess = true))
-	TArray<class ALightsTheRite*> AllLights;
+	TArray<class ACustomLight*> AllLights2;
 	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere, Category = Position, meta=(AllowPrivateAccess = true))

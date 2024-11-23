@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/ChangingActor.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Alex.h"
 
 static float OriginalLightIntensity;
@@ -53,13 +54,14 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	bActive				 = true;
 	ChangingObjectsIndex = 0;
 
-	OriginalLightIntensity = AllLights[0]->GetIntensity();
-
-	for (auto Element : AllLights)
+	OriginalLightIntensity = AllLights2[0]->GetIntensity();
+	
+	for (auto Element : AllLights2)
 	{
 		Element->ChangeLightIntensity(80.f, true);
 	}
 
+	
 	Player->ForceTurnLighterOn();
 
 	ClueLight->GetLightComponent()->SetIntensity(150.f);
@@ -203,7 +205,7 @@ void AFetchInOrderPuzzle::InteractionFeedBack()
 #pragma region Lights Manipulation Methods
 void AFetchInOrderPuzzle::LightsOut()
 {
-	for (auto Element : AllLights)
+	for (auto Element : AllLights2)
 	{
 		Element->TurnOff();
 	}
@@ -216,7 +218,7 @@ void AFetchInOrderPuzzle::LightsOn()
 	{
 		LightsOn_TimerDelegate.BindLambda([&]
 		{
-			for (auto Element : AllLights)
+			for (auto Element : AllLights2)
 			{
 				Element->TurnOn();
 			}
@@ -338,12 +340,7 @@ void AFetchInOrderPuzzle::PuzzleComplete()
 
 	ClueLight->GetLightComponent()->SetIntensity(0.f);
 	ClueLight->Destroy();
-
-	for (auto Element : AllLights)
-	{
-		Element->ChangeLightIntensity(OriginalLightIntensity, true);
-	}
-
+	
 	for (auto Element : RegularObjects)
 	{
 		Element->Destroy();
