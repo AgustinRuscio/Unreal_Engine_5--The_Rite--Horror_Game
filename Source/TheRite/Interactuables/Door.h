@@ -221,7 +221,10 @@ private:
 	//--------- Time Line
 	FTimerHandle TutorialTimerHandle;
 	FTimerHandle UnlockedDoorTimerHandle;
-	
+
+	FTimerDelegate timerDelegateUnlockDoor;
+	FTimerDelegate timerDelegateTutorial;
+
 	FTimeline TimeLineOpenDoor;
 	
 	FTimeline TimeLineItsLocked;
@@ -261,7 +264,8 @@ private:
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
+
 //---------------- Initializer Methods
 	void CreateWidgets();
 	void InitializeNeededValues();
