@@ -8,13 +8,11 @@
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "TheRite/Interactuables/Interactor.h"
-#include "GlassesTablePuzzle.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGlassReady, int8, GlasIndex);
+#include "Interactor.h"
+#include "Coffin.generated.h"
 
 UCLASS()
-class THERITE_API AGlassesTablePuzzle : public AInteractor
+class THERITE_API ACoffin : public AInteractor
 {
 	GENERATED_BODY()
 	
@@ -23,69 +21,71 @@ public:
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	AGlassesTablePuzzle();
+	ACoffin();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* TableMesh;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* FirstGlassMesh;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-
-	class UStaticMeshComponent* SecondGlassMesh;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-
-	class UStaticMeshComponent* ThirdGlassMesh;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-
-	class UArrowComponent* FirstGlassCorrectLocation;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
-	class UArrowComponent* SecondGlassCorrectLocation;
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* CoffinMesh;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 
-	FGlassReady GlassReady;
-
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 
-	void ObtainGlass();
+	void OpenCoffin();
 
-private:
+private:	
 
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	bool bGlassReady;
-	bool bSecondGlassReady;
-	bool bBothReady;
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bOpened;
+	bool bFlipFlop;
 
-	FTimeline GlassMovementTimeLine;
+	FVector CoffinOriginalLocation;
+	FVector CoffinOpenedLocation;
+	FVector CoffinClosedLocation;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FVector LocationToAddOpen;
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FVector LocationToAddClosed;
+
+	FTimeline CoffinMovementTimeLine;
+	FTimeline CoffinClosedMovementTimeLine;
 
 	UPROPERTY(EditDefaultsOnly, Category = "TimeLine")
 	class UCurveFloat* TimeLineCurveFloat;
+
+	UPROPERTY(EditDefaultsOnly, Category = "TimeLine")
+	class UCurveFloat* TimeLineCloseCurveFloat;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SFX")
+	USoundBase* OpeningSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SFX")
+	USoundBase* ForceSound;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaTime) override;
+
 	virtual void Interaction() override;
 
-	void GlassObetain(int8 GlassIndex);
+	UFUNCTION()
+	void CoffinMovementTimeLineTick(float tick);
+	UFUNCTION()
+	void CoffinMovementTimeLineFinished();
 
 	UFUNCTION()
-	void TimeLineTick(float tick);
-
+	void CoffinClosedTimeLineTick(float tick);
 	UFUNCTION()
-	void TimeLineFinished();
+	void CoffinClosedTimeLineFinished();
 };

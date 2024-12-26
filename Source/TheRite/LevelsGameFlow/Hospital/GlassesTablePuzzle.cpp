@@ -68,13 +68,34 @@ void AGlassesTablePuzzle::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AGlassesTablePuzzle::Tick(float DeltaSeconds)
+{
+	GlassMovementTimeLine.TickTimeline(DeltaSeconds);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AGlassesTablePuzzle::Interaction()
 {
 	if (!bCanInteract) return;
 	
+	if (bBothReady) 
+	{
+
+	}
+
 	if (!bGlassReady && !bSecondGlassReady) return;
 
 	bCanInteract = false;
+
+	if (bGlassReady)
+	{
+		SecondGlassMesh->SetVisibility(true);
+	}
+	
+	if (bSecondGlassReady)
+	{
+		ThirdGlassMesh->SetVisibility(true);
+	}
 
 	GlassMovementTimeLine.PlayFromStart();
 }
@@ -114,6 +135,7 @@ void AGlassesTablePuzzle::TimeLineFinished()
 	else if (bSecondGlassReady)
 	{
 		bSecondGlassReady = false;
+		bBothReady = true;
 	}
 
 	bCanInteract = true;
