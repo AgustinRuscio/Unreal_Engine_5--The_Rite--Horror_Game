@@ -7,7 +7,7 @@
 #include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
-ACoffin::ACoffin() : bFlipFlop(true)
+ACoffin::ACoffin() : bFlipFlop(true), bWasForceOpen(false)
 {
  	PrimaryActorTick.bCanEverTick = true;
 
@@ -16,9 +16,22 @@ ACoffin::ACoffin() : bFlipFlop(true)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ACoffin::OpenCoffin()
+bool ACoffin::IsCoffinOpen() const
 {
+	return bIsOpen;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACoffin::UnlockCoffin()
+{ 
 	bOpened = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACoffin::ForceCoffinOpenning()
+{
+	bWasForceOpen = true;
+	CoffinMovementTimeLine.PlayFromStart();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -68,12 +81,16 @@ void ACoffin::Interaction()
 
 	if (bOpened)
 	{
+		bWasForceOpen = false;
 		bCanInteract = false;
+		
+		CoffinOpening.Broadcast();
 
-		OnInteractionTrigger.Broadcast(this);
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), OpeningSound, GetActorLocation());
 
-		if(bFlipFlop)
+		bIsOpen = bFlipFlop;
+
+		if (bFlipFlop)
 			CoffinMovementTimeLine.PlayFromStart();
 		else
 			CoffinMovementTimeLine.ReverseFromEnd();
@@ -97,7 +114,10 @@ void ACoffin::CoffinMovementTimeLineTick(float tick)
 //----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinMovementTimeLineFinished()
 {
+	if (bWasForceOpen) return;
+
 	bCanInteract = true;
+	OnInteractionTrigger.Broadcast(this);
 	bFlipFlop = !bFlipFlop;
 }
 

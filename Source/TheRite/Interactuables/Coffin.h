@@ -11,6 +11,8 @@
 #include "Interactor.h"
 #include "Coffin.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFistOpening);
+
 UCLASS()
 class THERITE_API ACoffin : public AInteractor
 {
@@ -30,11 +32,16 @@ public:
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 
+	FFistOpening CoffinOpening;
+
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
+	bool IsCoffinOpen() const;
 
-	void OpenCoffin();
+	void UnlockCoffin();
+
+	void ForceCoffinOpenning();
 
 private:	
 
@@ -44,7 +51,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bOpened;
+
+	bool bIsOpen;
 	bool bFlipFlop;
+
+	bool bWasForceOpen;
 
 	FVector CoffinOriginalLocation;
 	FVector CoffinOpenedLocation;
