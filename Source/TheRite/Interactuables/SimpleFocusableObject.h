@@ -28,6 +28,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* CameraLocation;
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UArrowComponent* PlayerLocationComp;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //

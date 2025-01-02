@@ -9,6 +9,11 @@
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+namespace 
+{
+	FVector InitialPlayerLocation;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleFocusableObject::ASimpleFocusableObject()
 {
@@ -19,6 +24,9 @@ ASimpleFocusableObject::ASimpleFocusableObject()
 	
 	CameraLocation = CreateDefaultSubobject<UArrowComponent>("Camera Arrow");
 	CameraLocation->SetupAttachment(ObjectMesh);
+
+	PlayerLocationComp = CreateDefaultSubobject<UArrowComponent>("Player Arrow");
+	PlayerLocationComp->SetupAttachment(ObjectMesh);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -34,7 +42,10 @@ void ASimpleFocusableObject::Interaction()
 {
 	if (bIsFocus || !bCanInteract) return;
 
+	PlayerLocationComp->SetWorldLocation(Player->GetActorLocation());
+
 	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, false);
+
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
@@ -51,7 +62,8 @@ void ASimpleFocusableObject::LeaveFocus()
 	if (!bCanInteract || Player->GetFocusingState()) return;
 
 	bIsFocus = false;
-	Player->BackToNormalView(CameraLocation->GetComponentTransform(), ExittingVector, ExittingRotation);
+
+	Player->BackToNormalView(PlayerLocationComp->GetComponentTransform(), ExittingVector, ExittingRotation);
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
