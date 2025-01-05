@@ -43,6 +43,7 @@ void ASimpleFocusableObject::Interaction()
 	if (bIsFocus || !bCanInteract) return;
 
 	PlayerLocationComp->SetWorldLocation(Player->GetActorLocation());
+	PlayerLocationComp->SetWorldRotation(Player->GetActorRotation());
 
 	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, false);
 
@@ -63,7 +64,7 @@ void ASimpleFocusableObject::LeaveFocus()
 
 	bIsFocus = false;
 
-	Player->BackToNormalView(PlayerLocationComp->GetComponentTransform(), ExittingVector, ExittingRotation);
+	Player->BackToNormalView(PlayerLocationComp->GetComponentTransform(), ExittingVector, PlayerLocationComp->GetComponentRotation() + ExittingRotation);
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
