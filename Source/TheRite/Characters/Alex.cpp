@@ -310,6 +310,7 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 	FocusCameraTimeLine.ReverseFromEnd();
 	
 	AltarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	SimpleFocusableWidget->SetVisibility(ESlateVisibility::Collapsed);
 	DotWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
@@ -331,8 +332,10 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool 
 	
 	DotWidget->SetVisibility(ESlateVisibility::Collapsed);
 
-	if(bShorWidget)
+	if (bShorWidget)
 		AltarWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	else
+		SimpleFocusableWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -600,6 +603,8 @@ void AAlex::CreateWidgets()
 	CreateLighterReminderWidget();
 	
 	CreateConsumableWidget();
+
+	CreateSimpleFocusableWidget();
 	
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
@@ -607,6 +612,7 @@ void AAlex::CreateWidgets()
 	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
 	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
 	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
+	MyController->OnKeyPressed.AddDynamic(SimpleFocusableWidget,  &UOpenInventory::SetKeyMode);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -669,6 +675,16 @@ void AAlex::CreateConsumableWidget()
 	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Collapsed);
 	ConsumibleItemWidget->SetIsFocusable(true);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::CreateSimpleFocusableWidget()
+{
+	SimpleFocusableWidget = CreateWidget<UChangingdWidget>(GetWorld(), SimpleFocusableUI);
+	SimpleFocusableWidget->AddToViewport(0);
+	SimpleFocusableWidget->SetVisibility(ESlateVisibility::Collapsed);
+	SimpleFocusableWidget->SetIsFocusable(true);
+}
+
 #pragma endregion 
 
 //----------------------------------------------------------------------------------------------------------------------

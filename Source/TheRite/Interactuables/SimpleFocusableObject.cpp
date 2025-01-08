@@ -7,6 +7,7 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 #include "Components/ArrowComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 namespace 
@@ -35,6 +36,13 @@ void ASimpleFocusableObject::BeginPlay()
 	Super::BeginPlay();
 
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (DisplayedWidgetBase != nullptr) 
+	{
+		DisplatedWidget = CreateWidget<UUserWidget>(GetWorld(), DisplayedWidgetBase);
+		DisplatedWidget->AddToViewport(0);
+		DisplatedWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -55,6 +63,9 @@ void ASimpleFocusableObject::Interaction()
 
 	bIsFocus = true;
 
+	if (DisplatedWidget != nullptr)
+		DisplatedWidget->SetVisibility(ESlateVisibility::Visible);
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -68,6 +79,9 @@ void ASimpleFocusableObject::LeaveFocus()
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
+
+	if (DisplatedWidget != nullptr)
+		DisplatedWidget->SetVisibility(ESlateVisibility::Hidden);
 
 	controller->OnLeaveFocus.RemoveDynamic(this, &ASimpleFocusableObject::LeaveFocus);
 }

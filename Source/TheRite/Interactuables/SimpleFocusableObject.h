@@ -39,7 +39,7 @@ public:
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 
-public:	
+public:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
@@ -50,6 +50,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FVector ExittingVector;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	TSubclassOf<UUserWidget> DisplayedWidgetBase;
+
+	class UUserWidget* DisplatedWidget;
 
 	class AAlex* Player;
 

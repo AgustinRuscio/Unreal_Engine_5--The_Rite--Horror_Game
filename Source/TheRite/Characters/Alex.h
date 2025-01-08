@@ -120,6 +120,7 @@ private:
 	void CreateOpenInventoryWidget();
 	void CreateLighterReminderWidget();
 	void CreateConsumableWidget();
+	void CreateSimpleFocusableWidget();
 	
 //---------------- Tick Methods
 	void HeadBob() const;
@@ -363,6 +364,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UChangingdWidget> AltarUI;
 	UChangingdWidget* AltarWidget;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> SimpleFocusableUI;
+	UChangingdWidget* SimpleFocusableWidget;
 
 	
 	//-------- Components
