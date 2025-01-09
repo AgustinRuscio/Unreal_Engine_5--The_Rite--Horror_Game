@@ -21,7 +21,7 @@ ALightsPortrait::ALightsPortrait()
 //----------------------------------------------------------------------------------------------------------------------
 bool ALightsPortrait::GetCurrentCorrectState() const
 {
-	return SwitcheableColors[ColorIndex] == CorrectColor;
+	return ColorIndex == -1 ? false : SwitcheableColors[ColorIndex] == CorrectColor;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

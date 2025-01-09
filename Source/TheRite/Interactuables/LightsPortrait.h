@@ -33,7 +33,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FLinearColor CorrectColor;
 
-	int8 ColorIndex;
+	int8 ColorIndex = -1;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -65,6 +65,7 @@ private:
 
 	UFUNCTION()
 	void OnYesButtonPressed();
+
 	UFUNCTION()
 	void OnNoButtonPressed();
 };

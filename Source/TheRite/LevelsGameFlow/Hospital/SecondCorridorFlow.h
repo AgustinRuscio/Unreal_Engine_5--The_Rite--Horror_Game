@@ -60,6 +60,8 @@ private:
 	void OnLightsPuzzleCompletedFeedBack();
 
 
+	UFUNCTION()
 	void MoveInteractorTick(float DeltaSeconds);
+	UFUNCTION()
 	void MoveInteractorFinished(float DeltaSeconds);
 };
