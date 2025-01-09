@@ -6,7 +6,13 @@
 #include "DualButtonWidget.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-void UDualButtonWidget::YesButtonPressed() {}
+void UDualButtonWidget::YesButtonPressed()
+{
+	OnYesButtonPressed.Broadcast();
+}
 
 //----------------------------------------------------------------------------------------------------------------------
-void UDualButtonWidget::NoButtonPressed() {}
+void UDualButtonWidget::NoButtonPressed()
+{
+	OnNoButtonPressed.Broadcast();
+}

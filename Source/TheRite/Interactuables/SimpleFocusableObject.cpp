@@ -53,7 +53,7 @@ void ASimpleFocusableObject::Interaction()
 	PlayerLocationComp->SetWorldLocation(Player->GetActorLocation());
 	PlayerLocationComp->SetWorldRotation(Player->GetActorRotation());
 
-	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, false);
+	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, bShowDefaultWidgets, false);
 
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));

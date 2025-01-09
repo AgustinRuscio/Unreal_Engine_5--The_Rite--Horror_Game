@@ -9,6 +9,8 @@
 #include "GameFramework/Actor.h"
 #include "LightsPuzzle.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPuzzleComplete);
+
 UCLASS()
 class THERITE_API ALightsPuzzle : public AActor
 {
@@ -24,6 +26,8 @@ class THERITE_API ALightsPuzzle : public AActor
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
+	
+	FOnPuzzleComplete OnPuzzleComplete;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -34,8 +38,18 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	
+	UPROPERTY(EditAnyWhere, Category = "Settings")
+	TArray<class ALightsPortrait*> PortraitsInPuzzle;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void CheckPuzzleState();
+
+	void PuzzleCompleted();
+
+	void CompletePuzzleFeedBack();
 };

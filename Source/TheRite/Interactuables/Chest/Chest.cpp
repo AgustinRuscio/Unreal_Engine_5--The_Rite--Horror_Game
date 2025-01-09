@@ -48,7 +48,7 @@ void AChest::Interaction()
 	
 	Super::Interaction();
 
-	Player->OnFocusMode(ArrowFocusLocation->GetComponentTransform(), GetActorRotation(), false);
+	Player->OnFocusMode(ArrowFocusLocation->GetComponentTransform(), GetActorRotation(), false, false);
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();

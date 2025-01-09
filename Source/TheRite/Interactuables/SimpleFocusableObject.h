@@ -27,6 +27,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* CameraLocation;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* PlayerLocationComp;
 
@@ -41,19 +42,30 @@ public:
 
 protected:
 	//*****************************************************************************//
-	//								PRIVATE VARIABLES							   //
+	//								PROTECTED VARIABLES							   //
 	//*****************************************************************************//
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	TSubclassOf<UUserWidget> DisplayedWidgetBase;
 
+	class UUserWidget* DisplatedWidget;
 
 	//*****************************************************************************//
-	//								PRIVATE METHODS								   //
+	//								PROTECTED METHODS								   //
 	//*****************************************************************************//
+	
 	virtual void BeginPlay() override;
+
+		UFUNCTION()
+	void LeaveFocus();
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	bool bShowDefaultWidgets = true;
 	bool bIsFocus;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
@@ -62,16 +74,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FVector ExittingVector;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	TSubclassOf<UUserWidget> DisplayedWidgetBase;
-
-	class UUserWidget* DisplatedWidget;
-
 	class AAlex* Player;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
-	UFUNCTION()
-	void LeaveFocus();
 };

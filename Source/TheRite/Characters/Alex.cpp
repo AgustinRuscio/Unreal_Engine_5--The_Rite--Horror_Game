@@ -315,7 +315,7 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool bShorWidget)
+void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool bShorWidget, bool bShowComplexWidget)
 {
 	ForceLighterOff();
 	bFocus = true;
@@ -332,7 +332,9 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool 
 	
 	DotWidget->SetVisibility(ESlateVisibility::Collapsed);
 
-	if (bShorWidget)
+	if (!bShorWidget) return;
+
+	if(bShowComplexWidget)
 		AltarWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 	else
 		SimpleFocusableWidget->SetVisibility(ESlateVisibility::HitTestInvisible);

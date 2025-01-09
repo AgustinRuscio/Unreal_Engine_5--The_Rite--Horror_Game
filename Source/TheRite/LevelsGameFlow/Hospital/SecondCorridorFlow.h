@@ -6,14 +6,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Interactuables/SimpleFocusableObject.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
-#include "LightsPortrait.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPortraitColorChange);
+#include "SecondCorridorFlow.generated.h"
 
 UCLASS()
-class THERITE_API ALightsPortrait : public ASimpleFocusableObject
+class THERITE_API ASecondCorridorFlow : public AActor
 {
 	GENERATED_BODY()
 	
@@ -22,49 +20,46 @@ public:
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	ALightsPortrait();
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	class USpotLightComponent* Light;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	TArray<FLinearColor> SwitcheableColors;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	FLinearColor CorrectColor;
-
-	int8 ColorIndex;
+	ASecondCorridorFlow();
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	FOnPortraitColorChange OnLightChange;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
-	bool GetCurrentCorrectState() const;
-
-	virtual void Interaction() override;
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	class UDualButtonWidget* Widget;
+	UPROPERTY(EditAnyWhere, Category = "Settings")
+	FVector LocationToAddToLightsPuzzleInteractor;
 
-	UPROPERTY(EditAnywhere, Category = "FeedBack")
-	USoundBase* SFX_Switch;
+	UPROPERTY(EditAnywhere, Category = "Puzzles")
+	class ALightsPuzzle* LightsPuzzle;
+
+	UPROPERTY(EditAnywhere, Category = "Puzzles")
+	class AInteractor* KeyLightsObject;
+
+	FTimeline TimeLineMoveInteractor;
+
+	UPROPERTY(EditAnywhere, Category = "TimeLine")
+	UCurveFloat* CurveFloatMoveLightsKeyInteractor;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
-	void OnYesButtonPressed();
-	UFUNCTION()
-	void OnNoButtonPressed();
+	void OnLightsPuzzleCompleted();
+	void OnLightsPuzzleCompletedFeedBack();
+
+
+	void MoveInteractorTick(float DeltaSeconds);
+	void MoveInteractorFinished(float DeltaSeconds);
 };

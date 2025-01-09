@@ -83,7 +83,7 @@ public:
 	
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
-	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget);
+	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget, bool bShowComplexWidget);
 	void MoveCamera(FVector NewCameraPos) const;
 	void MakeCameraView(FRotator Rot) const;
 

@@ -9,8 +9,8 @@
 #include "Blueprint/UserWidget.h"
 #include "DualButtonWidget.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FYesButtonPressed)
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoButtonPressed)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FYesButtonPressed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoButtonPressed);
 
 UCLASS()
 class THERITE_API UDualButtonWidget : public UUserWidget
@@ -19,11 +19,19 @@ class THERITE_API UDualButtonWidget : public UUserWidget
 	
 public:
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FYesButtonPressed OnYesButtonPressed;
+	FNoButtonPressed OnNoButtonPressed;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 
 	UFUNCTION(BlueprintCallable)
 	virtual void YesButtonPressed();
 
 	UFUNCTION(BlueprintCallable)
 	virtual void NoButtonPressed();
-
 };
