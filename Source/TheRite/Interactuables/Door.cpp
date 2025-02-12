@@ -241,6 +241,22 @@ void ADoor::Tick(float DeltaTime)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ADoor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (GetWorld())
+	{
+		GetWorldTimerManager().ClearTimer(TutorialTimerHandle);
+		GetWorldTimerManager().ClearTimer(UnlockedDoorTimerHandle);
+
+		if(timerDelegateUnlockDoor.IsBound())
+			timerDelegateUnlockDoor.Unbind();
+
+		if (timerDelegateTutorial.IsBound())
+			timerDelegateTutorial.Unbind();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 #pragma region Initializer Methods
 void ADoor::CreateWidgets()
 {
@@ -292,8 +308,7 @@ void ADoor::TutorialInteraction()
 		
 		if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
 		{
-			FTimerDelegate timerDelegate;
-			timerDelegate.BindLambda([&]
+			timerDelegateTutorial.BindLambda([&]
 			{
 				TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
 			});
@@ -814,8 +829,7 @@ void ADoor::UnlockDoorTimeLineFinished()
 {
 	if(!GetWorld()->GetTimerManager().IsTimerActive(UnlockedDoorTimerHandle))
 	{
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([&]
+		timerDelegateUnlockDoor.BindLambda([&]
 		{
 			bCanInteract = true;
 			bcanDrag = true;
@@ -834,7 +848,6 @@ void ADoor::UnlockDoorTimeLineFinished()
 			UGameplayStatics::SpawnSound2D(this, SFXDoorUnlocked);
 
 			GetWorld()->GetTimerManager().ClearTimer(UnlockedDoorTimerHandle);
-			timerDelegate.Unbind();
 			
 			if(bDisapearKey)
 			{
@@ -842,7 +855,7 @@ void ADoor::UnlockDoorTimeLineFinished()
 			}
 		});
 		
-		GetWorld()->GetTimerManager().SetTimer(UnlockedDoorTimerHandle, timerDelegate, 1.5f, false);
+		GetWorld()->GetTimerManager().SetTimer(UnlockedDoorTimerHandle, timerDelegateUnlockDoor, 1.5f, false);
 	}
 }
 

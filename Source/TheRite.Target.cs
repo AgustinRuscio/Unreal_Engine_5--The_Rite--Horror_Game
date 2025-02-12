@@ -8,8 +8,16 @@ public class TheRiteTarget : TargetRules
 	public TheRiteTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
+		DefaultBuildSettings = BuildSettingsVersion.V5;
 		WindowsPlatform.PCHMemoryAllocationFactor = 2000;
-		ExtraModuleNames.AddRange( new string[] { "TheRite" } );
+        
+
+        bLegacyParentIncludePaths = false;
+        CppStandard = CppStandardVersion.Cpp20;
+        WindowsPlatform.bStrictConformanceMode = true;
+        bValidateFormatStrings = true;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+
+        ExtraModuleNames.AddRange( new string[] { "TheRite" } );
 	}
 }

@@ -60,16 +60,16 @@ FLinearColor ASimonButton::SetPointLightColor() const
 {
 	switch (Color)
 	{
-	case EButtonColor::Red:
+	case 0:
 		return FLinearColor::Red;
 			
-	case EButtonColor::Yellow:
+	case 1:
 		return FLinearColor::Yellow;
 			
-	case EButtonColor::Blue:
+	case 2:
 		return FLinearColor::Blue;
 			
-	case EButtonColor::Green:
+	case 3:
 		return FLinearColor::Green;
 	}
 	

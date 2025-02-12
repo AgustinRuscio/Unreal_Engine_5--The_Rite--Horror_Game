@@ -32,7 +32,7 @@ void AVault::Interaction()
 {
 	if(bIsFocus || !bCanInteract) return;
 
-	Player->OnFocusMode(FrontArrow->GetComponentTransform(), GetActorRotation(), false);
+	Player->OnFocusMode(FrontArrow->GetComponentTransform(), GetActorRotation(), false, false);
 	
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();

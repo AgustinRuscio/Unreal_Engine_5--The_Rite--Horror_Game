@@ -83,7 +83,7 @@ public:
 	
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
-	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget);
+	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget, bool bShowComplexWidget);
 	void MoveCamera(FVector NewCameraPos) const;
 	void MakeCameraView(FRotator Rot) const;
 
@@ -120,6 +120,7 @@ private:
 	void CreateOpenInventoryWidget();
 	void CreateLighterReminderWidget();
 	void CreateConsumableWidget();
+	void CreateSimpleFocusableWidget();
 	
 //---------------- Tick Methods
 	void HeadBob() const;
@@ -363,6 +364,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UChangingdWidget> AltarUI;
 	UChangingdWidget* AltarWidget;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UChangingdWidget> SimpleFocusableUI;
+	UChangingdWidget* SimpleFocusableWidget;
 
 	
 	//-------- Components
