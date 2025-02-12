@@ -45,4 +45,6 @@ void APlayerStateTheRite::LoadValues()
 {
 	auto saveData = GameState->GetSaveData();
 	MouseSensitivity = saveData.MouseSensitivity;
+
+	OnPlayerValuesLoaded.Broadcast(this);
 }

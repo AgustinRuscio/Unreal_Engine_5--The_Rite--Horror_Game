@@ -74,14 +74,15 @@ public:
 	
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 	
+
 private:
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
 	bool GetIsGamepad() const;
 	
 	virtual void BeginPlay() override;
 	
+	void LoadValues(class APlayerStateTheRite* CurrentPlayerState);
 	//---------------- Loading Methods
-	void LoadValues();
 	
 //---------------- Binding Methods
 	void BindActions();

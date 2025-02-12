@@ -9,15 +9,18 @@
 #include "GameFramework/PlayerState.h"
 #include "PlayerStateTheRite.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerValuesLoaded, APlayerStateTheRite*, PlayerState);
+
 UCLASS()
 class THERITE_API APlayerStateTheRite : public APlayerState
 {
 	GENERATED_BODY()
 
 public:
-	//*****************************************************************************//
+	//*****************************************************************************//<
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
+	FPlayerValuesLoaded OnPlayerValuesLoaded;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -42,7 +45,8 @@ private:
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
-virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaSeconds) override;
+
 	UFUNCTION()
 	void LoadValues();
 };

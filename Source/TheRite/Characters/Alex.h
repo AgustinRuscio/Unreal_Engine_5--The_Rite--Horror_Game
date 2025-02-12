@@ -53,7 +53,7 @@ public:
 	UCameraComponent* GetCamera() const;
 
 //---------------- Action Methods
-	UFUNCTION()
+	UFUNCTION() 
 	void CameraTargeting(FVector Target);
 	
 	void ForceTalk(USoundBase* Voice);
@@ -338,8 +338,8 @@ private:
 
 	//-------- Widgets
 	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UPauseMenuWidget> PauseMenu;
-	UPauseMenuWidget* PauseWidget;
+	TSubclassOf<class UPauseActivableWidget> PauseMenu;
+	class UPauseActivableWidget* PauseWidget;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UTutorialWidget> LighterRecordatoryMenu;

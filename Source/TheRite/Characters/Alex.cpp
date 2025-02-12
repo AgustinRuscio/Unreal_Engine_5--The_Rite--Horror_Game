@@ -13,7 +13,7 @@
 #include "TheRite/Widgets/CenterDotWidget.h"
 #include "TheRite/Widgets/Inventory.h"
 #include "TheRite/Widgets/OpenInventory.h"
-#include "TheRite/Widgets/PauseMenuWidget.h"
+#include "TheRite/Widgets/CommonUI/PauseActivableWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Components/WidgetInteractionComponent.h"
@@ -129,7 +129,8 @@ void AAlex::ForceTalk(USoundBase* Voice)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex:: CallPauseFunc()
 {
-	PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
+	//PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
+	PauseWidget->OnTogglePause.Broadcast(false);
 
 	bPauseFlip = true;
 	MyController->SetPauseGame(false);
@@ -620,10 +621,10 @@ void AAlex::CreateWidgets()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreatePauseWidget()
 {
-	PauseWidget = CreateWidget<UPauseMenuWidget>(GetWorld(),PauseMenu);
+	PauseWidget = CreateWidget<UPauseActivableWidget>(GetWorld(),PauseMenu);
 	PauseWidget->AddToViewport(2);
-	PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
-	PauseWidget->SetIsFocusable(true);
+	//PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
+	//PauseWidget->SetIsFocusable(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -859,12 +860,12 @@ void AAlex::DoorMovement(FVector2D vector)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::OpenPause()
 {
-	if(bFocusing || bFocus) return;
+	if(bFocusing || bFocus || !bPauseFlip) return;
 	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
-	PauseWidget->SetVisibility(ESlateVisibility::Visible);
-	PauseWidget->OnPauseOpen.Broadcast();
+	//PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	PauseWidget->OnTogglePause.Broadcast(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

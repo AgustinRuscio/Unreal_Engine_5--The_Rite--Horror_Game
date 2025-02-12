@@ -179,20 +179,22 @@ void AAlexPlayerController::BeginPlay()
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
 
-	LoadValues();
+	auto ps = Cast<APlayerStateTheRite>(PlayerState);
+	ps->OnPlayerValuesLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
+	
 	
 	FSlateApplication::Get().OnApplicationActivationStateChanged()
 	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
 		
 	BindActions();
 }
+
 #pragma region Loading Methods
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::LoadValues()
+void AAlexPlayerController::LoadValues(APlayerStateTheRite* CurrentPlayerState)
 {
-	auto ps = Cast<APlayerStateTheRite>(PlayerState);
-	MouseSensitivity = ps->GetMouseSensitivity();
+	MouseSensitivity = CurrentPlayerState->GetMouseSensitivity();
 }
 #pragma endregion
 
