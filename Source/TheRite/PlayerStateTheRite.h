@@ -17,7 +17,7 @@ class THERITE_API APlayerStateTheRite : public APlayerState
 	GENERATED_BODY()
 
 public:
-	//*****************************************************************************//<
+	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
 	FPlayerValuesLoaded OnPlayerValuesLoaded;

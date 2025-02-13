@@ -10,6 +10,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "PlayerStateTheRite.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/WidgetComponent.h"
+#include "TheRite/Widgets/CommonUI/GameWidgetsStack.h"
+#include "CommonActivatableWidget.h"
 
 #define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
 
@@ -164,6 +167,23 @@ void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, 
 	PlayDynamicForceFeedback(intensity, duration, LLarge, LSmall, RLarge, RSmall,  EDynamicForceFeedbackAction::Start);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> ActivatableWidgetClass)
+{
+	GameWidgetStack->PushWidgetToScreen(ActivatableWidgetClass);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::RemoveWidget(UCommonActivatableWidget* ActivatableWidgetPointer)
+{
+	GameWidgetStack->RemoveWidgetFromScreen(ActivatableWidgetPointer);
+}
+
+UGameWidgetsStack* AAlexPlayerController::GetGameWidgetStack() const
+{
+	return GameWidgetStack;
+}
+
 //*****************************Private*********************************************
 //*********************************************************************************
 
@@ -186,6 +206,10 @@ void AAlexPlayerController::BeginPlay()
 	FSlateApplication::Get().OnApplicationActivationStateChanged()
 	.AddUObject(this, &AAlexPlayerController::OnWindowFocusChanged);
 		
+
+	GameWidgetStack = CreateWidget<UGameWidgetsStack>(GetWorld(), GameWidgetsStackClass);
+	GameWidgetStack->AddToViewport(0);
+
 	BindActions();
 }
 

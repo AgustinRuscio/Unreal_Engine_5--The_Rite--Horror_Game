@@ -621,7 +621,7 @@ void AAlex::CreateWidgets()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreatePauseWidget()
 {
-	PauseWidget = CreateWidget<UPauseActivableWidget>(GetWorld(),PauseMenu);
+	PauseWidget = CreateWidget<UPauseActivableWidget>(GetWorld(), PauseMenu);
 	PauseWidget->AddToViewport(2);
 	//PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
 	//PauseWidget->SetIsFocusable(true);
@@ -630,7 +630,7 @@ void AAlex::CreatePauseWidget()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateDotWidget()
 {
-	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(),DotUI);
+	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(), DotUI);
 	DotWidget->AddToViewport(0);
 	DotWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }

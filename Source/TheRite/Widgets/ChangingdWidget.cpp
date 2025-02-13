@@ -6,6 +6,7 @@
 #include "ChangingdWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
+#include <TheRite/AlexPlayerController.h>
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -26,6 +27,32 @@ void UChangingdWidget::SetChangingText(FText newText)
 
 //*****************************Private*********************************************
 //*********************************************************************************
+
+//----------------------------------------------------------------------------------------------------------------------
+void UChangingdWidget::SelfRemove()
+{
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (controller)
+		controller->RemoveWidget(this);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UChangingdWidget::NativeOnActivated() 
+{
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (controller)
+		controller->OnKeyPressed.AddDynamic(this, &UChangingdWidget::SetKeyMode);
+
+	if (bAutoDisable)
+	{
+		if (!GetWorld()->GetTimerManager().IsTimerActive(Timer_ClockClue))
+		{
+			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, this, &UChangingdWidget::AutoHide, DeactivateTime, false);
+		}
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetGamepadImages()
@@ -49,4 +76,13 @@ void UChangingdWidget::SetKeyboardImages()
 		Element->SetBrush(Brush);
 		++Index;
 	}
+}
+
+void UChangingdWidget::AutoHide()
+{
+	Timer_ClockClue.Invalidate();
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (controller)
+		controller->RemoveWidget(this);
 }

@@ -7,43 +7,36 @@
 
 #include "CoreMinimal.h"
 #include "CommonActivatableWidget.h"
-#include "PauseActivableWidget.generated.h"
+#include "GameWidgetsStack.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOntogglePuaseOpen, bool, Active);
 
 UCLASS()
-class THERITE_API UPauseActivableWidget : public UCommonActivatableWidget
+class THERITE_API UGameWidgetsStack : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
-		
-
+	
 public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	UPROPERTY(BlueprintReadWrite)
-	class UCommonActivatableWidgetStack* PauseStack;
-
-	UPROPERTY(BlueprintAssignable)
-	FOntogglePuaseOpen OnTogglePause;
-
+	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-	virtual void NativeConstruct() override;
 	
-	UFUNCTION(BlueprintCallable)
-	void OnResume();
+	UFUNCTION(BlueprintImplementableEvent)
+	void PushWidgetToScreen(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
 
-	UFUNCTION(BlueprintCallable)
-	void PushWidget(class UCommonActivatableWidget* ActivatableWidgetClass);
-
-	UFUNCTION(BlueprintCallable)
-	void RemoveWidgetFromStack(class UCommonActivatableWidget* WidgetToRemove);
+	UFUNCTION(BlueprintImplementableEvent)
+	void RemoveWidgetFromScreen(class UCommonActivatableWidget* WidgetPointer);
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	class AAlex* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+
 };

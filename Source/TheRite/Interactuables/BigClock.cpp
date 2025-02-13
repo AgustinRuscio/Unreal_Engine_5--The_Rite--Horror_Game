@@ -60,25 +60,9 @@ void ABigClock::Interaction()
 	{
 		bFirstInteraction = false;
 
-		Widget_ClockClue = CreateWidget<UTutorialWidget>(GetWorld(), WG_ClockClue);
-		Widget_ClockClue->AddToViewport(0);
-		Widget_ClockClue->SetVisibility(ESlateVisibility::Visible);
-		Widget_ClockClue->SetIsFocusable(true);
+		controller->PushWidget(WG_ClockClue);
 
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
-		
-		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_ClockClue))
-		{
-			FTimerDelegate OnTimePass;
-
-			OnTimePass.BindLambda([&]
-			{
-				Widget_ClockClue->RemoveFromParent();
-			});
-			
-			//GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, OnTimePass, 5.f, false);
-			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, this, &ABigClock::HideClue , 5.f, false);
-		}
 	}	
 	//CheckNeedlesPosition();
 }
@@ -243,12 +227,6 @@ void ABigClock::CheckNeedlesPosition()
 	bCanInteract = false;
 }
 #pragma endregion 
-
-//----------------------------------------------------------------------------------------------------------------------
-void ABigClock::HideClue()
-{
-	Widget_ClockClue->RemoveFromParent();
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region TimeLine methods

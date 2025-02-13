@@ -74,6 +74,13 @@ public:
 	
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 	
+	UFUNCTION(BlueprintCallable)
+	void PushWidget(TSubclassOf <class UCommonActivatableWidget> ActivatableWidgetClass);
+	UFUNCTION(BlueprintCallable)
+	void RemoveWidget(class UCommonActivatableWidget* ActivatableWidgetPointer);
+
+	UFUNCTION(BlueprintCallable)
+	UGameWidgetsStack* GetGameWidgetStack() const;
 
 private:
 	UFUNCTION(BlueprintCallable, Category="Gamepad")
@@ -144,13 +151,19 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FCheckKeyInputMode OnAnyKeyPressed;
-	
+
 private:
 	bool bIsUsingGamepad;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float MouseSensitivity = 1.f;
 	
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UGameWidgetsStack> GameWidgetsStackClass;
+
+	class UGameWidgetsStack* GameWidgetStack;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingCOntext;
 	

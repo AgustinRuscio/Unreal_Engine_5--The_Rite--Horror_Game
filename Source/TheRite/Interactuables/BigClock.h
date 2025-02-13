@@ -51,8 +51,6 @@ private:
 	void CheckNeedlesPosition();
 	
 //--------------------- TimeLine methods
-	void HideClue();
-	
 	void BindTimeLine();
 
 	UFUNCTION()
@@ -130,7 +128,6 @@ private:
 	//-------- Widget
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> WG_ClockClue;
-	UTutorialWidget* Widget_ClockClue;
 	
 	//-------- Target Points
 	UPROPERTY(EditAnywhere, Category= "Settings")

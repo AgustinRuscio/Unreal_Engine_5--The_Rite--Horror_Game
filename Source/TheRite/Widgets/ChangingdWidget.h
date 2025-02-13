@@ -8,6 +8,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "CommonActivatableWidget.h"
 #include "ChangingdWidget.generated.h"
 
 class UTextBlock;
@@ -16,7 +17,7 @@ class UImage;
 
 
 UCLASS()
-class THERITE_API UChangingdWidget : public UUserWidget
+class THERITE_API UChangingdWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 
@@ -29,9 +30,17 @@ public:
 	UFUNCTION(BlueprintImplementableEvent) 
 	void OnInteraction(AInteractor* Interactable);
 	
+	void SelfRemove();
+
 private:
+	
+	void NativeOnActivated() override;
+
 	void SetGamepadImages();
 	void SetKeyboardImages();
+
+	UFUNCTION()
+	void AutoHide();
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -48,5 +57,13 @@ protected:
 	TArray<UTexture*> KeyboardKeyImage;
 
 private:
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	bool bAutoDisable;
+
 	int8 Index = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	float DeactivateTime;
+
+	FTimerHandle Timer_ClockClue;
 };
