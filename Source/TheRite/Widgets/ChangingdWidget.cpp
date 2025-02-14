@@ -11,6 +11,11 @@
 //*****************************Public*********************************************
 //********************************************************************************
 
+float UChangingdWidget::GetHideTime() const
+{
+	return DeactivateTime;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::SetKeyMode(bool isGamepad)
 {
@@ -43,7 +48,10 @@ void UChangingdWidget::NativeOnActivated()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
 	if (controller)
+	{
+		SetKeyMode(controller->GetIsUsingGamepad());
 		controller->OnKeyPressed.AddDynamic(this, &UChangingdWidget::SetKeyMode);
+	}
 
 	if (bAutoDisable)
 	{

@@ -205,11 +205,8 @@ void ADoor::SetLockedState(bool LockedNewState)
 void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
-	CreateWidgets();
 	
 	InitializeNeededValues();
-
-	SetTutorialDoor();
 	
 	BindTimeLines();
 }
@@ -256,14 +253,7 @@ void ADoor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	}
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 #pragma region Initializer Methods
-void ADoor::CreateWidgets()
-{
-	LockedWidget = CreateWidget<ULockedWidget>(GetWorld(), LockedUI);
-	LockedWidget->AddToViewport();
-	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::InitializeNeededValues()
@@ -284,19 +274,6 @@ void ADoor::InitializeNeededValues()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Tutorial Methods
-void ADoor::SetTutorialDoor()
-{
-	if(!bIsTutorialDoor) return;
-	
-	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialUI);
-	TutorialWidget->AddToViewport();
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-
-	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	
-	if(alexController)
-		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::TutorialInteraction()
@@ -304,18 +281,11 @@ void ADoor::TutorialInteraction()
 	if(bIsTutorialDoor && !bDoOnceTut)
 	{
 		bDoOnceTut = true;
-		TutorialWidget->SetVisibility(ESlateVisibility::Visible);
 		
-		if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHandle))
-		{
-			timerDelegateTutorial.BindLambda([&]
-			{
-				TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-			});
-			
-			//GetWorldTimerManager().SetTimer(TutorialTimerHandle, timerDelegate, 2.f, false);
-			GetWorldTimerManager().SetTimer(TutorialTimerHandle, this, &ADoor::HideTutorialWidget, 2.f, false);
-		}
+		auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+
+		if(alexController)
+			alexController->PushWidget(TutorialUI);
 	}
 }
 #pragma endregion
@@ -592,7 +562,11 @@ void ADoor::ItsLocked()
 	if(IsValid(SFXVoiceLocked))
 		Player->ForceTalk(SFXVoiceLocked);
 	
-	LockedWidget->SetVisibility(ESlateVisibility::Visible);
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (controller)
+		controller->PushWidget(LockedUI);
+
 	LatchAnim();
 	TimeLineItsLocked.PlayFromStart();
 }
@@ -628,11 +602,6 @@ void ADoor::LatchHolding(bool isOppening)
 	}
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-void ADoor::HideTutorialWidget()
-{
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-}
 #pragma endregion
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -761,7 +730,7 @@ void ADoor::ItLockedTimeLineUpdate(float value)
 void ADoor::ItLockedTimelineFinished()
 {
 	UGameplayStatics::PlaySound2D(this, SFXDoorLocked);
-	LockedWidget->SetVisibility(ESlateVisibility::Hidden);
+
 	++AudioCounterItsLocked;
 	
 	CurrentRot = GetActorRotation();

@@ -57,6 +57,13 @@ float AAlexPlayerController::GetMouseSensitivity() const
 {
 	return MouseSensitivity;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+UGameWidgetsStack* AAlexPlayerController::GetGameWidgetStack() const
+{
+	return GameWidgetStack;
+}
+
 #pragma endregion
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -177,11 +184,6 @@ void AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> Act
 void AAlexPlayerController::RemoveWidget(UCommonActivatableWidget* ActivatableWidgetPointer)
 {
 	GameWidgetStack->RemoveWidgetFromScreen(ActivatableWidgetPointer);
-}
-
-UGameWidgetsStack* AAlexPlayerController::GetGameWidgetStack() const
-{
-	return GameWidgetStack;
 }
 
 //*****************************Private*********************************************

@@ -22,6 +22,8 @@ class THERITE_API UChangingdWidget : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 public:
+	float GetHideTime() const;
+
 	UFUNCTION()
 	virtual void SetKeyMode(bool isGamepad);
 

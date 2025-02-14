@@ -51,16 +51,19 @@ public:
 	AAlexPlayerController();
 	~AAlexPlayerController();
 
-//---------------- Getter Methods
+	//---------------- Getter Methods
 	bool GetIsUsingGamepad() const;
-	
+
 	UFUNCTION(BlueprintCallable)
 	float GetMouseSensitivity() const;
-	
-//---------------- Actions Methods
+
+	UFUNCTION(BlueprintCallable)
+	class UGameWidgetsStack* GetGameWidgetStack() const;
+
+	//---------------- Actions Methods
 	void EnableInput(APlayerController* PlayerController) override;
 	void DisableInput(APlayerController* PlayerController) override;
-	
+
 	void SetNormalInput();
 	void SetPauseGame(bool PauseState);
 	void SetDoorMode(bool newMode);
@@ -68,41 +71,39 @@ public:
 	void SetEventInput();
 	void SetFocusInput();
 	void SetNewCursorVisibilityState(bool IsActive);
-	
+
 	UFUNCTION(BlueprintCallable) // borrar porque esta en UI vieja
-	void SetMouseSensitivity(float newSensitivity);
-	
+		void SetMouseSensitivity(float newSensitivity);
+
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
-	
+
 	UFUNCTION(BlueprintCallable)
 	void PushWidget(TSubclassOf <class UCommonActivatableWidget> ActivatableWidgetClass);
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget(class UCommonActivatableWidget* ActivatableWidgetPointer);
 
-	UFUNCTION(BlueprintCallable)
-	UGameWidgetsStack* GetGameWidgetStack() const;
 
 private:
-	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	UFUNCTION(BlueprintCallable, Category = "Gamepad")
 	bool GetIsGamepad() const;
-	
+
 	virtual void BeginPlay() override;
-	
+
 	void LoadValues(class APlayerStateTheRite* CurrentPlayerState);
 	//---------------- Loading Methods
-	
+
 //---------------- Binding Methods
 	void BindActions();
 	void UnbindActions();
-	
-//---------------- Input Methods
+
+	//---------------- Input Methods
 	void PlayerMovement(const FInputActionValue& value);
-	
+
 	void StartSprint(const FInputActionValue& value);
 	void StopSprint(const FInputActionValue& value);
 
 	void LighterOn(const FInputActionValue& value);
-	
+
 	void InteractionPressed(const FInputActionValue& value);
 	void HoldingBTN(const FInputActionValue& value);
 
@@ -114,21 +115,21 @@ private:
 	void NextInventoryItem(const FInputActionValue& value);
 	void PrevInventoryItem(const FInputActionValue& value);
 	void BackFromFocus(const FInputActionValue& value);
-	
+
 	void SetInventoryInputs();
 	void SetDoorInputs();
 
-	UFUNCTION(BlueprintCallable, Category="Gamepad")
+	UFUNCTION(BlueprintCallable, Category = "Gamepad")
 	void SetIsGamepad(const bool bIsGamepad);
 
 	void OnWindowFocusChanged(bool bIsFocused);
-	
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
 	UWidgetInteractionComponent* WidgetInteractionComponent;
-	
+
 	FPlayerMovement OnPlayerMovement;
-	
+
 	FStopSprint OnStopSprint;
 	FStartSprint OnStartSprint;
 
@@ -143,26 +144,27 @@ public:
 	FPaused OnPause;
 	FInventory OnInventory;
 	FOnFocusBack OnLeaveFocus;
-	
+
 	FNextInventoryItem OnNextInventoryItem;
 	FPrevInventoryItem OnPrevInventoryItem;
 
 	FCheckInputMode OnKeyPressed;
-	
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FCheckKeyInputMode OnAnyKeyPressed;
 
 private:
 	bool bIsUsingGamepad;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float MouseSensitivity = 1.f;
-	
-	
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UGameWidgetsStack> GameWidgetsStackClass;
 
 	class UGameWidgetsStack* GameWidgetStack;
+
+	TArray<UCommonActivatableWidget*> PushedWidgets;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingCOntext;

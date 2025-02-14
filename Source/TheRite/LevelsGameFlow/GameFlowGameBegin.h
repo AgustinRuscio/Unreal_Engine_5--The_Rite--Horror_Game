@@ -99,11 +99,9 @@ private:
 	//-------- Widgets
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FirstTutorialMenu;
-	UTutorialWidget* FirstTutorialWidget;
 
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> SecondsTutorialMenu;
-	UTutorialWidget* SecondTutorialWidget;
 
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> FindObjectsMenu;

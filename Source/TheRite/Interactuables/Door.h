@@ -267,11 +267,9 @@ private:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 //---------------- Initializer Methods
-	void CreateWidgets();
 	void InitializeNeededValues();
 	
 //---------------- Tutorial Methods
-	void SetTutorialDoor();
 	void TutorialInteraction();
 
 //---------------- Checker Methods
@@ -302,8 +300,6 @@ private:
 	void LatchHolding(bool isOppening);
 
 //---------------- TimeLines Methods
-	void HideTutorialWidget();
-	
 	void BindTimeLines();
 	void RunTimeLinesTick(float DeltaTime);
 

@@ -101,28 +101,10 @@ void AGameFlowGameBegin::SetNeededValues()
 //----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::CreateWidgets()
 {
-	FirstTutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), FirstTutorialMenu);
-	FirstTutorialWidget->AddToViewport(0);
-	FirstTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	FirstTutorialWidget->SetIsFocusable(true);
-
-	SecondTutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), SecondsTutorialMenu);
-	SecondTutorialWidget->AddToViewport(0);
-	SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	SecondTutorialWidget->SetIsFocusable(true);
-
 	FindObjectsMenuWidget = CreateWidget<UTutorialWidget>(GetWorld(), FindObjectsMenu);
 	FindObjectsMenuWidget->AddToViewport(0);
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Hidden);
 	FindObjectsMenuWidget->SetIsFocusable(true);
-	
-	auto controller = GetWorld()->GetFirstPlayerController();
-	
-	if(auto alexController = Cast<AAlexPlayerController>(controller))
-	{
-		alexController->OnKeyPressed.AddDynamic(SecondTutorialWidget, &UTutorialWidget::SetKeyMode);
-		alexController->OnKeyPressed.AddDynamic(FirstTutorialWidget, &UTutorialWidget::SetKeyMode);
-	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -149,7 +131,7 @@ void AGameFlowGameBegin::PlayBeginSequence()
 void AGameFlowGameBegin::BeginSequenceFinished()
 {
 	Player->ForceEnableInput();
-	
+
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
 	
@@ -186,7 +168,7 @@ void AGameFlowGameBegin::RiteSequenceFinished()
 void AGameFlowGameBegin::OnRiteInteraction(AInteractor* Interactor)
 {
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Hidden);
-	
+
 	Tiffany_Garage->Activate();
 
 	Player->ForceLighterOff();
@@ -251,14 +233,13 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 	{
 		FirstTimer.BindLambda([&]
 		{
-			FirstTutorialWidget->SetVisibility(ESlateVisibility::Visible);
-	
+			auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+			controller->PushWidget(FirstTutorialMenu);
+
 			if (!GetWorldTimerManager().IsTimerActive(HideFirstTutorialWidget))
 			{
 				SecondsTimer.BindLambda([&]
 				{
-					FirstTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-					
 					if (!GetWorldTimerManager().IsTimerActive(ShowSecondTutorialWidget))
 						GetWorldTimerManager().SetTimer(ShowSecondTutorialWidget, this, &AGameFlowGameBegin::ShowingSecondTutorialWidget, 3.0f, false);
 				});
@@ -274,15 +255,6 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 //----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::ShowingSecondTutorialWidget()
 {
-	SecondTutorialWidget->SetVisibility(ESlateVisibility::Visible);
-	
-	if (!GetWorldTimerManager().IsTimerActive(HideSecondTutorialWidget))
-	{
-		TutorialTimerDelegate.BindLambda([&]
-		{
-			SecondTutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-		});
-		
-		GetWorldTimerManager().SetTimer(HideSecondTutorialWidget, TutorialTimerDelegate, 3.0f, false);
-	}
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->PushWidget(SecondsTutorialMenu);
 }
