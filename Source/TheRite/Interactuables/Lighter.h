@@ -28,9 +28,8 @@ public:
 	virtual void Activate() override;
 	
 private:
-	virtual void BeginPlay() override;
+	void PushWidget();
 	
-	void CreateWidgets();
 	void TurnTutorialOff();
 	
 private:

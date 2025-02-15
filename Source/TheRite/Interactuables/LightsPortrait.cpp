@@ -6,6 +6,7 @@
 #include "LightsPortrait.h"
 #include "TheRite/Widgets/DualButtonWidget.h"
 #include "TheRite/AlexPlayerController.h"
+#include "CommonActivatableWidget.h"
 #include "Components/SpotLightComponent.h"
 #include <Kismet/GameplayStatics.h>
 
@@ -29,19 +30,13 @@ void ALightsPortrait::Interaction()
 {
 	Super::Interaction();
 
-	auto Controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	Controller->SetNewCursorVisibilityState(true);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ALightsPortrait::BeginPlay()
-{
-	Super::BeginPlay();
-	
 	Widget = Cast<UDualButtonWidget>(DisplatedWidget);
 
 	Widget->OnYesButtonPressed.AddDynamic(this, &ALightsPortrait::OnYesButtonPressed);
 	Widget->OnNoButtonPressed.AddDynamic(this, &ALightsPortrait::OnNoButtonPressed);
+
+	auto Controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	Controller->SetNewCursorVisibilityState(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -24,10 +24,12 @@ public:
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 	
-	UFUNCTION(BlueprintImplementableEvent)
-	void PushWidgetToScreen(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	UCommonActivatableWidget* PushWidgetToScreen(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	virtual UCommonActivatableWidget* PushWidgetToScreen_Implementation(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void RemoveWidgetFromScreen(class UCommonActivatableWidget* WidgetPointer);
 
 private:

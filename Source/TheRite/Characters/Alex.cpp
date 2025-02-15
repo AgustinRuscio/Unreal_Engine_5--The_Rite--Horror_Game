@@ -129,7 +129,6 @@ void AAlex::ForceTalk(USoundBase* Voice)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex:: CallPauseFunc()
 {
-	//PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
 	PauseWidget->OnTogglePause.Broadcast(false);
 
 	bPauseFlip = true;
@@ -196,19 +195,14 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
 	InventoryWidget->RemoveItem(itemName, id);
 
-	ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
-	ConsumibleItemWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
-	
-	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_ConsumableWidget))
-	{
-		FTimerDelegate TimerDelegate;
-		TimerDelegate.BindLambda([&]
-		{
-			ConsumibleItemWidget->SetVisibility(ESlateVisibility::Collapsed);
-		});
+	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu);
 
-		//GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, TimerDelegate, 2.f, false);
-		GetWorldTimerManager().SetTimer(TimerHandle_ConsumableWidget, this, &AAlex::HideConsumableWidget, 2.f, false);
+	ConsumibleItemWidget = Cast<UChangingdWidget>(consumWidget);
+
+	if (ConsumibleItemWidget)
+	{
+		ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
+		ConsumibleItemWidget = nullptr;
 	}
 }
 
@@ -310,9 +304,19 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 	
 	FocusCameraTimeLine.ReverseFromEnd();
 	
-	AltarWidget->SetVisibility(ESlateVisibility::Collapsed);
-	SimpleFocusableWidget->SetVisibility(ESlateVisibility::Collapsed);
-	DotWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	if (AltarWidget != nullptr)
+	{
+		MyController->RemoveWidget(AltarWidget);
+		AltarWidget = nullptr;
+	}
+
+	if (SimpleFocusableWidget != nullptr)
+	{
+		MyController->RemoveWidget(SimpleFocusableWidget);
+		SimpleFocusableWidget = nullptr;
+	}
+
+	PushDotWidget();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -331,14 +335,20 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool 
 	
 	FocusCameraTimeLine.PlayFromStart();
 	
-	DotWidget->SetVisibility(ESlateVisibility::Collapsed);
+	RemoveDotWidget();
 
 	if (!bShorWidget) return;
 
-	if(bShowComplexWidget)
-		AltarWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	if (bShowComplexWidget)
+	{
+		auto pushedWidget = MyController->PushWidget(AltarUI);
+		AltarWidget = Cast<UChangingdWidget>(pushedWidget);
+	}
 	else
-		SimpleFocusableWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	{
+		auto pushedWidget = MyController->PushWidget(SimpleFocusableUI);
+		SimpleFocusableWidget = Cast<UChangingdWidget>(pushedWidget);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -595,27 +605,7 @@ void AAlex::CreateWidgets()
 {
 	CreatePauseWidget();
 
-	CreateDotWidget();
-
-	CreateFocusWidget();
-
-	CreateInventoryWidget();
-	
-	CreateOpenInventoryWidget();
-	
-	CreateLighterReminderWidget();
-	
-	CreateConsumableWidget();
-
-	CreateSimpleFocusableWidget();
-	
-	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-
-	MyController->OnKeyPressed.AddDynamic(OpenInventoryWidget,  &UOpenInventory::SetKeyMode);
-	MyController->OnKeyPressed.AddDynamic(LighterReminderWidget,  &UOpenInventory::SetKeyMode);
-	MyController->OnKeyPressed.AddDynamic(AltarWidget,  &UOpenInventory::SetKeyMode);
-	MyController->OnKeyPressed.AddDynamic(SimpleFocusableWidget,  &UOpenInventory::SetKeyMode);
+	PushDotWidget();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -623,69 +613,29 @@ void AAlex::CreatePauseWidget()
 {
 	PauseWidget = CreateWidget<UPauseActivableWidget>(GetWorld(), PauseMenu);
 	PauseWidget->AddToViewport(2);
-	//PauseWidget->SetVisibility(ESlateVisibility::Collapsed);
-	//PauseWidget->SetIsFocusable(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateDotWidget()
+void AAlex::PushDotWidget()
 {
-	DotWidget = CreateWidget<UCenterDotWidget>(GetWorld(), DotUI);
-	DotWidget->AddToViewport(0);
-	DotWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+	auto pushedWidget = MyController->PushWidget(DotUI);
+	DotWidget = Cast<UCenterDotWidget>(pushedWidget);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateFocusWidget()
+void AAlex::RemoveDotWidget()
 {
-	AltarWidget = CreateWidget<UChangingdWidget>(GetWorld(),AltarUI);
-	AltarWidget->AddToViewport(1);
-	AltarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	MyController->RemoveWidget(DotWidget);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateInventoryWidget()
+void AAlex::PushInventoryWidget()
 {
-	InventoryWidget = CreateWidget<UInventory>(GetWorld(),InventoryMenu);
-	InventoryWidget->AddToViewport(0);
-	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	InventoryWidget->SetIsFocusable(false);
-}
+	auto pushedWidget = MyController->PushWidget(InventoryMenu);
+	InventoryWidget = Cast<UInventory>(pushedWidget);
 
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateOpenInventoryWidget()
-{
-	OpenInventoryWidget = CreateWidget<UOpenInventory>(GetWorld(), OpenInventoryMenu);
-	OpenInventoryWidget->AddToViewport(0);
-	OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	OpenInventoryWidget->SetIsFocusable(false);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateLighterReminderWidget()
-{
-	LighterReminderWidget = CreateWidget<UTutorialWidget>(GetWorld(), LighterRecordatoryMenu);
-	LighterReminderWidget->AddToViewport(0);
-	LighterReminderWidget->SetVisibility(ESlateVisibility::Collapsed);
-	LighterReminderWidget->SetIsFocusable(true);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateConsumableWidget()
-{
-	ConsumibleItemWidget = CreateWidget<UChangingdWidget>(GetWorld(), ConsumibleItemMenu);
-	ConsumibleItemWidget->AddToViewport(0);
-	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Collapsed);
-	ConsumibleItemWidget->SetIsFocusable(true);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateSimpleFocusableWidget()
-{
-	SimpleFocusableWidget = CreateWidget<UChangingdWidget>(GetWorld(), SimpleFocusableUI);
-	SimpleFocusableWidget->AddToViewport(0);
-	SimpleFocusableWidget->SetVisibility(ESlateVisibility::Collapsed);
-	SimpleFocusableWidget->SetIsFocusable(true);
+	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 }
 
 #pragma endregion 
@@ -775,12 +725,6 @@ void AAlex::MoveCamera(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
 	
-	//if(bOnEvent)
-	//{
-	//	vector.X = FMath::Clamp(vector.X, this->VectorX.X, this->VectorX.Y);
-	//	vector.Y = FMathf::Clamp(vector.Y, this->VectorY.X, this->VectorY.Y);
-	//}
-
 	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
 }
@@ -801,19 +745,8 @@ void AAlex::Interaction()
 	{
 		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
 
-		OpenInventoryWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
-		
-		if (!GetWorldTimerManager().IsTimerActive(TimerHandle_OpenInventoryWidget))
-		{
-			//FTimerDelegate TimerDelegate;
-			//TimerDelegate.BindLambda([&]
-			//{
-			//	OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-			//});
-			
-			//GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, TimerDelegate, 1.5f, false);
-			GetWorldTimerManager().SetTimer(TimerHandle_OpenInventoryWidget, this, &AAlex::HideOpenInventoryWidget, 1.5f, false);
-		}
+		MyController->PushWidget(OpenInventoryMenu);
+
 	}
 }
 
@@ -864,7 +797,7 @@ void AAlex::OpenPause()
 	
 	bPauseFlip = false;
 	MyController->SetPauseGame(true);
-	//PauseWidget->SetVisibility(ESlateVisibility::Visible);
+
 	PauseWidget->OnTogglePause.Broadcast(true);
 }
 
@@ -876,16 +809,18 @@ void AAlex::OpenInventory()
 	if(bInventoryFlip)
 	{
 		OnInventoryOpen.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+		PushInventoryWidget();
 		bInventoryFlip = false;
 		InventoryWidget->OnInventoryOpen();
 	}
 	else
 	{
 		OnInventoryClose.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-		bInventoryFlip = true;
+
 		InventoryWidget->OnInventoryClose();
+		MyController->RemoveWidget(InventoryWidget);
+
+		bInventoryFlip = true;
 	}
 	
 	MyController->SetUIOnly(!bInventoryFlip, false);
@@ -936,28 +871,9 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::ShowLighterReminder()
 {
-	LighterReminderWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
-
-	if (!GetWorldTimerManager().IsTimerActive(TimerHandle_LighterReminder))
-	{
-		FTimerDelegate timerDelegate;
-		timerDelegate.BindLambda([&]
-		{
-			LighterReminderWidget->SetVisibility(ESlateVisibility::Collapsed);
-			TimerComponentForLighterDisplay->ActionFinished();
-		});
-		
-		//GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, timerDelegate, 4.f, false);
-		GetWorldTimerManager().SetTimer(TimerHandle_LighterReminder, this, &AAlex::HideLighterReminder, 4.f, false);
-	}
+	MyController->PushWidget(LighterRecordatoryMenu);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::HideLighterReminder() const
-{
-	LighterReminderWidget->SetVisibility(ESlateVisibility::Collapsed);
-	TimerComponentForLighterDisplay->ActionFinished();
-}
 #pragma endregion 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -984,19 +900,7 @@ void AAlex::StopTalking()
 		TempAudio->Stop();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 #pragma region TimeLine
-void AAlex::HideOpenInventoryWidget()
-{
-	OpenInventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	GetWorldTimerManager().ClearTimer(TimerHandle_OpenInventoryWidget);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::HideConsumableWidget() const
-{
-	ConsumibleItemWidget->SetVisibility(ESlateVisibility::Collapsed);
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 //---------------- TimeLine

@@ -46,9 +46,9 @@ protected:
 	//*****************************************************************************//
 	
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	TSubclassOf<UUserWidget> DisplayedWidgetBase;
+	TSubclassOf<class UCommonActivatableWidget> DisplayedWidgetBase;
 
-	class UUserWidget* DisplatedWidget;
+	class UCommonActivatableWidget* DisplatedWidget;
 
 	//*****************************************************************************//
 	//								PROTECTED METHODS								   //

@@ -6,13 +6,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "CommonActivatableWidget.h"
 #include "CenterDotWidget.generated.h"
 
 class UImage;
 
 UCLASS()
-class THERITE_API UCenterDotWidget : public UUserWidget
+class THERITE_API UCenterDotWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 

@@ -175,9 +175,9 @@ void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> ActivatableWidgetClass)
+UCommonActivatableWidget* AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> ActivatableWidgetClass)
 {
-	GameWidgetStack->PushWidgetToScreen(ActivatableWidgetClass);
+	return GameWidgetStack->PushWidgetToScreen(ActivatableWidgetClass);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

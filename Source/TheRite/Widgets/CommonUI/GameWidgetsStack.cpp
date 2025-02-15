@@ -5,3 +5,7 @@
 
 #include "GameWidgetsStack.h"
 
+UCommonActivatableWidget* UGameWidgetsStack::PushWidgetToScreen_Implementation(TSubclassOf<class UCommonActivatableWidget> WidgetClass)
+{
+    return nullptr;
+}

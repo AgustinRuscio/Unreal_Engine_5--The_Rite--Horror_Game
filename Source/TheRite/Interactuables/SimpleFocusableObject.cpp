@@ -8,6 +8,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "Components/ArrowComponent.h"
 #include "Components/WidgetComponent.h"
+#include "CommonActivatableWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 namespace 
@@ -36,13 +37,6 @@ void ASimpleFocusableObject::BeginPlay()
 	Super::BeginPlay();
 
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
-	if (DisplayedWidgetBase != nullptr) 
-	{
-		DisplatedWidget = CreateWidget<UUserWidget>(GetWorld(), DisplayedWidgetBase);
-		DisplatedWidget->AddToViewport(0);
-		DisplatedWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -63,8 +57,10 @@ void ASimpleFocusableObject::Interaction()
 
 	bIsFocus = true;
 
-	if (DisplatedWidget != nullptr)
-		DisplatedWidget->SetVisibility(ESlateVisibility::Visible);
+	if (DisplayedWidgetBase != nullptr)
+	{
+		DisplatedWidget = controller->PushWidget(DisplayedWidgetBase);
+	}
 
 }
 
@@ -81,7 +77,7 @@ void ASimpleFocusableObject::LeaveFocus()
 	controller->SetNormalInput();
 
 	if (DisplatedWidget != nullptr)
-		DisplatedWidget->SetVisibility(ESlateVisibility::Hidden);
+		controller->RemoveWidget(DisplatedWidget);
 
 	controller->OnLeaveFocus.RemoveDynamic(this, &ASimpleFocusableObject::LeaveFocus);
 }

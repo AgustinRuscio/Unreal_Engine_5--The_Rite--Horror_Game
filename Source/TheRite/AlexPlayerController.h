@@ -78,7 +78,8 @@ public:
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 
 	UFUNCTION(BlueprintCallable)
-	void PushWidget(TSubclassOf <class UCommonActivatableWidget> ActivatableWidgetClass);
+	class UCommonActivatableWidget* PushWidget(TSubclassOf <class UCommonActivatableWidget> ActivatableWidgetClass);
+
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget(class UCommonActivatableWidget* ActivatableWidgetPointer);
 

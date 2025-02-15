@@ -6,7 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "CommonActivatableWidget.h"
 #include "TheRite/EnumsContainer.h"
 #include "Inventory.generated.h"
 
@@ -17,7 +17,7 @@ class UImage;
 
 
 UCLASS()
-class THERITE_API UInventory : public UUserWidget
+class THERITE_API UInventory : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 

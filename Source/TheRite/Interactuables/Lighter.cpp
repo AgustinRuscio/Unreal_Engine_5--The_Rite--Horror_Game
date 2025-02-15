@@ -39,8 +39,9 @@ void ALighter::Interaction()
 	Player->SetPlayerOptions(bWillPlayerRun, true, bWillShowReminder);
 
 	KeySpectralWritting->EnableInteraction();
-	TutorialWidget->SetVisibility(ESlateVisibility::Visible);
-	
+
+	PushWidget();
+
 	LighterBody->SetVisibility(false);
 	LighterBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	LighterWheel->SetVisibility(false);
@@ -48,7 +49,7 @@ void ALighter::Interaction()
 	PointLight->SetVisibility(false);
 	
 	if (!GetWorldTimerManager().IsTimerActive(TutorialTimerHanlde))
-		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, 4.f, false);
+		GetWorldTimerManager().SetTimer(TutorialTimerHanlde, this, &ALighter::TurnTutorialOff, TutorialWidget->GetHideTime(), false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -76,31 +77,19 @@ void ALighter::Deactivate()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALighter::BeginPlay()
+void ALighter::PushWidget()
 {
-	Super::BeginPlay();
-	
-	CreateWidgets();
-
 	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	
-	if(alexController)
-		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
-}
 
-//----------------------------------------------------------------------------------------------------------------------
-void ALighter::CreateWidgets()
-{
-	TutorialWidget = CreateWidget<UTutorialWidget>(GetWorld(), TutorialMenu);
-	TutorialWidget->AddToViewport(0);
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	TutorialWidget->SetIsFocusable(true);
+	auto pushedWidget = alexController->PushWidget(TutorialMenu);
+	TutorialWidget = Cast<UTutorialWidget>(pushedWidget);
+
+	if (alexController)
+		alexController->OnKeyPressed.AddDynamic(TutorialWidget, &UTutorialWidget::SetKeyMode);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALighter::TurnTutorialOff()
 {
-	TutorialWidget->SetVisibility(ESlateVisibility::Hidden);
-	
 	Destroy();
 }

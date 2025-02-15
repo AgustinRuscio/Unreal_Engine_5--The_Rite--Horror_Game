@@ -114,13 +114,11 @@ private:
 	void CreateWidgets();
 
 	void CreatePauseWidget();
-	void CreateDotWidget();
-	void CreateFocusWidget();
-	void CreateInventoryWidget();
-	void CreateOpenInventoryWidget();
-	void CreateLighterReminderWidget();
-	void CreateConsumableWidget();
-	void CreateSimpleFocusableWidget();
+
+	void PushDotWidget();
+	void RemoveDotWidget();
+
+	void PushInventoryWidget();
 	
 //---------------- Tick Methods
 	void HeadBob() const;
@@ -164,7 +162,6 @@ private:
 
 	UFUNCTION()
 	void ShowLighterReminder();
-	void HideLighterReminder() const;
 
 //---------------- Audio Methods
 	void MakeTalk();
@@ -175,8 +172,6 @@ private:
 	void StopTalking();
 	
 //---------------- TimeLine
-	void HideOpenInventoryWidget();
-	void HideConsumableWidget() const;
 	
 	void BindTimeLineMethods();
 	
@@ -343,11 +338,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UTutorialWidget> LighterRecordatoryMenu;
-	UTutorialWidget* LighterReminderWidget;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UOpenInventory> OpenInventoryMenu;
-	UOpenInventory* OpenInventoryWidget;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UInventory> InventoryMenu;

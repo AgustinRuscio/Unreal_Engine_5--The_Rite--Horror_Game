@@ -6,14 +6,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "CommonActivatableWidget.h"
 #include "DualButtonWidget.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FYesButtonPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoButtonPressed);
 
 UCLASS()
-class THERITE_API UDualButtonWidget : public UUserWidget
+class THERITE_API UDualButtonWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 	
