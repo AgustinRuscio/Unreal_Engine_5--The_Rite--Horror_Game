@@ -90,6 +90,7 @@ private:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
 	void LoadValues(class APlayerStateTheRite* CurrentPlayerState);
 	//---------------- Loading Methods
 

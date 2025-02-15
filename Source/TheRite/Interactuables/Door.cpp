@@ -240,6 +240,8 @@ void ADoor::Tick(float DeltaTime)
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	Super::EndPlay(EndPlayReason);
+
 	if (GetWorld())
 	{
 		GetWorldTimerManager().ClearTimer(TutorialTimerHandle);
