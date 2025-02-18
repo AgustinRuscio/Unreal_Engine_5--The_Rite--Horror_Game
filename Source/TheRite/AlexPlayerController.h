@@ -39,7 +39,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckKeyInputMode, bool,  isGamepad
 
 class UInputMappingContext;
 class UInputAction;
-class ALevelsGameState;
 class UWidgetInteractionComponent;
 
 UCLASS()
@@ -71,9 +70,6 @@ public:
 	void SetEventInput();
 	void SetFocusInput();
 	void SetNewCursorVisibilityState(bool IsActive);
-
-	UFUNCTION(BlueprintCallable) // borrar porque esta en UI vieja
-		void SetMouseSensitivity(float newSensitivity);
 
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
 

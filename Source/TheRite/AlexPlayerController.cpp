@@ -11,6 +11,7 @@
 #include "PlayerStateTheRite.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/PlayerState.h"
 #include "TheRite/Widgets/CommonUI/GameWidgetsStack.h"
 #include "CommonActivatableWidget.h"
 
@@ -160,12 +161,6 @@ void AAlexPlayerController::SetNewCursorVisibilityState(bool IsActive)
 	bShowMouseCursor = IsActive;
 }
 #pragma endregion 
-//----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::SetMouseSensitivity(float newSensitivity)
-// borrar porque esta en UI vieja
-{
-	MouseSensitivity = newSensitivity;
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool RLarge,
@@ -201,8 +196,10 @@ void AAlexPlayerController::BeginPlay()
 	bEnableClickEvents = true; 
 	bEnableMouseOverEvents = true;
 
-	auto ps = Cast<APlayerStateTheRite>(PlayerState);
-	ps->OnPlayerValuesLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
+	auto ps = GetPlayerState<APlayerStateTheRite>();
+
+	if(ps)
+		ps->OnPlayerValuesLoaded.AddDynamic(this, &AAlexPlayerController::LoadValues);
 	
 	
 	FSlateApplication::Get().OnApplicationActivationStateChanged()

@@ -311,7 +311,6 @@ private:
 	
 	//-------- TimeLine
 	FTimerHandle TimerHandle_Screamer;
-	FTimerHandle TimerHandle_OpenInventoryWidget;
 	FTimerHandle TimerHandle_LighterReminder;
 	FTimerHandle TimerHandle_ConsumableWidget;
 

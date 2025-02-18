@@ -44,7 +44,7 @@ void ALevelsGameState::LoadData()
 
 	OnGameLoaded.Broadcast();
 
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
+	//GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
 }
 
 //*****************************Private*********************************************
@@ -62,7 +62,7 @@ void ALevelsGameState::BeginPlay()
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(WaitForInitializationTimerHandle))
 	{
-		GetWorld()->GetTimerManager().SetTimer(WaitForInitializationTimerHandle,WaitForInitializationDelegate, 0.1f, false);
+		GetWorld()->GetTimerManager().SetTimer(WaitForInitializationTimerHandle,WaitForInitializationDelegate, 0.2f, false);
 	}
 }
 

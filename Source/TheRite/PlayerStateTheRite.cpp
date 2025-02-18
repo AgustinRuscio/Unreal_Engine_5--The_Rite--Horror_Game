@@ -4,8 +4,6 @@
 //----------------------------------------------//
 
 #include "PlayerStateTheRite.h"
-
-#include "AlexPlayerController.h"
 #include "LevelsGameState.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -26,23 +24,17 @@ void APlayerStateTheRite::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameState = Cast<ALevelsGameState>(UGameplayStatics::GetGameState(GetWorld()));
-	PlayerController = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	GameState = Cast<ALevelsGameState>(GetWorld()->GetGameState());
 	
 	if(GameState)
 		GameState->OnGameLoaded.AddDynamic(this, &APlayerStateTheRite::LoadValues);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void APlayerStateTheRite::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Sensi : %f"), MouseSensitivity ));
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void APlayerStateTheRite::LoadValues()
 {
+	if (GameState == nullptr) return;
+
 	auto saveData = GameState->GetSaveData();
 	MouseSensitivity = saveData.MouseSensitivity;
 
