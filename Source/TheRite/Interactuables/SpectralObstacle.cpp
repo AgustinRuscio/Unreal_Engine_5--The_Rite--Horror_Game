@@ -79,6 +79,8 @@ void ASpectralObstacle::BindTimeLines()
 //----------------------------------------------------------------------------------------------------------------------
 void ASpectralObstacle::FirstTimeLineUpdate(float time)
 {
+	if (DynamicMaterial == nullptr) return;
+
 	float value = FMathf::Lerp(1,2,time);
 	
 	DynamicMaterial->SetScalarParameterValue("Corruption", value);

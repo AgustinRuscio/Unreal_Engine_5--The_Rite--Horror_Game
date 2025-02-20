@@ -59,10 +59,10 @@ void ACoffin::BeginPlay()
 	CoffinClosedMovementTimeLine.SetTimelineFinishedFunc(ClosedTimelineFinishedCallback);
 
 
-	CoffinOriginalLocation = GetActorLocation();
+	CoffinOriginalRotation = GetActorRotation();
 
-	CoffinOpenedLocation = CoffinOriginalLocation + LocationToAddOpen;
-	CoffinClosedLocation = CoffinOriginalLocation + LocationToAddClosed;
+	CoffinOpenedRotation = CoffinOriginalRotation + RotationToAddOpen;
+	CoffinClosedRotation = CoffinOriginalRotation + RotationToAddClosed;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -106,9 +106,9 @@ void ACoffin::Interaction()
 //----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinMovementTimeLineTick(float tick)
 {
-	auto lerpedLocation = FMath::Lerp(CoffinOriginalLocation, CoffinOpenedLocation, tick);
+	auto lerpedLocation = FMath::Lerp(CoffinOriginalRotation, CoffinOpenedRotation, tick);
 
-	SetActorLocation(lerpedLocation);
+	SetActorRotation(lerpedLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -124,9 +124,9 @@ void ACoffin::CoffinMovementTimeLineFinished()
 //----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinClosedTimeLineTick(float tick)
 {
-	auto lerpedLocation = FMath::Lerp(CoffinOriginalLocation, CoffinClosedLocation, tick);
+	auto lerpedLocation = FMath::Lerp(CoffinOriginalRotation, CoffinClosedRotation, tick);
 
-	SetActorLocation(lerpedLocation);
+	SetActorRotation(lerpedLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

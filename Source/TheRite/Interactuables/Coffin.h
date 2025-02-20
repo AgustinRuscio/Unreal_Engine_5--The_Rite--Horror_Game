@@ -57,14 +57,14 @@ private:
 
 	bool bWasForceOpen;
 
-	FVector CoffinOriginalLocation;
-	FVector CoffinOpenedLocation;
-	FVector CoffinClosedLocation;
+	FRotator CoffinOriginalRotation;
+	FRotator CoffinOpenedRotation;
+	FRotator CoffinClosedRotation;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	FVector LocationToAddOpen;
+	FRotator RotationToAddOpen;
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	FVector LocationToAddClosed;
+	FRotator RotationToAddClosed;
 
 	FTimeline CoffinMovementTimeLine;
 	FTimeline CoffinClosedMovementTimeLine;
