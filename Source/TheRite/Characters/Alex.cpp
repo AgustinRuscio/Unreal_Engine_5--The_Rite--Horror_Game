@@ -379,7 +379,6 @@ void AAlex::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	CreateWidgets();
 	LighterLight->SetVisibility(false);
 
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
@@ -392,6 +391,8 @@ void AAlex::BeginPlay()
 	
 	if(bCanUseLigher && bShowLighterReminder)
 		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
+
+	CreateWidgets();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -487,6 +488,7 @@ void AAlex::CheckHolding(bool IsHolding)
 	bHoldingInteractBTN = IsHolding;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::WidgetOnSight(class UWidgetComponent* a, class UWidgetComponent* b)
 {
 	bWidgetOnSight = a ? true : false;
@@ -495,6 +497,8 @@ void AAlex::WidgetOnSight(class UWidgetComponent* a, class UWidgetComponent* b)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::InteractableCheck()
 {
+	if (DotWidget == nullptr) return;
+
 	if(!bCanTalk)
 	{
 		DotWidget->Interact(false, false, false,true, false);
@@ -606,6 +610,7 @@ void AAlex::CreateWidgets()
 	CreatePauseWidget();
 
 	PushDotWidget();
+	CreateInventoryWidget();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -618,8 +623,16 @@ void AAlex::CreatePauseWidget()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::PushDotWidget()
 {
-	auto pushedWidget = MyController->PushWidget(DotUI);
-	DotWidget = Cast<UCenterDotWidget>(pushedWidget);
+	FTimerHandle timer;
+	FTimerDelegate	timerDelegate;
+
+	timerDelegate.BindLambda([&]
+		{
+			auto pushedWidget = MyController->PushWidget(DotUI);
+			DotWidget = Cast<UCenterDotWidget>(pushedWidget);
+		});
+
+	GetWorldTimerManager().SetTimer(timer, timerDelegate, 0.5f, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -629,10 +642,28 @@ void AAlex::RemoveDotWidget()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::PushInventoryWidget()
+//void AAlex::PushInventoryWidget()
+//{
+//	auto pushedWidget = MyController->PushWidget(InventoryMenu);
+//	auto inventory = Cast<UInventory>(pushedWidget);
+//
+//	if (InventoryWidget != nullptr) 
+//	{
+//		inventory->CopyInvetory(*InventoryWidget);
+//	}
+//
+//		InventoryWidget = inventory;
+//
+//	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+//	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
+//}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::CreateInventoryWidget()
 {
-	auto pushedWidget = MyController->PushWidget(InventoryMenu);
-	InventoryWidget = Cast<UInventory>(pushedWidget);
+	InventoryWidget = CreateWidget<UInventory>(GetWorld(), InventoryMenu);
+	InventoryWidget->AddToViewport(2);
+	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
 
 	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
 	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
@@ -809,17 +840,15 @@ void AAlex::OpenInventory()
 	if(bInventoryFlip)
 	{
 		OnInventoryOpen.Broadcast();
-		PushInventoryWidget();
-		bInventoryFlip = false;
 		InventoryWidget->OnInventoryOpen();
+		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		bInventoryFlip = false;
 	}
 	else
 	{
 		OnInventoryClose.Broadcast();
-
+		InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
 		InventoryWidget->OnInventoryClose();
-		MyController->RemoveWidget(InventoryWidget);
-
 		bInventoryFlip = true;
 	}
 	

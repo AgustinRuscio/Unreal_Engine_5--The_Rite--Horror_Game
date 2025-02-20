@@ -118,8 +118,10 @@ private:
 	void PushDotWidget();
 	void RemoveDotWidget();
 
-	void PushInventoryWidget();
-	
+	//void PushInventoryWidget();
+	void CreateInventoryWidget();
+
+
 //---------------- Tick Methods
 	void HeadBob() const;
 	
@@ -360,7 +362,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UChangingdWidget> SimpleFocusableUI;
 	UChangingdWidget* SimpleFocusableWidget;
-
 	
 	//-------- Components
 	UPROPERTY(EditAnywhere, Category="Components")
