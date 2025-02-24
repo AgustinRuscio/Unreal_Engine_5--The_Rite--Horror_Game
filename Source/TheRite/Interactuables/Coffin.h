@@ -26,7 +26,17 @@ public:
 	ACoffin();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* CoffinMesh;
+	USceneComponent* CoffinMCenter;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* CoffinMattress;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* CoffinDoor;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* CoffinLatch;
+	
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -61,10 +71,34 @@ private:
 	FRotator CoffinOpenedRotation;
 	FRotator CoffinClosedRotation;
 
+	FRotator CoffinLatchOriginalRotation;
+	FRotator CoffinLatchOpenedRotation;
+	FRotator CoffinLatchClosedRotation;
+
+	FVector CoffinMattressOriginalRotation;
+	FVector CoffinMattressOpenedRotation;
+	FVector CoffinMattressClosedRotation;
+
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FRotator RotationToAddOpen;
+
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FRotator RotationToAddClosed;
+
+
+		UPROPERTY(EditAnywhere, Category = "Settings")
+	FRotator RotationLatchToAddOpen;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FRotator RotationLatchToAddClosed;
+
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FVector LocationToAddMatrresOpen;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FVector LocationToAddMatrresClosed;
+
 
 	FTimeline CoffinMovementTimeLine;
 	FTimeline CoffinClosedMovementTimeLine;
