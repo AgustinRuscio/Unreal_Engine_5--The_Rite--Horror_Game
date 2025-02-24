@@ -48,41 +48,9 @@ void ACoffin::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//------- Coffin Movement timeline
-	FOnTimelineFloat MovementTimelineCallback;
-	MovementTimelineCallback.BindUFunction(this, FName("CoffinMovementTimeLineTick"));
-	CoffinMovementTimeLine.AddInterpFloat(TimeLineCurveFloat, MovementTimelineCallback);
+	BindTimeLineMethods();
 
-	FOnTimelineEventStatic MovementTimelineFinishedCallback;
-	MovementTimelineFinishedCallback.BindUFunction(this, FName("CoffinMovementTimeLineFinished"));
-	CoffinMovementTimeLine.SetTimelineFinishedFunc(MovementTimelineFinishedCallback);
-
-
-	//------- Coffin Closed timeline
-	FOnTimelineFloat ClosedTimelineCallback;
-	ClosedTimelineCallback.BindUFunction(this, FName("CoffinClosedTimeLineTick"));
-	CoffinClosedMovementTimeLine.AddInterpFloat(TimeLineCloseCurveFloat, ClosedTimelineCallback);
-
-	FOnTimelineEventStatic ClosedTimelineFinishedCallback;
-	ClosedTimelineFinishedCallback.BindUFunction(this, FName("CoffinClosedTimeLineFinished"));
-	CoffinClosedMovementTimeLine.SetTimelineFinishedFunc(ClosedTimelineFinishedCallback);
-
-
-
-	CoffinOriginalRotation = CoffinDoor->GetRelativeRotation();
-	CoffinOpenedRotation = CoffinOriginalRotation + RotationToAddOpen;
-	CoffinClosedRotation = CoffinOriginalRotation + RotationToAddClosed;
-
-
-	CoffinLatchOriginalRotation = CoffinLatch->GetRelativeRotation();
-	CoffinLatchOpenedRotation = CoffinLatchOriginalRotation + RotationLatchToAddOpen;
-	CoffinLatchClosedRotation = CoffinLatchOriginalRotation + RotationLatchToAddClosed;
-
-
-	CoffinMattressOriginalRotation = CoffinMattress->GetRelativeLocation();
-	CoffinMattressOpenedRotation = CoffinMattressOriginalRotation + LocationToAddMatrresOpen;
-	CoffinMattressClosedRotation = CoffinMattressOriginalRotation + LocationToAddMatrresClosed;
-
+	SaveLocationAndRotation();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -124,15 +92,54 @@ void ACoffin::Interaction()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ACoffin::BindTimeLineMethods()
+{
+	//------- Coffin Movement timeline
+	FOnTimelineFloat MovementTimelineCallback;
+	MovementTimelineCallback.BindUFunction(this, FName("CoffinMovementTimeLineTick"));
+	CoffinMovementTimeLine.AddInterpFloat(TimeLineCurveFloat, MovementTimelineCallback);
+
+	FOnTimelineEventStatic MovementTimelineFinishedCallback;
+	MovementTimelineFinishedCallback.BindUFunction(this, FName("CoffinMovementTimeLineFinished"));
+	CoffinMovementTimeLine.SetTimelineFinishedFunc(MovementTimelineFinishedCallback);
+
+
+	//------- Coffin Closed timeline
+	FOnTimelineFloat ClosedTimelineCallback;
+	ClosedTimelineCallback.BindUFunction(this, FName("CoffinClosedTimeLineTick"));
+	CoffinClosedMovementTimeLine.AddInterpFloat(TimeLineCloseCurveFloat, ClosedTimelineCallback);
+
+	FOnTimelineEventStatic ClosedTimelineFinishedCallback;
+	ClosedTimelineFinishedCallback.BindUFunction(this, FName("CoffinClosedTimeLineFinished"));
+	CoffinClosedMovementTimeLine.SetTimelineFinishedFunc(ClosedTimelineFinishedCallback);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACoffin::SaveLocationAndRotation()
+{
+	CoffinOriginalRotation = CoffinDoor->GetRelativeRotation();
+	CoffinOpenedRotation = CoffinOriginalRotation + RotationToAddOpen;
+	CoffinClosedRotation = CoffinOriginalRotation + RotationToAddClosed;
+
+
+	CoffinLatchOriginalRotation = CoffinLatch->GetRelativeRotation();
+	CoffinLatchOpenedRotation = CoffinLatchOriginalRotation + RotationLatchToAddOpen;
+	CoffinLatchClosedRotation = CoffinLatchOriginalRotation + RotationLatchToAddClosed;
+
+
+	CoffinMattressOriginalRotation = CoffinMattress->GetRelativeLocation();
+	CoffinMattressOpenedRotation = CoffinMattressOriginalRotation + LocationToAddMatrresOpen;
+	CoffinMattressClosedRotation = CoffinMattressOriginalRotation + LocationToAddMatrresClosed;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinMovementTimeLineTick(float tick)
 {
 	auto lerpedDoorLocation = FMath::Lerp(CoffinOriginalRotation, CoffinClosedRotation, tick);
 	auto lerpedLatchLocation = FMath::Lerp(CoffinLatchOriginalRotation, CoffinLatchOpenedRotation, tick);
 	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressOpenedRotation, tick);
 
-	CoffinMattress->SetRelativeLocation(lerpedMattresLocation);
-	CoffinDoor->SetRelativeRotation(lerpedDoorLocation);
-	CoffinLatch->SetRelativeRotation(lerpedLatchLocation);
+	LerpValues(tick, lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -152,13 +159,19 @@ void ACoffin::CoffinClosedTimeLineTick(float tick)
 	auto lerpedLatchLocation = FMath::Lerp(CoffinLatchOriginalRotation, CoffinLatchClosedRotation, tick);
 	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressClosedRotation, tick);
 
-	CoffinMattress->SetRelativeLocation(lerpedMattresLocation);
-	CoffinDoor->SetRelativeRotation(lerpedDoorLocation);
-	CoffinLatch->SetRelativeRotation(lerpedLatchLocation);
+	LerpValues(tick, lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinClosedTimeLineFinished()
 {
 	bCanInteract = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACoffin::LerpValues(float tick, const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation)
+{
+	CoffinMattress->SetRelativeLocation(MattressLocation);
+	CoffinDoor->SetRelativeRotation(DoorRotation);
+	CoffinLatch->SetRelativeRotation(LatchRotation);
 }

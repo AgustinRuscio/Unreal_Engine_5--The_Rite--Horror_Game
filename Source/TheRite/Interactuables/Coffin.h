@@ -124,6 +124,9 @@ private:
 
 	virtual void Interaction() override;
 
+	void BindTimeLineMethods();
+	void SaveLocationAndRotation();
+
 	UFUNCTION()
 	void CoffinMovementTimeLineTick(float tick);
 	UFUNCTION()
@@ -133,4 +136,6 @@ private:
 	void CoffinClosedTimeLineTick(float tick);
 	UFUNCTION()
 	void CoffinClosedTimeLineFinished();
+
+	void LerpValues(float tick, const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation);
 };
