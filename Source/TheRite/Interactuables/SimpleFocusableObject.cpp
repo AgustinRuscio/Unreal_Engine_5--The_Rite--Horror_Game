@@ -49,7 +49,6 @@ void ASimpleFocusableObject::Interaction()
 
 	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, bShowDefaultWidgets, false);
 
-
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetFocusInput();
 

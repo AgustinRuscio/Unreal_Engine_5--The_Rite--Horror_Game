@@ -137,9 +137,9 @@ void ACoffin::CoffinMovementTimeLineTick(float tick)
 {
 	auto lerpedDoorLocation = FMath::Lerp(CoffinOriginalRotation, CoffinClosedRotation, tick);
 	auto lerpedLatchLocation = FMath::Lerp(CoffinLatchOriginalRotation, CoffinLatchOpenedRotation, tick);
-	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressOpenedRotation, tick);
+	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressOpenedRotation, tick * .8f);
 
-	LerpValues(tick, lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
+	LerpValues(lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -157,9 +157,9 @@ void ACoffin::CoffinClosedTimeLineTick(float tick)
 {
 	auto lerpedDoorLocation = FMath::Lerp(CoffinOriginalRotation, CoffinClosedRotation, tick);
 	auto lerpedLatchLocation = FMath::Lerp(CoffinLatchOriginalRotation, CoffinLatchClosedRotation, tick);
-	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressClosedRotation, tick);
+	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressClosedRotation, tick * 0.8f);
 
-	LerpValues(tick, lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
+	LerpValues(lerpedDoorLocation, lerpedLatchLocation, lerpedMattresLocation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ void ACoffin::CoffinClosedTimeLineFinished()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ACoffin::LerpValues(float tick, const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation)
+void ACoffin::LerpValues(const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation)
 {
 	CoffinMattress->SetRelativeLocation(MattressLocation);
 	CoffinDoor->SetRelativeRotation(DoorRotation);

@@ -137,5 +137,5 @@ private:
 	UFUNCTION()
 	void CoffinClosedTimeLineFinished();
 
-	void LerpValues(float tick, const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation);
+	void LerpValues(const FRotator& DoorRotation, const FRotator& LatchRotation, const FVector& MattressLocation);
 };
