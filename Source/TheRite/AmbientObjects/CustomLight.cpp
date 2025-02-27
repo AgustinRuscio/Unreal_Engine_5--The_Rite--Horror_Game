@@ -32,13 +32,13 @@ ACustomLight::ACustomLight()
 //----------------------------------------------------------------------------------------------------------------------
 bool ACustomLight::IsLightOn() const
 {
-	return CustomLight->GetLightComponent()->IsVisible();
+	return CustomLights[0]->GetLightComponent()->IsVisible();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 float ACustomLight::GetIntensity() const
 {
-	return CustomLight->GetLightComponent()->Intensity;
+	return CustomLights[0]->GetLightComponent()->Intensity;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -57,19 +57,25 @@ HospitalZone ACustomLight::GetHospitalZone() const
 //---------------- Material Setter Methods
 void ACustomLight::SetAggressiveMaterial() const
 {
-	CustomLight->SetLightFunctionMaterial(Material_Aggressive);
+	for (auto current : CustomLights)
+	{
+		current->SetLightFunctionMaterial(Material_Aggressive);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ACustomLight::SetNormalMaterial() const
 {
-	CustomLight->SetLightFunctionMaterial(Material_Normal);
+	for (auto current : CustomLights)
+	{
+		current->SetLightFunctionMaterial(Material_Normal);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ACustomLight::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
 {
-	CustomLight->GetLightComponent()->SetIntensity(NewIntensity);
+	CustomLights[0]->GetLightComponent()->SetIntensity(NewIntensity);
 
 	if(!bUseAsNewDefault) return;
 	
@@ -83,14 +89,20 @@ void ACustomLight::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefaul
 #pragma region State Changer Methods
 void ACustomLight::TurnOff() const
 {
-	CustomLight->GetLightComponent()->SetVisibility(false);
+	for (auto current : CustomLights)
+	{
+		current->GetLightComponent()->SetVisibility(false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ACustomLight::TurnOn() const
 {
-	CustomLight->GetLightComponent()->SetVisibility(true);
-	CustomLight->GetLightComponent()->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
+	for (auto current : CustomLights)
+	{
+		current->GetLightComponent()->SetVisibility(true);
+	}
+	CustomLights[0]->GetLightComponent()->SetIntensity(FirstPointIntensity != 0 ? FirstPointIntensity : DefaultLightIntensity);
 }
 #pragma endregion
 
@@ -100,8 +112,8 @@ void ACustomLight::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if(bWillStartOff)
-		CustomLight->GetLightComponent()->SetVisibility(false);
+	if (bWillStartOff)
+		TurnOff();
 	
-	FirstPointIntensity = CustomLight->GetLightComponent()->Intensity;
+	FirstPointIntensity = CustomLights[0]->GetLightComponent()->Intensity;
 }

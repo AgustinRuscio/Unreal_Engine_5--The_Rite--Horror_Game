@@ -55,7 +55,7 @@ private:
 	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off"))
 	bool bWillStartOff;
-	
+
 	float FirstPointIntensity;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off this will be the turning on intensity"))
@@ -71,7 +71,7 @@ private:
 	UStaticMeshComponent* Mesh;
 	
 	UPROPERTY(EditAnywhere, Category= "Lights")
-	class ALight* CustomLight;
+	TArray<class ALight*> CustomLights;
 
 	UPROPERTY(EditAnywhere, Category = "SFX", meta=(AllowPrivateAccess = "true"))
 	class UAudioComponent* AudioComponent;
