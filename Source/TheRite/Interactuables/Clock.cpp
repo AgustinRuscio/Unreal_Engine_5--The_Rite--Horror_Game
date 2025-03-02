@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 
@@ -53,6 +54,11 @@ void AClock::Interaction()
 	if(bTest)
 	{
 		for (auto Element : TurnedOfLights)
+		{
+			Element->TurnOff();
+		}
+
+		for (auto Element : TurnedOfCustomLights)
 		{
 			Element->TurnOff();
 		}

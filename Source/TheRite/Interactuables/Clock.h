@@ -65,6 +65,9 @@ private:
 	TArray<class ALightsTheRite*> TurnedOfLights;
 	
 	UPROPERTY(EditAnywhere, Category= "Light")
+	TArray<class ACustomLight*> TurnedOfCustomLights;
+
+	UPROPERTY(EditAnywhere, Category= "Light")
 	TArray<class ACandle*> ObjCandles;
 
 	UPROPERTY(EditAnywhere, Category= "FeedBack")
