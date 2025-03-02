@@ -5,6 +5,7 @@
 
 #include "LightSwitch.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "Kismet/GameplayStatics.h"
 
 //*****************************Public************************************************
@@ -44,30 +45,26 @@ void ALightSwitch::Interaction()
 		return;
 	}
 	
-	if(bFlipFlop)
-	{
-		for (auto Element : LightToInteract)
-		{
-			Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
-		}
-		
-		SwitchTimeLine.PlayFromStart();
-		bFlipFlop = false;
-		
-		UE_LOG(LogTemp, Warning, TEXT("Flip"));
-	}
-	else
-	{
-		for (auto Element : LightToInteract)
-		{
-			Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
-		}
-		
-		SwitchTimeLine.ReverseFromEnd();
-		bFlipFlop = true;
 
-		UE_LOG(LogTemp, Warning, TEXT("Flop"));
+
+	for (auto Element : LightToInteract)
+	{
+		Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
 	}
+
+	for (auto Element : CustomLightToInteract)
+	{
+		Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
+	}
+
+
+	if (bFlipFlop)
+		SwitchTimeLine.PlayFromStart();
+	else
+		SwitchTimeLine.ReverseFromEnd();
+	
+
+	bFlipFlop = !bFlipFlop;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

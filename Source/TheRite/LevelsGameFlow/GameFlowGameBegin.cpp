@@ -9,6 +9,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "LevelSequencePlayer.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "LevelSequenceActor.h"
 #include "NiagaraComponent.h"

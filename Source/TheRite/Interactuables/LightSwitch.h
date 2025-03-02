@@ -61,6 +61,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	TArray<ALightsTheRite*> LightToInteract;
 
+	UPROPERTY(EditAnywhere, Category = "Lights")
+	TArray<class ACustomLight*> CustomLightToInteract;
+
 	FTimeline SwitchTimeLine;
 	
 	UPROPERTY(EditAnywhere, Category = "Time Line")

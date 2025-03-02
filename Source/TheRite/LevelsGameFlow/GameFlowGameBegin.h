@@ -39,7 +39,7 @@ private:
 	void CreateWidgets();
 	
 	void PlayBeginSequence();
-	
+
 	UFUNCTION()
 	void BeginSequenceFinished();
 
@@ -122,6 +122,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	TArray<ALightsTheRite*> AllLights;
+
+	UPROPERTY(EditAnywhere, Category= "Lights")
+	TArray<class ACustomLight*> AllCustomLights;
 
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	ATiffany* Tiffany_Garage;
