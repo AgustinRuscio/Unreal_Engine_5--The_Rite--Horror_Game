@@ -45,7 +45,7 @@ private:
 	TArray<class ACustomLight*> Lights2;
 	
 	UPROPERTY(EditAnywhere, Category = Puzzle)
-	class AEmblemsPlace* EmblemsPlace;
+	class AInteractor* EmblemsPlace;
 
 	UPROPERTY(EditAnywhere, Category = Puzzle)
 	class ADoor* OfficeDoor;

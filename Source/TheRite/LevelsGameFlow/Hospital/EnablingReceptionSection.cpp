@@ -34,9 +34,7 @@ void AEnablingReceptionSection::BeginPlay()
 
 //----------------------------------------------------------------------------------------------------------------------
 void AEnablingReceptionSection::OnFirstInteractionWithEmblemsPlace(AInteractor* Interactable)
-{
-	if(!EmblemsPlace->GetIsFirstInteraction()) return;
-	
+{	
 	OfficeDoor->SetLockedState(false);
 
 	ChangeReceptionLightsSettings();

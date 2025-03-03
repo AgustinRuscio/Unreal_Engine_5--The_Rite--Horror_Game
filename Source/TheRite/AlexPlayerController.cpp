@@ -398,12 +398,7 @@ void AAlexPlayerController::SetIsGamepad(const bool bIsGamepad)
 void AAlexPlayerController::OnWindowFocusChanged(bool bIsFocused)
 {
 	if (bIsFocused)
-	{
 		GEngine->SetMaxFPS(75);
-		OnPause.Broadcast();
-	}
 	else
-	{
 		GEngine->SetMaxFPS(10.0f);
-	}
 }

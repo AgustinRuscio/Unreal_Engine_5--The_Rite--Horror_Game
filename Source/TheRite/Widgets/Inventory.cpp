@@ -85,6 +85,8 @@ void UInventory::OnInventoryOpen()
 
 		OverlayImage->SetVisibility(ESlateVisibility::Visible);
 		FSlateBrush Brush;
+		UE::Slate::FDeprecateVector2DParameter v(1000.f, 1000.f);
+		Brush.SetImageSize(v);
 		Brush.SetResourceObject(CurrentPair.Value);
 
 		OverlayImage->SetBrush(Brush);
@@ -121,8 +123,11 @@ void UInventory::ShowNextItem()
 	TextBlockName->SetText(NewText);
 
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
+	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	FSlateBrush Brush;
-	Brush.SetResourceObject(CurrentPair.Value); 
+	UE::Slate::FDeprecateVector2DParameter v(1000.f, 1000.f);
+	Brush.SetImageSize(v);
+	Brush.SetResourceObject(CurrentPair.Value);
 	OverlayImage->SetBrush(Brush);
 }
 
@@ -145,6 +150,10 @@ void UInventory::ShowPrevItem()
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	FSlateBrush Brush;
 	Brush.SetResourceObject(CurrentPair.Value); 
+
+	UE::Slate::FDeprecateVector2DParameter v (1000.f, 1000.f);
+	Brush.SetImageSize(v);
+
 	OverlayImage->SetBrush(Brush);
 }
 #pragma endregion
