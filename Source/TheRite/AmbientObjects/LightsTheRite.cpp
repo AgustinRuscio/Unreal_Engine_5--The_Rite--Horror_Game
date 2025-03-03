@@ -74,6 +74,12 @@ void ALightsTheRite::SetNormalMaterial() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ALightsTheRite::SetIntermitentMaterial() const
+{
+	PointLight->SetLightFunctionMaterial(Material_Intermitent);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ALightsTheRite::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
 {
 	PointLight->SetIntensity(NewIntensity);

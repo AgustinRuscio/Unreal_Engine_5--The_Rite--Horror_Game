@@ -36,7 +36,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* CoffinLatch;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* BodyMesh;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Visuals", meta = (AllowPrivateAccess = "true"))
+	class UArrowComponent* InsideActorLocation;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -114,6 +119,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "SFX")
 	USoundBase* ForceSound;
+
+	UPROPERTY(EditAnywhere, Category = "SFX")
+	AActor* InisdeActor;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

@@ -5,6 +5,7 @@
 
 #include "Coffin.h"
 #include <Kismet/GameplayStatics.h>
+#include <Components/ArrowComponent.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 ACoffin::ACoffin() : bFlipFlop(true), bWasForceOpen(false)
@@ -22,6 +23,12 @@ ACoffin::ACoffin() : bFlipFlop(true), bWasForceOpen(false)
 	
 	CoffinLatch = CreateDefaultSubobject<UStaticMeshComponent>("Coffin Latch");
 	CoffinLatch->SetupAttachment(CoffinDoor);
+
+	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>("Body Mesh");
+	BodyMesh->SetupAttachment(CoffinMattress);
+
+	InsideActorLocation = CreateDefaultSubobject<UArrowComponent>("Arrow Location");
+	InsideActorLocation->SetupAttachment(CoffinMattress);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -51,6 +58,11 @@ void ACoffin::BeginPlay()
 	BindTimeLineMethods();
 
 	SaveLocationAndRotation();
+
+	if (InisdeActor)
+	{
+		InisdeActor->AttachToComponent(InsideActorLocation, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -135,7 +147,7 @@ void ACoffin::SaveLocationAndRotation()
 //----------------------------------------------------------------------------------------------------------------------
 void ACoffin::CoffinMovementTimeLineTick(float tick)
 {
-	auto lerpedDoorLocation = FMath::Lerp(CoffinOriginalRotation, CoffinClosedRotation, tick);
+	auto lerpedDoorLocation = FMath::Lerp(CoffinOriginalRotation, CoffinOpenedRotation, tick);
 	auto lerpedLatchLocation = FMath::Lerp(CoffinLatchOriginalRotation, CoffinLatchOpenedRotation, tick);
 	auto lerpedMattresLocation = FMath::Lerp(CoffinMattressOriginalRotation, CoffinMattressOpenedRotation, tick * .8f);
 

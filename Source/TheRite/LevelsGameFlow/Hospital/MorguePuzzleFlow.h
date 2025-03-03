@@ -7,20 +7,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MorguePuzzle.generated.h"
+#include "MorguePuzzleFlow.generated.h"
 
 UCLASS()
-class THERITE_API AMorguePuzzle : public AActor
+class THERITE_API AMorguePuzzleFlow : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+
+
+public:
 
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	AMorguePuzzle();
+	AMorguePuzzleFlow();
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -34,25 +36,21 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	UPROPERTY(EditAnywhere, Category = "Coffins")
-	float NewLightIntensity = 4.f;
 
-	UPROPERTY(EditAnywhere, Category = "Coffins")
-	TArray<class ACoffin*> AllCoffins;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class AInteractor* Emblem;
 
-	UPROPERTY(EditAnywhere, Category = "Coffins")
-	TArray<class ACoffin*> CorrectCoffins;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class AStaticMeshActor* DeadBodyOne;
 
-	TArray<class ACoffin*> OpenCoffins;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class AStaticMeshActor* DeadBodyTwo;
 
-	UPROPERTY(EditAnywhere, Category = "Coffins")
-	class ACoffin* LastCoffin;
-
-	UPROPERTY(EditAnywhere, Category = "Feedback")
-	TArray<class ACustomLight*> FeedbackLights;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Feedback")
-	TArray<USoundBase*> EndPuzzleSFX;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class ATargetPoint* DeadBodyOneTargetPoint;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class ATargetPoint* DeadBodyTwoTargetPoint;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -60,12 +58,5 @@ private:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnCoffinOppened(class AInteractor* Interactor);
-	void CheckPuzzleStatus();
-
-	UFUNCTION()
-	void CoffinOpened();
-	void OnPuzzleCompleted();
-
-	void PuzzleCompleteFeedBack();
+	void OnEmblemInteraction(class AInteractor* interactor);
 };

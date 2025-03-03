@@ -73,6 +73,15 @@ void ACustomLight::SetNormalMaterial() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ACustomLight::SetIntermitentMaterial() const
+{
+	for (auto current : CustomLights)
+	{
+		current->SetLightFunctionMaterial(Material_Intermitent);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ACustomLight::ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault)
 {
 	CustomLights[0]->GetLightComponent()->SetIntensity(NewIntensity);

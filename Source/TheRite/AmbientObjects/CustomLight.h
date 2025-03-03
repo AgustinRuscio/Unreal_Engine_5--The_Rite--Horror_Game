@@ -40,6 +40,9 @@ public:
 	
 	UFUNCTION()
 	void SetNormalMaterial() const;
+
+	UFUNCTION()
+	void SetIntermitentMaterial() const;
 	
 	void ChangeLightIntensity(float NewIntensity, bool bUseAsNewDefault);
 	
@@ -84,6 +87,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Materials")
 	UMaterialInterface* Material_Aggressive;
+
+	UPROPERTY(EditAnywhere, Category= "Materials")
+	UMaterialInterface* Material_Intermitent;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

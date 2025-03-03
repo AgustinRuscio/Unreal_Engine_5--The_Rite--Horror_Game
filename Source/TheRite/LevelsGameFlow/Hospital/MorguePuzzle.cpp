@@ -4,7 +4,9 @@
 //----------------------------------------------//
 
 #include "MorguePuzzle.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Interactuables/Coffin.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 AMorguePuzzle::AMorguePuzzle()
@@ -85,4 +87,14 @@ void AMorguePuzzle::OnPuzzleCompleted()
 //----------------------------------------------------------------------------------------------------------------------
 void AMorguePuzzle::PuzzleCompleteFeedBack()
 {
+	for (auto current : FeedbackLights)
+	{
+		current->ChangeLightIntensity(NewLightIntensity, false);
+		current->SetIntermitentMaterial();
+	}
+
+	for (auto current : EndPuzzleSFX)
+	{
+		UGameplayStatics::PlaySound2D(this, current);
+	}
 }
