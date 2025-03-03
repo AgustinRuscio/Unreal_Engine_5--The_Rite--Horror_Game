@@ -33,10 +33,16 @@ public:
 	
 private:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds);
 	
 private:
+	bool bTurnOffProximityDoOnce;
+
 	UPROPERTY(EditAnywhere, Category="State")
 	bool bStartsTurnedOn;
+
+	UPROPERTY(EditAnywhere, Category="State")
+	bool bProximityTurnedOff;
 
 	UPROPERTY(EditAnywhere, Category="State")
 	bool bWillTurnOff;
@@ -46,6 +52,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="State")
 	bool bIsGuideCandle;
+
+	UPROPERTY(EditAnywhere, Category="State")
+	float TurnOffDistance;
 	
 	UPROPERTY(EditAnywhere, Category="Light")
 	UPointLightComponent* PointLight;
@@ -61,4 +70,6 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	UNiagaraComponent* SmokeParticles;
+
+	class APawn* Player;
 };

@@ -48,6 +48,7 @@ void ACandle::TurnOff() const
 void ACandle::Appear() const
 {
 	Mesh->SetVisibility(true);
+	Mesh->SetHiddenInGame(false);
 	Plane->SetVisibility(true);
 	PointLight->SetVisibility(true);
 }
@@ -56,6 +57,7 @@ void ACandle::Appear() const
 void ACandle::Disappear() const
 {
 	Mesh->SetVisibility(false);
+	Mesh->SetHiddenInGame(true);
 	Plane->SetVisibility(false);
 	PointLight->SetVisibility(false);
 }
@@ -69,4 +71,20 @@ void ACandle::BeginPlay()
 	Super::BeginPlay();
 
 	bStartsTurnedOn ? TurnOn() : TurnOff();
+
+	Player = GetWorld()->GetFirstPlayerController()->GetPawn();	
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ACandle::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (!bProximityTurnedOff || Mesh->bHiddenInGame || bTurnOffProximityDoOnce || !Player) return;
+
+	if (FVector::Dist(GetActorLocation(), Player->GetActorLocation()) <= TurnOffDistance)
+	{
+		TurnOff();
+		bTurnOffProximityDoOnce = true;
+	}
 }
