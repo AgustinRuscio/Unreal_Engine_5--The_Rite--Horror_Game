@@ -26,9 +26,6 @@ ASimpleFocusableObject::ASimpleFocusableObject()
 	
 	CameraLocation = CreateDefaultSubobject<UArrowComponent>("Camera Arrow");
 	CameraLocation->SetupAttachment(ObjectMesh);
-
-	PlayerLocationComp = CreateDefaultSubobject<UArrowComponent>("Player Arrow");
-	PlayerLocationComp->SetupAttachment(ObjectMesh);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -43,9 +40,6 @@ void ASimpleFocusableObject::BeginPlay()
 void ASimpleFocusableObject::Interaction()
 {
 	if (bIsFocus || !bCanInteract) return;
-
-	PlayerLocationComp->SetWorldLocation(Player->GetActorLocation());
-	PlayerLocationComp->SetWorldRotation(Player->GetActorRotation());
 
 	Player->OnFocusMode(CameraLocation->GetComponentTransform(), ExittingRotation, bShowDefaultWidgets, false);
 
@@ -70,7 +64,7 @@ void ASimpleFocusableObject::LeaveFocus()
 
 	bIsFocus = false;
 
-	Player->BackToNormalView(PlayerLocationComp->GetComponentTransform(), ExittingVector, PlayerLocationComp->GetComponentRotation() + ExittingRotation);
+	Player->BackToNormalView(CameraLocation->GetComponentTransform(), ExittingVector,ExittingRotation);
 
 	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	controller->SetNormalInput();
