@@ -46,6 +46,8 @@ void AMorguePuzzleFlow::BeginPlay()
 //----------------------------------------------------------------------------------------------------------------------
 void AMorguePuzzleFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	Super::EndPlay(EndPlayReason);
+
 	TurnLightsOnTimerDelegate.Unbind();
 	TurnLightsOnTimerHandle.Invalidate();
 }
