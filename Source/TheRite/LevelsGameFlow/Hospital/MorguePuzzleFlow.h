@@ -37,6 +37,8 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
+	bool bEmpblemObtain;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class AInteractor* Emblem;
 
@@ -52,11 +54,32 @@ private:
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class ATargetPoint* DeadBodyTwoTargetPoint;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class ATriggerBox* EndTriggerBox;
+
+	UPROPERTY(EditAnywhere, Category = Lights)
+	TArray<class ACustomLight*> AllLights;
+
+	UPROPERTY(EditAnywhere, Category = SFX)
+	TArray<class USoundBase*> SFX_LightsOff;
+
+	FTimerHandle TurnLightsOnTimerHandle;
+	FTimerDelegate TurnLightsOnTimerDelegate;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	void TurnLightsOff();
+
+	void LightsOnOff();
+
 	UFUNCTION()
 	void OnEmblemInteraction(class AInteractor* interactor);
+	
+	UFUNCTION( )
+    void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
 };
