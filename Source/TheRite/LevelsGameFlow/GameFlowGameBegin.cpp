@@ -196,6 +196,19 @@ void AGameFlowGameBegin::OnRiteReady()
 		Element->TurnOff();
 	}
 	
+	for (auto Element : AllCustomLights)
+	{
+		if (Element->GetLightZone() != HouseZone::Garage)
+		{
+			Element->ChangeLightIntensity(Element->GetIntensity() * 0.5f, true);
+			continue;
+		}
+
+		Element->TurnOff();
+	}
+
+
+
 	for (auto Element : CandlesGuidance)
 	{
 		Element->TurnOn();

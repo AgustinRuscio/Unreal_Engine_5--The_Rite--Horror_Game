@@ -59,6 +59,11 @@ void UChangingdWidget::NativeOnActivated()
 		{
 			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, this, &UChangingdWidget::AutoHide, DeactivateTime, false);
 		}
+		else
+		{
+			GetWorld()->GetTimerManager().ClearTimer(Timer_ClockClue);
+			GetWorld()->GetTimerManager().SetTimer(Timer_ClockClue, this, &UChangingdWidget::AutoHide, DeactivateTime, false);
+		}
 	}
 }
 
@@ -91,6 +96,9 @@ void UChangingdWidget::AutoHide()
 	Timer_ClockClue.Invalidate();
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
-	if (controller)
+	if (controller) {
+		controller->OnKeyPressed.RemoveDynamic(this, &UChangingdWidget::SetKeyMode);
 		controller->RemoveWidget(this);
+
+	}
 }

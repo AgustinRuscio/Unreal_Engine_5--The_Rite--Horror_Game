@@ -50,6 +50,7 @@ private:
 //---------------- System Class Methods
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	UFUNCTION()
 	void HideTutorialWidget();
@@ -299,6 +300,7 @@ private:
 	FTimerHandle JumpscareHandleSecond;
 	
 	FTimerHandle TutorialTimerHandle;
+	FTimerHandle EndGameTimerHandle;
 	
 	FTimeline JumpscareSecondTimeLine;
 	
@@ -333,7 +335,7 @@ private:
 	ALightsTheRite* LibraryRoofLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights: Central")
-	ASpotLight* Light_Clock;
+	class ASpotLight* Light_Clock;
 	
 	//-------- Door
 	UPROPERTY(EditAnywhere, Category = "Doors")

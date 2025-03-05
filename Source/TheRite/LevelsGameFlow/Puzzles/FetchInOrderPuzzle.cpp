@@ -58,7 +58,7 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	
 	for (auto Element : AllLights2)
 	{
-		Element->ChangeLightIntensity(80.f, true);
+		Element->ChangeLightIntensity(2.f, true);
 	}
 
 	

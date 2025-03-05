@@ -29,8 +29,9 @@
 #include "Containers/Map.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/AmbientObjects/Candle.h"
+#include "Engine/SpotLight.h"
+#include "Components/LightComponent.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
-#include "TheRite/AmbientObjects/Candle.h"
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -87,6 +88,16 @@ void AClockLevelGameFlow::Tick(float DeltaTime)
 	
 	MakeTiffanyTalk(DeltaTime);
 	MakeBreath(DeltaTime);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AClockLevelGameFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorld()->GetTimerManager().ClearTimer(EndGameTimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(TutorialTimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(JumpscareHandleFirst);
+	GetWorld()->GetTimerManager().ClearTimer(JumpscareHandleSecond);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -278,20 +289,29 @@ void AClockLevelGameFlow::EndGame()
 		Element->TurnOff();
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);
 	}
-	
-	Light_Clock->GetLightComponent()->SetIntensity(4.f);
-	
+
 	for (auto Element : ActorTobeDestroyOnEndgame)
 	{
 		Element->Destroy();
 	}
-	
-	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
-	
-	Player->ForceTalk(OhFuckAlexTalk);
-	Player->ForceTurnLighterOn();
-	
-	Player->SetPlayerOptions(true, false, false);
+
+	if (!GetWorld()->GetTimerManager().IsTimerActive(EndGameTimerHandle))
+	{
+		FTimerDelegate EndGameDelegate;
+		EndGameDelegate.BindLambda([this]
+			{
+				Light_Clock->GetLightComponent()->SetIntensity(4.f);
+
+				UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
+
+				Player->ForceTalk(OhFuckAlexTalk);
+				Player->ForceTurnLighterOn();
+
+				Player->SetPlayerOptions(true, false, false);
+			});
+
+		GetWorld()->GetTimerManager().SetTimer(EndGameTimerHandle, EndGameDelegate, 2, false);
+	}
 }
 #pragma endregion
 
