@@ -46,7 +46,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	float Rate;
-	
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	float LightIntensity;
+
 	UPROPERTY(EditAnywhere, Category = Components)
 	TArray<class ALight*> Lights;
 
