@@ -50,7 +50,9 @@ void UChangingdWidget::NativeOnActivated()
 	if (controller)
 	{
 		SetKeyMode(controller->GetIsUsingGamepad());
-		controller->OnKeyPressed.AddDynamic(this, &UChangingdWidget::SetKeyMode);
+
+		if (!controller->OnKeyPressed.IsBound())
+			controller->OnKeyPressed.AddDynamic(this, &UChangingdWidget::SetKeyMode);
 	}
 
 	if (bAutoDisable)

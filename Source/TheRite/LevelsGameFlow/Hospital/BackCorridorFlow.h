@@ -79,6 +79,9 @@ private:
 	TArray<class ACustomLight*> AllLights2;
 
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	class ATimerSound* TimerSound;
+
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	class ALight* DirectionalLight;
 	
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))

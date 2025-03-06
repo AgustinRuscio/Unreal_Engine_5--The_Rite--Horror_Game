@@ -16,6 +16,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/LevelsGameFlow/ProsProcessModifier.h"
 #include "TheRite/Triggers/TeleportPlayer.h"
+#include "TheRite/Triggers/TimerSound.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ABackCorridorFlow::ABackCorridorFlow() : TimeToMovePlayerOnEndPuzzle(5.f)
@@ -71,6 +72,7 @@ void ABackCorridorFlow::OnPuzzleStarted()
 	{
 		Element->SetLockedState(false);
 	}
+	TimerSound->Activate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
