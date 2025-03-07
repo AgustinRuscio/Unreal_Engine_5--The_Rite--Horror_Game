@@ -120,8 +120,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "SFX")
 	USoundBase* ForceSound;
 
-	UPROPERTY(EditAnywhere, Category = "SFX")
-	AActor* InisdeActor;
+	UPROPERTY(EditAnywhere, Category = "Inside")
+	TArray<AActor*> InisdeActor;
+
+	UPROPERTY(EditAnywhere, Category = "Inside")
+	TArray<FRotator> RotatorsInside;
+
+	UPROPERTY(EditAnywhere, Category = "Inside")
+	TArray<FVector> LocationInside;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

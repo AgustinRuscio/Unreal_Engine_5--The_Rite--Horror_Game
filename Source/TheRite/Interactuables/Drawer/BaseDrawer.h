@@ -75,6 +75,9 @@ private:
 	FVector EndLocation;
 	
 	UPROPERTY(EditAnywhere, Category="Mesh")
+	USoundBase* OpenSound;
+
+	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* DrawerModel;
 
 	UPROPERTY()

@@ -4,6 +4,7 @@
 
 
 #include "BaseDrawer.h"
+#include <Kismet/GameplayStatics.h>
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -35,6 +36,8 @@ void ABaseDrawer::Interaction()
 	Super::Interaction();
 	
 	if(!bCanInteract) return;
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), OpenSound, GetActorLocation());
 
 	if(bFlipFlop)
 	{

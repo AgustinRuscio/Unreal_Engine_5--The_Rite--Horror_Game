@@ -59,9 +59,18 @@ void ACoffin::BeginPlay()
 
 	SaveLocationAndRotation();
 
-	if (InisdeActor)
+	if (InisdeActor.Num() > 0)
 	{
-		InisdeActor->AttachToComponent(InsideActorLocation, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+		int index = 0;
+		for (auto current : InisdeActor)
+		{
+			current->AttachToComponent(InsideActorLocation, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+
+			current->SetActorRotation(RotatorsInside[index]);
+			current->SetActorLocation(current->GetActorLocation() + LocationInside[index]);
+
+			index++;
+		}
 	}
 }
 
