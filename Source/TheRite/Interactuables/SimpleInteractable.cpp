@@ -4,6 +4,7 @@
 //----------------------------------------------//
 
 #include "SimpleInteractable.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleInteractable::ASimpleInteractable()
@@ -22,6 +23,8 @@ void ASimpleInteractable::Interaction()
 	if(!bCanInteract) return;
 	
 	Super::Interaction();
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
 
 	if(!bDestroy) return;
 

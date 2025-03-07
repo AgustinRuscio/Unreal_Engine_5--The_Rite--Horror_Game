@@ -15,10 +15,17 @@
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
 #include "TheRite/AlexPlayerController.h"
+#include "Math/UnrealMathUtility.h"
+#include "Components/AudioComponent.h"
 #include "Blueprint/UserWidget.h"
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 #define END_KNOCKING_LOCATION CurrentRotation + FRotator(0, 3, 0)
+
+namespace
+{
+	float YawChecker = 0;
+}
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -73,6 +80,9 @@ ADoor::ADoor()
 	LatchFront->SetupAttachment(DoorItself);
 	LatchBack ->SetupAttachment(DoorItself);
 	BoxCollision->SetupAttachment(DoorItself);
+
+	DragingDoorAudioComppnent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
+	DragingDoorAudioComppnent->SetupAttachment(DoorItself);
 
 //--------------------------------------- Locked Widget 
 	LockedWidget = CreateDefaultSubobject<ULockedWidget>("Locked Widget");
@@ -209,6 +219,9 @@ void ADoor::BeginPlay()
 	InitializeNeededValues();
 	
 	BindTimeLines();
+
+	YawChecker = GetActorRotation().Yaw;
+	DragingDoorAudioComppnent->OnAudioFinished.AddDynamic(this, &ADoor::ResetAudioDrag);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -226,6 +239,17 @@ void ADoor::Tick(float DeltaTime)
 	
 	CheckDragDoor();
 	CheckIfLookingDoor();
+
+	if (!bDragSound)
+	{
+		DragSoundTimer++;
+
+		if (DragSoundTimer >= DragSoundCD)
+		{
+			DragSoundTimer = 0;
+			bDragSound = true;
+		}
+	}
 
 	if (DEBUGGING)
 	{
@@ -434,6 +458,11 @@ void ADoor::CheckDragDoor()
 	
 	CalculateRotation();
 	
+	if (!FMath::IsNearlyEqual(YawChecker, CurrentYaw, 5) && !DragingDoorAudioComppnent->IsPlaying() && bDragSound)
+	{
+		DragingDoorAudioComppnent->Play();
+	}
+	
 	SetActorRotation(FRotator(GetActorRotation().Pitch, CurrentYaw, GetActorRotation().Roll));
 }
 
@@ -602,6 +631,13 @@ void ADoor::LatchHolding(bool isOppening)
 			TimeLineLatchHold.ReverseFromEnd();
 		}
 	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ADoor::ResetAudioDrag()
+{
+	YawChecker = GetActorRotation().Yaw;
+	bDragSound = false;
 }
 
 #pragma endregion

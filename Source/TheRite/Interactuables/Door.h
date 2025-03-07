@@ -57,6 +57,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
 	USkeletalMeshComponent* LatchBack;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
+	class UAudioComponent* DragingDoorAudioComppnent;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door mesh")
@@ -148,6 +150,7 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	bool bDisapearKey = false;
 	
+	bool bDragSound;
 	bool bHolding;
 	bool bIsLookingDoor;
 	bool bWasLookingDoor;
@@ -183,6 +186,10 @@ private:
 	float FirstYawrotation;
 	float MaxYawrotation;
 	
+	float DragSoundTimer = 0;
+	UPROPERTY(EditAnywhere, Category= "Its Locked CD")
+	float DragSoundCD = 1;
+
 	UPROPERTY(EditAnywhere, Category= "Settings")
 	float DoorOpenOffsetCD;
 
@@ -258,6 +265,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	ADoor* SisterDoor;
 	
+	UPROPERTY(EditAnywhere, Category = "Feedback")
+	USoundBase* SFX_Draging;
+
 	AAlex* Player;
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -298,6 +308,9 @@ private:
 	
 	UFUNCTION()
 	void LatchHolding(bool isOppening);
+
+	UFUNCTION()
+	void ResetAudioDrag();
 
 //---------------- TimeLines Methods
 	void BindTimeLines();
