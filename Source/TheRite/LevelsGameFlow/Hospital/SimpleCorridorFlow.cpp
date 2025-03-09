@@ -232,6 +232,8 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 	for (auto Element : AllLights2)
 	{
 		Element->SetNormalMaterial();
+		Element->ChangeLightIntensity(14.f, true);
+		Element->TurnOn();
 	}
 	
 	for (auto Element : AmbientSoundsOnPuzzle)
