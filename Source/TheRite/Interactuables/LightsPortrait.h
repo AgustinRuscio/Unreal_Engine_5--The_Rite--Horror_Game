@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/Interactuables/SimpleFocusableObject.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "LightsPortrait.generated.h"
 
@@ -59,19 +60,32 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	class ULightsPuzzleWidget* Widget;
+	class ULightsPuzzleWidget* LightPuzzleWidget;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	FVector LocationToAdd;
+	FVector originalLocation;
+	FVector endLocation;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	USoundBase* SFX_Switch;
+
+	FTimeline ButtonTimeLine;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FeedBack")
+	UCurveFloat* ButtonPressedCurveFloat;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+	virtual void Tick( float DeltaSeconds) override;
 
 	UFUNCTION()
 	void SwitchColor();
 
 	UFUNCTION()
-	void OnNoButtonPressed();
+	void ButtonPressedTick(float deltaSeconds);
+	UFUNCTION()
+	void ButtonPressedFinished();
 };
