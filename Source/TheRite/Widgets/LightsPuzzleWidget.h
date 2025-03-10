@@ -6,16 +6,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Widgets/DualButtonWidget.h"
+#include "CommonActivatableWidget.h"
 #include "LightsPuzzleWidget.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUiButtonPressed);
+
 UCLASS()
-class THERITE_API ULightsPuzzleWidget : public UDualButtonWidget
+class THERITE_API ULightsPuzzleWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 	
 public:
-	virtual void YesButtonPressed() override;
-
-	virtual void NoButtonPressed() override;
+	UPROPERTY(BlueprintCallable)
+	FOnUiButtonPressed OnButtonPressed;
 };

@@ -27,8 +27,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	class USpotLightComponent* Light;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	class UStaticMeshComponent* Button;
+
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	TArray<FLinearColor> SwitcheableColors;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	class UWidgetComponent* ButtonWidget;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FLinearColor CorrectColor;
@@ -53,7 +59,7 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 
-	class UDualButtonWidget* Widget;
+	class ULightsPuzzleWidget* Widget;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	USoundBase* SFX_Switch;
@@ -61,8 +67,10 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
+	virtual void BeginPlay() override;
+
 	UFUNCTION()
-	void OnYesButtonPressed();
+	void SwitchColor();
 
 	UFUNCTION()
 	void OnNoButtonPressed();

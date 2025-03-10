@@ -4,10 +4,11 @@
 //----------------------------------------------//
 
 #include "LightsPortrait.h"
-#include "TheRite/Widgets/DualButtonWidget.h"
+#include "TheRite/Widgets/LightsPuzzleWidget.h"
 #include "TheRite/AlexPlayerController.h"
 #include "CommonActivatableWidget.h"
 #include "Components/SpotLightComponent.h"
+#include "Components/WidgetComponent.h"
 #include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -17,6 +18,12 @@ ALightsPortrait::ALightsPortrait()
 
 	Light = CreateDefaultSubobject<USpotLightComponent>("Light");
 	Light->SetupAttachment(ObjectMesh);
+
+	Button = CreateDefaultSubobject<UStaticMeshComponent>("Button up");
+	Button->SetupAttachment(ObjectMesh);
+
+	ButtonWidget = CreateDefaultSubobject<UWidgetComponent>("ButtonUI");
+	ButtonWidget->SetupAttachment(Button);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -30,17 +37,19 @@ void ALightsPortrait::Interaction()
 {
 	Super::Interaction();
 
-	Widget = Cast<UDualButtonWidget>(DisplatedWidget);
-
-	Widget->OnYesButtonPressed.AddDynamic(this, &ALightsPortrait::OnYesButtonPressed);
-	Widget->OnNoButtonPressed.AddDynamic(this, &ALightsPortrait::OnNoButtonPressed);
-
 	auto Controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	Controller->SetNewCursorVisibilityState(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ALightsPortrait::OnYesButtonPressed()
+void ALightsPortrait::BeginPlay()
+{
+	Widget = Cast<ULightsPuzzleWidget>(ButtonWidget->GetClass());
+	Widget->OnButtonPressed.AddDynamic(this, &ALightsPortrait::SwitchColor);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALightsPortrait::SwitchColor()
 {
 	UGameplayStatics::PlaySound2D(GetWorld(), SFX_Switch);
 	ColorIndex++;
