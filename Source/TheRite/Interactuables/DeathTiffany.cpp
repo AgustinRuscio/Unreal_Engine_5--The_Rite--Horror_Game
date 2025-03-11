@@ -9,7 +9,7 @@
 
 namespace
 {
-	FVector PlayerLocation;
+	FVector PlayerOnTimeLocation;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -31,10 +31,12 @@ void ADeathTiffany::Interaction()
 
 	auto player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
+
 	if (bHasPillow)
 	{
 		bCanInteract = false;
-		PlayerLocation = player->GetActorLocation();
+		PillowInitialLocation = PillowMesh->GetComponentLocation();
+		PlayerOnTimeLocation = player->GetActorLocation();
 		PillowMesh->SetVisibility(true);
 		PillowTimeLine.PlayFromStart();
 
@@ -57,7 +59,6 @@ void ADeathTiffany::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PillowInitialLocation = PillowMesh->GetComponentLocation();
 	PillowMesh->SetVisibility(false);
 
 	FOnTimelineFloat CameraTargetTick;
@@ -79,7 +80,7 @@ void ADeathTiffany::Tick(float DeltaTime)
 //----------------------------------------------------------------------------------------------------------------------
 void ADeathTiffany::PillowTimeLineTick(float deltaSeconds)
 {
-	auto lerpPos = FMath::Lerp(PlayerLocation, PillowInitialLocation, deltaSeconds);
+	auto lerpPos = FMath::Lerp(PlayerOnTimeLocation, PillowInitialLocation, deltaSeconds);
 	PillowMesh->SetWorldLocation(lerpPos);
 }
 

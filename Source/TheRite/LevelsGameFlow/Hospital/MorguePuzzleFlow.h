@@ -43,7 +43,10 @@ private:
 	class AInteractor* Emblem;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	class AInteractor* DeathTiff;
+	class ADeathTiffany* DeathTiff;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class AInteractor* Pillow;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	class AStaticMeshActor* DeadBodyOne;
@@ -87,6 +90,9 @@ private:
 	void OnEmblemInteraction(class AInteractor* interactor);
 	UFUNCTION()
 	void OnDeathTiffInteraction(class AInteractor* interactor);
+	UFUNCTION()
+	void OnPillowInteraction(class AInteractor* interactor);
+	
 	
 	UFUNCTION( )
     void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);

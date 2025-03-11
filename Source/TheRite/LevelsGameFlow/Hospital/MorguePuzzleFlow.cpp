@@ -4,6 +4,7 @@
 //----------------------------------------------//
 
 #include "MorguePuzzleFlow.h"
+#include "TheRite/Interactuables/DeathTiffany.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Engine/TargetPoint.h"
@@ -39,8 +40,12 @@ void AMorguePuzzleFlow::BeginPlay()
 	BodyOneOriginalLocation = DeadBodyOne->GetActorTransform();
 	BodyTwoOriginalLocation = DeadBodyTwo->GetActorTransform();
 
+	Pillow->OnInteractionTrigger.AddDynamic(this, &AMorguePuzzleFlow::OnPillowInteraction);
+
 	Emblem->OnInteractionTrigger.AddDynamic(this, &AMorguePuzzleFlow::OnEmblemInteraction);
+
 	DeathTiff->OnInteractionTrigger.AddDynamic(this, &AMorguePuzzleFlow::OnDeathTiffInteraction);
+
 	EndTriggerBox->OnActorBeginOverlap.AddDynamic(this, &AMorguePuzzleFlow::BeginOverlap);
 
 	Emblem->Dissapear();
@@ -107,6 +112,12 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);
 
 	Emblem->Appear();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AMorguePuzzleFlow::OnPillowInteraction(AInteractor* interactor)
+{
+	DeathTiff->SetPillowReady();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
