@@ -49,4 +49,6 @@ void ALightsPortrait::SwitchColor(AInteractor* interactor)
 	}
 
 	Light->SetLightColor(SwitcheableColors[ColorIndex]);
+
+	OnLightChange.Broadcast();
 }
