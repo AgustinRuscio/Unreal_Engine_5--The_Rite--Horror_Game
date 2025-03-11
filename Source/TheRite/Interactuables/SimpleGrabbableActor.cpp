@@ -25,3 +25,17 @@ void ASimpleGrabbableActor::Interaction()
 
 	Destroy();
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleGrabbableActor::Dissapear()
+{
+	bCanInteract = false;
+	MeshComponent->SetVisibility(false);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ASimpleGrabbableActor::Appear()
+{
+	bCanInteract = true;
+	MeshComponent->SetVisibility(true);
+}

@@ -43,6 +43,9 @@ private:
 	class AInteractor* Emblem;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
+	class AInteractor* DeathTiff;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 	class AStaticMeshActor* DeadBodyOne;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
@@ -66,6 +69,9 @@ private:
 	FTimerHandle TurnLightsOnTimerHandle;
 	FTimerDelegate TurnLightsOnTimerDelegate;
 
+	FTimerHandle TurnLightsOffTimerHandle;
+	FTimerDelegate TurnLightsOffTimerDelegate;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
@@ -79,6 +85,8 @@ private:
 
 	UFUNCTION()
 	void OnEmblemInteraction(class AInteractor* interactor);
+	UFUNCTION()
+	void OnDeathTiffInteraction(class AInteractor* interactor);
 	
 	UFUNCTION( )
     void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);

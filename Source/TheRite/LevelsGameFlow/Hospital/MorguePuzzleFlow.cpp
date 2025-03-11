@@ -40,7 +40,10 @@ void AMorguePuzzleFlow::BeginPlay()
 	BodyTwoOriginalLocation = DeadBodyTwo->GetActorTransform();
 
 	Emblem->OnInteractionTrigger.AddDynamic(this, &AMorguePuzzleFlow::OnEmblemInteraction);
+	DeathTiff->OnInteractionTrigger.AddDynamic(this, &AMorguePuzzleFlow::OnDeathTiffInteraction);
 	EndTriggerBox->OnActorBeginOverlap.AddDynamic(this, &AMorguePuzzleFlow::BeginOverlap);
+
+	Emblem->Dissapear();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -50,6 +53,9 @@ void AMorguePuzzleFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	TurnLightsOnTimerDelegate.Unbind();
 	TurnLightsOnTimerHandle.Invalidate();
+
+	TurnLightsOffTimerDelegate.Unbind();
+	TurnLightsOffTimerHandle.Invalidate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -85,6 +91,25 @@ void AMorguePuzzleFlow::OnEmblemInteraction(AInteractor* interactor)
 	DeadBodyTwo->SetActorTransform(DeadBodyTwoTargetPoint->GetActorTransform());
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
+{
+	TurnLightsOff();
+
+	TurnLightsOffTimerDelegate.BindLambda([this]
+		{
+			for (auto current : AllLights)
+			{
+				current->TurnOn();
+			}
+		});
+
+	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);
+
+	Emblem->Appear();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AMorguePuzzleFlow::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if (!bEmpblemObtain) return;

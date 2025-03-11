@@ -33,4 +33,7 @@ public:
 	//*****************************************************************************//
 
 	virtual void Interaction() override;
+
+	virtual void Dissapear() override;
+	virtual void Appear() override;
 };

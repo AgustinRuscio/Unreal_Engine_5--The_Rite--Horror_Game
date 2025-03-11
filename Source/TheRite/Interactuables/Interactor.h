@@ -53,6 +53,9 @@ public:
 	virtual void Deactivate() override;
 	virtual void Activate() override;
 	
+	virtual void Dissapear();
+	virtual void Appear();
+
 public:
 	FInteractionTrigger OnInteractionTrigger;
 	

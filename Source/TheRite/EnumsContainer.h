@@ -31,6 +31,7 @@ enum class PickableItemsID : uint8
 	EmblemLady,
 	EmblemTeddy,
 	SecurityCardSixteen,
+	Pillow
 };
 
 UENUM(BlueprintType)
