@@ -6,63 +6,58 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheRite/Interactuables/SimpleFocusableObject.h"
-#include "GameFramework/Actor.h"
-#include "LightsPortrait.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPortraitColorChange);
+#include "Components/TimelineComponent.h"
+#include "TheRite/Interactuables/Interactor.h"
+#include "PressableButton.generated.h"
 
 UCLASS()
-class THERITE_API ALightsPortrait : public ASimpleFocusableObject
+class THERITE_API APressableButton : public AInteractor
 {
 	GENERATED_BODY()
 	
-public:
+public:	
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	ALightsPortrait();
+	APressableButton();
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	class USpotLightComponent* Light;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Settings")
-	class UStaticMeshComponent* LightSourceMesh;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	TArray<FLinearColor> SwitcheableColors;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	FLinearColor CorrectColor;
-
-	int8 ColorIndex = -1;
+	UPROPERTY(EditDefaultsOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* Mesh;
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	FOnPortraitColorChange OnLightChange;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-	bool GetCurrentCorrectState() const;
+	virtual void Interaction() override;
+
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	UPROPERTY(EditAnywhere, Category = Settings)
-	class APressableButton* PortraitButton;
-
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
-	USoundBase* SFX_Switch;
+	FVector LocationToAdd;
+	
+	FVector originalLocation;
+	FVector endLocation;
+
+	FTimeline ButtonTimeLine;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FeedBack")
+	UCurveFloat* ButtonPressedCurveFloat;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+	virtual void Tick( float DeltaSeconds) override;
 
 	UFUNCTION()
-	void SwitchColor(AInteractor* interactor);
+	void ButtonPressedTick(float deltaSeconds);
+	UFUNCTION()
+	void ButtonPressedFinished();
 };
