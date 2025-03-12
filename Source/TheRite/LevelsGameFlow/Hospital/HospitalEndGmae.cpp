@@ -5,10 +5,14 @@
 
 #include "HospitalEndGmae.h"
 #include "Engine/TriggerBox.h"
+#include "LevelSequencePlayer.h"
+#include "LevelSequenceActor.h"
 #include <TheRite/AlexPlayerController.h>
+#include <TheRite/AmbientObjects/CustomLight.h>
 #include <TheRite/Characters/Alex.h>
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Emblem/EmblemsPlace.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +34,19 @@ void AHospitalEndGmae::BeginPlay()
 void AHospitalEndGmae::OnAllEmblesPlaced()
 {
 	LastDoor->SetLockedState(false);
+
+	for (auto current : NearDoors)
+	{
+		current->HardClosing();
+		current->SetLockedState(true);
+	}
+
+	for (auto current : NearLights)
+	{
+		current->SetIntermitentMaterial();
+	}
+
+	UGameplayStatics::PlaySound2D(GetWorld(), EndGameSound);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -41,5 +58,28 @@ void AHospitalEndGmae::BeginOverlap(AActor* OverlapedActor, AActor* OtherActor)
 
 		auto playerController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 		playerController->DisableInput(playerController);
+
+		FMovieSceneSequencePlaybackSettings PlaybackSettings;
+		PlaybackSettings.PlayRate = 1.0f;
+		PlaybackSettings.bAutoPlay = true;
+		PlaybackSettings.bRandomStartTime = false;
+
+		auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+		controller->DisableInput(controller);
+
+		ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
+
+		ULevelSequencePlayer* sequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceHospitalEnd,
+			PlaybackSettings, TempLevelSequenceActor);
+
+		sequencePlayer->OnFinished.AddDynamic(this, &AHospitalEndGmae::ChangeLevel);
+
+		sequencePlayer->Play();
 	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AHospitalEndGmae::ChangeLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), NextLevelName);
 }

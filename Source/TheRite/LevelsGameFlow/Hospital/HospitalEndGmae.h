@@ -33,12 +33,27 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	UPROPERTY(EditAnyWhere, Category = Settings)
+	FName NextLevelName;
+
+	UPROPERTY(EditAnywhere, Category= Settings)
+	class ULevelSequence* SequenceHospitalEnd;
+	
+	UPROPERTY(EditAnywhere, Category= Settings)
+	USoundBase* EndGameSound;
+
+	UPROPERTY(EditAnyWhere, Category = InGame)
 	class AEmblemsPlace* EmblemPlace;
 
-	UPROPERTY(EditAnyWhere, Category = Settings)
+	UPROPERTY(EditAnyWhere, Category = InGame)
 	class ADoor* LastDoor;
 
-	UPROPERTY(EditAnyWhere, Category = Settings)
+	UPROPERTY(EditAnyWhere, Category = InGame)
+	TArray<class ADoor*> NearDoors;
+
+	UPROPERTY(EditAnyWhere, Category = InGame)
+	TArray<class ACustomLight*> NearLights;
+
+	UPROPERTY(EditAnyWhere, Category = InGame)
 	class ATriggerBox* EndGameBox;
 
 	//*****************************************************************************//
@@ -51,4 +66,7 @@ private:
 
 	UFUNCTION()
 	void BeginOverlap(AActor* OverlapedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void ChangeLevel();
 };
