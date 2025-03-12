@@ -75,15 +75,24 @@ private:
 	
 	int8 EmblemsPicked;
 	
+	FVector StartLocation;
+	FVector EndLocation;
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	FVector LocationToAdd;
+
 	FString CurrentEmblemName;
 	PickableItemsID CurrentEmblemId;
 	
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	USoundBase* MovingSound;
+
 	TArray< TPair<UStaticMeshComponent*, UArrowComponent*> > MapEmblem;
 	
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPrivateAccess = "true"));
 	TArray<class ASimpleGrabbableActor*> NeededEmblems;
 	
 	FTimeline PlaceEmblemTimeLine;
+	FTimeline PlaceEmblemTimeLineEndPuzzle;
 
 	UPROPERTY(EditDefaultsOnly, Category = TimeLine)
 	UCurveFloat* PlaceEmblemCurveFloat;
@@ -109,4 +118,10 @@ private:
 	
 	UFUNCTION()
 	void PlaceEmblemFinished();
+
+	UFUNCTION()
+	void PlaceEmblemEndGameTick(float deltaSeconds);
+	
+	UFUNCTION()
+	void PlaceEmblemEndGameFinished();
 };

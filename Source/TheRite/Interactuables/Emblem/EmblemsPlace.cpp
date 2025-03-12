@@ -76,6 +76,9 @@ void AEmblemsPlace::BeginPlay()
 	{
 		Element->OnInteractionTrigger.AddDynamic(this, &AEmblemsPlace::EmblemObtained);
 	}
+
+	StartLocation = GetActorLocation();
+	EndLocation = StartLocation + LocationToAdd;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -84,6 +87,7 @@ void AEmblemsPlace::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	PlaceEmblemTimeLine.TickTimeline(DeltaTime);
+	PlaceEmblemTimeLineEndPuzzle.TickTimeline(DeltaTime);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -168,6 +172,15 @@ void AEmblemsPlace::BindTimeline()
 	FOnTimelineEventStatic TimelineFinishedCallback;
 	TimelineFinishedCallback.BindUFunction(this, FName("PlaceEmblemFinished"));
 	PlaceEmblemTimeLine.SetTimelineFinishedFunc(TimelineFinishedCallback);
+
+	//---
+	FOnTimelineFloat TimelineCallbackMoving;
+	TimelineCallbackMoving.BindUFunction(this, FName("PlaceEmblemEndGameTick"));
+	PlaceEmblemTimeLineEndPuzzle.AddInterpFloat(PlaceEmblemCurveFloat, TimelineCallbackMoving);
+
+	FOnTimelineEventStatic TimelineFinishedCallbackMoving;
+	TimelineFinishedCallbackMoving.BindUFunction(this, FName("PlaceEmblemEndGameFinished"));
+	PlaceEmblemTimeLineEndPuzzle.SetTimelineFinishedFunc(TimelineFinishedCallbackMoving);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -187,6 +200,18 @@ void AEmblemsPlace::PlaceEmblemFinished()
 
 	if (MapEmblem.Num() <= 0)
 	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), MovingSound, StartLocation);
+		PlaceEmblemTimeLineEndPuzzle.PlayFromStart();
 		OnEndGame.Broadcast();
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmblemsPlace::PlaceEmblemEndGameTick(float deltaSeconds)
+{
+	auto PlaceLocation = FMath::Lerp(StartLocation,EndLocation,deltaSeconds);
+	SetActorLocation(PlaceLocation);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AEmblemsPlace::PlaceEmblemEndGameFinished() { }
