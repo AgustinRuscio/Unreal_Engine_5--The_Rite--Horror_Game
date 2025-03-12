@@ -2,16 +2,14 @@
 // *Author		: github.com/AgustinRuscio		//
 // *UE version	: UE 5.5.3						//
 //----------------------------------------------//
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/TimelineComponent.h"
-#include "TheRite/Interactuables/Interactor.h"
-#include "DeathTiffany.generated.h"
+#include "GameFramework/Actor.h"
+#include "HospitalEndGmae.generated.h"
 
 UCLASS()
-class THERITE_API ADeathTiffany : public AInteractor
+class THERITE_API AHospitalEndGmae : public AActor
 {
 	GENERATED_BODY()
 	
@@ -20,13 +18,7 @@ public:
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	ADeathTiffany();
-
-	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* BodyMesh; 
-
-	UPROPERTY(EditDefaultsOnly, Category = Visual, meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* PillowMesh; 
+	AHospitalEndGmae();
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -35,44 +27,28 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-	void Interaction() override;
-
-	void SetPillowReady(FString itemName, PickableItemsID id);
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	bool bHasPillow;
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	class AEmblemsPlace* EmblemPlace;
 
-	FString PillowName;
-	PickableItemsID PillowId;
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	class ADoor* LastDoor;
 
-	FVector PillowInitialLocation;
-
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	USoundBase* PillowPlaced;
-
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	USoundBase* NotReadyPillow;
-
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	UAnimationAsset* DeathAnim;
-
-	FTimeline PillowTimeLine;
-
-	UPROPERTY(EditDefaultsOnly, Category = Settings)
-	UCurveFloat* PillowCurveFloat;
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	class ATriggerBox* EndGameBox;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
-
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void PillowTimeLineTick(float deltaSeconds);
+	void OnAllEmblesPlaced();
+
 	UFUNCTION()
-	void PillowTimeLineFinish();
+	void BeginOverlap(AActor* OverlapedActor, AActor* OtherActor);
 };

@@ -184,4 +184,9 @@ void AEmblemsPlace::PlaceEmblemFinished()
 	OnInteractionTrigger.Broadcast(this);
 	
 	bCanInteract = MapEmblem.Num() > 0;
+
+	if (MapEmblem.Num() <= 0)
+	{
+		OnEndGame.Broadcast();
+	}
 }

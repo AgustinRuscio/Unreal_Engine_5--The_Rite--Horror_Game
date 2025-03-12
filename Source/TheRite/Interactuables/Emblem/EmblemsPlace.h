@@ -11,6 +11,8 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "EmblemsPlace.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEndGame);
+
 UCLASS()
 class THERITE_API AEmblemsPlace : public AInteractor
 {
@@ -55,6 +57,8 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
+
+	FOnEndGame OnEndGame;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
