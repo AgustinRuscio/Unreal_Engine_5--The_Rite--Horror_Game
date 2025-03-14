@@ -19,7 +19,7 @@
 //********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-AClock::AClock()
+AClock::AClock() : MinimumDistanceForPostProces(1000.f), NextLevelName("Credits")
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -35,12 +35,6 @@ AClock::AClock()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-AClock::~AClock()
-{
-	OnInteractionTrigger.Clear();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 FName AClock::GetObjectData() const
 {
 	return NextLevelName;
@@ -51,32 +45,22 @@ void AClock::Interaction()
 {
 	Super::Interaction();
 	
-	if(bTest)
+	for (auto Element : TurnedOfLights)
 	{
-		for (auto Element : TurnedOfLights)
-		{
-			Element->TurnOff();
-		}
-
-		for (auto Element : TurnedOfCustomLights)
-		{
-			Element->TurnOff();
-		}
-
-		for (auto Element : ObjCandles)
-		{
-			Element->Disappear();
-		}
-
-		Destroy();
+		Element->TurnOff();
 	}
-	else
+
+	for (auto Element : TurnedOfCustomLights)
 	{
-		
-		OnInteractionTrigger.Broadcast(this);
-		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), SFX_GrabItem, GetActorLocation());
-		Destroy();
+		Element->TurnOff();
 	}
+
+	for (auto Element : ObjCandles)
+	{
+		Element->Disappear();
+	}
+
+	Destroy();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -84,7 +68,7 @@ void AClock::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

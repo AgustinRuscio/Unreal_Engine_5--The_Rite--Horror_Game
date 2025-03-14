@@ -24,7 +24,6 @@ public:
 
 	//Constructor
 	AClock();
-	~AClock();
 	
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* BaseMesh;
@@ -50,8 +49,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							...// 
 	//*****************************************************************************//
-	UPROPERTY(EditAnywhere, Category = Settings)
-	bool bTest;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	float MinimumDistanceForPostProces;

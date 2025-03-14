@@ -4,7 +4,6 @@
 
 
 #include "MainObjectInteractionTrigger.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Clock.h"
@@ -24,16 +23,23 @@ void AMainObjectInteractionTrigger::BeginPlay()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AMainObjectInteractionTrigger::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	GetWorld()->GetTimerManager().ClearTimer(WaitTimer);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AMainObjectInteractionTrigger::OpenLevel()
 {
-	GetWorldTimerManager().ClearTimer(WaitTimer);
-	UGameplayStatics::OpenLevel(GetWorld(),Clock->GetObjectData());
+	UGameplayStatics::OpenLevel(GetWorld(), Clock->GetObjectData());
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AMainObjectInteractionTrigger::MainObjectGrabbed(AInteractor* interactable)
 {
-	auto Player = CastChecked<AAlex>(UGameplayStatics::GetActorOfClass(GetWorld(), AAlex::StaticClass()));
+	auto Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	Player->ForceDisableInput();
 
 	for (auto Element : MainObjctGrabbedSound)
@@ -41,6 +47,6 @@ void AMainObjectInteractionTrigger::MainObjectGrabbed(AInteractor* interactable)
 		UGameplayStatics::PlaySound2D(GetWorld(), Element, 3.0f);
 	}
 
-	if(!GetWorldTimerManager().IsTimerActive(WaitTimer))
-		GetWorldTimerManager().SetTimer(WaitTimer,this, &AMainObjectInteractionTrigger::OpenLevel,7.5f, false);
+	if(!GetWorld()->GetTimerManager().IsTimerActive(WaitTimer))
+		GetWorld()->GetTimerManager().SetTimer(WaitTimer,this, &AMainObjectInteractionTrigger::OpenLevel,7.5f, false);
 }
