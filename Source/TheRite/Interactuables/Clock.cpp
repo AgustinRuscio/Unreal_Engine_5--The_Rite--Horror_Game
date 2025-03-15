@@ -7,8 +7,6 @@
 
 #include "VectorTypes.h"
 #include "Components/PointLightComponent.h"
-#include "Engine/PointLight.h"
-#include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
@@ -19,7 +17,7 @@
 //********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-AClock::AClock() : MinimumDistanceForPostProces(1000.f), NextLevelName("Credits")
+AClock::AClock() : MinimumDistanceForPostProces(1000.f), NextLevelName("TheOtherWorld_Clock")
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -30,7 +28,7 @@ AClock::AClock() : MinimumDistanceForPostProces(1000.f), NextLevelName("Credits"
 
 	Needles->SetupAttachment(BaseMesh);
 
-	Light= CreateDefaultSubobject<UPointLightComponent>("Light");
+	Light = CreateDefaultSubobject<UPointLightComponent>("Light");
 	Light->SetupAttachment(BaseMesh);
 }
 
@@ -68,7 +66,7 @@ void AClock::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn();
+	Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -15,6 +15,8 @@ class THERITE_API AMainObjectInteractionTrigger : public AActor
 	GENERATED_BODY()
 	
 public:
+	AMainObjectInteractionTrigger();
+
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   // 
 	//*****************************************************************************//
@@ -23,13 +25,12 @@ public:
 	//								PUBLIC METHODS								   // 
 	//*****************************************************************************//
 	
-	AMainObjectInteractionTrigger();
-
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							...// 
 	//*****************************************************************************//
-	
+	FName GameName;
+
 	UPROPERTY(EditAnywhere, Category = "Audios")
 	class AClock* Clock;
 

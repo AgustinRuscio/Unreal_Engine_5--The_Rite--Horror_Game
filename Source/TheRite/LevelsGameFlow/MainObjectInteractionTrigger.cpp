@@ -20,6 +20,7 @@ void AMainObjectInteractionTrigger::BeginPlay()
 	Super::BeginPlay();
 
 	Clock->OnInteractionTrigger.AddDynamic(this, &AMainObjectInteractionTrigger::MainObjectGrabbed);
+	GameName = Clock->GetObjectData();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -33,14 +34,19 @@ void AMainObjectInteractionTrigger::EndPlay(const EEndPlayReason::Type EndPlayRe
 //----------------------------------------------------------------------------------------------------------------------
 void AMainObjectInteractionTrigger::OpenLevel()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), Clock->GetObjectData());
-}
+	if (GameName != "")
+		UGameplayStatics::OpenLevel(GetWorld(), GameName);
+	else
+		UGameplayStatics::OpenLevel(GetWorld(), FName(*GetWorld()->GetMapName()));
+}	
 
 //----------------------------------------------------------------------------------------------------------------------
 void AMainObjectInteractionTrigger::MainObjectGrabbed(AInteractor* interactable)
 {
 	auto Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	Player->ForceDisableInput();
+	
+	if(Player)
+		Player->ForceDisableInput();
 
 	for (auto Element : MainObjctGrabbedSound)
 	{

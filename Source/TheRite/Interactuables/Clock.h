@@ -7,7 +7,6 @@
 
 #include "CoreMinimal.h"
 #include "Interactor.h"
-#include "GameFramework/Actor.h"
 #include "Clock.generated.h"
 
 class UPointLightComponent;
@@ -21,7 +20,6 @@ public:
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   // 
 	//*****************************************************************************//
-
 	//Constructor
 	AClock();
 	
@@ -49,7 +47,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							...// 
 	//*****************************************************************************//
-
 	UPROPERTY(EditAnywhere, Category = Settings)
 	float MinimumDistanceForPostProces;
 	
@@ -75,7 +72,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE METHODS								...// 
 	//*****************************************************************************//
-	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
