@@ -29,6 +29,8 @@ AOverlayInventoryActor::AOverlayInventoryActor()
 	
 	SceneCaptureComponent2D->SetupAttachment(SceneComponent);
 	PointLightComponent->SetupAttachment(SceneCaptureComponent2D);
+
+	SceneCaptureComponent2D->MaxViewDistanceOverride = 100.f;
 }
 
 //*****************************Private*********************************************
