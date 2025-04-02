@@ -1,7 +1,7 @@
-﻿//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+﻿//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -62,6 +62,7 @@ enum class HouseZone : uint8
 	BabyRoom,
 	Stairs 
 };
+
 UENUM(BlueprintType)
 enum class HospitalZone : uint8
 {

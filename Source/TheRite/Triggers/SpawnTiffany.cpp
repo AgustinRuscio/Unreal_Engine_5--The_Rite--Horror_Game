@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "SpawnTiffany.h"
 #include "Components/BoxComponent.h"
@@ -12,21 +12,15 @@
 #include "Engine/TargetPoint.h"
 #include "TheRite/Characters/Alex.h"
 
-//*****************************Public*********************************************
-//********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 ASpawnTiffany::ASpawnTiffany()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 	
 	Box = CreateDefaultSubobject<UBoxComponent>("Box collision");
 	
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ASpawnTiffany::OnOverlapBegin);
 }
-
-//*****************************Private*********************************************
-//*********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 void ASpawnTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

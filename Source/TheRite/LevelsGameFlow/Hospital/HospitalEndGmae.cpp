@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.5.3						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "HospitalEndGmae.h"
@@ -18,7 +18,7 @@
 
 AHospitalEndGmae::AHospitalEndGmae()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

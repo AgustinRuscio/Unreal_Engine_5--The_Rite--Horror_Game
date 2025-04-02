@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -44,7 +44,6 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-
 	FOnInteractionStart OnInteractionStart;
 	FOnInteractionFinished OnInteractionFinished;
 	
@@ -61,7 +60,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
 	UPROPERTY(EditDefaultsOnly, Category = Settings, meta=(ClampMin = 0, ClampMax = 3))
 	int8 Color;
 

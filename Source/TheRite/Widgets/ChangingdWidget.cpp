@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "ChangingdWidget.h"
 #include "Components/TextBlock.h"
@@ -11,6 +11,7 @@
 //*****************************Public*********************************************
 //********************************************************************************
 
+//----------------------------------------------------------------------------------------------------------------------
 float UChangingdWidget::GetHideTime() const
 {
 	return DeactivateTime;
@@ -93,6 +94,7 @@ void UChangingdWidget::SetKeyboardImages()
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 void UChangingdWidget::AutoHide()
 {
 	Timer_ClockClue.Invalidate();
@@ -101,6 +103,5 @@ void UChangingdWidget::AutoHide()
 	if (controller) {
 		controller->OnKeyPressed.RemoveDynamic(this, &UChangingdWidget::SetKeyMode);
 		controller->RemoveWidget(this);
-
 	}
 }

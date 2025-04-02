@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "EnablingReceptionSection.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
@@ -15,7 +14,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AEnablingReceptionSection::AEnablingReceptionSection()
 {
-	PrimaryActorTick.bCanEverTick  = true;
+	PrimaryActorTick.bCanEverTick  = false;
 	IntensityToAddToReceptionLight = 3; 
 }
 

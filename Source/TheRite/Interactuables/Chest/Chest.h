@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -20,7 +20,6 @@ public:
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   // 
 	//*****************************************************************************//
-
 	//Constructor
 	AChest();
 
@@ -41,6 +40,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* ChestCollider;
+
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   // 
 	//*****************************************************************************//
@@ -59,7 +59,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   // 
 	//*****************************************************************************//
-
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bIsUnlocked;
 	
@@ -103,7 +102,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   // 
 	//*****************************************************************************//
-
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -121,5 +119,4 @@ private:
 	void RotateKeyTick(float DeltaSeconds);
 	UFUNCTION()
 	void RotateKeyFinished();
-
 };

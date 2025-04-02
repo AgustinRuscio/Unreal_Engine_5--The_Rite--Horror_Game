@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -18,17 +18,16 @@ class THERITE_API AOverlayInventoryActor : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AOverlayInventoryActor();
 	
 private:
-	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void Activate();
-	UFUNCTION()
-	void DeActivate();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere)
 	USceneComponent* SceneComponent;
 	
@@ -42,4 +41,14 @@ private:
 	UPointLightComponent* PointLightComponent;
 
 	class AAlex* PlayerRef;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void Activate();
+	UFUNCTION()
+	void DeActivate();
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -26,32 +26,27 @@ class THERITE_API AMoveTiffany : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AMoveTiffany();
 
-	void AssignTiffany(ATiffany* newTiff);
-	
-private:
-	virtual void BeginPlay() override;
-	
-//---------------- Timelines Methods
-	UFUNCTION()
-	void FirstTurnOn();
-	
-	UFUNCTION()
-	void SecondTurnOff();
-	
-	UFUNCTION()
-	void SecondTurnOn();
-
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FOnMoveFinished OnFinishedEvent;
 	FOnMoveStart OnStartEvent;
 	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
+	void AssignTiffany(ATiffany* newTiff);
+
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bActionReady;
 	int8 DoOnce;
 
@@ -93,4 +88,23 @@ private:
 
 	ATiffany* Tiffany;
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+//---------------- Timelines Methods
+	UFUNCTION()
+	void FirstTurnOn();
+	
+	UFUNCTION()
+	void SecondTurnOff();
+	
+	UFUNCTION()
+	void SecondTurnOn();
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -26,43 +26,40 @@ class THERITE_API ASpectralObstacle : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ASpectralObstacle();
 	
+	UStaticMeshComponent* ParentStaticMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Construction")
+	UNiagaraComponent* NiagaraSystemComponent;
+
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FObstacleDestroyed OnObstacleDestroy;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Destroy Methods
 	UFUNCTION()
 	void DestroyObject(UNiagaraComponent* comp);
 	void ObstacleDestroy();
 
 private:
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-
-//---------------- TimeLines Methods
-	void BindTimeLines();
-	
-	UFUNCTION()
-	void FirstTimeLineUpdate(float time);
-	
-	UFUNCTION()
-	void FirstTimelineFinished();
-	
-public:	
-	FObstacleDestroyed OnObstacleDestroy;
-	
-private:
-	UStaticMeshComponent* ParentStaticMesh;
-	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	UBoxComponent* BoxCollider;
 	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	USoundBase* SpectralSound;
 
-	//-------- Feedback
-	UPROPERTY(EditAnywhere, Category = "Construction")
-	UNiagaraComponent* NiagaraSystemComponent;
-	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	UMaterialInstance* Mat;
 	
@@ -75,4 +72,20 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	AActor* ParentActor;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
+//---------------- TimeLines Methods
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void FirstTimeLineUpdate(float time);
+	
+	UFUNCTION()
+	void FirstTimelineFinished();
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -25,25 +25,21 @@ class THERITE_API AInOrdenSelectionPuzzleFlow : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AInOrdenSelectionPuzzleFlow();
 
-private:
-	virtual void BeginPlay() override;
-	
-	//---------------- Check puzzle Methods
-	bool CheckStatuttes();
-	bool CheckRotation();
-	
-	void CheckStatuetteOrder();
-	void PuzzleFailure();
-	
-	UFUNCTION()
-	void AddStatuette(AInteractor* currentStatuette);
-
-public:	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FOnPuzzleFinished OnPuzzleFinished;
-	
+
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bEnableDoOnce = true;
 
 	int8 MaxStatuatte;
@@ -69,4 +65,19 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Puzzle objects")
 	AAltar* Altar;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+	//---------------- Check puzzle Methods
+	bool CheckStatuttes();
+	bool CheckRotation();
+	
+	void CheckStatuetteOrder();
+	void PuzzleFailure();
+	
+	UFUNCTION()
+	void AddStatuette(AInteractor* currentStatuette);	
 };

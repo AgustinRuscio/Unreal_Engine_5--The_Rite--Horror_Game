@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -20,8 +20,20 @@ class THERITE_API AInteractor : public AActor, public IIInteractuable
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AInteractor();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FInteractionTrigger OnInteractionTrigger;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Getter Methods
 	virtual bool IsPickable() const override;
 	virtual bool IsMainItem() const override;
@@ -48,17 +60,15 @@ public:
 	void SetCanWillSound(bool newWillSoundState);
 	void SetAudioToPlay(USoundBase* NewAudio);
 	
-//	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) override;
-
 	virtual void Deactivate() override;
 	virtual void Activate() override;
 	
 	virtual void Dissapear();
 	virtual void Appear();
 
-public:
-	FInteractionTrigger OnInteractionTrigger;
-	
+	//*****************************************************************************//
+	//								PROTECTED VARIABLES							   //
+	//*****************************************************************************//
 protected:
 	UPROPERTY(EditAnywhere, Category="State")
 	bool bCanInteract;
@@ -73,6 +83,9 @@ protected:
 	USoundBase* SFX_GrabItem;
 	
 private:	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
 	bool bIsPickeable;
 	

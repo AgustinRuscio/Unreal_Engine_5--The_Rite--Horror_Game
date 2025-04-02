@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -25,6 +25,15 @@ class THERITE_API IFader
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnActivation OnActivate;
+	FOnDeactivation OnDeactivate;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	AActor* GetActor() const;
 	
 	void OnFadeActivate() const;
@@ -33,14 +42,16 @@ public:
 	void SetAlpha(float alpha) const;
 
 protected:
+	//*****************************************************************************//
+	//								PROTECTED METHODS							   //
+	//*****************************************************************************//
 	void SetFaderComponent(UFadeObjectComponent* FaderComponent);
 	void SetActor(AActor* Parent);
 
-public:
-	FOnActivation OnActivate;
-	FOnDeactivation OnDeactivate;
-
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	AActor* Parentactor;
 	UFadeObjectComponent* FadeComponent;
 };

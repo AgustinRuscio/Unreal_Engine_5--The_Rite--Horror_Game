@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -19,19 +19,15 @@ public:
 	//*****************************************************************************//
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
+	//Constructor
 	ASimpleGrabbableActor();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Visual, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* MeshComponent;
 	
 	//*****************************************************************************//
-	//								PUBLIC VARIABLES							   //
-	//*****************************************************************************//
-
-	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
 	virtual void Interaction() override;
 
 	virtual void Dissapear() override;

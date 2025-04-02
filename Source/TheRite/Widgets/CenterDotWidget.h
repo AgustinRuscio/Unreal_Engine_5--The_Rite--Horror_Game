@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -17,21 +17,9 @@ class THERITE_API UCenterDotWidget : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void Interact(bool InteractionDisable, bool NoIntractable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetMainInteractionTexture();
-	
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetInteractionTexture();
-	
-private:
-	void SetLockedDoorImage();
-	void SetCantInteractTexture();
-	void SetNoneInteractionTexture();
-
-public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* NoneInteractionTexture;
 	
@@ -46,4 +34,24 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UImage* LockedDoorTexture;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
+	UFUNCTION(BlueprintImplementableEvent)
+	void Interact(bool InteractionDisable, bool NoIntractable, bool LockedDoor, bool PlayerTalking, bool IsMainItem);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetMainInteractionTexture();
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetInteractionTexture();
+	
+private:
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	void SetLockedDoorImage();
+	void SetCantInteractTexture();
+	void SetNoneInteractionTexture();
 };

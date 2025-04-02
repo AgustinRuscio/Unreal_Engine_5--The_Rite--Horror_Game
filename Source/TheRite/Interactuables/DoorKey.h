@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -22,19 +22,30 @@ class THERITE_API ADoorKey : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	ADoorKey();
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Mesh")
+	UStaticMeshComponent* KeyMesh;
+
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnKeyCollected OnKeyCollected;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 	
 	void SetDoor(ADoor* NewDoor);
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Mesh")
-	UStaticMeshComponent* KeyMesh;
-	
-	FOnKeyCollected OnKeyCollected;
 	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category= "States")
 	bool bKeyReady;
 	

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "CloseDoor.h"
 
@@ -17,7 +17,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ACloseDoor::ACloseDoor()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	Box = CreateDefaultSubobject<UBoxComponent>("Box Collision");
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ACloseDoor::OnOverlapBegin);

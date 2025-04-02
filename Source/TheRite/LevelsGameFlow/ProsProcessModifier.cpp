@@ -1,20 +1,17 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "ProsProcessModifier.h"
 #include "Components/PostProcessComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
-//*****************************Public*********************************************
-//********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 AProsProcessModifier::AProsProcessModifier()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -22,9 +19,6 @@ void AProsProcessModifier::ModifyPostProcessValues(FName& parameterName, float v
 {
 	DynamicMaterialPostProcess->SetScalarParameterValue(parameterName, value);
 }
-
-//*****************************Private*********************************************
-//*********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 void AProsProcessModifier::BeginPlay()

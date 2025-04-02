@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Fetus.h"
 #include "NiagaraSystem.h"
@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AFetus::AFetus()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	FetusMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Fetus Mesh");
 	

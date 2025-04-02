@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "AppearanceEvent.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
 

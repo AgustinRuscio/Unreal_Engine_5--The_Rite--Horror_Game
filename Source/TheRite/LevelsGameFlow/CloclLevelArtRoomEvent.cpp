@@ -1,10 +1,9 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "CloclLevelArtRoomEvent.h"
-
 #include "Components/SpotLightComponent.h"
 #include "Components/AudioComponent.h"
 #include "Animation/SkeletalMeshActor.h"

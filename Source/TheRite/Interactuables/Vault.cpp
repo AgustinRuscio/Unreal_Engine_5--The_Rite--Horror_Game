@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "Vault.h"
-
 #include "Blueprint/UserWidget.h"
 #include "Components/ArrowComponent.h"
 #include "Components/WidgetComponent.h"
@@ -16,7 +15,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AVault::AVault()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	VaultMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Vault Mesh");
 

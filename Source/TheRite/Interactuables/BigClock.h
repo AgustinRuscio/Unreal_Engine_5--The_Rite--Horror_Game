@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -24,45 +24,44 @@ class THERITE_API ABigClock : public AInteractor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ABigClock();
+
+//-------- Mesh / Colliders
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* BigClockMesh;
+
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* ClockPendulum;
 	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* HourNeedleMesh;
+	
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UStaticMeshComponent* MinuturesNeedleMesh;
+
+	TArray<UStaticMeshComponent*> AllNeedles;
+	UStaticMeshComponent* CurrentSelected;
+
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnClockPuzzleFinished OnClockPuzzleCompleted;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 	void SetReadyToUse();
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//--------------------- Action methods
-	UFUNCTION()
-	void LeaveFocus();
-	
-	UFUNCTION()
-	void PrevNeedle();
-	
-	UFUNCTION()
-	void NextNeedle();
-
-	UFUNCTION()
-	void NeedleInteraction();
-
-	void ChangeNeedle();
-	void CheckNeedlesPosition();
-	
-//--------------------- TimeLine methods
-	void BindTimeLine();
-
-	UFUNCTION()
-	void MoveNeedleTimeLineTick(float deltaTime);
-	
-	UFUNCTION()
-	void MoveNeedleTimeLineFinished();
-	
-public:
-	FOnClockPuzzleFinished OnClockPuzzleCompleted;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bIsFocus;
 	bool bReadyToUse;
 
@@ -95,22 +94,6 @@ private:
 
 	FRotator LastMinutesRot = FRotator(16,04,03);
 	FRotator LastHourRot = FRotator(16,04,03);
-	
-	//-------- Mesh / Colliders
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* BigClockMesh;
-
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* ClockPendulum;
-	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* HourNeedleMesh;
-	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* MinuturesNeedleMesh;
-
-	TArray<UStaticMeshComponent*> AllNeedles;
-	UStaticMeshComponent* CurrentSelected;
 
 	//-------- Audios
 	UPROPERTY(EditAnywhere, Category = "Audio")
@@ -150,4 +133,35 @@ private:
 	UCurveFloat* CurveFloat;
 	
 	AAlex* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//--------------------- Action methods
+	UFUNCTION()
+	void LeaveFocus();
+	
+	UFUNCTION()
+	void PrevNeedle();
+	
+	UFUNCTION()
+	void NextNeedle();
+
+	UFUNCTION()
+	void NeedleInteraction();
+
+	void ChangeNeedle();
+	void CheckNeedlesPosition();
+	
+//--------------------- TimeLine methods
+	void BindTimeLine();
+
+	UFUNCTION()
+	void MoveNeedleTimeLineTick(float deltaTime);
+	
+	UFUNCTION()
+	void MoveNeedleTimeLineFinished();
 };

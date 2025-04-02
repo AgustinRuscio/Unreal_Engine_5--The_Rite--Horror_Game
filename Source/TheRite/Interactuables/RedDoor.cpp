@@ -1,12 +1,10 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "RedDoor.h"
-
 #include "LevelSequenceActor.h"
-//#include "LevelSequence.h"
 #include "LevelSequencePlayer.h"
 #include "Components/BoxComponent.h"
 #include "MovieSceneSequencePlaybackSettings.h"
@@ -28,7 +26,7 @@ ARedDoor::ARedDoor()
 void ARedDoor::Interaction()
 {
 	if(!bCanInteract) return;
-	if(bAlreadyOpen) return;
+	if(bAlreadyOpen)  return;
 
 	Super::Interaction();
 	
@@ -59,6 +57,7 @@ void ARedDoor::BeginPlay()
 void ARedDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	TimeLineOpenDoor.TickTimeline(DeltaTime);
 	FadeTimeLine.TickTimeline(DeltaTime);
 	TimeLineLatchAnim.TickTimeline(DeltaTime);

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,6 +21,9 @@ class THERITE_API IIInteractuable
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() = 0;
 	virtual bool IsPickable() const = 0;
 	virtual bool IsMainItem() const = 0;
@@ -32,8 +35,6 @@ public:
 	virtual USoundBase* GetSound() const = 0;
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() const = 0;
 	
-//	virtual void SetPickeableSettings(bool isPickeable, FString nameToDisplay, PickableItemsID id) = 0;
-
 	virtual void Deactivate() = 0;
 	virtual void Activate() = 0;
 };

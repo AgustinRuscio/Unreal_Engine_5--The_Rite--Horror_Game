@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "MovableFadeObject.h"
-
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Characters/Alex.h"
@@ -12,7 +11,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AMovableFadeObject::AMovableFadeObject()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh Component");
 
 	NewActorLocation = CreateDefaultSubobject<UArrowComponent>("New Actor Location");

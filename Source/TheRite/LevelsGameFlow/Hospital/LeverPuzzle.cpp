@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "LeverPuzzle.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/Interactuables/Lever.h"
@@ -12,7 +11,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ALeverPuzzle::ALeverPuzzle() : bPuzzleCorrect(true), CorrectAmount(0), InteractionCounter(0)
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,7 +19,15 @@ class THERITE_API AAltarWhell : public AInteractor
  	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AAltarWhell();
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	bool CheckRotation();
 
 	virtual void Interaction() override;
@@ -31,18 +39,9 @@ public:
 	void ASignValues(AStatuette* Statuette, float DesiredRotation, float RotationToAdd);
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	void BindTimeLines();
-	
-	UFUNCTION()
-	void MoveTimeLineTick(float deltaSeconds);
-	
-	UFUNCTION()
-	void MoveTimeLineFinished();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	float DesiredRotation;
 	float RotationToAdd;
 
@@ -63,4 +62,18 @@ private:
 	UCurveFloat* CurveFloat;
 	
 	AStatuette* Statuette;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void MoveTimeLineTick(float deltaSeconds);
+	
+	UFUNCTION()
+	void MoveTimeLineFinished();
 };

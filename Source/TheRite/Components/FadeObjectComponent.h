@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,8 +19,14 @@ class THERITE_API UFadeObjectComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	UFadeObjectComponent();
 
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Action Methods
 	void SetMaterialAlpha(float alpha) const;
 	void ActivateFade();
@@ -29,6 +35,26 @@ public:
 	void PermanentActivation();
 	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	bool bFading = false;
+	bool bPermanentTurnedOn = false;
+
+	UPROPERTY(EditAnywhere)
+	TArray<UMeshComponent*> OwnerMesh;
+
+	FTimeline FadeTimeLine;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	UCurveFloat* FadeCurve;
+
+	UMaterialInterface* Material;
+	UMaterialInstanceDynamic* DynamicMaterial;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
@@ -42,19 +68,4 @@ private:
 	
 	UFUNCTION()
 	void FadeFinished();
-
-private:
-	bool bFading = false;
-	bool bPermanentTurnedOn = false;
-
-	UPROPERTY(EditAnywhere)
-	TArray<UMeshComponent*> OwnerMesh;
-
-	FTimeline FadeTimeLine;
-	
-	UPROPERTY(EditAnywhere, Category="Settings")
-	UCurveFloat* FadeCurve;
-	
-	UMaterialInterface* Material;
-	UMaterialInstanceDynamic* DynamicMaterial;
 };

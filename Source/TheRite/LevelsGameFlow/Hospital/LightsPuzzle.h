@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -21,7 +21,7 @@ class THERITE_API ALightsPuzzle : public AActor
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-		ALightsPuzzle();
+	ALightsPuzzle();
 
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
@@ -37,7 +37,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	
 	UPROPERTY(EditAnyWhere, Category = "Settings")
 	TArray<class ALightsPortrait*> PortraitsInPuzzle;
 

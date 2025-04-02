@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,8 +19,14 @@ class THERITE_API ACandle : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	ACandle();
-	
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	UFUNCTION()
 	void TurnOn() const;
 	
@@ -32,10 +38,9 @@ public:
 	void Disappear() const;
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds);
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bTurnOffProximityDoOnce;
 
 	UPROPERTY(EditAnywhere, Category="State")
@@ -72,4 +77,10 @@ private:
 	UNiagaraComponent* SmokeParticles;
 
 	class APawn* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds);
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,15 +19,23 @@ class THERITE_API UPauseMenuWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(BlueprintAssignable)
+	FOnPauseOpen OnPauseOpen;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void NativeConstruct() override;
 	
 	UFUNCTION(BlueprintCallable)
 	void OnResume();
 
-public:
-	UPROPERTY(BlueprintAssignable)
-	FOnPauseOpen OnPauseOpen;
-	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	AAlex* Player;
 };

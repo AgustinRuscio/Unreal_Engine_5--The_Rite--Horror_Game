@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.5.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "SimpleFocusableObject.h"
@@ -19,7 +19,7 @@ namespace
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleFocusableObject::ASimpleFocusableObject()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	ObjectMesh = CreateDefaultSubobject<UStaticMeshComponent>("Object Mesh");
 	RootComponent = ObjectMesh;
@@ -54,7 +54,6 @@ void ASimpleFocusableObject::Interaction()
 	{
 		DisplatedWidget = controller->PushWidget(DisplayedWidgetBase);
 	}
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------

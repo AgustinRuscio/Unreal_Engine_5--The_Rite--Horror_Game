@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -15,6 +15,7 @@ class THERITE_API AMainPickable : public AInteractor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+	//Constructor
 	AMainPickable();
 };

@@ -1,15 +1,12 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "LightSwitch.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Kismet/GameplayStatics.h"
-
-//*****************************Public************************************************
-//***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 ALightSwitch::ALightSwitch()
@@ -44,8 +41,6 @@ void ALightSwitch::Interaction()
 		
 		return;
 	}
-	
-
 
 	for (auto Element : LightToInteract)
 	{
@@ -56,7 +51,6 @@ void ALightSwitch::Interaction()
 	{
 		Element->IsLightOn() ? Element->TurnOff() : Element->TurnOn();
 	}
-
 
 	if (bFlipFlop)
 		SwitchTimeLine.PlayFromStart();

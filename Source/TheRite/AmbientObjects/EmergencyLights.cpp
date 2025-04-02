@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "EmergencyLights.h"
 #include "Components/RectLightComponent.h"
@@ -12,7 +12,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AEmergencyLights::AEmergencyLights()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Emergency light mesh");
 	

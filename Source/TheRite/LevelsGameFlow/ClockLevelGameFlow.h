@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -12,7 +12,6 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartOfClockGain);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBlockingHit);
-
 
 class ACloclLevelArtRoomEvent;
 class UAudioComponent;
@@ -44,112 +43,22 @@ class THERITE_API AClockLevelGameFlow : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//CONASTRUCTOR
 	AClockLevelGameFlow();
 	
-private:
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
-	UFUNCTION()
-	void HideTutorialWidget();
-	
-//---------------- Initialize Methods
-	void SetAudioSettings();
-	void BindPuzzleEvents();
-	void BindEvents();
-	void SetTutorialUI();
-	
-//---------------- Tick Methods
-	void MakeTiffanyTalk(float time);
-	void MakeBreath(float time);
-
-
-//---------------- Letters Methods
-	UFUNCTION()
-	void GetMinutes();
-	
-	UFUNCTION()
-	void GetHours();
-
-	void CheckLetters();
-
-	void MinutesCollected();
-
-	UFUNCTION()
-	void LockDoorsEndGame();
-	
-	UFUNCTION()
-	void EndGame();
-	
-//---------------- Audio Methods
-	UFUNCTION()
-	void VoicesSoundSetOriginalVolume();
-	
-	UFUNCTION()
-	void VoicesSoundIncrease();
-	
-	UFUNCTION()
-	void OnSoundPaused();
-	
-//---------------- Blocking volume Methods
-	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRot);
-
-	void ResetBlockingVolumePosition();
-	
-//---------------- Spawn Methods
-	UFUNCTION()
-	void SpawnPlanksOnDoor();
-
-	UFUNCTION()
-	void SpawnTiffanyForLibraryKeyCollected();
-
-//---------------- Interaction Methods
-	UFUNCTION()
-	void OnLibraryKeyCollected();
-	
-	UFUNCTION()
-	void OnWalkFinished();
-	
-	UFUNCTION()
-	void OnInteractionWithLockedDoor(AInteractor* Interactor);
-	
-	UFUNCTION()
-	void OnJumpscareFinished();
-	
-//---------------- TimeLine Methods
-	void BindTimeLineMethods();
-	
-	UFUNCTION()
-	void OnSecondJumpscareTimelineFinished();
-	
-//---------------- Colliders Methods
-	UFUNCTION()
-	void OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor);
-	UFUNCTION()
-	void OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FOnPartOfClockGain OnPartOfClockGain;
 	FBlockingHit OnBlockingHit;
-	
+
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bMinutes;
 	bool bHours;
 	bool bLibraryPuzzleStarted;
@@ -371,4 +280,105 @@ private:
 	ABigClock* BigClock;
 	
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
+	UFUNCTION()
+	void HideTutorialWidget();
+	
+//---------------- Initialize Methods
+	void SetAudioSettings();
+	void BindPuzzleEvents();
+	void BindEvents();
+	void SetTutorialUI();
+	
+//---------------- Tick Methods
+	void MakeTiffanyTalk(float time);
+	void MakeBreath(float time);
+
+
+//---------------- Letters Methods
+	UFUNCTION()
+	void GetMinutes();
+	
+	UFUNCTION()
+	void GetHours();
+
+	void CheckLetters();
+
+	void MinutesCollected();
+
+	UFUNCTION()
+	void LockDoorsEndGame();
+	
+	UFUNCTION()
+	void EndGame();
+	
+//---------------- Audio Methods
+	UFUNCTION()
+	void VoicesSoundSetOriginalVolume();
+	
+	UFUNCTION()
+	void VoicesSoundIncrease();
+	
+	UFUNCTION()
+	void OnSoundPaused();
+	
+//---------------- Blocking volume Methods
+	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRot);
+
+	void ResetBlockingVolumePosition();
+	
+//---------------- Spawn Methods
+	UFUNCTION()
+	void SpawnPlanksOnDoor();
+
+	UFUNCTION()
+	void SpawnTiffanyForLibraryKeyCollected();
+
+//---------------- Interaction Methods
+	UFUNCTION()
+	void OnLibraryKeyCollected();
+	
+	UFUNCTION()
+	void OnWalkFinished();
+	
+	UFUNCTION()
+	void OnInteractionWithLockedDoor(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void OnJumpscareFinished();
+	
+//---------------- TimeLine Methods
+	void BindTimeLineMethods();
+	
+	UFUNCTION()
+	void OnSecondJumpscareTimelineFinished();
+	
+//---------------- Colliders Methods
+	UFUNCTION()
+	void OnOverlapFirstLibraryTriggerBegin(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnOverlapBeginJumpscare(AActor* OverlappedActor, AActor* OtherActor);
+	UFUNCTION()
+	void OnOverlapBeginJumpscareReady(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnOverlapBeginLockDoorsEndGame(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnOverlapBeginCloseGarageDoor(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
 };

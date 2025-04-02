@@ -1,6 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 
 #pragma once
@@ -18,8 +19,21 @@ class THERITE_API ARecordPlayer : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ARecordPlayer();
 	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(BlueprintAssignable, Category = "Song Delegate")
+	FOnSongPaused OnSongPaused;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 	
 //---------------- Action Methods
@@ -30,14 +44,9 @@ public:
 	void PauseSong();
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-public:	
-	UPROPERTY(BlueprintAssignable, Category = "Song Delegate")
-	FOnSongPaused OnSongPaused;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bIsPaused;
 	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
@@ -53,4 +62,10 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Song")
 	USoundBase* Song;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 };

@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "MorguePuzzleFlow.h"
@@ -21,7 +21,7 @@ namespace
 //----------------------------------------------------------------------------------------------------------------------
 AMorguePuzzleFlow::AMorguePuzzleFlow()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

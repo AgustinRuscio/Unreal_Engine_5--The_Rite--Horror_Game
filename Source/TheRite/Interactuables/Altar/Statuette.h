@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,8 +21,15 @@ class THERITE_API AStatuette : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AStatuette();
-	
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Getter Methods
 	bool IsFirstInteraction() const;
 	float GetDesiredRotation() const;
@@ -41,16 +48,9 @@ public:
 	void RestoreInitialValues();
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
-//---------------- TimeLine Methods
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void OpenTimeLineTick(float value);
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
 	float DesireRotation;
 	
@@ -85,4 +85,16 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* TimeLineCurve;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+//---------------- TimeLine Methods
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void OpenTimeLineTick(float value);
 };

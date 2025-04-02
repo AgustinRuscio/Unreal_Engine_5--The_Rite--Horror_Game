@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -24,55 +24,31 @@ class THERITE_API ASpectralWrittings : public AInteractor, public IFader
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ASpectralWrittings();
 	~ASpectralWrittings();
 	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Getter Methods
 	bool GetDiscoveredStatus() const;
 	
 	virtual void Interaction() override;
 	
 //---------------- Actions Methods
-	//void Activate();
-	//void Deactivate();
 	void Discovered();
 
 	void EnableInteraction();
 	void SetMaterialAlpha(float alpha);
 
 private:
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void BeginDestroy() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
-//---------------- Fade Methods
-	void SetFaderValues();
-	
-	UFUNCTION()
-	void OnFadeActivated();
-	
-	UFUNCTION()
-	void OnFadeDeactivate();
-	
-//---------------- Collision Methods
-	UFUNCTION()
-	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnActorOverlapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
-//---------------- TimeLine Methods
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void FadeTick(float deltaSeconds);
-	
-	UFUNCTION()
-	void FadeFinished();
-	
-private:
-
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bWillChangePostProcess;
 	
@@ -119,4 +95,39 @@ private:
 	UFadeObjectComponent* FadeComponent;
 	
 	AActor* InsideActor;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void BeginDestroy() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+//---------------- Fade Methods
+	void SetFaderValues();
+	
+	UFUNCTION()
+	void OnFadeActivated();
+	
+	UFUNCTION()
+	void OnFadeDeactivate();
+	
+//---------------- Collision Methods
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnActorOverlapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
+//---------------- TimeLine Methods
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void FadeTick(float deltaSeconds);
+	
+	UFUNCTION()
+	void FadeFinished();
+	
+private:
 };

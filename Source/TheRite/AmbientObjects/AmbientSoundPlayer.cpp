@@ -1,6 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 
 #include "AmbientSoundPlayer.h"
@@ -13,7 +14,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AAmbientSoundPlayer::AAmbientSoundPlayer()
 {
-	bAllowTickBeforeBeginPlay = true;
+	bAllowTickBeforeBeginPlay = false;
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Component");
 }
 

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,8 +19,21 @@ class THERITE_API ABaseDrawer : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ABaseDrawer();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(BlueprintAssignable, Category = "Drawer event")
+	FOnDrawerOpen OnDrawerOpen;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	bool IsOpen() const;
 	bool IsKeyContainer() const;
 	
@@ -31,32 +44,10 @@ public:
 	UFUNCTION()
 	void AddingForce();
 
-private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
-	void BindTimeLines();
-	
-	UFUNCTION()
-	void OpenTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void CloseTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void WaitTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void TimelineFinished();
-	
-	UFUNCTION()
-	void WaitTimelineFinished();
-		
-public:	
-	UPROPERTY(BlueprintAssignable, Category = "Drawer event")
-	FOnDrawerOpen OnDrawerOpen;
-	
 protected:
+	//*****************************************************************************//
+	//								PRTOTECTED VARIABLES						   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float ForceIntensity;
 	
@@ -67,6 +58,9 @@ protected:
 	FVector ForceDir;
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bKeyConteiner;
 	bool bFlipFlop = true;
 	bool bIsOpen = false;
@@ -91,4 +85,27 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* BothTimeLineCurve;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void OpenTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void CloseTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void WaitTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void TimelineFinished();
+	
+	UFUNCTION()
+	void WaitTimelineFinished();
 };

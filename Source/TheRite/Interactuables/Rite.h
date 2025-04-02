@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -26,8 +26,21 @@ class THERITE_API ARite : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ARite();
 	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(BlueprintAssignable, Category = "Clock")
+	FObjectsObtain OnObjectsObtain;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- System Class Methods
 	virtual void Interaction() override;
 
@@ -35,27 +48,9 @@ public:
 	void SetClockReady(AInteractor* obj);
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
-	
-	void PlayFadeSequence();
-	
-	UFUNCTION()
-	void CheckAudio();
-
-	UFUNCTION()
-	void ChangeLevel();
-
-	UFUNCTION()
-	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
-	UFUNCTION()
-	void OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
-	
-public:
-	UPROPERTY(BlueprintAssignable, Category = "Clock")
-	FObjectsObtain OnObjectsObtain;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category= "Voice Audio")
 	bool bObjectReady = false;
 
@@ -109,4 +104,23 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	TArray<AClock*> CurrentMainObject;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
+	void PlayFadeSequence();
+	
+	UFUNCTION()
+	void CheckAudio();
+
+	UFUNCTION()
+	void ChangeLevel();
+
+	UFUNCTION()
+	void OnActorOverlap(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I, bool bArg, const FHitResult& HitResult);
+	UFUNCTION()
+	void OnActorOverlapFinished(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1, int I);
 };

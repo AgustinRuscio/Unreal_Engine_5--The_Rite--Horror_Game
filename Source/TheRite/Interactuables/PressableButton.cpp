@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.5.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "PressableButton.h"
@@ -10,7 +10,7 @@ APressableButton::APressableButton()
 {
  	PrimaryActorTick.bCanEverTick = true;
 
-	Mesh=CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	Mesh		  = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	RootComponent = Mesh;
 }
 

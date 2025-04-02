@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -47,9 +47,47 @@ class THERITE_API AAlexPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AAlexPlayerController();
 	~AAlexPlayerController();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
+	UWidgetInteractionComponent* WidgetInteractionComponent;
+
+	FPlayerMovement OnPlayerMovement;
+
+	FStopSprint OnStopSprint;
+	FStartSprint OnStartSprint;
+
+	FTurnLighterOn OnLighter;
+
+	FInteractionPressed OnInteractionPressed;
+	FHoldingBTN OnHoldingBtn;
+
+	FMoveCamera OnCameraMoved;
+	FMoveCamera OnCameraMovedDoor;
+
+	FPaused OnPause;
+	FInventory OnInventory;
+	FOnFocusBack OnLeaveFocus;
+
+	FNextInventoryItem OnNextInventoryItem;
+	FPrevInventoryItem OnPrevInventoryItem;
+
+	FCheckInputMode OnKeyPressed;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FCheckKeyInputMode OnAnyKeyPressed;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	//---------------- Getter Methods
 	bool GetIsUsingGamepad() const;
 
@@ -79,79 +117,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget(class UCommonActivatableWidget* ActivatableWidgetPointer);
 
-
 private:
-	UFUNCTION(BlueprintCallable, Category = "Gamepad")
-	bool GetIsGamepad() const;
-
-	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void LoadValues(class APlayerStateTheRite* CurrentPlayerState);
-	//---------------- Loading Methods
-
-//---------------- Binding Methods
-	void BindActions();
-	void UnbindActions();
-
-	//---------------- Input Methods
-	void PlayerMovement(const FInputActionValue& value);
-
-	void StartSprint(const FInputActionValue& value);
-	void StopSprint(const FInputActionValue& value);
-
-	void LighterOn(const FInputActionValue& value);
-
-	void InteractionPressed(const FInputActionValue& value);
-	void HoldingBTN(const FInputActionValue& value);
-
-	void CameraMoved(const FInputActionValue& value);
-	void DoorMoved(const FInputActionValue& value);
-
-	void Paused(const FInputActionValue& value);
-	void Inventory(const FInputActionValue& value);
-	void NextInventoryItem(const FInputActionValue& value);
-	void PrevInventoryItem(const FInputActionValue& value);
-	void BackFromFocus(const FInputActionValue& value);
-
-	void SetInventoryInputs();
-	void SetDoorInputs();
-
-	UFUNCTION(BlueprintCallable, Category = "Gamepad")
-	void SetIsGamepad(const bool bIsGamepad);
-
-	void OnWindowFocusChanged(bool bIsFocused);
-
-public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
-	UWidgetInteractionComponent* WidgetInteractionComponent;
-
-	FPlayerMovement OnPlayerMovement;
-
-	FStopSprint OnStopSprint;
-	FStartSprint OnStartSprint;
-
-	FTurnLighterOn OnLighter;
-
-	FInteractionPressed OnInteractionPressed;
-	FHoldingBTN OnHoldingBtn;
-
-	FMoveCamera OnCameraMoved;
-	FMoveCamera OnCameraMovedDoor;
-
-	FPaused OnPause;
-	FInventory OnInventory;
-	FOnFocusBack OnLeaveFocus;
-
-	FNextInventoryItem OnNextInventoryItem;
-	FPrevInventoryItem OnPrevInventoryItem;
-
-	FCheckInputMode OnKeyPressed;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FCheckKeyInputMode OnAnyKeyPressed;
-
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bIsUsingGamepad;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
@@ -196,4 +165,48 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess = "true"))
 	UInputAction* PrevInventoryItemAction;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	UFUNCTION(BlueprintCallable, Category = "Gamepad")
+	bool GetIsGamepad() const;
+
+	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void LoadValues(class APlayerStateTheRite* CurrentPlayerState);
+	//---------------- Loading Methods
+
+//---------------- Binding Methods
+	void BindActions();
+	void UnbindActions();
+
+	//---------------- Input Methods
+	void PlayerMovement(const FInputActionValue& value);
+
+	void StartSprint(const FInputActionValue& value);
+	void StopSprint(const FInputActionValue& value);
+
+	void LighterOn(const FInputActionValue& value);
+
+	void InteractionPressed(const FInputActionValue& value);
+	void HoldingBTN(const FInputActionValue& value);
+
+	void CameraMoved(const FInputActionValue& value);
+	void DoorMoved(const FInputActionValue& value);
+
+	void Paused(const FInputActionValue& value);
+	void Inventory(const FInputActionValue& value);
+	void NextInventoryItem(const FInputActionValue& value);
+	void PrevInventoryItem(const FInputActionValue& value);
+	void BackFromFocus(const FInputActionValue& value);
+
+	void SetInventoryInputs();
+	void SetDoorInputs();
+
+	UFUNCTION(BlueprintCallable, Category = "Gamepad")
+	void SetIsGamepad(const bool bIsGamepad);
+
+	void OnWindowFocusChanged(bool bIsFocused);
 };

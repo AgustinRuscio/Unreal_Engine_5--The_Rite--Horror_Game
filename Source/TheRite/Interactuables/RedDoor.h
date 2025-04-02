@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -20,37 +20,21 @@ class THERITE_API ARedDoor : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ARedDoor();
-	
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	void CreateEditorComponents();
-	
-	UFUNCTION()
-	void ChangeLevel();
-
-//---------------- TimeLines Methods
-	void BindTimeLines();
-
-	
-	UFUNCTION()
-	void OpenTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void OpenTimelineFinished();
-	
-	
-	UFUNCTION()
-	void LatchAnimTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void FadeTimelineFinished();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bAlreadyOpen;
 
 	UPROPERTY(EditAnywhere, Category = "States")
@@ -102,4 +86,32 @@ private:
 	FTimeline FadeTimeLine;
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* FadeCurve;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	void CreateEditorComponents();
+	
+	UFUNCTION()
+	void ChangeLevel();
+
+//---------------- TimeLines Methods
+	void BindTimeLines();
+
+	
+	UFUNCTION()
+	void OpenTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void OpenTimelineFinished();
+	
+	
+	UFUNCTION()
+	void LatchAnimTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void FadeTimelineFinished();
 };

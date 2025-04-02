@@ -1,6 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 
 #pragma once
@@ -16,17 +17,16 @@ class THERITE_API AAmbientSoundPlayer : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	AAmbientSoundPlayer();
 	~AAmbientSoundPlayer();
 	
-	
 private:
-	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	void CreateAudio();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bIs2D;
 	
@@ -34,4 +34,13 @@ private:
 	USoundBase* CueToSound;
 
 	UAudioComponent* AudioComp;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void CreateAudio();
+	
 };

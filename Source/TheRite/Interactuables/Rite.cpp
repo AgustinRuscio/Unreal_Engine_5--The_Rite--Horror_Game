@@ -1,10 +1,9 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Rite.h"
-
 #include "Components/PostProcessComponent.h"
 #include "Components/SphereComponent.h"
 #include "Clock.h"
@@ -14,9 +13,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
-
-//*****************************Public************************************************
-//***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 ARite::ARite()

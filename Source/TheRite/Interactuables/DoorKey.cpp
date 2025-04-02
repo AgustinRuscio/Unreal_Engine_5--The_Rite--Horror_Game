@@ -1,20 +1,17 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "DoorKey.h"
 #include "Door.h"
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-//*****************************Public**********************************************
-//*********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 ADoorKey::ADoorKey()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	KeyMesh = CreateDefaultSubobject<UStaticMeshComponent>("Key Mesh");
 	RootComponent = KeyMesh;

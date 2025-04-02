@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "WrittingsDetector.h"
 #include "Components/SphereComponent.h"
@@ -43,7 +43,6 @@ void AWrittingsDetector::SetInteractionStatus(bool newStatus)
 	{
 		TriggerDetector->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		
-		//if( !currentWritting) return;
 		if(OverlappedFadeObjects.Num() == 0) return;
 
 		for (auto Element : OverlappedFadeObjects)
@@ -52,9 +51,6 @@ void AWrittingsDetector::SetInteractionStatus(bool newStatus)
 		}
 		
 		OverlappedFadeObjects.Empty();
-		
-		//currentWritting->Deactivate();
-		//currentWritting = nullptr;
 	}
 }
 
@@ -66,19 +62,6 @@ void AWrittingsDetector::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//if(OverlappedFadeObjects.Num() > 0)
-	//{
-	//	for (auto Element : OverlappedFadeObjects)
-	//	{
-	//		float DistanceToCenter = FVector::Dist(Element->GetActor()->GetActorLocation(), GetActorLocation());
-	//
-	//		float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
-	//
-	//		float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
-	//		Element->SetAlpha(AlphaValue);
-	//	}
-	//}
-	
 	ChangeCurrentWritingAlpha();
 }
 
@@ -99,16 +82,6 @@ void AWrittingsDetector::ChangeCurrentWritingAlpha()
 		float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
 		Element->SetAlpha(AlphaValue);
 	}
-	
-	//if(!bwrittingDetected || currentWritting == nullptr) return;
-//
-	//float DistanceToCenter = FVector::Dist(currentWritting->GetActorLocation(), GetActorLocation());
-	//
-	//float NormalizedDistance = FMath::Clamp(DistanceToCenter/TriggerDetector->GetScaledSphereRadius(), 0.f, 1.f);
-	//
-	//float AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
-	//
-	//currentWritting->SetMaterialAlpha(AlphaValue);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -136,15 +109,6 @@ void AWrittingsDetector::OnOverlapBegins(UPrimitiveComponent* OverlappedComponen
 		OverlappedFadeObjects.Add(castedComponent);
 
 	castedComponent->OnFadeActivate();
-
-
-	//auto castedActor = Cast<ASpectralWrittings>(OtherActor);
-	//if(!castedActor) return;
-
-	//currentWritting = castedActor;
-
-	//bwrittingDetected = true;
-	//currentWritting->Activate();
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -158,14 +122,5 @@ void AWrittingsDetector::OnOverlapEnds(UPrimitiveComponent* OverlappedComponent,
 		
 	castedComponent->OnFadeDeActivate();
 	OverlappedFadeObjects.Remove(castedComponent);
-	
-	
-	//auto castedActor = Cast<ASpectralWrittings>(OtherActor);
-	//if(!castedActor) return;
-	//if(castedActor != currentWritting) return;
-	//
-	//currentWritting->Deactivate();
-	//currentWritting = nullptr;
-	//bwrittingDetected = false;
 }
 #pragma endregion

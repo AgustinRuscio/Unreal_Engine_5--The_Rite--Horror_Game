@@ -1,10 +1,9 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Candle.h"
-
 #include "NiagaraComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -16,12 +15,12 @@
 ACandle::ACandle()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Candle Mesh");
-	Plane = CreateDefaultSubobject<UStaticMeshComponent>("Plane Mesh");
-	PointLight = CreateDefaultSubobject<UPointLightComponent>("Light");
+	Mesh	       = CreateDefaultSubobject<UStaticMeshComponent>("Candle Mesh");
+	Plane	       = CreateDefaultSubobject<UStaticMeshComponent>("Plane Mesh");
+	PointLight	   = CreateDefaultSubobject<UPointLightComponent>("Light");
 	SmokeParticles = CreateDefaultSubobject<UNiagaraComponent>("Smoke particles");
 
-	Plane ->SetupAttachment(Mesh);
+	Plane->SetupAttachment(Mesh);
 	PointLight->SetupAttachment(Mesh);
 	SmokeParticles->SetupAttachment(Mesh);
 }

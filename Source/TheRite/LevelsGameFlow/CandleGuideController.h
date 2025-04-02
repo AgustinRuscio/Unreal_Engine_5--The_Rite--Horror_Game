@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,23 +21,27 @@ public:
 	ACandleGuideController();
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	AInteractor* MyInteractor;
+
+	UPROPERTY(EditAnywhere, Category = "States")
+	TArray<ACandle*> PlaceGuideCandles;
+
+	UPROPERTY(EditAnywhere, Category = "States")
+	TArray<ACandle*> NextPlaceGuideCandles;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 
-	
 //---------------- Action Methods
 	UFUNCTION()
 	void GuideChange(AInteractor* interactor);
 
 	void TurnOffPrevCandles();
 	void TurnOnNextCandles();
-	
-private:	
-	UPROPERTY(EditAnywhere, Category= "Settings")
-	AInteractor* MyInteractor;
-
-	UPROPERTY(EditAnywhere, Category= "States")
-	TArray<ACandle*> PlaceGuideCandles;
-	
-	UPROPERTY(EditAnywhere, Category= "States")
-	TArray<ACandle*> NextPlaceGuideCandles;
 };

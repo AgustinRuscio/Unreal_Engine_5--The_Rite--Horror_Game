@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -24,27 +24,28 @@ class THERITE_API AFuseBox : public AInteractor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AFuseBox();
 	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FFuseBoxCompleted OnFuseBoxComplete;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 	void GrabFusible(FString FuseName, PickableItemsID FuseId);
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//--------------------- TimeLine methods
-	UFUNCTION()
-	void LocateFusibleTick(float deltaSeconds);
-	
-	UFUNCTION()
-	void LocateFusibleFinished();
-	
-public:
-	FFuseBoxCompleted OnFuseBoxComplete;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bHastFusibleToPut;
 	bool bBothFusesSameTime;
 
@@ -92,4 +93,17 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Timeline", meta=(AllowPrivateAccess = true))
 	ALightSwitch* ThermalSwitch;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//--------------------- TimeLine methods
+	UFUNCTION()
+	void LocateFusibleTick(float deltaSeconds);
+	
+	UFUNCTION()
+	void LocateFusibleFinished();
 };

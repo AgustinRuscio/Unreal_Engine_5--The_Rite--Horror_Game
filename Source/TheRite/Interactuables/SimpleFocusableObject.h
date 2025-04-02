@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -41,16 +41,14 @@ protected:
 	//*****************************************************************************//
 	//								PROTECTED VARIABLES							   //
 	//*****************************************************************************//
-	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	TSubclassOf<class UCommonActivatableWidget> DisplayedWidgetBase;
 
 	class UCommonActivatableWidget* DisplatedWidget;
 
 	//*****************************************************************************//
-	//								PROTECTED METHODS								   //
+	//								PROTECTED METHODS							   //
 	//*****************************************************************************//
-	
 	virtual void BeginPlay() override;
 
 		UFUNCTION()
@@ -60,7 +58,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bShowDefaultWidgets = true;
 	bool bIsFocus;
@@ -72,8 +69,4 @@ private:
 	FVector ExittingVector;
 
 	class AAlex* Player;
-
-	//*****************************************************************************//
-	//								PRIVATE METHODS								   //
-	//*****************************************************************************//
 };

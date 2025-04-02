@@ -1,22 +1,19 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "MovableActor.h"
-
 #include "CustomLight.h"
 #include "LightsTheRite.h"
 #include "Components/AudioComponent.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 
-
 namespace
 {
 	FVector ActorStartPoint;
 }
-
 
 //----------------------------------------------------------------------------------------------------------------------
 AMovableActor::AMovableActor()
@@ -36,6 +33,7 @@ AMovableActor::AMovableActor()
 void AMovableActor::Trigger()
 {
 	Super::Trigger();
+
 	if(bForce)
 	{
 		MeshComponent->SetSimulatePhysics(true);

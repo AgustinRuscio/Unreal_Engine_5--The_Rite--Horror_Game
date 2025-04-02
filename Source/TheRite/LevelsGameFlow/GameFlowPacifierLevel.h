@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 #include "CoreMinimal.h"
@@ -37,61 +37,16 @@ class THERITE_API AGameFlowPacifierLevel : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AGameFlowPacifierLevel();
-
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//---------------- Initialization Methods
-	void BindColliderMethods();
-	void InitializeValues();
-	
-//---------------- Blocking volume Methods
-	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation);
-	void ResetBlockingVolumePosition();
-	
-//---------------- Audio Methods
-	void RaiseAmbientVolume(float newVolumeMultiplier);
-	void ResetAmbientVolume();
-	
-//---------------- Events Methods
-	UFUNCTION()
-	void PlaceMannequinsInCorridor(AInteractor* Interactor);
-	
-	UFUNCTION()
-	void PlaceMannequinsStairs(AInteractor* Interactor);
-	
-	UFUNCTION()
-	void OnLightsOnEvent(AInteractor* Interactor);
-	
-	UFUNCTION()
-	void LightsOnBedRoom(AInteractor* Interactor);
-
-	UFUNCTION()
-	void OnHideSeekPuzzleStarted();
-	
-	UFUNCTION()
-	void EndGame();
-
-	UFUNCTION()
-	void OnLastPuzzleTimerTick(float deltaSeconds);
-
-	UFUNCTION()
-	void OnLasPuzzleTimerFinished();
-	
-//---------------- Colliders Methods
-	UFUNCTION()
-	void OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OnTriggerStairsTiffanyEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bLightsOutEventDone = false;
 	bool bLightsDown = false;
 	bool bLightsRestored = false;
@@ -244,4 +199,59 @@ private:
 	AInteractor* Interactable_BedroomLightsOn;
 	
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//---------------- Initialization Methods
+	void BindColliderMethods();
+	void InitializeValues();
+	
+//---------------- Blocking volume Methods
+	void PlaceBlockingVolume(FVector NewLocation, FRotator NewRotation);
+	void ResetBlockingVolumePosition();
+	
+//---------------- Audio Methods
+	void RaiseAmbientVolume(float newVolumeMultiplier);
+	void ResetAmbientVolume();
+	
+//---------------- Events Methods
+	UFUNCTION()
+	void PlaceMannequinsInCorridor(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void PlaceMannequinsStairs(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void OnLightsOnEvent(AInteractor* Interactor);
+	
+	UFUNCTION()
+	void LightsOnBedRoom(AInteractor* Interactor);
+
+	UFUNCTION()
+	void OnHideSeekPuzzleStarted();
+	
+	UFUNCTION()
+	void EndGame();
+
+	UFUNCTION()
+	void OnLastPuzzleTimerTick(float deltaSeconds);
+
+	UFUNCTION()
+	void OnLasPuzzleTimerFinished();
+	
+//---------------- Colliders Methods
+	UFUNCTION()
+	void OnTriggerLightsOutEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnTriggerStairsTiffanyEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+private:
 };

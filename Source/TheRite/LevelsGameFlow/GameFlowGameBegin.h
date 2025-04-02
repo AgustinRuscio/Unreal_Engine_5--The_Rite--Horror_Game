@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -29,39 +29,17 @@ class THERITE_API AGameFlowGameBegin : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AGameFlowGameBegin();
 
-private:
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
-	void SetNeededValues();
-	void CreateWidgets();
-	
-	void PlayBeginSequence();
-
-	UFUNCTION()
-	void BeginSequenceFinished();
-
-	void PlayRiteSequence();
-
-	UFUNCTION()
-	void RiteSequenceFinished();
-	
-	UFUNCTION()
-	void OnRiteInteraction(AInteractor* Interactable);
-
-	UFUNCTION()
-	void OnRiteReady();
-	
-	UFUNCTION()
-	void OnRiteObjetObtain(AInteractor* Interactable);
-	
-	void ShowingFirstTutorialWidget();
-	void ShowingSecondTutorialWidget();
 
 private:
-	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
 	FName NextLevel;
 
@@ -136,4 +114,35 @@ private:
 	ADoorSlapper* EndDoorSlapper;
 	
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
+	void SetNeededValues();
+	void CreateWidgets();
+	
+	void PlayBeginSequence();
+
+	UFUNCTION()
+	void BeginSequenceFinished();
+
+	void PlayRiteSequence();
+
+	UFUNCTION()
+	void RiteSequenceFinished();
+	
+	UFUNCTION()
+	void OnRiteInteraction(AInteractor* Interactable);
+
+	UFUNCTION()
+	void OnRiteReady();
+	
+	UFUNCTION()
+	void OnRiteObjetObtain(AInteractor* Interactable);
+	
+	void ShowingFirstTutorialWidget();
+	void ShowingSecondTutorialWidget();
 };

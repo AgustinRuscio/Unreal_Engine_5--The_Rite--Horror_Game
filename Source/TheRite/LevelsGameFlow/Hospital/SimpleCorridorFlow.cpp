@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "SimpleCorridorFlow.h"
-
 #include "BackCorridorFlow.h"
 #include "Components/AudioComponent.h"
 #include "Components/LightComponent.h"
@@ -32,7 +31,7 @@ static float HintLightInitialIntensity;
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleCorridorFlow::ASimpleCorridorFlow()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Comp");
 }
 

@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -17,7 +17,6 @@ class THERITE_API UVaultWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(BlueprintCallable)
 	FOnCodeCorrect OnCodeCorrect;
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -14,14 +14,24 @@
 class UTextBlock;
 class UImage;
 
-
-
 UCLASS()
 class THERITE_API UChangingdWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UImage*> DisplayImmages;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTextBlock* ChangingText;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	float GetHideTime() const;
 
 	UFUNCTION()
@@ -33,25 +43,11 @@ public:
 	void OnInteraction(AInteractor* Interactable);
 	
 	void SelfRemove();
-
-private:
 	
-	void NativeOnActivated() override;
-
-	void SetGamepadImages();
-	void SetKeyboardImages();
-
-	UFUNCTION()
-	void AutoHide();
-	
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UImage*> DisplayImmages;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTextBlock* ChangingText;
-
 protected:
+	//*****************************************************************************//
+	//								PROTECTED VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere)
 	TArray<UTexture*> GamepadKeyImage;
 	
@@ -59,6 +55,9 @@ protected:
 	TArray<UTexture*> KeyboardKeyImage;
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	bool bAutoDisable;
 
@@ -68,4 +67,15 @@ private:
 	float DeactivateTime;
 
 	FTimerHandle Timer_ClockClue;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	void NativeOnActivated() override;
+
+	void SetGamepadImages();
+	void SetKeyboardImages();
+
+	UFUNCTION()
+	void AutoHide();
 };

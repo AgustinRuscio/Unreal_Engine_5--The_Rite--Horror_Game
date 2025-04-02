@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -15,5 +15,4 @@ UCLASS()
 class THERITE_API ULockedWidget : public UChangingdWidget
 {
 	GENERATED_BODY()
-	
 };

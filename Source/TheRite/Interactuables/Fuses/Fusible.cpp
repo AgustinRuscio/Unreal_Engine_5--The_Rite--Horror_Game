@@ -1,20 +1,16 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Fusible.h"
 #include "FuseBox.h"
 #include "Kismet/GameplayStatics.h"
 
-
-//*****************************Public***********************************************
-//***********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 AFusible::AFusible()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	FusibleMesh= CreateDefaultSubobject<UStaticMeshComponent>("Fusible mesh");
 }
 

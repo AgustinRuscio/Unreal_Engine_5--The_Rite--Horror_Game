@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -27,39 +27,16 @@ class THERITE_API AGameFlowDiaryLevelOtherWorld : public AActor
 	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AGameFlowDiaryLevelOtherWorld();
 
 private:
-	virtual void BeginPlay() override;
-	
-//---------------- Initialize Methods
-	UFUNCTION()
-	void BindTriggers();
-	void BindMethods();
-	void InitializeValues();
-	
-	UFUNCTION()
-	void EndGame();
-
-	UFUNCTION()
-	void DinningRoomObjectEventGrab(AInteractor* a);
-	
-//---------------- Colliders Methods
-	UFUNCTION()
-	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-	UFUNCTION()
-	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
-public:	
-
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bEventReadyDinningRoom;
 	bool bLivingRoomEventDone = false;
 	bool bKitchenEventDone = false;
@@ -146,4 +123,36 @@ private:
 	
 //-------- Others
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+//---------------- Initialize Methods
+	UFUNCTION()
+	void BindTriggers();
+	void BindMethods();
+	void InitializeValues();
+	
+	UFUNCTION()
+	void EndGame();
+
+	UFUNCTION()
+	void DinningRoomObjectEventGrab(AInteractor* a);
+	
+//---------------- Colliders Methods
+	UFUNCTION()
+	void OnTriggerLivingRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerKitchenEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnTriggerDinningRoomEventOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	
+	UFUNCTION()
+	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+private:
 };

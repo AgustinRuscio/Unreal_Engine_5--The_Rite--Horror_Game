@@ -13,7 +13,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ADoorScaryKnocking::ADoorScaryKnocking()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("Box Collision");
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ADoorScaryKnocking::OnOverlapBegin);

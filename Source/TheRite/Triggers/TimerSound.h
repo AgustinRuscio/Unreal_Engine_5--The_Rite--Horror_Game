@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -17,21 +17,23 @@ class THERITE_API ATimerSound : public AActor
 	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ATimerSound();
 
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void Activate();
 	void Deactivate();
 
 private:
-	USoundBase* CurrentAudio() const;
-	
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	void ChangeCoolDown();
-	void SpawnAudio();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bIsActive = true;
 	
@@ -50,4 +52,15 @@ private:
 	USoundAttenuation* FxAttenuation;
 	
 	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	USoundBase* CurrentAudio() const;
+	
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	void ChangeCoolDown();
+	void SpawnAudio();
 };

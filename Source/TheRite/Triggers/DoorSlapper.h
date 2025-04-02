@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,21 +21,27 @@ class THERITE_API ADoorSlapper : public AActor
 
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ADoorSlapper();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnSlappedDoor OnSlappedDoor;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void Activate();
 	void Deactivate();
-
-	FOnSlappedDoor OnSlappedDoor;
 	
 private:
-	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	void SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bActive = true;
 	UPROPERTY(EditAnywhere, Category="Settings")
@@ -46,4 +52,13 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Doors")
 	TArray<ADoor*> DoorsToSlap;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void SlapDoor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

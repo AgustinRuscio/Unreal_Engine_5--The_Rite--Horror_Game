@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -20,12 +20,36 @@ class THERITE_API AWrittingsDetector : public AActor
 	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AWrittingsDetector();
 
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void SetComponentSettings(float radius, FTransform transform);
 	void SetInteractionStatus(bool newStatus);
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	bool bwrittingDetected;
+	bool bInteracionOn;
+
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float Radius;
+
+	UPROPERTY(EditAnywhere)
+	USphereComponent* TriggerDetector;
+
+	TArray<IFader*> OverlappedFadeObjects;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void Tick(float DeltaTime) override;
 	
 //---------------- Setter Methods
@@ -39,18 +63,4 @@ private:
 	
 	UFUNCTION()
 	void OnOverlapEnds(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
-private:
-	bool bwrittingDetected;
-	bool bInteracionOn;
-
-	UPROPERTY(EditAnywhere, Category="Settings")
-	float Radius;
-
-	UPROPERTY(EditAnywhere)
-	USphereComponent* TriggerDetector;
-
-	TArray<IFader*> OverlappedFadeObjects;
-	
-	//ASpectralWrittings* currentWritting;
 };

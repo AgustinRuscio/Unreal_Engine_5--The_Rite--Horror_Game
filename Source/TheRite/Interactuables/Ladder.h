@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -22,9 +22,16 @@ class THERITE_API ALadder : public AInteractor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ALadder();
-	
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 //---------------- Interactions
 	virtual void Interaction() override;
 
@@ -36,24 +43,9 @@ public:
 	void DisableLadder();
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	UFUNCTION()
-	void OnCinematicFinished();
-	
-//---------------- TimeLine
-	void BindTimeLineMethods();
-	
-	UFUNCTION()
-	void OnReLocationPlayerTimeLineTick(float delta);
-	
-	UFUNCTION()
-	void OnReLocationPlayerTimeLineFinished();
-	
-public:
-
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bFlipFlop = true;
 	bool bFirstInteraction = true;
 	bool bDoOnceOpenByNear = false;
@@ -115,4 +107,22 @@ private:
 	UCurveFloat* CurveFloat;
 	
 	AAlex* player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION()
+	void OnCinematicFinished();
+	
+//---------------- TimeLine
+	void BindTimeLineMethods();
+	
+	UFUNCTION()
+	void OnReLocationPlayerTimeLineTick(float delta);
+	
+	UFUNCTION()
+	void OnReLocationPlayerTimeLineFinished();
 };

@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.5.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "LightsPortrait.h"
@@ -14,7 +14,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ALightsPortrait::ALightsPortrait()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	Light = CreateDefaultSubobject<USpotLightComponent>("Light");
 	Light->SetupAttachment(ObjectMesh);

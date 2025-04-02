@@ -1,26 +1,19 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "ClockLevelDrawersPuzzle.h"
-
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/SpectralObstacle.h"
 #include "TheRite/Interactuables/SpectralWrittings.h"
 #include "TheRite/Interactuables/Interactor.h"
 
-//*****************************Public*********************************************
-//********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 AClockLevelDrawersPuzzle::AClockLevelDrawersPuzzle()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 }
-
-//*****************************Private*********************************************
-//*********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 void AClockLevelDrawersPuzzle::BeginPlay()

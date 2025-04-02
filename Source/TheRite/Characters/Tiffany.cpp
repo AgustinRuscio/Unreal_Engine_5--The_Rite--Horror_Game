@@ -1,10 +1,9 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Tiffany.h"
-
 #include "Components/AudioComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "TheRite/AI/TiffanyController.h"
@@ -21,7 +20,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ATiffany::ATiffany()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->InitSphereRadius(305.0f);

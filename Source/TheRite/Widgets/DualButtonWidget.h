@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.5.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -18,7 +18,6 @@ class THERITE_API UDualButtonWidget : public UCommonActivatableWidget
 	GENERATED_BODY()
 	
 public:
-
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
@@ -28,7 +27,6 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
 	UFUNCTION(BlueprintCallable)
 	virtual void YesButtonPressed();
 

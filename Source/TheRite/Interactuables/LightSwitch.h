@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,26 +19,23 @@ class THERITE_API ALightSwitch : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ALightSwitch();
 	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 	virtual void SetSpecialReady();
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//---------------- TimeLine Methods
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void SwitchTimeLineTick(float time);
-	
-	UFUNCTION()
-	void SwitchTimeLineFinished();
-	
-private:	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bOneUse = false;
 	
@@ -71,4 +68,19 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Time Line")
 	UCurveFloat* InvertedCurve;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//---------------- TimeLine Methods
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void SwitchTimeLineTick(float time);
+	
+	UFUNCTION()
+	void SwitchTimeLineFinished();
 };

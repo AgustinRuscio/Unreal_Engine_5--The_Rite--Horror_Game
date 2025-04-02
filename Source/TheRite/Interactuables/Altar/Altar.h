@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -22,13 +22,57 @@ class THERITE_API AAltar : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AAltar();
 
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 	void DisableAltarInteraction();
-	
+
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	bool bIsFocus;
+
+	int WhellIndex = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	FVector ExittingVector;
+
+	UPROPERTY(EditAnywhere, Category = "Setting")
+	FRotator ExittingRotation;
+
+	FVector cameraPos;
+
+	FVector3d ActualCamaraPos;
+	FVector3d NextCamaraPos;
+
+	UPROPERTY(EditAnywhere, Category = "Obj", meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* StaticMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Obj", meta = (AllowPrivateAccess = "true"))
+	TArray<AAltarWhell*> Whells;
+
+	FTimeline MoveCameraTimeLine;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	UCurveFloat* CurveFloat;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	TArray<ATargetPoint*> CameraPos;
+
+	AAlex* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -57,36 +101,4 @@ private:
 	
 	UFUNCTION()
 	void MoveCameraFinished();
-
-private:
-	bool bIsFocus;
-
-	int WhellIndex = 0;
-
-	UPROPERTY(EditAnywhere, Category = "Setting")
-	FVector ExittingVector;
-	
-	UPROPERTY(EditAnywhere, Category = "Setting")
-	FRotator ExittingRotation;
-	
-	FVector cameraPos;
-	
-	FVector3d ActualCamaraPos;
-	FVector3d NextCamaraPos;
-	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	UStaticMeshComponent* StaticMesh;
-	
-	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
-	TArray<AAltarWhell*> Whells;
-
-	FTimeline MoveCameraTimeLine;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	UCurveFloat* CurveFloat;
-
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	TArray<ATargetPoint*> CameraPos;
-	
-	AAlex* Player;
 };

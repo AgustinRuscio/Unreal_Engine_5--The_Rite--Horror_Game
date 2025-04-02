@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -24,8 +24,21 @@ class THERITE_API AFetus : public AInteractor, public IFader
 	GENERATED_BODY()
 	
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AFetus();
 	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnCorrectFetus OnCorrectFetus;
+	FOnWrongFetus OnWrongFetus;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	bool GetIsCorrectFetus() const;
 	
 	virtual void Interaction() override;
@@ -36,20 +49,9 @@ public:
 	void StartAudioComponent();
 	
 private:
-	virtual void BeginPlay() override;
-	void SetFaderValues();
-
-	UFUNCTION()
-	void OnFadeActivated();
-	
-	UFUNCTION()
-	void OnFadeDeactivate();
-	
-public:
-	FOnCorrectFetus OnCorrectFetus;
-	FOnWrongFetus OnWrongFetus;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bIsLetterPuzzle = true;
 	UPROPERTY(EditAnywhere, Category = "Settings")
@@ -76,4 +78,16 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Component", meta=(AllowPrivateAccess = true))
 	UFadeObjectComponent* FadeComponent;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	void SetFaderValues();
+
+	UFUNCTION()
+	void OnFadeActivated();
+	
+	UFUNCTION()
+	void OnFadeDeactivate();
 };

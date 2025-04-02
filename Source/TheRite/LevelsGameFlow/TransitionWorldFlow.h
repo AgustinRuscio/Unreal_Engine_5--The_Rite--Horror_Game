@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,15 +21,16 @@ class THERITE_API ATransitionWorldFlow : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ATransitionWorldFlow();
 
 private:
-	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	void RedDoorOpen(AInteractor* interactor);
-	
-private:	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "States")
 	ARedDoor* RedDoor;
 
@@ -38,6 +39,14 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralObstacle* RedDoorObstacle;
-	
+
 	AAlex* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void RedDoorOpen(AInteractor* interactor);
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -17,23 +17,25 @@ class THERITE_API UFloatingActorComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	UFloatingActorComponent();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void ActivateComponent();
 	void StopComponent();
 	
 private:
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
-	void BindTimeLine();
-	
-	UFUNCTION()
-	void OnMovementTick(float deltaTime);
-	UFUNCTION()
-	void OnMovementFinished();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category= "Settings", meta=(ToolTip = "If true movement will start on begin play"))
 	bool bAutoStart = true;
 
@@ -61,4 +63,17 @@ private:
 	UCurveFloat* TimeLineCurve;
 	
 	AActor* MyOwnerActor;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
+	void BindTimeLine();
+	
+	UFUNCTION()
+	void OnMovementTick(float deltaTime);
+	UFUNCTION()
+	void OnMovementFinished();
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -18,9 +18,31 @@ class THERITE_API ARealWorldGameFlow : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ARealWorldGameFlow();
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	//-------- Collider
+	UPROPERTY(EditAnywhere, Category= "Objects")
+	ATriggerVolume* KnockTrigger;
+	
+	//-------- Audio
+	UPROPERTY(EditAnywhere, Category= "Audios")
+	USoundBase* FirstTalkAudio;
+	
+	UPROPERTY(EditAnywhere, Category = "Audios")
+	USoundBase* SFX_Knocking;
+	AAlex* Player;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	
 	void PlayerMethods();
@@ -34,17 +56,4 @@ private:
 	
 	UFUNCTION()
 	void OnOverlapBeginKnock(AActor* OverlappedActor, AActor* OtherActor);
-	
-private:
-	//-------- Collider
-	UPROPERTY(EditAnywhere, Category= "Objects")
-	ATriggerVolume* KnockTrigger;
-	
-	//-------- Audio
-	UPROPERTY(EditAnywhere, Category= "Audios")
-	USoundBase* FirstTalkAudio;
-	
-	UPROPERTY(EditAnywhere, Category = "Audios")
-	USoundBase* SFX_Knocking;
-	AAlex* Player;
 };

@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #pragma once
@@ -35,14 +35,12 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-
 	FOnLeverUsageEnd OnLeverUsageEnd;
 	FOnLeverUsageStart OnLeverUsageStart;
 	
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
 	FORCEINLINE bool IsCorrect() const { return bIsCorrect; };
 
 	virtual void Interaction() override;
@@ -53,7 +51,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bIsCorrect;
 

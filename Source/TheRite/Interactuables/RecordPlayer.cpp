@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "RecordPlayer.h"
 #include "Components/AudioComponent.h"
@@ -14,8 +14,9 @@
 ARecordPlayer::ARecordPlayer()
 {
  	PrimaryActorTick.bCanEverTick = true;
-	Base = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
-	Disc = CreateDefaultSubobject<UStaticMeshComponent>("Disc");
+
+	Base  = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
+	Disc  = CreateDefaultSubobject<UStaticMeshComponent>("Disc");
 	Latch = CreateDefaultSubobject<UStaticMeshComponent>("Latch");
 
 	RootComponent = Base;

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Lighter.h"
 #include "Components/PointLightComponent.h"
@@ -11,13 +11,10 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/Characters/Alex.h"
 
-//*****************************Public************************************************
-//***********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 ALighter::ALighter()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 	
 	LighterBody = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	LighterWheel = CreateDefaultSubobject<UStaticMeshComponent>("Wheel");

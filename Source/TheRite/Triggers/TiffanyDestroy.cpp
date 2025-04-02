@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "TiffanyDestroy.h"
 #include "TheRite/Characters/Tiffany.h"
@@ -9,21 +9,15 @@
 #include "Components/BoxComponent.h"
 #include "TheRite/Characters/Alex.h"
 
-//*****************************Public*********************************************
-//********************************************************************************
-
 //----------------------------------------------------------------------------------------------------------------------
 ATiffanyDestroy::ATiffanyDestroy()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	Box = CreateDefaultSubobject<UBoxComponent>("Box collision");
 	
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ATiffanyDestroy::OnOverlapBegin);
 }
-
-//*****************************Private*********************************************
-//*********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 void ATiffanyDestroy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

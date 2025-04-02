@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -23,36 +23,27 @@ class THERITE_API ALockedDoor : public AInteractor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ALockedDoor();
 	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(BlueprintAssignable, Category = "Interaction Delegate")
+	FOnInteraction OnInteraction;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 private:
-	//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//---------------- FeedBack Methods
-	UFUNCTION()
-	void ItsLocked();
-	
-	UFUNCTION()
-	void OnAudioFinished();
-
-//---------------- TimeLine Methods
-	void BindTimelines();
-	
-	UFUNCTION()
-	void TimeLineUpdate(float time);
-	
-	UFUNCTION()
-	void TimelineFinished();
-
-public:	
-	UPROPERTY(BlueprintAssignable, Category = "Interaction Delegate")
-	FOnInteraction OnInteraction;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bCanSoundItsLocked = true;
 	
 	UPROPERTY(EditAnywhere, Category= "States")
@@ -95,4 +86,27 @@ private:
 	UCurveFloat* MyFloatCurve;
 	
 	AAlex* Player;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	//---------------- System Class Methods
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//---------------- FeedBack Methods
+	UFUNCTION()
+	void ItsLocked();
+	
+	UFUNCTION()
+	void OnAudioFinished();
+
+//---------------- TimeLine Methods
+	void BindTimelines();
+	
+	UFUNCTION()
+	void TimeLineUpdate(float time);
+	
+	UFUNCTION()
+	void TimelineFinished();
 };

@@ -1,20 +1,15 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "HourLetter.h"
-
 #include "Kismet/GameplayStatics.h"
-
-
-//*****************************Public***********************************************
-//***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 AHourLetter::AHourLetter()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	LetterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Letter mesh");
 	RootComponent = LetterMesh;

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -17,10 +17,9 @@ class THERITE_API UKeyWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable)
-	void SetKeyZoneText(FString newZone);
-	
-public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(BlueprintReadWrite)
 	FString ZoneText;
 	UPROPERTY(EditAnywhere)
@@ -28,4 +27,10 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTextBlock* TextComponent;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
+	UFUNCTION(BlueprintCallable)
+	void SetKeyZoneText(FString newZone);
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -20,12 +20,34 @@ class THERITE_API AAutomaticCloseDoorTrigger : public AActor
 	GENERATED_BODY()
 
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Contructor
 	AAutomaticCloseDoorTrigger();
 	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	bool playerInside;
+
+	UPROPERTY(EditAnywhere, Category="Trigger")
+	ATriggerVolume* RoomTrigger;
+
+	FTimeline CloseDoorTimeLine;
+	
+	UPROPERTY(EditAnywhere, Category="Curves")
+	UCurveFloat* CloseDoorCurve;
+	
+	UPROPERTY(EditAnywhere, Category="My door")
+	ADoor* DoorToClose;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	
 	
 //---------------- Timelines Methods
 	void BindTimeLinesMethods();
@@ -41,18 +63,4 @@ private:
 	
 	UFUNCTION()
 	void CheckActorOut(AActor* OverlappedActor, AActor* OtherActor);
-	
-private:
-	bool playerInside;
-
-	UPROPERTY(EditAnywhere, Category="Trigger")
-	ATriggerVolume* RoomTrigger;
-
-	FTimeline CloseDoorTimeLine;
-	
-	UPROPERTY(EditAnywhere, Category="Curves")
-	UCurveFloat* CloseDoorCurve;
-	
-	UPROPERTY(EditAnywhere, Category="My door")
-	ADoor* DoorToClose;
 };

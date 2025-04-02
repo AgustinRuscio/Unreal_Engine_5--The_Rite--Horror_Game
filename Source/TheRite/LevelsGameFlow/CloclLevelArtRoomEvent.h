@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -10,10 +10,8 @@
 #include "Components/TimelineComponent.h"
 #include "CloclLevelArtRoomEvent.generated.h"
 
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArtRoomClocklLevelStarted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArtRoomClocklLevelEnd);
-
 
 class ATriggerBox;
 class ASpotLight;
@@ -31,74 +29,22 @@ class THERITE_API ACloclLevelArtRoomEvent : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ACloclLevelArtRoomEvent();
-	
-	
-private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	UFUNCTION()
-	void OnEventStarted(AActor* OverlappedActor, AActor* OtherActor);
-	
-//---------------- TimeLine Methods
-	void BindTimeLines();
-	void TimeLinesTick(float DeltaTime);
 
-	
-	UFUNCTION()
-	void DuringFirstTurnOffTick(float deltaTime);
-
-	UFUNCTION()
-	void FirstTurnOffFinished();
-
-	
-	UFUNCTION()
-	void DuringFirstTurnOnTick(float deltaTime);
-
-	UFUNCTION()
-	void OnFirstTurnOnFinished();
-
-	
-	UFUNCTION()
-	void DuringSecondTurnOnTick(float deltaTime);
-
-	UFUNCTION()
-	void OnSecondTurnOnFinished();
-
-	
-
-	UFUNCTION()
-	void DuringThirdTurnOffTick(float deltaTime);
-
-	UFUNCTION()
-	void OnThirdTurnOffFinished();
-	
-
-	UFUNCTION()
-	void DuringThirdTurnOnTick(float deltaTime);
-
-	UFUNCTION()
-	void OnThirdTurnOnFinished();
-	
-
-	UFUNCTION()
-	void DuringLastTurnOffTick(float deltaTime);
-
-	UFUNCTION()
-	void OnLastTurnOffFinished();
-
-	UFUNCTION()
-	void DuringLastTurnOnTick(float deltaTime);
-
-	UFUNCTION()
-	void OnLastTurnOnFinished();
-	
-public:	
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FArtRoomClocklLevelStarted OnArtRoomEventStarted;
 	FArtRoomClocklLevelEnd OnArtRoomEventFinished;
 	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	int8 DoOnce = 0;
 
 	//-------- Colliders Meshes
@@ -184,4 +130,66 @@ private:
 	ATiffany* StandTiffany;
 	
 	AAlex* Alex;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION()
+	void OnEventStarted(AActor* OverlappedActor, AActor* OtherActor);
+	
+//---------------- TimeLine Methods
+	void BindTimeLines();
+	void TimeLinesTick(float DeltaTime);
+
+	
+	UFUNCTION()
+	void DuringFirstTurnOffTick(float deltaTime);
+
+	UFUNCTION()
+	void FirstTurnOffFinished();
+
+	
+	UFUNCTION()
+	void DuringFirstTurnOnTick(float deltaTime);
+
+	UFUNCTION()
+	void OnFirstTurnOnFinished();
+
+	
+	UFUNCTION()
+	void DuringSecondTurnOnTick(float deltaTime);
+
+	UFUNCTION()
+	void OnSecondTurnOnFinished();
+
+	
+
+	UFUNCTION()
+	void DuringThirdTurnOffTick(float deltaTime);
+
+	UFUNCTION()
+	void OnThirdTurnOffFinished();
+	
+
+	UFUNCTION()
+	void DuringThirdTurnOnTick(float deltaTime);
+
+	UFUNCTION()
+	void OnThirdTurnOnFinished();
+	
+
+	UFUNCTION()
+	void DuringLastTurnOffTick(float deltaTime);
+
+	UFUNCTION()
+	void OnLastTurnOffFinished();
+
+	UFUNCTION()
+	void DuringLastTurnOnTick(float deltaTime);
+
+	UFUNCTION()
+	void OnLastTurnOnFinished();
 };

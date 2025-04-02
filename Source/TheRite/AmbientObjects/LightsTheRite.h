@@ -19,7 +19,14 @@ class THERITE_API ALightsTheRite : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	ALightsTheRite();
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	bool IsLightOn() const;
 	float GetIntensity() const;
 	HouseZone GetLightZone() const;
@@ -44,9 +51,9 @@ public:
 	void TurnOn() const;
 
 private:
-	virtual void BeginPlay() override;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Settings", meta=(ToolTip = "If the Light starts off"))
 	bool bWillStartOff;
 	
@@ -81,4 +88,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Materials")
 	UMaterialInterface* Material_Intermitent;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
 };

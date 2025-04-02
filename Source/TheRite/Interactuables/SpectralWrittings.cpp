@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "SpectralWrittings.h"
 #include "Components/SphereComponent.h"
@@ -13,9 +13,6 @@
 #include "TheRite/Components/FadeObjectComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TheRite/Characters/Alex.h"
-
-//*****************************Public************************************************
-//***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 ASpectralWrittings::ASpectralWrittings() : bWillChangePostProcess(false)
@@ -74,32 +71,6 @@ void ASpectralWrittings::Interaction()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Actions Methods
-//void ASpectralWrittings::Activate()
-//{
-//	if(bDiscovered) return;
-//
-//	bFading = true;
-//	
-//	FadeTimeLine.Stop();
-//	FadeTimeLine.PlayFromStart();
-//	
-//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-//}
-//
-//----------------------------------------------------------------------------------------------------------------------
-//void ASpectralWrittings::Deactivate()
-//{
-//	if(bDiscovered) return;
-//	
-//	bFading = true;
-//	FadeTimeLine.Stop();
-//	LastAlphaValue = AlphaValue;
-//
-//	FadeTimeLine.ReverseFromEnd();
-//	
-//	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-//}
-
 //----------------------------------------------------------------------------------------------------------------------
 void ASpectralWrittings::Discovered()
 {
@@ -136,16 +107,9 @@ void ASpectralWrittings::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	//Material = Mesh->GetMaterial(0);
-	//DynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
-	//Mesh->SetMaterial(0, DynamicMaterial);
-	//DynamicMaterial->SetScalarParameterValue(TEXT("Alpha"),0);
-	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	bReady = true;
-	
-	//BindTimeLine();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

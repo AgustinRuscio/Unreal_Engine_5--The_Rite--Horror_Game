@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -16,17 +16,21 @@ class THERITE_API AManikin : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	AManikin();
 
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void Activate();
 	void Deactivate();
 
 private:
-	virtual void Tick(float DeltaTime) override;
-	
-	void ReLocateObject();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bStartsActive;
 	bool bActive;
@@ -40,4 +44,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Target points")
 	TArray<ATargetPoint*> PossiblesLocations;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void Tick(float DeltaTime) override;
+	
+	void ReLocateObject();
 };

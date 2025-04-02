@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -19,17 +19,21 @@ class THERITE_API AEmergencyLights : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	AEmergencyLights();
 
-//---------------- Functionality Methods
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void TurnOn() const;
 	void TurnOff() const;
 	
 private:
-//---------------- System Class Methods
-	virtual void BeginPlay() override;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 //-------- Settings
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bStartTurnedOff;
@@ -51,5 +55,9 @@ private:
 //-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
 	URectLightComponent* Light;
-	
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
 };

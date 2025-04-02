@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "SimpleGrabbableActor.h"
@@ -8,7 +8,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ASimpleGrabbableActor::ASimpleGrabbableActor()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	bCanInteract = true;
 

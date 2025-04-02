@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -17,20 +17,28 @@ class THERITE_API UHintsWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//CONTRUSCTOR
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget Components")
+	UImage* KeyImage;
+	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	UFUNCTION(BlueprintCallable)
 	void MakeVisible();
 
 private:
-	void JoystickChecker();
-	void TimerChecker(float deltaTime);
-	
-public:
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category= "Widget Components")
-	UImage* KeyImage;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bIsOn;
 	bool bJoystick;
 
@@ -43,4 +51,10 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Textures")
 	UTexture2D* MTexture;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	void JoystickChecker();
+	void TimerChecker(float deltaTime);
 };

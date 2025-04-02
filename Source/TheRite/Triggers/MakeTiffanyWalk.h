@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -24,42 +24,28 @@ class THERITE_API AMakeTiffanyWalk : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	AMakeTiffanyWalk();
 
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnFinished OnFinishedEvent;
+	FOnFinished OnStartEvent;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	UFUNCTION()
 	void KeyObtain(ATiffany* newTiff);
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-//---------------- TimeLine Methods
-	void BindTimeLines();
-	
-	UFUNCTION()
-	void FirstTimeLineUpdate(float value);
-
-	UFUNCTION()
-	void FirstTimelineFinished();
-
-	
-	UFUNCTION()
-	void SecondsTimeLineUpdate(float value);
-	
-	UFUNCTION()
-	void SecondsTimelineFinished();
-
-	
-//---------------- Collision Methods
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
-public:	
-	FOnFinished OnFinishedEvent;
-	FOnFinished OnStartEvent;
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "States")
 	bool bKeyReady;
 	
@@ -70,7 +56,6 @@ private:
 
 	int8 DoOnce;
 	int8 DoOnceTimeLine = 0;
-
 
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* Box;
@@ -103,4 +88,32 @@ private:
 	
 	UPROPERTY()
 	ATiffany* Tiffany;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+//---------------- TimeLine Methods
+	void BindTimeLines();
+	
+	UFUNCTION()
+	void FirstTimeLineUpdate(float value);
+
+	UFUNCTION()
+	void FirstTimelineFinished();
+
+	
+	UFUNCTION()
+	void SecondsTimeLineUpdate(float value);
+	
+	UFUNCTION()
+	void SecondsTimelineFinished();
+
+	
+//---------------- Collision Methods
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -15,12 +15,13 @@ class THERITE_API ATiffanyController : public AAIController
 	GENERATED_BODY()
 
 public:
-	UBehaviorTree* GetBehaviourTree() const;
+	ATiffanyController();
 
-private:
-	virtual void BeginPlay() override;
+	UBehaviorTree* GetBehaviourTree() const;
 
 private:
 	UPROPERTY(EditAnywhere, Category= "AI behaviour")
 	UBehaviorTree* BehaviourTree;
+
+	virtual void BeginPlay() override;
 };

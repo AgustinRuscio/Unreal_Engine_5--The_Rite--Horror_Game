@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "FetchInOrderPuzzle.h"
-
 #include "Components/LightComponent.h"
 #include "Engine/SpotLight.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
@@ -24,7 +23,7 @@ static float OriginalLightIntensity;
 //----------------------------------------------------------------------------------------------------------------------
 AFetchInOrderPuzzle::AFetchInOrderPuzzle()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	bActive				 	= false;
 	bFirstInteraction	 	= true;

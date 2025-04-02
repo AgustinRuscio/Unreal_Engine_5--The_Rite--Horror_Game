@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "MoveTiffany.h"
 #include "Components/BoxComponent.h"
@@ -19,7 +19,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AMoveTiffany::AMoveTiffany()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 
 	Box = CreateDefaultSubobject<UBoxComponent>("Box Collision");
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AMoveTiffany::OnOverlapBegin);

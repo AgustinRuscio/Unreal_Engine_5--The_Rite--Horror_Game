@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "DoorSlapper.h"
 #include "Components/BoxComponent.h"
@@ -14,7 +14,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 ADoorSlapper::ADoorSlapper()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
+
 	ClosingTrigger = CreateDefaultSubobject<UBoxComponent>("Trigger");
 }
 

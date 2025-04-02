@@ -34,13 +34,12 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-	
 	void Activate();
+
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
 	UPROPERTY(EditAnywhere, Category = Settings)
 	bool bActive;
 
@@ -55,7 +54,6 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
-
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

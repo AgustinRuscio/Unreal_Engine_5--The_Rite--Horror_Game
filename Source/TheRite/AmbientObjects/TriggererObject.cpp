@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "TriggererObject.h"
@@ -12,7 +12,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ATriggererObject::ATriggererObject()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	Trigger = CreateDefaultSubobject<UBoxComponent>("Trigger");
 	RootComponent = Trigger;

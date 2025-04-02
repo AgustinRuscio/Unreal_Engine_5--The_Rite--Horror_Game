@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,18 +21,24 @@ class THERITE_API ALighter : public AInteractor
 	GENERATED_BODY()
 
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
+	//Constructor
 	ALighter();
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	virtual void Interaction() override;
 
 	virtual void Deactivate() override;
 	virtual void Activate() override;
 	
 private:
-	void PushWidget();
-	
-	void TurnTutorialOff();
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	bool bWillPlayerRun;
 	
@@ -60,4 +66,11 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "States")
 	ASpectralWrittings* KeySpectralWritting;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	void PushWidget();
+	
+	void TurnTutorialOff();
 };

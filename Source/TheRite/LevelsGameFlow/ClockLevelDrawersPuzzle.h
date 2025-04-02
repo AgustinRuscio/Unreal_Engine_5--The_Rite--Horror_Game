@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -20,15 +20,15 @@ class THERITE_API AClockLevelDrawersPuzzle : public AActor
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	AClockLevelDrawersPuzzle();
 
 private:
-	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	void OnKeySpectralWritingUsed(AInteractor* interactor);
-	
-private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	TArray<ASpectralWrittings*> KeySpectralWrittings;
 
@@ -37,4 +37,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Construction")
 	ASpectralObstacle* DestroyableSpectralIbstacle;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void OnKeySpectralWritingUsed(AInteractor* interactor);
 };

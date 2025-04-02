@@ -1,7 +1,7 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #pragma once
 
@@ -21,7 +21,26 @@ class THERITE_API ATiffany : public ACharacter
 	GENERATED_BODY()
 
 public:	
+	//*****************************************************************************//
+	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
+	//*****************************************************************************//
 	ATiffany();
+
+	UPROPERTY(EditAnywhere)
+	UAudioComponent* CryingAudio;
+
+	UPROPERTY(EditAnywhere)
+	USphereComponent* Sphere;
+
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="States")
+	bool bCrawling;
+
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 
 	UFUNCTION(BlueprintCallable)
 	bool GetWalkingState() const;
@@ -44,6 +63,35 @@ public:
 	void MakeInvisible();
 	
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bHasToMove;
+
+	UPROPERTY(EditAnywhere, Category = "States")
+	bool bWalking;
+
+	const FName TargetKey = "Target";
+
+	const FName BooleanKey = "HasToMove";
+
+	UPROPERTY(EditAnywhere, Category = "Waypoints")
+	TArray<ATargetPoint*> Waypoints;
+
+	UPROPERTY(EditAnywhere, Category = "Waypoints")
+	TSubclassOf<ATiffanyController> DefaultAIController;
+	ATiffanyController* AIController;
+
+	UPROPERTY()
+	UBlackboardComponent* BlackBoard;
+
+	FTimerHandle timerHandle;
+	FTimerDelegate TimerDelegate;
+	
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 	
 //---------------- Collider Methods
@@ -52,38 +100,4 @@ private:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="States")
-	bool bCrawling;
-	
-private:
-	UPROPERTY(EditAnywhere, Category="States")
-	bool bHasToMove;
-	
-	UPROPERTY(EditAnywhere, Category="States")
-	bool bWalking;
-	
-	const FName TargetKey = "Target";
-	
-	const FName BooleanKey = "HasToMove";
-	
-	UPROPERTY(EditAnywhere)
-	UAudioComponent* CryingAudio;
-
-	UPROPERTY(EditAnywhere)
-	USphereComponent* Sphere;
-	
-	UPROPERTY(EditAnywhere, Category="Waypoints")
-	TArray<ATargetPoint*> Waypoints;
-	
-	UPROPERTY(EditAnywhere, Category="Waypoints")
-	TSubclassOf<ATiffanyController> DefaultAIController;
-	ATiffanyController* AIController;
-	
-	UPROPERTY()
-	UBlackboardComponent* BlackBoard ;
-
-	FTimerHandle timerHandle;
-	FTimerDelegate TimerDelegate;
 };

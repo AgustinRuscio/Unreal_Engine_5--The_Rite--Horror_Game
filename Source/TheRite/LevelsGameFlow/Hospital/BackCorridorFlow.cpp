@@ -1,10 +1,9 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "BackCorridorFlow.h"
-
 #include "LeverPuzzle.h"
 #include "Components/LightComponent.h"
 #include "Engine/Light.h"
@@ -21,8 +20,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ABackCorridorFlow::ABackCorridorFlow() : TimeToMovePlayerOnEndPuzzle(5.f)
 {
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

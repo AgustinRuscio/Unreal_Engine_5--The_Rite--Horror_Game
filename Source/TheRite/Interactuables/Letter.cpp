@@ -1,19 +1,15 @@
-//--------------------------------------------
-//			Made by	Agustin Ruscio
-//--------------------------------------------
-
+//----------------------------------------------//
+// *Author		: github.com/AgustinRuscio		//
+// *UE version	: UE 5.5.4						//
+//----------------------------------------------//
 
 #include "Letter.h"
-
 #include "Kismet/GameplayStatics.h"
-
-//*****************************Public***********************************************
-//***********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
 ALetter::ALetter()
 {
- 	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = false;
 	
 	LetterMesh = CreateDefaultSubobject<UStaticMeshComponent>("Letter mesh");
 }

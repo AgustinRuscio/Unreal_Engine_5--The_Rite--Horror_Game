@@ -1,6 +1,6 @@
 //----------------------------------------------//
 // *Author		: github.com/AgustinRuscio		//
-// *UE version	: UE 5.2.1						//
+// *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
 #include "TimerLightFlash.h"
@@ -11,7 +11,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 ATimerLightFlash::ATimerLightFlash() : bFlipFlop(false), bLoop(false), bTurnOffOnPlayerOutside(true), Rate(3.f), LightIntensity(4.f)
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>("Box Component");
 	RootComponent = TriggerBox;
