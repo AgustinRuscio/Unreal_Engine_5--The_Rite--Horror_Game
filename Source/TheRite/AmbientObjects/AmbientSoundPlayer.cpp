@@ -12,7 +12,7 @@
 //*****************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-AAmbientSoundPlayer::AAmbientSoundPlayer()
+AAmbientSoundPlayer::AAmbientSoundPlayer() : bCreateOnBeginPlay(true), bLoop(true), bIs2D(false)
 {
 	bAllowTickBeforeBeginPlay = false;
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Component");
@@ -25,6 +25,22 @@ AAmbientSoundPlayer::~AAmbientSoundPlayer()
 		AudioComp->OnAudioFinished.Clear();
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void AAmbientSoundPlayer::StartAudioManually(bool loop, bool global)
+{
+	bLoop = loop;
+	bIs2D = global;
+
+	CreateAudio();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAmbientSoundPlayer::StopAudios()
+{
+	if(AudioComp != nullptr)
+		AudioComp->Stop();
+}
+
 //*****************************Private******************************************
 //******************************************************************************
 
@@ -33,7 +49,8 @@ void AAmbientSoundPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CreateAudio();
+	if (bCreateOnBeginPlay)
+		CreateAudio();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -47,5 +64,6 @@ void AAmbientSoundPlayer::CreateAudio()
 	else
 		AudioComp = UGameplayStatics::SpawnSoundAtLocation(GetWorld(), CueToSound, GetActorLocation());
 	
-	AudioComp->OnAudioFinished.AddDynamic(this, &AAmbientSoundPlayer::CreateAudio);
+	if(bLoop)
+		AudioComp->OnAudioFinished.AddDynamic(this, &AAmbientSoundPlayer::CreateAudio);
 }

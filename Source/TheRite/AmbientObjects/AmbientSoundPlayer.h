@@ -23,10 +23,22 @@ public:
 	AAmbientSoundPlayer();
 	~AAmbientSoundPlayer();
 	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
+	void StartAudioManually(bool loop, bool global);
+	void StopAudios();
+
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, Category="Settings")
+	bool bCreateOnBeginPlay;
+
+	UPROPERTY(EditAnywhere, Category="Settings")
+	bool bLoop;;
+
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bIs2D;
 	
@@ -42,5 +54,4 @@ private:
 	
 	UFUNCTION()
 	void CreateAudio();
-	
 };

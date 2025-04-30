@@ -42,13 +42,5 @@ void ALightsPuzzle::PuzzleCompleted()
 		current->SetCanInteract(false);
 	}
 
-	CompletePuzzleFeedBack();
-
 	OnPuzzleComplete.Broadcast();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ALightsPuzzle::CompletePuzzleFeedBack()
-{
-
 }

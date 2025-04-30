@@ -22,21 +22,12 @@ public:
 	//Constructor
 	ASecondCorridorFlow();
 
-	//*****************************************************************************//
-	//								PUBLIC VARIABLES							   //
-	//*****************************************************************************//
-
-	//*****************************************************************************//
-	//								PUBLIC METHODS								   //
-	//*****************************************************************************//
-
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-
-	UPROPERTY(EditAnyWhere, Category = "Settings")
-	FVector LocationToAddToLightsPuzzleInteractor;
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float m_TimeToTeleport;
 
 	UPROPERTY(EditAnywhere, Category = "Puzzles")
 	class ALightsPuzzle* LightsPuzzle;
@@ -44,24 +35,43 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Puzzles")
 	class AInteractor* KeyLightsObject;
 
-	FTimeline TimeLineMoveInteractor;
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	TArray<class ACustomLight*> FeedbackLights;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	TArray<class AAmbientSoundPlayer*> FeedbackSounds;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	class ATargetPoint* TeleportTargetPoint;
+
+	class AAlex* player;
+
+	FTimeline TimeLineFeedBack;
 
 	UPROPERTY(EditAnywhere, Category = "TimeLine")
 	UCurveFloat* CurveFloatMoveLightsKeyInteractor;
+
+	FTimerHandle TimerHanldeTeleport;
+	FTimerDelegate TimerDelegateTeleport;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
 	void OnLightsPuzzleCompleted();
 	void OnLightsPuzzleCompletedFeedBack();
 
+	void ToggleLights(bool LightsOn);
+	void ToggleSound(bool Active);
+
+	void TeleportPlayer();
 
 	UFUNCTION()
-	void MoveInteractorTick(float DeltaSeconds);
+	void FeedBackTick(float DeltaSeconds);
 	UFUNCTION()
-	void MoveInteractorFinished(float DeltaSeconds);
+	void FeedBackFinished(float DeltaSeconds);
 };
