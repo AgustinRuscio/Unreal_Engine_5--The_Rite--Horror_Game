@@ -5,19 +5,21 @@
 
 #include "Door.h"
 
-#include "VectorTypes.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
-#include "TheRite/Widgets/LockedWidget.h"
-#include "TheRite/Widgets/TutorialWidget.h"
+#include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/TimelineComponent.h"
-#include "TheRite/Characters/Alex.h"
 #include "Kismet/GameplayStatics.h"
-#include "Sound/SoundBase.h"
-#include "TheRite/AlexPlayerController.h"
 #include "Math/UnrealMathUtility.h"
-#include "Components/AudioComponent.h"
-#include "Blueprint/UserWidget.h"
+#include "Sound/SoundBase.h"
+#include "VectorTypes.h"
+
+#include "TheRite/AlexPlayerController.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Widgets/LockedWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 #define END_KNOCKING_LOCATION CurrentRotation + FRotator(0, 3, 0)

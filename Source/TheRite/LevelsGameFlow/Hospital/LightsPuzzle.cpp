@@ -40,6 +40,7 @@ void ALightsPuzzle::PuzzleCompleted()
 	for (auto current : PortraitsInPuzzle)
 	{
 		current->SetCanInteract(false);
+		current->DisbalePortrait();
 	}
 
 	OnPuzzleComplete.Broadcast();

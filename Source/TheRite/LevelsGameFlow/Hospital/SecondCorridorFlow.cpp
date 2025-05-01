@@ -4,16 +4,19 @@
 //----------------------------------------------//
 
 #include "SecondCorridorFlow.h"
-#include "LightsPuzzle.h"
-#include "TheRite/Interactuables/Interactor.h"
-#include "TheRite/AmbientObjects/CustomLight.h"
-#include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
+
 #include "Engine/TargetPoint.h"
 #include "Math/UnrealMathUtility.h"
-#include <TheRite/Characters/Alex.h>
+
+#include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
+#include "TheRite/Characters/Alex.h"
+#include "TheRite/Interactuables/Door.h"
+#include "TheRite/Interactuables/Interactor.h"
+#include "LightsPuzzle.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-ASecondCorridorFlow::ASecondCorridorFlow() : m_TimeToTeleport(2.f)
+ASecondCorridorFlow::ASecondCorridorFlow() : m_TimeToTeleport(2.f), m_FeedBackOffSetTime(2.f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -44,6 +47,10 @@ void ASecondCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	GetWorld()->GetTimerManager().ClearTimer(TimerHanldeTeleport);
 	TimerDelegateTeleport.Unbind();
+
+	GetWorld()->GetTimerManager().ClearTimer(TimerHanldeFeedBackTimeOffset);
+	TimerDelegateFeedBackTimeOffset.Unbind();
+
 	TimeLineFeedBack.Stop();
 }
 
@@ -64,19 +71,30 @@ void ASecondCorridorFlow::OnLightsPuzzleCompleted()
 //----------------------------------------------------------------------------------------------------------------------
 void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 {
-	ToggleLights(false);
-	ToggleSound(true);
+	if (GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeFeedBackTimeOffset)) return;
 
-	TimeLineFeedBack.PlayFromStart();
+	player->ForceLighterOff();
+	player->ForceDisableInput();
 
-	if(GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeTeleport)) return;
-
-	TimerDelegateTeleport.BindLambda([this]()
+	TimerDelegateFeedBackTimeOffset.BindLambda([this]()
 		{
-			TeleportPlayer();
+			ToggleLights(false);
+			ToggleSound(true);
+
+			TimeLineFeedBack.PlayFromStart();
+
+			if (GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeTeleport)) return;
+
+			TimerDelegateTeleport.BindLambda([this]()
+				{
+					TeleportPlayer();
+					EmblemDoor->SetLockedState(false);
+				});
+
+			GetWorld()->GetTimerManager().SetTimer(TimerHanldeTeleport, TimerDelegateTeleport, m_TimeToTeleport, false);
 		});
 
-	GetWorld()->GetTimerManager().SetTimer(TimerHanldeTeleport, TimerDelegateTeleport, m_TimeToTeleport, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHanldeFeedBackTimeOffset, TimerDelegateFeedBackTimeOffset, m_FeedBackOffSetTime, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -101,9 +119,6 @@ void ASecondCorridorFlow::ToggleSound(bool Active)
 void ASecondCorridorFlow::TeleportPlayer()
 {
 	if (!player) return;
-
-	player->ForceLighterOff();
-	player->ForceDisableInput();
 
 	player->SetActorLocation(TeleportTargetPoint->GetActorLocation());
 	player->SetActorRotation(TeleportTargetPoint->GetActorRotation());

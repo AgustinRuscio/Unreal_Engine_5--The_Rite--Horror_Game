@@ -30,6 +30,13 @@ bool ALightsPortrait::GetCurrentCorrectState() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ALightsPortrait::DisbalePortrait() const
+{
+	Light->SetVisibility(false);
+	PortraitButton->OnInteractionTrigger.RemoveDynamic(this, &ALightsPortrait::SwitchColor);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void ALightsPortrait::BeginPlay()
 {
 	Super::BeginPlay();
