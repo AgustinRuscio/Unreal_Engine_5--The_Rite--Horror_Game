@@ -34,12 +34,19 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	UPROPERTY(EditAnywhere, Category = Settings)
+	bool bShouldLoopBack;
 
+	
+	FRotator InitialRotator;
+	FRotator FinalRotator;
+	FRotator AccumulatedRotation;
 	UPROPERTY(EditAnywhere, Category = Settings)
 	FRotator RotateVector;
 	
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

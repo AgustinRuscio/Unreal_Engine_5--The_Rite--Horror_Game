@@ -27,6 +27,7 @@ void ASecondCorridorFlow::BeginPlay()
 	Super::BeginPlay();
 
 	player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	EmblemObject->Dissapear();
 
 	LightsPuzzle->OnPuzzleComplete.AddDynamic(this, &ASecondCorridorFlow::OnLightsPuzzleCompleted);
 
@@ -38,6 +39,8 @@ void ASecondCorridorFlow::BeginPlay()
 	FOnTimelineEventStatic MoveInteractorTimelineFinishedCallback;
 	MoveInteractorTimelineFinishedCallback.BindUFunction(this, FName("FeedBackFinished"));
 	TimeLineFeedBack.SetTimelineFinishedFunc(MoveInteractorTimelineFinishedCallback);
+
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -88,6 +91,7 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 			TimerDelegateTeleport.BindLambda([this]()
 				{
 					TeleportPlayer();
+					EmblemObject->Appear();
 					EmblemDoor->SetLockedState(false);
 				});
 

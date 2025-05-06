@@ -7,11 +7,14 @@
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "Engine/TriggerVolume.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
-ALittleBedroomFlow::ALittleBedroomFlow() : m_TimeToTeleport(2.f)
+ALittleBedroomFlow::ALittleBedroomFlow() : bDoOnce(false), m_TimeToTeleport(2.f), m_TimeToDestroy(1.f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -24,6 +27,7 @@ void ALittleBedroomFlow::BeginPlay()
 	Player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	TeleportInteractor->OnInteractionTrigger.AddDynamic(this, &ALittleBedroomFlow::OnTeleportBegin);
+	TriggerBox->OnActorBeginOverlap.AddDynamic(this, &ALittleBedroomFlow::BeginOverlap);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -60,10 +64,7 @@ void ALittleBedroomFlow::TeleportPlayer()
 //----------------------------------------------------------------------------------------------------------------------
 void ALittleBedroomFlow::PerfromFeedBack()
 {
-	for (auto current : FeedbackLights)
-	{
-		current->TurnOff();
-	}
+	LightToggle(false);
 
 	for (auto current : FeedbackSounds)
 	{
@@ -77,5 +78,62 @@ void ALittleBedroomFlow::StopFeedBack()
 	for (auto current : FeedbackSounds)
 	{
 		current->StopAudios();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALittleBedroomFlow::DestroyTiffany()
+{
+	if (bDoOnce) return;
+	bDoOnce = true;
+
+	if (GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeDestroyTiffany)) return;
+
+	for (auto current : FeedbackSoundsDestroyTiffany)
+	{
+		UGameplayStatics::SpawnSound2D(GetWorld(), current);
+	}
+
+	Player->ForceLighterOff();
+	Player->SetCanUseLighterState(false);
+
+	LightToggle(false);
+
+	for (auto current : ActorsToDestroy)
+	{
+		current->Destroy();
+	}
+
+	TimerDelegateDestroyTiffany.BindLambda([this]
+		{
+			LightToggle(true);
+
+			Player->SetCanUseLighterState(true);
+		});
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHanldeDestroyTiffany, TimerDelegateDestroyTiffany, m_TimeToDestroy, false);
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALittleBedroomFlow::LightToggle(bool active)
+{
+	for (auto current : FeedbackLights)
+	{
+		active ? current->TurnOn() : current->TurnOff();
+	}
+
+	for (auto current : FeedbackCandles)
+	{
+		active ? current->TurnOn() : current->TurnOff();
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALittleBedroomFlow::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor == Player)
+	{
+		DestroyTiffany();
 	}
 }

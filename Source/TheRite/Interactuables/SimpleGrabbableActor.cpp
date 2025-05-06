@@ -31,6 +31,7 @@ void ASimpleGrabbableActor::Dissapear()
 {
 	bCanInteract = false;
 	MeshComponent->SetVisibility(false);
+	MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -38,4 +39,5 @@ void ASimpleGrabbableActor::Appear()
 {
 	bCanInteract = true;
 	MeshComponent->SetVisibility(true);
+	MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
 }

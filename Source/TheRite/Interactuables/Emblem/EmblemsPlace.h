@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Actor.h" 
 #include "TheRite/Interactuables/Interactor.h"
 #include "EmblemsPlace.generated.h"
 

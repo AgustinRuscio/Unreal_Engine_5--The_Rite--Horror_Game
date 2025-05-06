@@ -33,8 +33,12 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
+	bool bDoOnce;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float m_TimeToTeleport;
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float m_TimeToDestroy;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	class AInteractor* TeleportInteractor;
@@ -46,12 +50,28 @@ private:
 	TArray<class ACustomLight*> FeedbackLights;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	TArray<class ACandle*> FeedbackCandles;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<class AAmbientSoundPlayer*> FeedbackSounds;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	TArray<class USoundBase*> FeedbackSoundsDestroyTiffany;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	class ATriggerVolume* TriggerBox;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	TArray<AActor*> ActorsToDestroy;
 
 	class AAlex* Player;
 
 	FTimerHandle TimerHanldeTeleport;
 	FTimerDelegate TimerDelegateTeleport;
+
+
+	FTimerHandle TimerHanldeDestroyTiffany;
+	FTimerDelegate TimerDelegateDestroyTiffany;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
@@ -65,4 +85,11 @@ private:
 
 	void PerfromFeedBack();
 	void StopFeedBack();
+
+	void DestroyTiffany();
+	void LightToggle(bool active);
+
+	UFUNCTION()
+    void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
 };

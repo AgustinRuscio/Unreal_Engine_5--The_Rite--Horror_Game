@@ -37,6 +37,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Puzzles")
 	class AInteractor* KeyLightsObject;
 
+	UPROPERTY(EditAnywhere, Category = "Puzzles")
+	class AInteractor* EmblemObject;
+
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<class ACustomLight*> FeedbackLights;
 
