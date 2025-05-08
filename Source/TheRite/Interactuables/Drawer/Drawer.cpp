@@ -8,5 +8,5 @@
 //----------------------------------------------------------------------------------------------------------------------
 ADrawer::ADrawer()
 {
- 	PrimaryActorTick.bCanEverTick = false;
+ 	PrimaryActorTick.bCanEverTick = true;
 }

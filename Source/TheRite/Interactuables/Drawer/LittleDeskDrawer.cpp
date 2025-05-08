@@ -8,5 +8,5 @@
 //----------------------------------------------------------------------------------------------------------------------
 ALittleDeskDrawer::ALittleDeskDrawer()
 {
- 	PrimaryActorTick.bCanEverTick = false;
+ 	PrimaryActorTick.bCanEverTick = true;
 }
