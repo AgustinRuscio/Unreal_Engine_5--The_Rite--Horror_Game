@@ -47,9 +47,6 @@ void ASimpleCorridorFlow::BeginPlay()
 	}
 
 	Emblem->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::ActivateWalk);
-	AppearanceInteractable->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::CallBackForAppearanceEvent);
-	HangedManAppearance->OnAppearanceEventEndStart.AddDynamic(this, &ASimpleCorridorFlow::LightsOff);
-	HangedManAppearance->OnAppearanceEventEndEnd.AddDynamic(this, &ASimpleCorridorFlow::LightsOn);
 
 	HintLightInitialIntensity = HintSpotlight->GetLightComponent()->Intensity;
 	
@@ -93,12 +90,6 @@ void ASimpleCorridorFlow::BindTriggers()
 void ASimpleCorridorFlow::ActivateWalk(AInteractor* interactor)
 {
 	Walker->Activate();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::CallBackForAppearanceEvent(AInteractor* interactor)
-{
-	HangedManAppearance->MakeAppear();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

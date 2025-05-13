@@ -66,9 +66,6 @@ void AClockLevelGameFlow::BeginPlay()
 		Element->Disappear();
 	}
 
-	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(false);
-	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-	
 	//SetTutorialUI();
 	
 	BindTimeLineMethods();
@@ -241,7 +238,7 @@ void AClockLevelGameFlow::CheckLetters()
 		Element->Appear();
 		Element->TurnOn();
 	}
-	
+
 	BigClock->SetReadyToUse();
 }
 
@@ -294,6 +291,9 @@ void AClockLevelGameFlow::EndGame()
 	{
 		Element->Destroy();
 	}
+
+	EndDoor->Open();
+	EndDoor->SetLockedState(false);
 
 	if (!GetWorld()->GetTimerManager().IsTimerActive(EndGameTimerHandle))
 	{
@@ -592,9 +592,9 @@ void AClockLevelGameFlow::OnTriggerEndGamePassOverlap(AActor* OverlappedActor, A
 
 	auto controller = Cast<AAlexPlayerController>(Player->GetController());
 	controller->PlayRumbleFeedBack(1, 5, true, true, true, true);
-	
-	Actor_EndGamePassWall->GetStaticMeshComponent()->SetVisibility(true);
-	Actor_EndGamePassWall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+
+	EndDoor->SetLockedState(true);
+	EndDoor->HardClosing();
 
 	TriggerVolume_EndGamePass->Destroy();
 }

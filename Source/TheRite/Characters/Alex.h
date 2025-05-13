@@ -92,6 +92,7 @@ public:
 	
 	UCameraComponent* GetCamera() const;
 
+
 //---------------- Action Methods
 	UFUNCTION() 
 	void CameraTargeting(FVector Target);
@@ -119,8 +120,10 @@ public:
 	void SetCameraStun(bool stun);
 	
 	void SetEventMode(bool onOff, float minX, float maxX, float minY, float maxY);
+	void SetInventoryCanOpen(bool InventoryTggle);
 	void ForceHolding(bool newHolding);
-	
+	void ForceCloseInventory();
+
 //---------------- View Methods
 	void BackToNormalView(FTransform FromTransform, FVector ExitingVector, FRotator ExitingRotation);
 	void OnFocusMode(FTransform NewTransform, FRotator ExitingRotation, bool bShorWidget, bool bShowComplexWidget);
@@ -144,6 +147,7 @@ private:
 	
 	bool bWidgetOnSight = false;
 	bool bFocus = false;
+	bool bCanOpenInventory = true;
 	bool bStun = false;
 	bool bOnEvent = false;
 	bool bLighterOnCD = false;

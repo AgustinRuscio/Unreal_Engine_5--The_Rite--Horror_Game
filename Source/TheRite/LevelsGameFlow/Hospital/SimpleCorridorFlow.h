@@ -107,12 +107,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = FeedBack)
 	TArray<class ACyclicAudios*> CyclicAudios;
 
-	UPROPERTY(EditAnywhere, Category = FeedBack)
-	class AInteractor* AppearanceInteractable;
-	
-	UPROPERTY(EditAnywhere, Category = FeedBack)
-	class AAppearanceEvent* HangedManAppearance;
-
 	UPROPERTY(EditAnywhere, Category = Obj)
 	TWeakObjectPtr<class AInteractor> Emblem;
 
@@ -135,9 +129,6 @@ private:
 	UFUNCTION()
 	void ActivateWalk(class AInteractor* interactor);
 
-	UFUNCTION()
-	void CallBackForAppearanceEvent(class AInteractor* interactor);
-	
 	UFUNCTION()
 	void LightsOn();
 	

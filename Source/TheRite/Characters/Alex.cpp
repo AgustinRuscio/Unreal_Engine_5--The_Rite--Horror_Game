@@ -283,9 +283,25 @@ void AAlex::SetEventMode(bool onOff, float minX = 0, float maxX = 0, float minY=
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AAlex::SetInventoryCanOpen(bool InventoryToggle)
+{
+	bCanOpenInventory = InventoryToggle;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceHolding(bool newHolding)
 {
 	bHoldingInteractBTN = newHolding;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::ForceCloseInventory()
+{
+	if(bInventoryFlip)
+		OnInventoryClose.Broadcast();
+
+	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+	InventoryWidget->OnInventoryClose();
 }
 #pragma endregion 
 
@@ -835,7 +851,7 @@ void AAlex::OpenPause()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::OpenInventory()
 {
-	if(!bPauseFlip || bFocusing || bFocus) return;
+	if(!bPauseFlip || bFocusing || bFocus || !bCanOpenInventory) return;
 	
 	if(bInventoryFlip)
 	{

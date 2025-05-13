@@ -199,9 +199,6 @@ private:
 	TArray<AActor*> ActorTobeDestroyOnEndgame;
 
 	UPROPERTY(EditAnywhere, Category = "Actors for event")
-	AStaticMeshActor* Actor_EndGamePassWall;
-
-	UPROPERTY(EditAnywhere, Category = "Actors for event")
 	TArray<ACandle*> Candles_EndGame;
 	
 	//-------- TimeLines
@@ -249,6 +246,9 @@ private:
 	//-------- Door
 	UPROPERTY(EditAnywhere, Category = "Doors")
 	ADoor* GarageDoor;
+
+	UPROPERTY(EditAnywhere, Category = "Doors")
+	ADoor* EndDoor;
 
 	UPROPERTY(EditAnywhere, Category = "Doors")
 	ADoor* ArtRoomDoor;
