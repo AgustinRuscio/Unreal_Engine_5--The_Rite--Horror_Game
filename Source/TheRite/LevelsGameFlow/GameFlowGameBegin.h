@@ -15,7 +15,7 @@ class UTutorialWidget;
 class AAlex;
 class ARite;
 class ATiffany;
-class ALightsTheRite;
+class ACustomLight;
 class ANiagaraActor;
 class AClock;
 class ACandle;
@@ -98,9 +98,6 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	TArray<ACandle*> CandlesGuidance;
 	
-	UPROPERTY(EditAnywhere, Category= "Lights")
-	TArray<ALightsTheRite*> AllLights;
-
 	UPROPERTY(EditAnywhere, Category= "Lights")
 	TArray<class ACustomLight*> AllCustomLights;
 

@@ -52,9 +52,9 @@ void ARite::SetClockReady(AInteractor* obj)
 {
 	if(bBeginRite)
 	{
-		if(Count < CurrentMainObject.Num())
-			Count++;
-		else
+		Count++;
+
+		if (Count >= (CurrentMainObject.Num()-1))
 		{
 			bObjectReady = true;
 			OnObjectsObtain.Broadcast();
