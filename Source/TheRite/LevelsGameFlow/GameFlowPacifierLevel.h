@@ -200,6 +200,9 @@ private:
 	
 	AAlex* Player;
 	
+	UPROPERTY(EditAnywhere, Category="Setter")
+	class AIntermitentActor* IntermitentTiffany;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//

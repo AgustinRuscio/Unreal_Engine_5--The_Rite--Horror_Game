@@ -15,6 +15,7 @@
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/IntermitentActor.h"
 #include "Engine/StaticMeshActor.h"
 #include "TheRite/Characters/Alex.h"
 #include "HideAndSeekPuzzle.h"
@@ -252,6 +253,7 @@ void AGameFlowPacifierLevel::EndGame()
 		Element->TurnOn();
 	}
 
+	IntermitentTiffany->ActivateIntermitent();
 	Door_EndGmae->SetLockedState(false);
 
 	Player->SetPlayerOptions(true, true, false);
