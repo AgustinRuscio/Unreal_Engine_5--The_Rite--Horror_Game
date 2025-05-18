@@ -52,6 +52,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	class ATargetPoint* TeleportTargetPoint;
 
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
+
 	class AAlex* player;
 
 	FTimeline TimeLineFeedBack;

@@ -362,5 +362,4 @@ private:
 	
 	UFUNCTION()
 	void ScaryKnockingTimelineFinished();
-
 };

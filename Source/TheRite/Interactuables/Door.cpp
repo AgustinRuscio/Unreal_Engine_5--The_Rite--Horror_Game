@@ -613,7 +613,6 @@ void ADoor::LatchAnim()
 //----------------------------------------------------------------------------------------------------------------------
 void ADoor::LatchHolding(bool isOppening)
 {
-	
 	if(isOppening)
 	{
 		if(!bDoOnceOpenLatchAnim) return;

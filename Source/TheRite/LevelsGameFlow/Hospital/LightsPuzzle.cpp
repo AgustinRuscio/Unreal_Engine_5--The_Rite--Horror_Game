@@ -4,6 +4,7 @@
 //----------------------------------------------//
 
 #include "LightsPuzzle.h"
+#include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/LightsPortrait.h"
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -29,6 +30,9 @@ void ALightsPuzzle::CheckPuzzleState()
 	for (auto current : PortraitsInPuzzle)
 	{
 		if (!current->GetCurrentCorrectState()) return;
+
+		auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+		controller->PlayRumbleFeedBack(.5f, .3, true, true, true, true);
 	}
 
 	PuzzleCompleted();

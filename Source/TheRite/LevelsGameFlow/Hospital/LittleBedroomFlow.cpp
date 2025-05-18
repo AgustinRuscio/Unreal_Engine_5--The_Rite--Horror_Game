@@ -4,6 +4,7 @@
 //----------------------------------------------//
 
 #include "LittleBedroomFlow.h"
+#include "TheRite/AlexPlayerController.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
@@ -42,6 +43,8 @@ void ALittleBedroomFlow::OnTeleportBegin(AInteractor* interactor)
 
 	TimerDelegateTeleport.BindLambda([this]
 		{
+			PlayHaptipcFeedBack();
+
 			TeleportPlayer();
 		});
 
@@ -99,6 +102,7 @@ void ALittleBedroomFlow::DestroyTiffany()
 
 	LightToggle(false);
 
+	PlayHaptipcFeedBack();
 	for (auto current : ActorsToDestroy)
 	{
 		current->Destroy();
@@ -127,6 +131,15 @@ void ALittleBedroomFlow::LightToggle(bool active)
 	{
 		active ? current->TurnOn() : current->TurnOff();
 	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALittleBedroomFlow::PlayHaptipcFeedBack()
+{
+	UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle, UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), 0, 1000);
+
+	auto controller = Cast<AAlexPlayerController>(Player->GetController());
+	controller->PlayRumbleFeedBack(.5f, .3, true, true, true, true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

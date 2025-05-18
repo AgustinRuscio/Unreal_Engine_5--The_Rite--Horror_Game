@@ -149,6 +149,9 @@ void AAlex::ForceDisableInput()
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
     
 	MyController->DisableInput(PlayerController);
+
+	MyController->OnHoldingBtn.Broadcast(false);
+	MyController->OnHoldingBtn.Broadcast(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -428,7 +431,7 @@ void AAlex::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	MyController->OnInteractionPressed.AddDynamic(this, &AAlex::Interaction);
 	MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
-	
+
 	MyController->OnPause.AddDynamic(this, &AAlex::OpenPause);
 	MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
 }

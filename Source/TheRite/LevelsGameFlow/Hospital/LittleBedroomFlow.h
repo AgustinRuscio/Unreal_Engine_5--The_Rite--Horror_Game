@@ -64,6 +64,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<AActor*> ActorsToDestroy;
 
+	
+	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
+
+
 	class AAlex* Player;
 
 	FTimerHandle TimerHanldeTeleport;
@@ -89,7 +94,8 @@ private:
 	void DestroyTiffany();
 	void LightToggle(bool active);
 
+	void PlayHaptipcFeedBack();
+
 	UFUNCTION()
     void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
 };

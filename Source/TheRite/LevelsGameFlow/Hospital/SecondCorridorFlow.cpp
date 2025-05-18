@@ -14,6 +14,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "LightsPuzzle.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 ASecondCorridorFlow::ASecondCorridorFlow() : m_TimeToTeleport(2.f), m_FeedBackOffSetTime(2.f)
@@ -79,10 +80,11 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 	player->ForceLighterOff();
 	player->ForceDisableInput();
 
+	ToggleLights(false);
+	ToggleSound(true);
+
 	TimerDelegateFeedBackTimeOffset.BindLambda([this]()
 		{
-			ToggleLights(false);
-			ToggleSound(true);
 
 			TimeLineFeedBack.PlayFromStart();
 
@@ -91,6 +93,9 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 			TimerDelegateTeleport.BindLambda([this]()
 				{
 					TeleportPlayer();
+
+					UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle, UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), 0, 1000);
+
 					EmblemObject->Appear();
 					EmblemDoor->SetLockedState(false);
 				});
