@@ -71,17 +71,17 @@ void ALittleBedroomFlow::PerfromFeedBack()
 
 	for (auto current : FeedbackSounds)
 	{
-		current->StartAudioManually(true, true);
+		current->StartAudioManually(false, true);
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ALittleBedroomFlow::StopFeedBack()
 {
-	for (auto current : FeedbackSounds)
-	{
-		current->StopAudios();
-	}
+	//for (auto current : FeedbackSounds)
+	//{
+	//	current->StopAudios();
+	//}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
