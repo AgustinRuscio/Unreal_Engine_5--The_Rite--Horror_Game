@@ -47,7 +47,7 @@ private:
 	TArray<class AAmbientSoundPlayer*> FeedbackSounds;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	class ADoor* EmblemDoor;
+	TArray<class ADoor*> EmblemDoor;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	class ATargetPoint* TeleportTargetPoint;

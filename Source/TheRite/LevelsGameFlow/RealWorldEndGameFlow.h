@@ -55,7 +55,7 @@ private:
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
-
+	
 	void PlaySequence();
 
 	UFUNCTION()

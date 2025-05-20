@@ -40,8 +40,6 @@ void ASecondCorridorFlow::BeginPlay()
 	FOnTimelineEventStatic MoveInteractorTimelineFinishedCallback;
 	MoveInteractorTimelineFinishedCallback.BindUFunction(this, FName("FeedBackFinished"));
 	TimeLineFeedBack.SetTimelineFinishedFunc(MoveInteractorTimelineFinishedCallback);
-
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -97,7 +95,12 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 					UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle, UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), 0, 1000);
 
 					EmblemObject->Appear();
-					EmblemDoor->SetLockedState(false);
+
+					for (auto door : EmblemDoor)
+					{
+						door->SetLockedState(false);
+					}
+
 				});
 
 			GetWorld()->GetTimerManager().SetTimer(TimerHanldeTeleport, TimerDelegateTeleport, m_TimeToTeleport, false);

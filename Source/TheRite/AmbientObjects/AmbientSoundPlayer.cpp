@@ -19,13 +19,6 @@ AAmbientSoundPlayer::AAmbientSoundPlayer() : bCreateOnBeginPlay(true), bLoop(tru
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-AAmbientSoundPlayer::~AAmbientSoundPlayer()
-{
-	if(AudioComp != nullptr)
-		AudioComp->OnAudioFinished.Clear();
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::StartAudioManually(bool loop, bool global)
 {
 	bLoop = loop;
@@ -51,6 +44,13 @@ void AAmbientSoundPlayer::BeginPlay()
 
 	if (bCreateOnBeginPlay)
 		CreateAudio();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAmbientSoundPlayer::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (AudioComp != nullptr)
+		AudioComp->OnAudioFinished.Clear();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
