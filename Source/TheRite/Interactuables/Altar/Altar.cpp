@@ -19,7 +19,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 AAltar::AAltar()
 {
- 	PrimaryActorTick.bCanEverTick = false;
+ 	PrimaryActorTick.bCanEverTick = true;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 }
 
