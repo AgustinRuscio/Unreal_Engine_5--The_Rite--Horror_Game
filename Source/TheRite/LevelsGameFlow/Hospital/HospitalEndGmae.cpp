@@ -16,7 +16,7 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-AHospitalEndGmae::AHospitalEndGmae()
+AHospitalEndGmae::AHospitalEndGmae() : NextLevelName("RealWorld_EndGame")
 {
 	PrimaryActorTick.bCanEverTick = false;
 }

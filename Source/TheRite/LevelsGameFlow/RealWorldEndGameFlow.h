@@ -2,15 +2,14 @@
 // *Author		: github.com/AgustinRuscio		//
 // *UE version	: UE 5.5.4						//
 //----------------------------------------------//
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "EnablingReceptionSection.generated.h"
+#include "RealWorldEndGameFlow.generated.h"
 
 UCLASS()
-class THERITE_API AEnablingReceptionSection : public AActor
+class THERITE_API ARealWorldEndGameFlow : public AActor
 {
 	GENERATED_BODY()
 	
@@ -19,37 +18,51 @@ public:
 	//						CONSTRUCTOR & PUBLIC COMPONENTS						   //
 	//*****************************************************************************//
 	//Constructor
-	AEnablingReceptionSection();
+	ARealWorldEndGameFlow();
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	FName NextLevelName;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
-	float IntensityToAddToReceptionLight;
+	USoundBase* SFX_Shoot;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	USoundBase* SFX_Voice;
 
-	UPROPERTY(EditDefaultsOnly, Category = SFX)
-	USoundBase* ReceptionLightChanged;
-	
-	UPROPERTY(EditAnywhere, Category = Puzzle)
-	TArray<class ALightsTheRite*> Lights;
-	UPROPERTY(EditAnywhere, Category = Puzzle)
-	TArray<class ACustomLight*> Lights2;
-	
-	UPROPERTY(EditAnywhere, Category = Puzzle)
-	class AInteractor* EmblemsPlace;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	TArray<class ACustomLight*> CustomLights;
 
-	UPROPERTY(EditAnywhere, Category = Puzzle)
-	class ADoor* OfficeDoor;
+	UPROPERTY(EditAnywhere, Category = Settings)
+	class AInteractor* EndGameInteractable;
 	
+	UPROPERTY(EditAnywhere, Category= "Sequence")
+	class ULevelSequence* SequenceFade;
+
+	class AAlex* Player;
+
+	FTimerHandle TimerHandle_Voice;
+	FTimerDelegate TimerDelegate_Voice;
+
+	FTimerHandle TimerHandle_Shoot;
+	FTimerDelegate TimerDelegate_Shoot;
+
+
+private:
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void OnFirstInteractionWithEmblemsPlace(class AInteractor* Interactable);
+	void PlaySequence();
 
-	void ChangeReceptionLightsSettings();
+	UFUNCTION()
+	void OnSequenceFinished();
+
+	void TurnLightsOff();
+
+	UFUNCTION()
+	void OnInteractableTriggered(class AInteractor* interactor);
 };
