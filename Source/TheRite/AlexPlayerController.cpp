@@ -74,6 +74,8 @@ void AAlexPlayerController::EnableInput(APlayerController* PlayerController)
 	Super::EnableInput(PlayerController);
 	SetIgnoreLookInput(false);
 	SetIgnoreMoveInput(false);
+
+	BindActions();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -81,7 +83,11 @@ void AAlexPlayerController::DisableInput(APlayerController* PlayerController)
 {
 	Super::DisableInput(PlayerController);
 	SetIgnoreLookInput(true);
-	SetIgnoreMoveInput(true);
+	SetIgnoreMoveInput(true); 
+
+	UnbindActions();
+
+	OnHoldingBtn.Broadcast(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

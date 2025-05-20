@@ -149,16 +149,13 @@ void AAlex::ForceDisableInput()
 	APlayerController* PlayerController = Cast<APlayerController>(MyController);
     
 	MyController->DisableInput(PlayerController);
-
-	MyController->OnHoldingBtn.Broadcast(false);
-	MyController->OnHoldingBtn.Broadcast(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceTurnLighterOn()
 {
 	bLighter = true;
-	CheckLighterOn();
+	CheckLighterOn(); MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -796,7 +793,6 @@ void AAlex::Interaction()
 		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
 
 		MyController->PushWidget(OpenInventoryMenu);
-
 	}
 }
 
