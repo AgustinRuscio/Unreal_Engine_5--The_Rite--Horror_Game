@@ -49,6 +49,7 @@ void AAmbientSoundPlayer::BeginPlay()
 //----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	Super::EndPlay(EndPlayReason);
 	if (AudioComp != nullptr)
 		AudioComp->OnAudioFinished.Clear();
 }
