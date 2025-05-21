@@ -13,7 +13,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/SpotLight.h"
 #include "Components/PostProcessComponent.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"

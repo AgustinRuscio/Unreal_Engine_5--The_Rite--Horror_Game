@@ -43,10 +43,10 @@ private:
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category = "Ambient")
 	TArray<ALightsTheRite*> Lights;
-	
-	UPROPERTY(EditAnywhere, Category = "Ambient")
-	ALightsTheRite* DestroyableLight;
 
+	UPROPERTY(EditAnywhere, Category = "Ambient")
+	TArray<class ACustomLight*> CustomLights;
+	
 	UPROPERTY(EditAnywhere, Category = "Closing Door")
 	ADoor* Door;
 	

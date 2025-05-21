@@ -9,7 +9,7 @@
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
-#include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
 
@@ -49,16 +49,14 @@ void AMoveTiffany::FirstTurnOn()
 {
 	if(InGameSportLight)
 	{
-		InGameSportLight->GetLightComponent()->SetIntensity(SpotLightIntensity);
-		
+		InGameSportLight->GetLightComponent()->SetIntensity(SpotLightIntensity);	
 	}
-	else
+
+	for (auto Element : CustomOtherLights)
 	{
-		for (auto Element : OtherLights)
-		{
-			Element->TurnOn();
-		}
+		Element->TurnOn();
 	}
+	
 
 	if(SuddenSound)
 		UGameplayStatics::SpawnSound2D(GetWorld(), SuddenSound);
@@ -74,14 +72,12 @@ void AMoveTiffany::SecondTurnOff()
 	{
 		InGameSportLight->GetLightComponent()->SetIntensity(0.f);
 	}
-	else
-	{
-		for (auto Element : OtherLights)
-		{
-			Element->TurnOff();
-		}
-	}
 	
+	for (auto Element : CustomOtherLights)
+	{
+		Element->TurnOff();
+	}
+
 	if (!GetWorldTimerManager().IsTimerActive(FirstWait))
 	{
 		FTimerDelegate WaitDelegate;
@@ -100,7 +96,7 @@ void AMoveTiffany::SecondTurnOff()
 
 void AMoveTiffany::SecondTurnOn()
 {
-	for (auto Element : OtherLights)
+	for (auto Element : CustomOtherLights)
 	{
 		Element->TurnOn();
 	}
@@ -146,11 +142,11 @@ void AMoveTiffany::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		
 	});
 
-	for (auto Element : OtherLights)
+	for (auto Element : CustomOtherLights)
 	{
 		Element->TurnOff();
 	}
-	
+
 	if (!GetWorldTimerManager().IsTimerActive(FirstTurnLightsOff))
 	{
 		GetWorldTimerManager().SetTimer(FirstTurnLightsOff, FirstTurnOff, 2.f, false);

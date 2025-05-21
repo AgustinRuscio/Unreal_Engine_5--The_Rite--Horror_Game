@@ -18,7 +18,6 @@ class ASpotLight;
 class ASkeletalMeshActor;
 class UPostProcessComponent;
 class ATargetPoint;
-class ALightsTheRite;
 class ADoor;
 class AAlex;
 class ATiffany;
@@ -118,7 +117,7 @@ private:
 	
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category = "Lights")
-	ALightsTheRite* ArtRoomLight;
+	class ACustomLight* ArtRoomLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	ASpotLight* SpotLight;

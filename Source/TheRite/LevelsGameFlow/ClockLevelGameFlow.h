@@ -234,11 +234,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lights: Ambient")
 	TArray<ALightsTheRite*> Lights;
 
+	UPROPERTY(EditAnywhere, Category = "Lights: Ambient")
+	TArray<class ACustomLight*> CustomLights;
+
 	UPROPERTY(EditAnywhere, Category = "Lights: Library")
 	TArray<ALightsTheRite*> LibraryLightsEvent;
 
 	UPROPERTY(EditAnywhere, Category = "Lights: Library")
-	ALightsTheRite* LibraryRoofLight;
+	class ACustomLight* LibraryRoofLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights: Central")
 	class ASpotLight* Light_Clock;

@@ -81,7 +81,8 @@ private:
 	
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category="Ambient")
-	TArray<ALightsTheRite*> OtherLights;
+	TArray<class ACustomLight*> CustomOtherLights;
+
 
 	UPROPERTY(EditAnywhere, Category="Ambient")
 	class ASpotLight* InGameSportLight;

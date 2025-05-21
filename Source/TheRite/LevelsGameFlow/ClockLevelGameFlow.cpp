@@ -32,6 +32,7 @@
 #include "Engine/SpotLight.h"
 #include "Components/LightComponent.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -281,7 +282,7 @@ void AClockLevelGameFlow::LockDoorsEndGame()
 //----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::EndGame()
 {
-	for (auto Element : Lights)
+	for (auto Element : CustomLights)
 	{
 		Element->TurnOff();
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsBroken);

@@ -8,6 +8,7 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Characters/Alex.h"
 
@@ -42,10 +43,9 @@ void ACloseDoor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		bAggresiveLight ? Element->SetAggressiveMaterial() : Element->SetNormalMaterial();
 	}
 	
-	if(IsValid(DestroyableLight))
+	for (auto Element : CustomLights)
 	{
-		DestroyableLight->Destroy();
-		UGameplayStatics::PlaySound2D(this, SFXLightBReak);
+		bAggresiveLight ? Element->SetAggressiveMaterial() : Element->SetNormalMaterial();
 	}
 	
 	Destroy();

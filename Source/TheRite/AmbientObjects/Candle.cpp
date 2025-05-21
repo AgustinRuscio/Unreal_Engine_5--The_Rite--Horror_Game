@@ -48,8 +48,12 @@ void ACandle::Appear() const
 {
 	Mesh->SetVisibility(true);
 	Mesh->SetHiddenInGame(false);
+
 	Plane->SetVisibility(true);
+	Plane->SetHiddenInGame(false);
+
 	PointLight->SetVisibility(true);
+	PointLight->SetHiddenInGame(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -57,8 +61,12 @@ void ACandle::Disappear() const
 {
 	Mesh->SetVisibility(false);
 	Mesh->SetHiddenInGame(true);
+
 	Plane->SetVisibility(false);
+	Plane->SetHiddenInGame(true);
+
 	PointLight->SetVisibility(false);
+	PointLight->SetHiddenInGame(true);
 }
 
 //*****************************Private******************************************

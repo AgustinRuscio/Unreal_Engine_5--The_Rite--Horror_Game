@@ -155,7 +155,7 @@ void AAlex::ForceDisableInput()
 void AAlex::ForceTurnLighterOn()
 {
 	bLighter = true;
-	CheckLighterOn(); MyController->OnHoldingBtn.AddDynamic(this, &AAlex::CheckHolding);
+	CheckLighterOn();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
