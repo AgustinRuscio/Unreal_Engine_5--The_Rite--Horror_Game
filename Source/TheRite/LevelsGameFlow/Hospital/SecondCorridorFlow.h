@@ -40,6 +40,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Puzzles")
 	class AInteractor* EmblemObject;
 
+	UPROPERTY(EditAnywhere, Category = "Puzzles")
+	AActor* EmblemPlaceActor;
+
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<class ACustomLight*> FeedbackLights;
 

@@ -30,6 +30,9 @@ void ASecondCorridorFlow::BeginPlay()
 	player = Cast<AAlex>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	EmblemObject->Dissapear();
 
+	EmblemPlaceActor->SetActorHiddenInGame(true);
+	EmblemPlaceActor->SetActorEnableCollision(false);
+
 	LightsPuzzle->OnPuzzleComplete.AddDynamic(this, &ASecondCorridorFlow::OnLightsPuzzleCompleted);
 
 	//------- Glass Col timeline
@@ -95,6 +98,9 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 					UGameplayStatics::PlayWorldCameraShake(GetWorld(), CameraShake_Puzzle, UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), 0, 1000);
 
 					EmblemObject->Appear();
+
+					EmblemPlaceActor->SetActorHiddenInGame(false);
+					EmblemPlaceActor->SetActorEnableCollision(true);
 
 					for (auto door : EmblemDoor)
 					{
