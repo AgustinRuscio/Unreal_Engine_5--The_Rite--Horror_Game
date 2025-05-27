@@ -12,6 +12,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -86,11 +87,15 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LastAudio);
 	UGameplayStatics::SpawnSound2D(GetWorld(), SFX_LightsOut);
 	
+	for (auto Element : CustomLights_AllLights)
+	{
+		Element->TurnOff();
+	}
 	for (auto Element : Lights_AllLights)
 	{
 		Element->TurnOff();
 	}
-	
+
 	for (auto Element : Candles_EndGame)
 	{
 		Element->TurnOn();
@@ -130,7 +135,7 @@ void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 	{
 		Element->GetLightComponent()->SetIntensity(20);
 	}
-	for (auto Element : Lights_AllLights)
+	for (auto Element : CustomLights_AllLights)
 	{
 		if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
 		Element->TurnOff();
@@ -144,9 +149,15 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 	if(!Cast<AAlex>(OtherActor) || bLivingRoomEventDone) return;
 	bLivingRoomEventDone = true;
 	
-	for (auto Element : Lights_AllLights)
+	for (auto Element : CustomLights_AllLights)
 	{
 		if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
+		Element->TurnOn();
+	}
+
+	for (auto Element : Lights_AllLights)
+	{
+		if (Element->GetLightZone() != HouseZone::LivingRoom) continue;
 		Element->TurnOn();
 	}
 
@@ -159,12 +170,18 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 
 		OnTimerCompleted.BindLambda([&]
 		{
-			for (auto Element : Lights_AllLights)
+			for (auto Element : CustomLights_AllLights)
 			{
 				if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
 				Element->TurnOff();
 			}
 	
+			for (auto Element : Lights_AllLights)
+			{
+				if (Element->GetLightZone() != HouseZone::LivingRoom) continue;
+				Element->TurnOff();
+			}
+
 			for (auto Element : Skeletals_LivingRoomEvet)
 			{
 				Element->Destroy();
@@ -177,9 +194,15 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerLivingRoomEventOverlap(AActor* Over
 				FTimerDelegate OnSecondTimerCompleted;
 				OnSecondTimerCompleted.BindLambda([&]
 				{
-					for (auto Element : Lights_AllLights)
+					for (auto Element : CustomLights_AllLights)
 					{
 						if(Element->GetLightZone() != HouseZone::LivingRoom) continue;
+						Element->TurnOn();
+					}
+
+					for (auto Element : Lights_AllLights)
+					{
+						if (Element->GetLightZone() != HouseZone::LivingRoom) continue;
 						Element->TurnOn();
 					}
 				});
@@ -200,7 +223,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 
 	bKitchenEventDone = true;
 	
-	for (auto Element : Lights_AllLights)
+	for (auto Element : CustomLights_AllLights)
 	{
 		if(Element->GetLightZone() != HouseZone::Kitchen) continue;
 		Element->TurnOff();
@@ -222,7 +245,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerKitchenEventOverlap(AActor* Overlap
 
 		OnTimerCompleted.BindLambda([&]
 		{
-			for (auto Element : Lights_AllLights)
+			for (auto Element : CustomLights_AllLights)
 			{
 				if(Element->GetLightZone() != HouseZone::Kitchen) continue;
 				Element->TurnOn();
@@ -262,7 +285,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 
 		OnTimerCompleted.BindLambda([&]
 		{
-			for (auto Element : Lights_AllLights)
+			for (auto Element : CustomLights_AllLights)
 			{
 				if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
 				Element->TurnOn();
