@@ -41,6 +41,9 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Sequence")
 	class ULevelSequence* SequenceFade;
 
+	UPROPERTY(EditAnywhere, Category= "Sequence")
+	class ULevelSequence* SequenceShoot;
+
 	class AAlex* Player;
 
 	FTimerHandle TimerHandle_Voice;

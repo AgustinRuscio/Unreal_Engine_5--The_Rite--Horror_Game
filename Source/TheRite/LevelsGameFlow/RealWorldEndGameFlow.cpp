@@ -33,7 +33,6 @@ void ARealWorldEndGameFlow::BeginPlay()
 //----------------------------------------------------------------------------------------------------------------------
 void ARealWorldEndGameFlow::PlaySequence()
 {
-
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f;
 	PlaybackSettings.bAutoPlay = true;
@@ -42,6 +41,7 @@ void ARealWorldEndGameFlow::PlaySequence()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->DisableInput(controller);
 
+	Player->ToggleDotUI(false);
 	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
 
 	ULevelSequencePlayer* sequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceFade,
@@ -55,6 +55,7 @@ void ARealWorldEndGameFlow::PlaySequence()
 //----------------------------------------------------------------------------------------------------------------------
 void ARealWorldEndGameFlow::OnSequenceFinished()
 {
+	Player->ToggleDotUI(true);
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
 }
@@ -71,28 +72,20 @@ void ARealWorldEndGameFlow::TurnLightsOff()
 //----------------------------------------------------------------------------------------------------------------------
 void ARealWorldEndGameFlow::OnInteractableTriggered(AInteractor* interactor)
 {
-	TurnLightsOff();
+	Player->ToggleDotUI(false);
 
-	Player->ForceDisableInput();
-	Player->ForceTalk(SFX_Voice);
+	FMovieSceneSequencePlaybackSettings PlaybackSettings;
+	PlaybackSettings.PlayRate = 1.0f;
+	PlaybackSettings.bAutoPlay = true;
+	PlaybackSettings.bRandomStartTime = false;
 
-	if (GetWorld()->GetTimerManager().IsTimerActive(TimerHandle_Voice)) return;
+	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
+	controller->DisableInput(controller);
 
-	TimerDelegate_Voice.BindLambda([this]()
-		{
-			UGameplayStatics::PlaySound2D(GetWorld(), SFX_Shoot);
+	ALevelSequenceActor* TempLevelSequenceActor = GetWorld()->SpawnActor<ALevelSequenceActor>();
 
-			if (GetWorld()->GetTimerManager().IsTimerActive(TimerHandle_Shoot)) return;
+	ULevelSequencePlayer* sequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceShoot,
+		PlaybackSettings, TempLevelSequenceActor);
 
-			auto timerTime = SFX_Shoot->GetDuration() + .75f;
-
-			TimerDelegate_Shoot.BindLambda([this]()
-				{
-					UGameplayStatics::OpenLevel(GetWorld(), NextLevelName);
-				});
-
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle_Shoot, TimerDelegate_Shoot, timerTime, false);
-		});
-
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle_Voice, TimerDelegate_Voice, SFX_Voice->GetDuration() + 0.5f, false);
+	sequencePlayer->Play();
 }

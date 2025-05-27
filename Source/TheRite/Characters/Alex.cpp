@@ -207,6 +207,17 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AAlex::ToggleDotUI(bool Active)
+{
+	if (DotWidget == nullptr) return;
+	
+	if(Active)
+		DotWidget->SetVisibility(ESlateVisibility::Visible);
+	else
+		DotWidget->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 #pragma region Setter Methods
 void AAlex::SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder)
 {

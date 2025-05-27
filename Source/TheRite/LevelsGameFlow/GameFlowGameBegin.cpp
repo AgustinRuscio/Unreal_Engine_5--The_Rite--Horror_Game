@@ -106,7 +106,8 @@ void AGameFlowGameBegin::CreateWidgets()
 void AGameFlowGameBegin::PlayBeginSequence()
 {
 	Player->ForceDisableInput();
-	
+	Player->ToggleDotUI(false);
+
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;
@@ -125,6 +126,8 @@ void AGameFlowGameBegin::PlayBeginSequence()
 //----------------------------------------------------------------------------------------------------------------------
 void AGameFlowGameBegin::BeginSequenceFinished()
 {
+	Player->ToggleDotUI(true);
+
 	Player->ForceEnableInput();
 
 	FindObjectsMenuWidget->SetVisibility(ESlateVisibility::Visible);
@@ -137,7 +140,8 @@ void AGameFlowGameBegin::BeginSequenceFinished()
 void AGameFlowGameBegin::PlayRiteSequence()
 {
 	Player->ForceDisableInput();
-	
+	Player->ToggleDotUI(false);
+
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f; 
 	PlaybackSettings.bAutoPlay = true;

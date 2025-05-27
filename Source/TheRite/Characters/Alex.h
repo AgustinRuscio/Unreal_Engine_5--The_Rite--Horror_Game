@@ -111,6 +111,8 @@ public:
 	void OnJumpScare();
 	
 	void RemoveFromInventory(FString itemName, PickableItemsID id);
+
+	void ToggleDotUI(bool active);
 	
 //---------------- Setter Methods
 	void SetPlayerOptions(bool canRun, bool canUseLighter, bool showLighterReminder);
