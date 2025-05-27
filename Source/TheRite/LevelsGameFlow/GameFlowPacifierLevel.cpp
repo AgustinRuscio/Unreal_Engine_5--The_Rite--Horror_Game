@@ -15,6 +15,7 @@
 #include "TheRite/AmbientObjects/Manikin.h"
 #include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/AmbientObjects/IntermitentActor.h"
 #include "Engine/StaticMeshActor.h"
 #include "TheRite/Characters/Alex.h"
@@ -222,6 +223,12 @@ void AGameFlowPacifierLevel::LightsOnBedRoom(AInteractor* Interactor)
 
 		Element->TurnOn();
 	}
+	for (auto Element : CustomLights_AllLights)
+	{
+		if (Element->GetLightZone() != HouseZone::BedRoom) continue;
+
+		Element->TurnOn();
+	}
 
 	MainFetus->StartAudioComponent();
 	Interactable_BedroomLightsOn->OnInteractionTrigger.RemoveDynamic(this, &AGameFlowPacifierLevel::LightsOnBedRoom);
@@ -240,7 +247,12 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 	{
 		Element->ChangeLightIntensity((Element->GetIntensity() - 10), true);
 	}
-	
+	for (auto Element : CustomLights_AllLights)
+	{
+		Element->ChangeLightIntensity((Element->GetIntensity() - 10), true);
+	}
+
+
 	//Timer_LastPuzzleStarted.PlayFromStart();
 }
 
@@ -289,6 +301,11 @@ void AGameFlowPacifierLevel::OnTriggerLightsOutEventOverlap(AActor* OverlappedAc
 	bLightsDown = true;
 	
 	for (auto Element : Lights_AllLights)
+	{
+		Element->TurnOff();
+	}
+
+	for (auto Element : CustomLights_AllLights)
 	{
 		Element->TurnOff();
 	}

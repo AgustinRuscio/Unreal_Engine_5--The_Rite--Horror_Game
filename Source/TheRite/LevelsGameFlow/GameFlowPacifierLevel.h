@@ -118,6 +118,8 @@ private:
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ALightsTheRite*> Lights_AllLights;
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<class ACustomLight*> CustomLights_AllLights;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ACandle*> Candles_EndGame;

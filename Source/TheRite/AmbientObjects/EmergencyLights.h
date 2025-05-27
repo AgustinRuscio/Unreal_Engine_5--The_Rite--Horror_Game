@@ -10,6 +10,7 @@
 #include "EmergencyLights.generated.h"
 
 class URectLightComponent;
+class UPointLightComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 
@@ -43,6 +44,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category="Settings")
 	float LightIntensity;
+	UPROPERTY(EditAnywhere, Category="Settings")
+	float LightIntensityPointLight;
 	
 //-------- Mesh
 	UPROPERTY(EditAnywhere, Category="Mesh", meta=(AllowPrivateAccess = "true"))
@@ -54,7 +57,10 @@ private:
 	
 //-------- Lights
 	UPROPERTY(EditAnywhere, Category="Lights")
-	URectLightComponent* Light;
+	URectLightComponent* RectLight;
+
+	UPROPERTY(EditAnywhere, Category="Lights")
+	UPointLightComponent* PointLight;
 
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //

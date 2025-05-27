@@ -5,6 +5,7 @@
 
 #include "EmergencyLights.h"
 #include "Components/RectLightComponent.h"
+#include "Components/PointLightComponent.h"
 
 //*****************************Public******************************************
 //******************************************************************************
@@ -16,21 +17,28 @@ AEmergencyLights::AEmergencyLights()
 	
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Emergency light mesh");
 	
-	Light = CreateDefaultSubobject<URectLightComponent>("light");
-	Light->SetupAttachment(Mesh);
+	RectLight = CreateDefaultSubobject<URectLightComponent>("light");
+	RectLight->SetupAttachment(Mesh);
+
+	PointLight = CreateDefaultSubobject<UPointLightComponent>("PointLight");
+	PointLight->SetupAttachment(Mesh);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AEmergencyLights::TurnOn() const
 {
-	Light->SetIntensity(LightIntensity);
+	RectLight->SetIntensity(LightIntensity);
+	PointLight->SetIntensity(LightIntensityPointLight);
+
 	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),EmmisiveMultiplierValue);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AEmergencyLights::TurnOff() const
 {
-	Light->SetIntensity(0);
+	RectLight->SetIntensity(0);
+	PointLight->SetIntensity(0);
+
 	DynamicMaterial->SetScalarParameterValue(TEXT("IntensityMultiplier"),0);
 }
 

@@ -8,6 +8,7 @@
 #include "ProsProcessModifier.h"
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
+#include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Alex.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AlexPlayerController.h"
@@ -115,7 +116,7 @@ void AHideAndSeekPuzzle::PuzzleCompleted()
 //----------------------------------------------------------------------------------------------------------------------
 void AHideAndSeekPuzzle::LightsOff()
 {
-	for (auto Element : Lights_NeededLights)
+	for (auto Element : CustomLights_NeededLights)
 	{
 		Element->TurnOff();
 	}
@@ -131,7 +132,7 @@ void AHideAndSeekPuzzle::LightsOn()
 		FTimerDelegate timerDelegate;
 		timerDelegate.BindLambda([&]
 		{
-			for (auto Element : Lights_NeededLights)
+			for (auto Element : CustomLights_NeededLights)
 			{
 				Element->TurnOn();
 			}
