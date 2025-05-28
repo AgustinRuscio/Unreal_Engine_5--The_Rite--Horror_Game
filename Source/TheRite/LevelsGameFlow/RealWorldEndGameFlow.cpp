@@ -10,10 +10,11 @@
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
+#include "Components/AudioComponent.h"
 #include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
-ARealWorldEndGameFlow::ARealWorldEndGameFlow()
+ARealWorldEndGameFlow::ARealWorldEndGameFlow() : VolumeEndGameSound(.7f)
 {
  	PrimaryActorTick.bCanEverTick = false;
 }
@@ -73,6 +74,9 @@ void ARealWorldEndGameFlow::TurnLightsOff()
 void ARealWorldEndGameFlow::OnInteractableTriggered(AInteractor* interactor)
 {
 	Player->ToggleDotUI(false);
+
+	auto endGameSong =UGameplayStatics::SpawnSound2D(GetWorld(), SFX_EndMusic);
+	endGameSong->SetVolumeMultiplier(VolumeEndGameSound);
 
 	FMovieSceneSequencePlaybackSettings PlaybackSettings;
 	PlaybackSettings.PlayRate = 1.0f;

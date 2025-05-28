@@ -25,12 +25,18 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	UPROPERTY(EditAnyWhere, Category = Settings)
+	float VolumeEndGameSound;
+	
+	UPROPERTY(EditAnyWhere, Category = Settings)
 	FName NextLevelName;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	USoundBase* SFX_Shoot;
 	UPROPERTY(EditAnywhere, Category = Settings)
 	USoundBase* SFX_Voice;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+	USoundBase* SFX_EndMusic;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 	TArray<class ACustomLight*> CustomLights;
