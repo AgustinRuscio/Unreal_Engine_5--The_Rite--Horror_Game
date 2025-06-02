@@ -29,7 +29,7 @@
 static float HintLightInitialIntensity;
 
 //----------------------------------------------------------------------------------------------------------------------
-ASimpleCorridorFlow::ASimpleCorridorFlow()
+ASimpleCorridorFlow::ASimpleCorridorFlow() : NewLightIntensity(15.f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("Audio Comp");
@@ -62,11 +62,18 @@ void ASimpleCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	if(GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(TimerHandleEnd);
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandleEndGame);
 	}
 
 	if(TimerDelegateEnd.IsBound())
 	{
 		TimerDelegateEnd.Unbind();
+	}
+
+
+	if (TimerDelegateEndGame.IsBound())
+	{
+		TimerDelegateEndGame.Unbind();
 	}
 }
 
@@ -81,7 +88,6 @@ void ASimpleCorridorFlow::BindInteractables()
 void ASimpleCorridorFlow::BindTriggers()
 {
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
-	TriggerOutSideEnd->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginOutSideEnd);
 
 	DoorSlapperHangedMan->OnTriggerActivatedDelegate.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
 }
@@ -172,6 +178,17 @@ void ASimpleCorridorFlow::OnFetchPuzzleFinished()
 	{
 		Element->Destroy();
 	}
+
+	if (!GetWorld()->GetTimerManager().IsTimerActive(TimerHandleEndGame))
+	{
+		TimerDelegateEndGame.BindLambda([this]()
+		{
+				OnTriggerBeginOutSideEnd();
+		});
+
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandleEndGame, TimerDelegateEndGame, 4.f, false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -211,7 +228,7 @@ void ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions(AActor* Overla
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor)
+void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd()
 {
 	if(!bPuzzleEnd) return;
 
@@ -222,7 +239,7 @@ void ASimpleCorridorFlow::OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AAct
 	for (auto Element : AllLights2)
 	{
 		Element->SetNormalMaterial();
-		Element->ChangeLightIntensity(14.f, true);
+		Element->ChangeLightIntensity(NewLightIntensity, true);
 		Element->TurnOn();
 	}
 	

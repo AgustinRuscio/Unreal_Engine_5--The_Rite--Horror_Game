@@ -21,7 +21,7 @@ static float OriginalLightIntensity;
 //********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-AFetchInOrderPuzzle::AFetchInOrderPuzzle()
+AFetchInOrderPuzzle::AFetchInOrderPuzzle() : LightsPuzzleItensity(7.5f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -57,7 +57,7 @@ void AFetchInOrderPuzzle::ActivatePuzzle()
 	
 	for (auto Element : AllLights2)
 	{
-		Element->ChangeLightIntensity(2.f, true);
+		Element->ChangeLightIntensity(LightsPuzzleItensity, true);
 	}
 
 	

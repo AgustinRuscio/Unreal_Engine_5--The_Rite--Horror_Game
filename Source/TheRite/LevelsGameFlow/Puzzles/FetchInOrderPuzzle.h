@@ -70,6 +70,9 @@ private:
 	int ChangingObjectsIndex;
 	
 	float OffsetLightsOn;
+
+	UPROPERTY(EditAnywhere,  Category = "Settings")
+	float LightsPuzzleItensity;
 	
 	//-------- Audio
 	UPROPERTY(EditAnywhere, Category = Audio, meta=(AllowPrivateAccess = true))

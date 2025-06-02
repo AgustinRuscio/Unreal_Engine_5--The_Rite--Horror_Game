@@ -36,6 +36,11 @@ private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	bool bActive;
 
+	UPROPERTY(EditAnywhere, Category="Settings")
+	bool bOneUse;
+
+	bool bWasUsed;
+
 	UPROPERTY(EditAnywhere, Category = "Triggers", meta=(AllowPrivateAccess="true"))
 	TArray<class AIntermitentActor*> IntermitentsActors;
 

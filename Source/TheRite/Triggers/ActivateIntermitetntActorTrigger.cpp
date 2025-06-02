@@ -10,7 +10,7 @@
 
 
 //----------------------------------------------------------------------------------------------------------------------
-AActivateIntermitetntActorTrigger::AActivateIntermitetntActorTrigger() : bActive(true)
+AActivateIntermitetntActorTrigger::AActivateIntermitetntActorTrigger() : bActive(true), bOneUse(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -40,6 +40,13 @@ void AActivateIntermitetntActorTrigger::BeginPlay()
 void AActivateIntermitetntActorTrigger::ActivateIntermitent(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!bActive) return;
+
+	if (bOneUse )
+	{
+		if(bWasUsed) return;
+
+		bWasUsed = true;
+	}
 
 	if (!Cast<AAlex>(OtherActor)) return;
 

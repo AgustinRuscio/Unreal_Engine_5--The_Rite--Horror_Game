@@ -36,6 +36,8 @@ private:
 	//*****************************************************************************//
 	bool bPuzzleEnd;
 	
+	float NewLightIntensity;
+
 	FName PostProcessModiferValue = "SpectralProximity";
 	
 	UPROPERTY(EditAnywhere, Category = Interactables)
@@ -117,6 +119,9 @@ private:
 	FTimerHandle TimerHandleEnd;
 	FTimerDelegate TimerDelegateEnd;
 	
+	FTimerHandle TimerHandleEndGame;
+	FTimerDelegate TimerDelegateEndGame;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
@@ -148,7 +153,7 @@ private:
 	
 	
 	UFUNCTION()
-	void OnTriggerBeginOutSideEnd(AActor* OverlappedActor, AActor* OtherActor);
+	void OnTriggerBeginOutSideEnd();
 	
 	UFUNCTION()
 	void OnTriggerBeginDoorSlapperHangedMan();
