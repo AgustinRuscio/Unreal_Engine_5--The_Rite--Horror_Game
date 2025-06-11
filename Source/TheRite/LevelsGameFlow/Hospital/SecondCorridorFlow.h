@@ -90,5 +90,5 @@ private:
 	UFUNCTION()
 	void FeedBackTick(float DeltaSeconds);
 	UFUNCTION()
-	void FeedBackFinished(float DeltaSeconds);
+	void FeedBackFinished();
 };

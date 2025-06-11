@@ -129,7 +129,10 @@ void ASecondCorridorFlow::ToggleSound(bool Active)
 {
 	for (auto sound : FeedbackSounds)
 	{
-		Active ? sound->StartAudioManually(false, true) : sound->StopAudios();
+		if(Active)
+			sound->StartAudioManually(false, true);
+		else
+			sound->StopAudios();
 	}
 }
 
@@ -146,7 +149,7 @@ void ASecondCorridorFlow::TeleportPlayer()
 void ASecondCorridorFlow::FeedBackTick(float DeltaSeconds) { }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ASecondCorridorFlow::FeedBackFinished(float DeltaSeconds)
+void ASecondCorridorFlow::FeedBackFinished()
 {
 	ToggleLights(true);
 	ToggleSound(false);
