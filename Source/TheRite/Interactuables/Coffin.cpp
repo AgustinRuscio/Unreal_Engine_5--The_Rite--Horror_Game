@@ -72,6 +72,16 @@ void ACoffin::BeginPlay()
 			index++;
 		}
 	}
+
+	for (auto current : ActorsAttachedToMatress)
+	{
+		current->AttachToComponent(CoffinMattress, FAttachmentTransformRules::KeepWorldTransform);
+	}
+
+	for (auto current : ActorsAttachedToDoor)
+	{
+		current->AttachToComponent(CoffinDoor, FAttachmentTransformRules::KeepWorldTransform);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

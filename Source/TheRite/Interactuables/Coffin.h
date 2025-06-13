@@ -126,6 +126,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Inside")
 	TArray<FVector> LocationInside;
 
+	UPROPERTY(EditAnywhere, Category = "Inside")
+	TArray<AActor*> ActorsAttachedToMatress;
+	UPROPERTY(EditAnywhere, Category = "Inside")
+	TArray<AActor*> ActorsAttachedToDoor;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
