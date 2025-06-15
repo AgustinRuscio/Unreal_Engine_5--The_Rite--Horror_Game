@@ -35,10 +35,15 @@ private:
 	UPROPERTY(EditAnyWhere, Category = "Settings")
 	TArray<class ALightsPortrait*> PortraitsInPuzzle;
 
+	FTimerHandle PuzzleCompleteTimerHandle;
+	FTimerDelegate PuzzleCompleteTimerDelegate;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
 	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UFUNCTION()
 	void CheckPuzzleState();

@@ -24,6 +24,18 @@ void ALightsPuzzle::BeginPlay()
 	}
 }
 
+void ALightsPuzzle::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	
+	PuzzleCompleteTimerDelegate.Unbind();
+
+	if (GetWorld()->GetTimerManager().IsTimerActive(PuzzleCompleteTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(PuzzleCompleteTimerHandle);
+	}
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void ALightsPuzzle::CheckPuzzleState()
 {
@@ -47,5 +59,13 @@ void ALightsPuzzle::PuzzleCompleted()
 		current->DisbalePortrait();
 	}
 
-	OnPuzzleComplete.Broadcast();
+	if(GetWorld()->GetTimerManager().IsTimerActive(PuzzleCompleteTimerHandle)) return
+
+	PuzzleCompleteTimerDelegate.BindLambda([this]()
+		{
+		OnPuzzleComplete.Broadcast();
+		});
+	
+
+	GetWorld()->GetTimerManager().SetTimer(PuzzleCompleteTimerHandle, PuzzleCompleteTimerDelegate, 3.5f, false);
 }
