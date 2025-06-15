@@ -59,7 +59,7 @@ void ALightsPuzzle::PuzzleCompleted()
 		current->DisbalePortrait();
 	}
 
-	if(GetWorld()->GetTimerManager().IsTimerActive(PuzzleCompleteTimerHandle)) return
+	if(GetWorld()->GetTimerManager().IsTimerActive(PuzzleCompleteTimerHandle)) return;
 
 	PuzzleCompleteTimerDelegate.BindLambda([this]()
 		{
