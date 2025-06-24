@@ -245,11 +245,11 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 
 	for (auto Element : Lights_AllLights)
 	{
-		Element->ChangeLightIntensity((Element->GetIntensity() - 10), true);
+		Element->ChangeLightIntensity((Element->GetIntensity() - Element->GetIntensity() * .5f), true);
 	}
 	for (auto Element : CustomLights_AllLights)
 	{
-		Element->ChangeLightIntensity((Element->GetIntensity() - 10), true);
+		Element->ChangeLightIntensity((Element->GetIntensity() - Element->GetIntensity() * .5f), true);
 	}
 
 
