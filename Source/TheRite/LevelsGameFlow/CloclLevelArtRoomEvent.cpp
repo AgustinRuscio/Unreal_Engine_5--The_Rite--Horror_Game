@@ -10,6 +10,7 @@
 #include "Engine/TargetPoint.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "TheRite/Characters/Alex.h"
+#include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/SpotLight.h"
 #include "Components/PostProcessComponent.h"
@@ -81,6 +82,11 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	ArtRoomLight->TurnOff();
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	
+	for (auto current : Candles)
+	{
+		current->TurnOff();
+	}
+
 	FirstTurnOffTimeLine.PlayFromStart();
 }
 
@@ -288,6 +294,12 @@ void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 	
 	Alex->SetEventMode(false, 0,0,0,0);
 	
+	for (auto current : Candles)
+	{
+		current->TurnOn();
+	}
+
+
 	Destroy();
 }
 #pragma endregion

@@ -120,6 +120,9 @@ private:
 	class ACustomLight* ArtRoomLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights")
+	TArray <class ACandle*> Candles;
+
+	UPROPERTY(EditAnywhere, Category = "Lights")
 	ASpotLight* SpotLight;
 	
 	UPROPERTY(EditAnywhere, Category = "Door")
