@@ -46,6 +46,11 @@ private:
 	//*****************************************************************************//
 	int8 DoOnce = 0;
 
+	float DirectionalLightIntensity = 0.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float SpotLightIntensity;
+
 	//-------- Colliders Meshes
 	UPROPERTY(EditAnywhere, Category = "Triggers")
 	ATriggerBox* StartTriggerBox;
@@ -117,13 +122,16 @@ private:
 	
 	//-------- Lights
 	UPROPERTY(EditAnywhere, Category = "Lights")
-	class ACustomLight* ArtRoomLight;
+	TArray<class ACustomLight*> ArtRoomLight;
 
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	TArray <class ACandle*> Candles;
 
 	UPROPERTY(EditAnywhere, Category = "Lights")
 	ASpotLight* SpotLight;
+
+	UPROPERTY(EditAnywhere, Category = "Lights")
+	class ADirectionalLight* DirectionalLight;
 	
 	UPROPERTY(EditAnywhere, Category = "Door")
 	ADoor* ArtRoomDoor;

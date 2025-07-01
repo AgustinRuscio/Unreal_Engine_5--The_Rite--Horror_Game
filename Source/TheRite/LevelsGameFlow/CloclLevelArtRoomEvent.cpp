@@ -4,8 +4,9 @@
 //----------------------------------------------//
 
 #include "CloclLevelArtRoomEvent.h"
-#include "Components/SpotLightComponent.h"
 #include "Components/AudioComponent.h"
+#include "Components/SpotLightComponent.h"
+#include "Engine/DirectionalLight.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/Characters/Tiffany.h"
@@ -13,6 +14,7 @@
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Interactuables/Door.h"
 #include "Engine/SpotLight.h"
+#include "Engine/DirectionalLight.h"
 #include "Components/PostProcessComponent.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Engine/TriggerBox.h"
@@ -23,7 +25,7 @@
 //********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent()
+ACloclLevelArtRoomEvent::ACloclLevelArtRoomEvent() : SpotLightIntensity(50.f)
 {
  	PrimaryActorTick.bCanEverTick = true;
 }
@@ -36,6 +38,7 @@ void ACloclLevelArtRoomEvent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	DirectionalLightIntensity = DirectionalLight->GetLightComponent()->Intensity;
 	BindTimeLines();
 }
 
@@ -79,7 +82,13 @@ void ACloclLevelArtRoomEvent::OnEventStarted(AActor* OverlappedActor, AActor* Ot
 	ArtRoomDoor->SetLockedState(true);
 	ArtRoomDoor->HardClosing();
 
-	ArtRoomLight->TurnOff();
+	DirectionalLight->GetLightComponent()->SetIntensity(0);
+
+	for (auto current : ArtRoomLight)
+	{
+		current->TurnOff();
+	}
+
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	
 	for (auto current : Candles)
@@ -194,7 +203,7 @@ void ACloclLevelArtRoomEvent::FirstTurnOffFinished()
 	StandTiffany->GetMesh()->SetVisibility(true, false);
 	
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-	SpotLight->SpotLightComponent->SetIntensity(60);
+	SpotLight->SpotLightComponent->SetIntensity(SpotLightIntensity);
 	
 	FirstTurnOnTimeLine.PlayFromStart();
 }
@@ -206,6 +215,7 @@ void ACloclLevelArtRoomEvent::DuringFirstTurnOnTick(float deltaTime) { }
 void ACloclLevelArtRoomEvent::OnFirstTurnOnFinished()
 {
 	SpotLight->SpotLightComponent->SetIntensity(0);
+
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 
 	StandTiffany->SetActorLocation(RoomCenterTaregtPoint->GetActorLocation());
@@ -222,7 +232,7 @@ void ACloclLevelArtRoomEvent::DuringSecondTurnOnTick(float deltaTime) { }
 void ACloclLevelArtRoomEvent::OnSecondTurnOnFinished()
 {
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-	SpotLight->SpotLightComponent->SetIntensity(60);
+	SpotLight->SpotLightComponent->SetIntensity(SpotLightIntensity);
 
 	ThirdTurnOffTimeLine.PlayFromStart();
 }
@@ -251,7 +261,8 @@ void ACloclLevelArtRoomEvent::DuringThirdTurnOnTick(float deltaTime) { }
 void ACloclLevelArtRoomEvent::OnThirdTurnOnFinished()
 {
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
-	SpotLight->SpotLightComponent->SetIntensity(60);
+
+	SpotLight->SpotLightComponent->SetIntensity(SpotLightIntensity);
 
 	LastTurnOffTimeLine.PlayFromStart();
 }
@@ -263,6 +274,7 @@ void ACloclLevelArtRoomEvent::DuringLastTurnOffTick(float deltaTime) { }
 void ACloclLevelArtRoomEvent::OnLastTurnOffFinished()
 {
 	SpotLight->SpotLightComponent->SetIntensity(0);
+
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 
 	StandTiffany->GetMesh()->SetVisibility(false, false);
@@ -277,9 +289,15 @@ void ACloclLevelArtRoomEvent::OnLastTurnOffFinished()
 //----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::DuringLastTurnOnTick(float deltaTime) { }
 
+//----------------------------------------------------------------------------------------------------------------------
 void ACloclLevelArtRoomEvent::OnLastTurnOnFinished()
 {
-	ArtRoomLight->TurnOn();
+	for (auto current : ArtRoomLight)
+	{
+		current->TurnOn();
+	}
+
+	DirectionalLight->GetLightComponent()->SetIntensity(DirectionalLightIntensity);
 	UGameplayStatics::SpawnSound2D(this, LightSwitch);
 	UGameplayStatics::SpawnSound2D(this, SFXTiffanyTalksToAlex);
 	
