@@ -57,6 +57,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = SFX)
 	TArray<class USoundBase*> SFX_LightsOff;
 
+	UPROPERTY(EditAnywhere, Category = SFX)
+	TArray<class ADoor*> DoorsToBeClose;
+
 	FTimerHandle TurnLightsOnTimerHandle;
 	FTimerDelegate TurnLightsOnTimerDelegate;
 
@@ -82,6 +85,6 @@ private:
 	void OnPillowInteraction(class AInteractor* interactor);
 	
 	
-	UFUNCTION( )
+	UFUNCTION()
     void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
 };

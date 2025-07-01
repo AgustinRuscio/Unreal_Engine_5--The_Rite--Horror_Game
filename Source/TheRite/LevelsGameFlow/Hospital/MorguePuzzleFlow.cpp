@@ -5,6 +5,7 @@
 
 #include "MorguePuzzleFlow.h"
 #include "TheRite/Interactuables/DeathTiffany.h"
+#include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Engine/TargetPoint.h"
@@ -112,6 +113,11 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);
 
 	Emblem->Appear();
+
+	for (auto obj : DoorsToBeClose)
+	{
+		obj->HardClosing();
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
