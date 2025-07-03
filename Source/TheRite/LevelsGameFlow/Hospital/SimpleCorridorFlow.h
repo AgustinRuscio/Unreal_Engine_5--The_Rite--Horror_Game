@@ -111,9 +111,6 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Obj)
 	TWeakObjectPtr<class AInteractor> Emblem;
-
-	UPROPERTY(EditAnywhere, Category = Obj)
-	TWeakObjectPtr<class AWalkerTiffany> Walker;
 	
 	//---- Timers
 	FTimerHandle TimerHandleEnd;
@@ -130,9 +127,6 @@ private:
 
 	void BindInteractables();
 	void BindTriggers();
-
-	UFUNCTION()
-	void ActivateWalk(class AInteractor* interactor);
 
 	UFUNCTION()
 	void LightsOn();

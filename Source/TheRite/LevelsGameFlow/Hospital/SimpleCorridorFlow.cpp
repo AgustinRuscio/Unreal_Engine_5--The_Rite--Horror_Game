@@ -46,8 +46,6 @@ void ASimpleCorridorFlow::BeginPlay()
 		Element->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	Emblem->OnInteractionTrigger.AddDynamic(this, &ASimpleCorridorFlow::ActivateWalk);
-
 	HintLightInitialIntensity = HintSpotlight->GetLightComponent()->Intensity;
 	
 	BindTriggers();
@@ -90,12 +88,6 @@ void ASimpleCorridorFlow::BindTriggers()
 	TriggerEnableManikin->OnActorBeginOverlap.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginEnableAmbientInteractions);
 
 	DoorSlapperHangedMan->OnTriggerActivatedDelegate.AddDynamic(this, &ASimpleCorridorFlow::OnTriggerBeginDoorSlapperHangedMan);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ASimpleCorridorFlow::ActivateWalk(AInteractor* interactor)
-{
-	Walker->Activate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
