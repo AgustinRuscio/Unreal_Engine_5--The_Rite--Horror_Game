@@ -75,6 +75,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<class ACustomLight*> CustomLights_AllLights;
+	
+	UPROPERTY(EditAnywhere, Category="Lights")
+	TArray<class ALight*> Lights_LightsToTurnOff;
 
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_DinningEventLights;

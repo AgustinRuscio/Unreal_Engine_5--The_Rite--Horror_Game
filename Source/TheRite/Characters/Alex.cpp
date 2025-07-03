@@ -782,9 +782,12 @@ void AAlex::MovePlayer(FVector2D vector)
 void AAlex::MoveCamera(FVector2D vector)
 {
 	if(bFocusing || bFocus) return;
+
+	UE_LOG(LogTemp, Warning, TEXT("%f"), MyController->GetMouseSensitivity());
 	
 	AddControllerYawInput(vector.X * MyController->GetMouseSensitivity());
 	AddControllerPitchInput(vector.Y * MyController->GetMouseSensitivity());
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 void APlayerStateTheRite::SetMouseSensitivity(float NewSensitivity)
 {
 	MouseSensitivity = NewSensitivity;
+	OnPlayerValuesLoaded.Broadcast(this);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

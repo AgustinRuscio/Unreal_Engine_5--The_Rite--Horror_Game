@@ -101,6 +101,11 @@ void AGameFlowDiaryLevelOtherWorld::EndGame()
 		Element->TurnOn();
 	}
 
+	for (auto Element : Lights_LightsToTurnOff)
+	{
+		Element->GetLightComponent()->SetHiddenInGame(true);
+	}
+
 	for (auto Element : EndGameWall)
 	{
 		Element->GetStaticMeshComponent()->SetVisibility(true);
