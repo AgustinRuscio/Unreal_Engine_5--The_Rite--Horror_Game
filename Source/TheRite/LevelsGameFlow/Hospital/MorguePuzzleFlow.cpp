@@ -57,11 +57,17 @@ void AMorguePuzzleFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	TurnLightsOnTimerDelegate.Unbind();
-	TurnLightsOnTimerHandle.Invalidate();
+	if(TurnLightsOnTimerDelegate.IsBound())
+		TurnLightsOnTimerDelegate.Unbind();
 
-	TurnLightsOffTimerDelegate.Unbind();
-	TurnLightsOffTimerHandle.Invalidate();
+	if (TurnLightsOnTimerHandle.IsValid())
+		TurnLightsOnTimerHandle.Invalidate();
+
+	if(TurnLightsOffTimerDelegate.IsBound())
+		TurnLightsOffTimerDelegate.Unbind();
+
+	if (TurnLightsOffTimerHandle.IsValid())
+		TurnLightsOffTimerHandle.Invalidate();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -134,4 +140,7 @@ void AMorguePuzzleFlow::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor
 
 	DeadBodyOne->SetActorTransform(BodyOneOriginalLocation);
 	DeadBodyTwo->SetActorTransform(BodyTwoOriginalLocation);
+
+	EndTriggerBox->OnActorBeginOverlap.RemoveDynamic(this, &AMorguePuzzleFlow::BeginOverlap);
+	EndTriggerBox->Destroy();
 }

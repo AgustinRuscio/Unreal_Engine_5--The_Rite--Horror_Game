@@ -7,7 +7,7 @@
 #include "TheRite/AlexPlayerController.h"
 #include "Engine/TargetPoint.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
-#include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
+#include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/Candle.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Interactor.h"
@@ -71,7 +71,7 @@ void ALittleBedroomFlow::PerfromFeedBack()
 
 	for (auto current : FeedbackSounds)
 	{
-		current->StartAudioManually(false, true);
+		current->Play();
 	}
 }
 

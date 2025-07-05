@@ -8,7 +8,7 @@
 #include "Engine/TargetPoint.h"
 #include "Math/UnrealMathUtility.h"
 
-#include "TheRite/AmbientObjects/AmbientSoundPlayer.h"
+#include "Sound/AmbientSound.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
@@ -129,10 +129,11 @@ void ASecondCorridorFlow::ToggleSound(bool Active)
 {
 	for (auto sound : FeedbackSounds)
 	{
+		
 		if(Active)
-			sound->StartAudioManually(false, true);
+			sound->Play();
 		else
-			sound->StopAudios();
+			sound->Stop();
 	}
 }
 

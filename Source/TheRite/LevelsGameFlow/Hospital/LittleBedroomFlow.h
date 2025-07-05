@@ -53,7 +53,7 @@ private:
 	TArray<class ACandle*> FeedbackCandles;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
-	TArray<class AAmbientSoundPlayer*> FeedbackSounds;
+	TArray<class AAmbientSound*> FeedbackSounds;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<class USoundBase*> FeedbackSoundsDestroyTiffany;

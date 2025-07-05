@@ -30,8 +30,13 @@ void AAmbientSoundPlayer::StartAudioManually(bool loop, bool global)
 //----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::StopAudios()
 {
-	if(AudioComp != nullptr)
+	if (AudioComp != nullptr)
+	{
+		if (AudioComp->OnAudioFinished.IsBound())
+			AudioComp->OnAudioFinished.RemoveDynamic(this, &AAmbientSoundPlayer::CreateAudio);
+
 		AudioComp->Stop();
+	}
 }
 
 //*****************************Private******************************************
@@ -50,15 +55,19 @@ void AAmbientSoundPlayer::BeginPlay()
 void AAmbientSoundPlayer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
+
 	if (AudioComp != nullptr)
-		AudioComp->OnAudioFinished.Clear();
+	{
+		if(AudioComp->OnAudioFinished.IsBound())
+			AudioComp->OnAudioFinished.RemoveDynamic(this, &AAmbientSoundPlayer::CreateAudio);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AAmbientSoundPlayer::CreateAudio()
 {
 	if(AudioComp != nullptr)
-		AudioComp->OnAudioFinished.Clear();
+		AudioComp->OnAudioFinished.RemoveDynamic(this, &AAmbientSoundPlayer::CreateAudio);
 
 	if(bIs2D)
 		AudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), CueToSound);

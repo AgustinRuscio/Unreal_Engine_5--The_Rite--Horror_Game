@@ -47,7 +47,7 @@ private:
 	TArray<class ACustomLight*> FeedbackLights;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
-	TArray<class AAmbientSoundPlayer*> FeedbackSounds;
+	TArray<class AAmbientSound*> FeedbackSounds;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	TArray<class ADoor*> EmblemDoor;
