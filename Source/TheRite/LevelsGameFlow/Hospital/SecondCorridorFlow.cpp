@@ -86,7 +86,6 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 
 	TimerDelegateFeedBackTimeOffset.BindLambda([this]()
 		{
-
 			TimeLineFeedBack.PlayFromStart();
 
 			if (GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeTeleport)) return;

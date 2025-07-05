@@ -38,11 +38,12 @@ void ALittleBedroomFlow::OnTeleportBegin(AInteractor* interactor)
 
 	if(GetWorld()->GetTimerManager().IsTimerActive(TimerHanldeTeleport)) return;
 
-	Player->ForceDisableInput();
 	Player->ForceLighterOff();
+	Player->SetCanUseLighterState(false);
 
 	TimerDelegateTeleport.BindLambda([this]
 		{
+			Player->ForceDisableInput();
 			PlayHaptipcFeedBack();
 
 			TeleportPlayer();
@@ -58,6 +59,7 @@ void ALittleBedroomFlow::TeleportPlayer()
 
 	StopFeedBack();
 
+	Player->SetCanUseLighterState(true);
 	Player->ForceEnableInput();
 
 	Player->SetActorLocation(TeleportTargetPoint->GetActorLocation());
