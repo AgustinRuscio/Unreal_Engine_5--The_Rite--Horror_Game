@@ -52,7 +52,7 @@ void ASimpleFocusableObject::Interaction()
 
 	if (DisplayedWidgetBase != nullptr)
 	{
-		DisplatedWidget = controller->PushWidget(DisplayedWidgetBase);
+		DisplatedWidget = controller->PushWidget(DisplayedWidgetBase, false);
 	}
 }
 
@@ -69,7 +69,7 @@ void ASimpleFocusableObject::LeaveFocus()
 	controller->SetNormalInput();
 
 	if (DisplatedWidget != nullptr)
-		controller->RemoveWidget(DisplatedWidget);
+		controller->RemoveWidget(DisplatedWidget, false);
 
 	controller->OnLeaveFocus.RemoveDynamic(this, &ASimpleFocusableObject::LeaveFocus);
 }

@@ -176,15 +176,15 @@ void AAlexPlayerController::PlayRumbleFeedBack(float intensity, float duration, 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-UCommonActivatableWidget* AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> ActivatableWidgetClass)
+UCommonActivatableWidget* AAlexPlayerController::PushWidget(TSubclassOf<UCommonActivatableWidget> ActivatableWidgetClass, bool isMenu)
 {
-	return GameWidgetStack->PushWidgetToScreen(ActivatableWidgetClass);
+	return GameWidgetStack->PushWidgetToScreen(ActivatableWidgetClass, isMenu);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlexPlayerController::RemoveWidget(UCommonActivatableWidget* ActivatableWidgetPointer)
+void AAlexPlayerController::RemoveWidget(UCommonActivatableWidget* ActivatableWidgetPointer, bool wasMenu)
 {
-	GameWidgetStack->RemoveWidgetFromScreen(ActivatableWidgetPointer);
+	GameWidgetStack->RemoveWidgetFromScreen(ActivatableWidgetPointer, wasMenu);
 }
 
 //*****************************Private*********************************************

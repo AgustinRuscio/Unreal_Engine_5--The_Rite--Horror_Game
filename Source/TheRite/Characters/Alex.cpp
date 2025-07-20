@@ -195,7 +195,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
 	InventoryWidget->RemoveItem(itemName, id);
 
-	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu);
+	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu, true);
 
 	ConsumibleItemWidget = Cast<UChangingdWidget>(consumWidget);
 
@@ -333,13 +333,13 @@ void AAlex::BackToNormalView(FTransform FromTransform, FVector ExitingVector, FR
 	
 	if (AltarWidget != nullptr)
 	{
-		MyController->RemoveWidget(AltarWidget);
+		MyController->RemoveWidget(AltarWidget, false);
 		AltarWidget = nullptr;
 	}
 
 	if (SimpleFocusableWidget != nullptr)
 	{
-		MyController->RemoveWidget(SimpleFocusableWidget);
+		MyController->RemoveWidget(SimpleFocusableWidget, false);
 		SimpleFocusableWidget = nullptr;
 	}
 
@@ -368,12 +368,12 @@ void AAlex::OnFocusMode(FTransform newTransform, FRotator ExitingRotation, bool 
 
 	if (bShowComplexWidget)
 	{
-		auto pushedWidget = MyController->PushWidget(AltarUI);
+		auto pushedWidget = MyController->PushWidget(AltarUI, false);
 		AltarWidget = Cast<UChangingdWidget>(pushedWidget);
 	}
 	else
 	{
-		auto pushedWidget = MyController->PushWidget(SimpleFocusableUI);
+		auto pushedWidget = MyController->PushWidget(SimpleFocusableUI, false);
 		SimpleFocusableWidget = Cast<UChangingdWidget>(pushedWidget);
 	}
 }
@@ -655,7 +655,7 @@ void AAlex::PushDotWidget()
 
 	timerDelegate.BindLambda([&]
 		{
-			auto pushedWidget = MyController->PushWidget(DotUI);
+			auto pushedWidget = MyController->PushWidget(DotUI, false);
 			DotWidget = Cast<UCenterDotWidget>(pushedWidget);
 		});
 
@@ -665,7 +665,7 @@ void AAlex::PushDotWidget()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::RemoveDotWidget()
 {
-	MyController->RemoveWidget(DotWidget);
+	MyController->RemoveWidget(DotWidget, false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -806,7 +806,7 @@ void AAlex::Interaction()
 	{
 		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
 
-		MyController->PushWidget(OpenInventoryMenu);
+		MyController->PushWidget(OpenInventoryMenu, true);
 	}
 }
 
@@ -929,7 +929,7 @@ void AAlex::SetLighterAssetsVisibility(bool visibilityState)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::ShowLighterReminder()
 {
-	MyController->PushWidget(LighterRecordatoryMenu);
+	MyController->PushWidget(LighterRecordatoryMenu, true);
 }
 
 #pragma endregion 

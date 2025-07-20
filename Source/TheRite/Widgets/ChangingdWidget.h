@@ -61,6 +61,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	bool bAutoDisable;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	bool bIsMenu;
+
 	int8 Index = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")

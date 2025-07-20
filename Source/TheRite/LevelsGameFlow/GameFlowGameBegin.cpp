@@ -233,7 +233,7 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 		FirstTimer.BindLambda([&]
 		{
 			auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-			controller->PushWidget(FirstTutorialMenu);
+			controller->PushWidget(FirstTutorialMenu, true);
 
 			if (!GetWorldTimerManager().IsTimerActive(HideFirstTutorialWidget))
 			{
@@ -255,5 +255,5 @@ void AGameFlowGameBegin::ShowingFirstTutorialWidget()
 void AGameFlowGameBegin::ShowingSecondTutorialWidget()
 {
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
-	controller->PushWidget(SecondsTutorialMenu);
+	controller->PushWidget(SecondsTutorialMenu, true);
 }

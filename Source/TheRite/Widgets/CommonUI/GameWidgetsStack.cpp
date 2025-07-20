@@ -5,7 +5,7 @@
 
 #include "GameWidgetsStack.h"
 
-UCommonActivatableWidget* UGameWidgetsStack::PushWidgetToScreen_Implementation(TSubclassOf<class UCommonActivatableWidget> WidgetClass)
+UCommonActivatableWidget* UGameWidgetsStack::PushWidgetToScreen_Implementation(TSubclassOf<class UCommonActivatableWidget> WidgetClass, bool isMenu)
 {
     return nullptr;
 }

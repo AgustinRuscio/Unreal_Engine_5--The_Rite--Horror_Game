@@ -60,7 +60,7 @@ void ABigClock::Interaction()
 	{
 		bFirstInteraction = false;
 
-		controller->PushWidget(WG_ClockClue);
+		controller->PushWidget(WG_ClockClue, true);
 
 		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
 	}	

@@ -21,10 +21,10 @@ public:
 	//*****************************************************************************//
 	
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	UCommonActivatableWidget* PushWidgetToScreen(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
+	UCommonActivatableWidget* PushWidgetToScreen(TSubclassOf <class UCommonActivatableWidget> WidgetClass, bool isMenu);
 
-	virtual UCommonActivatableWidget* PushWidgetToScreen_Implementation(TSubclassOf <class UCommonActivatableWidget> WidgetClass);
+	virtual UCommonActivatableWidget* PushWidgetToScreen_Implementation(TSubclassOf <class UCommonActivatableWidget> WidgetClass, bool isMenu);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void RemoveWidgetFromScreen(class UCommonActivatableWidget* WidgetPointer);
+	void RemoveWidgetFromScreen(class UCommonActivatableWidget* WidgetPointer, bool wasMenu);
 };

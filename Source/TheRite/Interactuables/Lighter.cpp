@@ -78,7 +78,7 @@ void ALighter::PushWidget()
 {
 	auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
-	auto pushedWidget = alexController->PushWidget(TutorialMenu);
+	auto pushedWidget = alexController->PushWidget(TutorialMenu, true);
 	TutorialWidget = Cast<UTutorialWidget>(pushedWidget);
 
 	if (alexController)

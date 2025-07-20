@@ -40,7 +40,7 @@ void UChangingdWidget::SelfRemove()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
 	if (controller)
-		controller->RemoveWidget(this);
+		controller->RemoveWidget(this, bIsMenu);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -102,6 +102,6 @@ void UChangingdWidget::AutoHide()
 
 	if (controller) {
 		controller->OnKeyPressed.RemoveDynamic(this, &UChangingdWidget::SetKeyMode);
-		controller->RemoveWidget(this);
+		controller->RemoveWidget(this, bIsMenu);
 	}
 }

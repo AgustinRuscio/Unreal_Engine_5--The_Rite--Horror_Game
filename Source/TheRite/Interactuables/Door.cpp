@@ -313,7 +313,7 @@ void ADoor::TutorialInteraction()
 		auto alexController = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
 		if(alexController)
-			alexController->PushWidget(TutorialUI);
+			alexController->PushWidget(TutorialUI, true);
 	}
 }
 #pragma endregion
@@ -598,7 +598,7 @@ void ADoor::ItsLocked()
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 
 	if (controller)
-		controller->PushWidget(LockedUI);
+		controller->PushWidget(LockedUI, true);
 
 	LatchAnim();
 	TimeLineItsLocked.PlayFromStart();
