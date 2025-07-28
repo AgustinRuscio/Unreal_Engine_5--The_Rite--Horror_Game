@@ -15,8 +15,9 @@
 #include "TheRite/Characters/Alex.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-ASpectralWrittings::ASpectralWrittings() : bWillChangePostProcess(false)
+ASpectralWrittings::ASpectralWrittings() : bWillChangePostProcess(false), bPlayerInside(false)
 {
+	PrimaryActorTick.bCanEverTick = true;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
 	IdleAudio = CreateDefaultSubobject<UAudioComponent>("Audio");
@@ -29,9 +30,6 @@ ASpectralWrittings::ASpectralWrittings() : bWillChangePostProcess(false)
 	CollisionBox->SetupAttachment(Mesh);
 	Sphere->SetupAttachment(Mesh);
 
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlapFinished);
-	
 	SetFaderValues();
 }
 
@@ -109,6 +107,9 @@ void ASpectralWrittings::BeginPlay()
 	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
+	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlap);
+ 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ASpectralWrittings::OnActorOverlapFinished);
+
 	bReady = true;
 }
 
@@ -125,8 +126,8 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	FadeTimeLine.TickTimeline(DeltaSeconds);
 	
-	if(!bPlayerInside || bDiscovered || bFading) return;
-	
+	if(!bPlayerInside || bDiscovered || bFading || !bWillChangePostProcess) return;
+
 	float DistanceToCenter = FVector::Dist(InsideActor->GetActorLocation(), GetActorLocation());
 	
 	float NormalizedDistance = FMath::Clamp(DistanceToCenter/Sphere->GetScaledSphereRadius(), 0.f, 1.f);
@@ -134,6 +135,7 @@ void ASpectralWrittings::Tick(float DeltaSeconds)
 	AlphaValue = FMath::Lerp(1.f, 0.f, NormalizedDistance);
 	
 	PostProcesModifierClass->ModifyPostProcessValues(PostProcessToModifyParameterName, AlphaValue);
+	
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -191,7 +193,7 @@ void ASpectralWrittings::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 void ASpectralWrittings::OnActorOverlapFinished(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 											   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if(!Cast<AAlex>(OtherActor)) return;
+	if(InsideActor != OtherActor) return;
 	
 	bPlayerInside = false;
 	InsideActor = nullptr;
