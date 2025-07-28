@@ -246,6 +246,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Lights: Central")
 	class ASpotLight* Light_Clock;
 	
+	UPROPERTY(EditAnywhere, Category = "Lights: Directional")
+	class ADirectionalLight* DirectionalLight;
+
 	//-------- Door
 	UPROPERTY(EditAnywhere, Category = "Doors")
 	ADoor* GarageDoor;

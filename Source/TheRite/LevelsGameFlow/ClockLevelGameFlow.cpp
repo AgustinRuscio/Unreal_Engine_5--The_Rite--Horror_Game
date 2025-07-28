@@ -19,8 +19,9 @@
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
 #include "TheRite/Widgets/TutorialWidget.h"
-#include "Engine/TriggerBox.h"
 #include "Engine/BlockingVolume.h"
+#include "Engine/DirectionalLight.h"
+#include "Engine/TriggerBox.h"
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Characters/Tiffany.h"
 #include "Components/InstancedStaticMeshComponent.h"
@@ -381,12 +382,16 @@ void AClockLevelGameFlow::SpawnTiffanyForLibraryKeyCollected()
 void AClockLevelGameFlow::OnLibraryKeyCollected()
 {
 	PlaceBlockingVolume(BlockingVolumeLibraryEntrancePosition->GetActorLocation(), FRotator::ZeroRotator);
+
+	DirectionalLight->SetActorHiddenInGame(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::OnWalkFinished()
 {
 	ResetBlockingVolumePosition();
+
+	DirectionalLight->SetActorHiddenInGame(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
