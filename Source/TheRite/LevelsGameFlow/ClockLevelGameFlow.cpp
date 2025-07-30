@@ -415,7 +415,9 @@ void AClockLevelGameFlow::OnJumpscareFinished()
 	}
 	
 	LibraryRoofLight->TurnOn();
-	
+
+	DirectionalLight->SetActorHiddenInGame(false);
+
 	Player->OnJumpscaredFinished.RemoveDynamic(this, &AClockLevelGameFlow::OnJumpscareFinished);
 }
 #pragma endregion
@@ -498,7 +500,8 @@ void AClockLevelGameFlow::OnOverlapBeginJumpscare(AActor* OverlappedActor, AActo
 	{
 		Element->TurnOff();
 	}
-	
+
+	DirectionalLight->SetActorHiddenInGame(true);
 	LibraryRoofLight->TurnOff();
 
 	RecordPlayer->PauseSong();
