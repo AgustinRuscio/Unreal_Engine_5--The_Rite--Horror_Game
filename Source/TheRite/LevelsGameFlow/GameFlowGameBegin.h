@@ -41,6 +41,9 @@ private:
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category="Settings")
+	float LightsRiteReadyModifier;
+	
+	UPROPERTY(EditAnywhere, Category="Settings")
 	FName NextLevel;
 
 	//-------- Meshes

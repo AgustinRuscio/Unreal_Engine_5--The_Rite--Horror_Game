@@ -24,7 +24,7 @@
 #include "TheRite/Triggers/DoorSlapper.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-AGameFlowGameBegin::AGameFlowGameBegin()
+AGameFlowGameBegin::AGameFlowGameBegin() : LightsRiteReadyModifier(0.5f)
 {
  	PrimaryActorTick.bCanEverTick = false;
 }
@@ -187,7 +187,7 @@ void AGameFlowGameBegin::OnRiteReady()
 	{
 		if (Element->GetLightZone() != HouseZone::Garage)
 		{
-			Element->ChangeLightIntensity(Element->GetIntensity() * 0.5f, true);
+			Element->ChangeLightIntensity(Element->GetIntensity() * LightsRiteReadyModifier, true);
 			continue;
 		}
 
