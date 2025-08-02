@@ -34,6 +34,7 @@ void AHospitalEndGmae::BeginPlay()
 void AHospitalEndGmae::OnAllEmblesPlaced()
 {
 	LastDoor->SetLockedState(false);
+	LastDoor->Open();;
 
 	for (auto current : NearDoors)
 	{
