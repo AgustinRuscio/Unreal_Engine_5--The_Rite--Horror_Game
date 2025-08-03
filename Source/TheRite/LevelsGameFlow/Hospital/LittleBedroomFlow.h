@@ -68,6 +68,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = FeedBack, meta=(AllowPrivateAccess = "true"))
 	TSubclassOf<UCameraShakeBase> CameraShake_Puzzle;
 
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	class ADirectionalLight* DirectionalLight;
 
 	class AAlex* Player;
 

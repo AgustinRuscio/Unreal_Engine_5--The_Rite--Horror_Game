@@ -12,6 +12,7 @@
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "Engine/TriggerVolume.h"
+#include "Engine/DirectionalLight.h"
 #include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -41,6 +42,8 @@ void ALittleBedroomFlow::OnTeleportBegin(AInteractor* interactor)
 	Player->ForceLighterOff();
 	Player->SetCanUseLighterState(false);
 
+	DirectionalLight->SetActorHiddenInGame(true);
+
 	TimerDelegateTeleport.BindLambda([this]
 		{
 			Player->ForceDisableInput();
@@ -64,6 +67,8 @@ void ALittleBedroomFlow::TeleportPlayer()
 
 	Player->SetActorLocation(TeleportTargetPoint->GetActorLocation());
 	Player->SetActorRotation(TeleportTargetPoint->GetActorRotation());
+
+	DirectionalLight->SetActorHiddenInGame(false);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
