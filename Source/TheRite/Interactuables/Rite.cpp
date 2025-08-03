@@ -8,6 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "Clock.h"
 #include "Components/AudioComponent.h"
+#include "Engine/DirectionalLight.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
@@ -63,6 +64,7 @@ void ARite::SetClockReady(AInteractor* obj)
 	}
 	else
 	{
+		DirectionalLight->SetActorHiddenInGame(true);
 		bObjectReady = true;
 		OnObjectsObtain.Broadcast();
 		CheckAudio();

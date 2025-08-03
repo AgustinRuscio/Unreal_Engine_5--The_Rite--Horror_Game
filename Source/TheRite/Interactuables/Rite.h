@@ -105,6 +105,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Settings")
 	TArray<AClock*> CurrentMainObject;
 
+	UPROPERTY(EditAnywhere, Category="Settings")
+	class ADirectionalLight* DirectionalLight;
+
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//
