@@ -14,6 +14,7 @@
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "LightsPuzzle.h"
+#include "Engine/DirectionalLight.h"
 #include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -62,6 +63,8 @@ void ASecondCorridorFlow::EndPlay(const EEndPlayReason::Type EndPlayReason)
 //----------------------------------------------------------------------------------------------------------------------
 void ASecondCorridorFlow::Tick(float DeltaSeconds)
 {
+	Super::Tick(DeltaSeconds);
+
 	TimeLineFeedBack.TickTimeline(DeltaSeconds);
 }
 
@@ -83,6 +86,8 @@ void ASecondCorridorFlow::OnLightsPuzzleCompletedFeedBack()
 
 	ToggleLights(false);
 	ToggleSound(true);
+
+	DirectionalLight->SetActorHiddenInGame(true);
 
 	TimerDelegateFeedBackTimeOffset.BindLambda([this]()
 		{
@@ -140,6 +145,8 @@ void ASecondCorridorFlow::ToggleSound(bool Active)
 void ASecondCorridorFlow::TeleportPlayer()
 {
 	if (!player) return;
+
+	DirectionalLight->SetActorHiddenInGame(false);
 
 	player->SetActorLocation(TeleportTargetPoint->GetActorLocation());
 	player->SetActorRotation(TeleportTargetPoint->GetActorRotation());

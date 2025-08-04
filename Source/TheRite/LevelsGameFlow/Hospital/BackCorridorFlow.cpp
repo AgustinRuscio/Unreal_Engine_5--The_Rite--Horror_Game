@@ -80,7 +80,7 @@ void ABackCorridorFlow::OnPuzzleEnd()
 
 	PostProcessModifier->ModifyPostProcessValues(PostProcessModiferValue, .1f);
 
-	DirectionalLight->GetLightComponent()->SetVisibility(false);
+	DirectionalLight->SetActorHiddenInGame(true);
 	
 	for (auto Element : SFX_PuzzleEnd)
 	{
@@ -107,7 +107,7 @@ void ABackCorridorFlow::OnPuzzleEnd()
 		
 		TimerDelegate_PuzzleEnd.BindLambda([&]
 		{
-			DirectionalLight->GetLightComponent()->SetVisibility(true);
+			DirectionalLight->SetActorHiddenInGame(false);
 			PLayer->SetActorLocation(TargetPoint_EndPuzzle->GetActorLocation());
 			PLayer->SetCanUseLighterState(true);
 		});

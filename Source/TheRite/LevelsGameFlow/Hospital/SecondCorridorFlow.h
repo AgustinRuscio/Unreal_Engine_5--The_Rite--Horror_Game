@@ -47,6 +47,9 @@ private:
 	TArray<class ACustomLight*> FeedbackLights;
 
 	UPROPERTY(EditAnywhere, Category = "FeedBack")
+	class ADirectionalLight* DirectionalLight;
+
+	UPROPERTY(EditAnywhere, Category = "FeedBack")
 	TArray<class AAmbientSound*> FeedbackSounds;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
