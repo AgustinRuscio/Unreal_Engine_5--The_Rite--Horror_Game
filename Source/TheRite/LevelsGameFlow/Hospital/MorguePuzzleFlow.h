@@ -63,6 +63,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = SFX)
 	TArray<class ADoor*> DoorsToBeClose;
 
+	class AAlex* Player;
+
 	FTimerHandle TurnLightsOnTimerHandle;
 	FTimerDelegate TurnLightsOnTimerDelegate;
 

@@ -28,6 +28,7 @@ void AHospitalEndGmae::BeginPlay()
 	
 	EmblemPlace->OnEndGame.AddDynamic(this, &AHospitalEndGmae::OnAllEmblesPlaced);
 	EndGameBox->OnActorBeginOverlap.AddDynamic(this, &AHospitalEndGmae::BeginOverlap);
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -35,11 +36,14 @@ void AHospitalEndGmae::OnAllEmblesPlaced()
 {
 	LastDoor->SetLockedState(false);
 	LastDoor->Open();;
+	LastDoor->SetCanInteract(false);
+
+	Player->SetCanUseLighterState(false);
+	Player->ForceLighterOff();
 
 	for (auto current : NearDoors)
 	{
 		current->HardClosing();
-		current->SetLockedState(true);
 	}
 
 	for (auto current : NearLights)

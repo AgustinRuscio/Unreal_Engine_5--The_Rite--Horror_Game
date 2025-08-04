@@ -5,6 +5,7 @@
 
 #include "MorguePuzzleFlow.h"
 #include "TheRite/Interactuables/DeathTiffany.h"
+#include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/Door.h"
 #include "TheRite/Interactuables/Interactor.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
@@ -31,6 +32,7 @@ void AMorguePuzzleFlow::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	TurnLightsOnTimerDelegate.BindLambda([this]
 		{
 			for (auto current : AllLights)
@@ -50,6 +52,8 @@ void AMorguePuzzleFlow::BeginPlay()
 
 	EndTriggerBox->OnActorBeginOverlap.AddDynamic(this, &AMorguePuzzleFlow::BeginOverlap);
 
+	Player = Cast<AAlex>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	
 	Emblem->Dissapear();
 }
 
@@ -110,6 +114,9 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 {
 	TurnLightsOff();
 
+	Player->SetCanUseLighterState(false);
+	Player->ForceLighterOff();
+
 	TurnLightsOffTimerDelegate.BindLambda([this]
 		{
 			for (auto current : AllLights)
@@ -119,7 +126,7 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 
 			DirectionLight->SetActorHiddenInGame(false);
 			Emblem->Appear();
-
+			Player->SetCanUseLighterState(true);
 		});
 
 	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);

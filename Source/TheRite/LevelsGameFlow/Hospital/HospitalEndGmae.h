@@ -46,6 +46,8 @@ private:
 	UPROPERTY(EditAnyWhere, Category = InGame)
 	TArray<class ACustomLight*> NearLights;
 
+	class AAlex* Player;
+
 	UPROPERTY(EditAnyWhere, Category = InGame)
 	class ATriggerBox* EndGameBox;
 
