@@ -11,6 +11,7 @@
 #include "Engine/TargetPoint.h"
 #include "Engine/TriggerBox.h"
 #include "Engine/StaticMeshActor.h"
+#include "Engine/DirectionalLight.h"
 #include <Kismet/GameplayStatics.h>
 
 namespace
@@ -77,6 +78,7 @@ void AMorguePuzzleFlow::TurnLightsOff()
 	{
 		current->TurnOff();
 	}
+	DirectionLight->SetActorHiddenInGame(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -114,11 +116,14 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 			{
 				current->TurnOn();
 			}
+
+			DirectionLight->SetActorHiddenInGame(false);
+			Emblem->Appear();
+
 		});
 
 	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);
 
-	Emblem->Appear();
 
 	for (auto obj : DoorsToBeClose)
 	{

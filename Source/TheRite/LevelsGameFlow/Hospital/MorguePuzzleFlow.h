@@ -54,6 +54,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Lights)
 	TArray<class ACustomLight*> AllLights;
 
+	UPROPERTY(EditAnywhere, Category = Lights)
+	class ADirectionalLight* DirectionLight;
+
 	UPROPERTY(EditAnywhere, Category = SFX)
 	TArray<class USoundBase*> SFX_LightsOff;
 
