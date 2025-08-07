@@ -82,6 +82,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Lights")
 	TArray<ASpotLight*> Lights_DinningEventLights;
 	
+	UPROPERTY(EditAnywhere, Category="Lights")
+	class ADirectionalLight* DirectionalLight;
+
 //-------- Timers
 	FTimerHandle Timer_LivingRoomEvent0;
 	FTimerHandle Timer_LivingRoomEvent1;

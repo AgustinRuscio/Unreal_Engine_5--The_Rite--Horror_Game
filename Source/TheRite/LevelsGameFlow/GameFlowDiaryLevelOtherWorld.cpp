@@ -7,6 +7,7 @@
 #include "InOrdenSelectionPuzzleFlow.h"
 #include "Components/LightComponent.h"
 #include "Engine/SpotLight.h"
+#include "Engine/DirectionalLight.h"
 #include "Engine/RectLight.h"
 #include "Engine/TriggerVolume.h"
 #include "TheRite/Interactuables/Door.h"
@@ -135,6 +136,9 @@ void AGameFlowDiaryLevelOtherWorld::DinningRoomObjectEventGrab(AInteractor* a)
 	{
 		Element->GetSkeletalMeshComponent()->SetVisibility(true);
 	}
+
+	DirectionalLight->SetActorHiddenInGame(true);
+
 
 	for (auto Element : Lights_DinningEventLights)
 	{
@@ -290,6 +294,7 @@ void AGameFlowDiaryLevelOtherWorld::OnTriggerDinningRoomEventOverlap(AActor* Ove
 
 		OnTimerCompleted.BindLambda([&]
 		{
+				DirectionalLight->SetActorHiddenInGame(false);
 			for (auto Element : CustomLights_AllLights)
 			{
 				if(Element->GetLightZone() != HouseZone::DiningRoom) continue;
