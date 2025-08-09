@@ -14,11 +14,13 @@ struct FSaveGameData
 {
 	float MouseSensitivity;
 	uint8 PuzzleResolveIndex;
+	FString LastLevelName;
 
 	FSaveGameData()
 	{
 		MouseSensitivity = 1.f;
 		PuzzleResolveIndex = 0;
+		LastLevelName = "";
 	}
 };
 
@@ -34,21 +36,36 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	FSaveGameData GetSaveData() const;
-
 	FGameLoaded OnGameLoaded;
 	
+	FString CurrentLevelName;
+
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
+	UFUNCTION(BlueprintCallable)
+	bool DoesSaveDataExiste() const;
+
+	UFUNCTION(BlueprintCallable)
+	bool IsLastLevelChargeable() const;
+
+	bool IsThisLevelChargable() const;
+
+	UFUNCTION(BlueprintCallable)
+	FString GetLastLevelSaved();
+
+	FSaveGameData GetSaveData() const;
+
 	UFUNCTION(BlueprintCallable)
 	void SaveData(float mouseSensitivity);
 
 	UFUNCTION(BlueprintCallable)
 	void LoadData();
 
-private:
+	UFUNCTION(BlueprintCallable)
+	void ResetLastLevelOpened();
 
+private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//

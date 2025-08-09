@@ -13,4 +13,5 @@ USaveData::USaveData()
 {
 	MouseSensitivity = 1.f;
 	PuzzleResolveIndex = 0;
+	LastLevelName = "";
 }

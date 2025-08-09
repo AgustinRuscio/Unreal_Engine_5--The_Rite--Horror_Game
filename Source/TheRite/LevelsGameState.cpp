@@ -9,8 +9,48 @@
 
 #define PRINTING(X) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT(X)));
 
+const FString SAVED_SLOT = TEXT("SavedGame");
+
 //*****************************Public*********************************************
 //********************************************************************************
+
+
+//----------------------------------------------------------------------------------------------------------------------
+bool ALevelsGameState::DoesSaveDataExiste() const
+{
+	return UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0);
+}
+
+bool ALevelsGameState::IsLastLevelChargeable() const
+{
+	if (!UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0)) return false;
+
+	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot(SAVED_SLOT, 0));
+
+	if (saveGameDataInstance == nullptr) return false;
+
+	return saveGameDataInstance->LastLevelName != "MainMenu" && saveGameDataInstance->LastLevelName != "Credits" && saveGameDataInstance->LastLevelName != "RealWorld_Begin" && saveGameDataInstance->LastLevelName != "";
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+bool ALevelsGameState::IsThisLevelChargable() const
+{
+	auto current =  UGameplayStatics::GetCurrentLevelName(GetWorld());
+
+	return current != "MainMenu" && current != "Credits" && current != "RealWorld_Begin" && current != "";
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+FString ALevelsGameState::GetLastLevelSaved()
+{
+	if (!UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0)) return "false";
+
+	USaveData*  saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot(SAVED_SLOT, 0));
+
+	if (saveGameDataInstance == nullptr) return "false";
+
+	return saveGameDataInstance->LastLevelName;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 FSaveGameData ALevelsGameState::GetSaveData() const
@@ -21,11 +61,20 @@ FSaveGameData ALevelsGameState::GetSaveData() const
 //----------------------------------------------------------------------------------------------------------------------
 void ALevelsGameState::SaveData(float mouseSensitivity)
 {
-	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
+	USaveData* saveGameDataInstance = nullptr;
+	
+	if (!UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0))
+	{
+		saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
+	}
+	else
+	{
+		saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot(SAVED_SLOT, 0));
+	}
 
 	saveGameDataInstance->MouseSensitivity = mouseSensitivity;
 
-	UGameplayStatics::SaveGameToSlot(saveGameDataInstance, TEXT("SavedGame"), 0);
+	UGameplayStatics::SaveGameToSlot(saveGameDataInstance, SAVED_SLOT, 0);
 
 	PRINTING("Saved");
 }
@@ -33,18 +82,68 @@ void ALevelsGameState::SaveData(float mouseSensitivity)
 //----------------------------------------------------------------------------------------------------------------------
 void ALevelsGameState::LoadData()
 {
-	if(!UGameplayStatics::DoesSaveGameExist("SavedGame", 0)) return;
-	
-	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
+	USaveData* saveGameDataInstance = nullptr;
 
-	saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot("SavedGame", 0));
+	if(!UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0))
+	{
+		CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+		
+		saveGameDataInstance = Cast<USaveData>(UGameplayStatics::CreateSaveGameObject(USaveData::StaticClass()));
 
-	GameData.MouseSensitivity = saveGameDataInstance->MouseSensitivity;
-	GameData.PuzzleResolveIndex = saveGameDataInstance->PuzzleResolveIndex;
+		if (saveGameDataInstance->LastLevelName.IsEmpty())
+		{
+			saveGameDataInstance->LastLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+		}
+
+		GameData.LastLevelName = saveGameDataInstance->LastLevelName;
+
+		UGameplayStatics::SaveGameToSlot(saveGameDataInstance, SAVED_SLOT, 0);	
+	}
+	else
+	{
+		saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot(SAVED_SLOT, 0));
+
+		GameData.MouseSensitivity = saveGameDataInstance->MouseSensitivity;
+		GameData.PuzzleResolveIndex = saveGameDataInstance->PuzzleResolveIndex;
+
+		CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+
+		if(IsLastLevelChargeable())
+		{
+			if (IsThisLevelChargable())
+			{
+				saveGameDataInstance->LastLevelName = CurrentLevelName;
+			}
+		}
+		else
+		{
+			saveGameDataInstance->LastLevelName = CurrentLevelName;
+		}
+		
+		GameData.LastLevelName = saveGameDataInstance->LastLevelName;
+
+		UGameplayStatics::SaveGameToSlot(saveGameDataInstance, SAVED_SLOT, 0);	
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Last level: %s"), *GameData.LastLevelName));
 
 	OnGameLoaded.Broadcast();
 
 	//GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT("Load Mouse: %f"),GameData.MouseSensitivity ));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ALevelsGameState::ResetLastLevelOpened()
+{
+	if (!UGameplayStatics::DoesSaveGameExist(SAVED_SLOT, 0)) return;
+
+	USaveData* saveGameDataInstance = Cast<USaveData>(UGameplayStatics::LoadGameFromSlot(SAVED_SLOT, 0));
+
+	if (saveGameDataInstance == nullptr) return;
+
+	saveGameDataInstance->LastLevelName = "";
+
+	UGameplayStatics::SaveGameToSlot(saveGameDataInstance, SAVED_SLOT, 0);
 }
 
 //*****************************Private*********************************************

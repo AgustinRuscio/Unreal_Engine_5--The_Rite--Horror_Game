@@ -22,4 +22,7 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	uint8 PuzzleResolveIndex;
+
+	UPROPERTY(EditAnywhere)
+	FString LastLevelName;
 };
