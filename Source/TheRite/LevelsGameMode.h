@@ -14,4 +14,7 @@ class THERITE_API ALevelsGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void UnlockAchievemetns(FName unlockName);
 };

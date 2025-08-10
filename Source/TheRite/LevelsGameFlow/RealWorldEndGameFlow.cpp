@@ -12,6 +12,7 @@
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Components/AudioComponent.h"
 #include <Kismet/GameplayStatics.h>
+#include "TheRite/LevelsGameMode.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ARealWorldEndGameFlow::ARealWorldEndGameFlow() : VolumeEndGameSound(.7f)
@@ -59,6 +60,9 @@ void ARealWorldEndGameFlow::OnSequenceFinished()
 	Player->ToggleDotUI(true);
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
+
+	auto GameMode = Cast<ALevelsGameMode>(GetWorld()->GetAuthGameMode());
+	GameMode->UnlockAchievemetns(TEXT("ACH_WIN_ONE_GAME"));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
