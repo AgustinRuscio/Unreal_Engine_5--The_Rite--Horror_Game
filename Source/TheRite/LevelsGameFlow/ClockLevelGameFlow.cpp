@@ -34,6 +34,8 @@
 #include "Components/LightComponent.h"
 #include "TheRite/AmbientObjects/LightsTheRite.h"
 #include "TheRite/AmbientObjects/CustomLight.h"
+#include "TheRite/AchievementContainer.h"
+
 
 //*****************************Public*********************************************
 //********************************************************************************
@@ -283,6 +285,8 @@ void AClockLevelGameFlow::LockDoorsEndGame()
 //----------------------------------------------------------------------------------------------------------------------
 void AClockLevelGameFlow::EndGame()
 {
+	AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_CLOCK_PUZZLE_COMPLETED);
+
 	for (auto Element : CustomLights)
 	{
 		Element->TurnOff();

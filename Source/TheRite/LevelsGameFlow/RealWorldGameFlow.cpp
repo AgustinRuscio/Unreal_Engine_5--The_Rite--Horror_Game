@@ -10,6 +10,7 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Interactuables/Clock.h"
+#include "TheRite/AchievementContainer.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ARealWorldGameFlow::ARealWorldGameFlow()
@@ -23,7 +24,9 @@ void ARealWorldGameFlow::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerMethods();
-	
+
+	AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_BEGIN_FIRST_GAME);
+
 	KnockTrigger->OnActorBeginOverlap.AddDynamic(this, &ARealWorldGameFlow::OnOverlapBeginKnock);
 }
 

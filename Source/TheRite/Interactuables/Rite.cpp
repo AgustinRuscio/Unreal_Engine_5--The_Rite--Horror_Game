@@ -42,7 +42,7 @@ void ARite::Interaction()
 
 	bCanInteract = false;
 	
-	if(bBeginRite)
+	if (bBeginRite)
 		OnInteractionTrigger.Broadcast(this);
 	else
 		PlayFadeSequence();

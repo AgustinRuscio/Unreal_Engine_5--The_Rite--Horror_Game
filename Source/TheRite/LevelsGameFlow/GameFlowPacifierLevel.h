@@ -257,6 +257,4 @@ private:
 	
 	UFUNCTION()
 	void OnTriggerEndGamePassOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	
-private:
 };

@@ -14,6 +14,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "Engine/DirectionalLight.h"
 #include <Kismet/GameplayStatics.h>
+#include "TheRite/AchievementContainer.h"
 
 namespace
 {
@@ -32,6 +33,7 @@ void AMorguePuzzleFlow::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_COMPLETE_THE_HOUSE);
 
 	TurnLightsOnTimerDelegate.BindLambda([this]
 		{
@@ -127,6 +129,8 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 			DirectionLight->SetActorHiddenInGame(false);
 			Emblem->Appear();
 			Player->SetCanUseLighterState(true);
+
+			AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_DISCOVER_THE_TRUTH);
 		});
 
 	GetWorld()->GetTimerManager().SetTimer(TurnLightsOffTimerHandle, TurnLightsOffTimerDelegate, 1.5f, false);

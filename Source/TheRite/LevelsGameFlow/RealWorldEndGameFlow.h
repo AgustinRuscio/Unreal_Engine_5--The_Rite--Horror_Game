@@ -69,6 +69,9 @@ private:
 
 	UFUNCTION()
 	void OnSequenceFinished();
+	
+	UFUNCTION()
+	void OnLastSequenceFinished();
 
 	void TurnLightsOff();
 

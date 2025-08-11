@@ -11,6 +11,7 @@
 #include "TheRite/Interactuables/Altar/Altar.h"
 #include "TheRite/Interactuables/Altar/Statuette.h"
 #include "TheRite/Interactuables/Interactor.h"
+#include "TheRite/AchievementContainer.h"
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
@@ -140,6 +141,8 @@ void AInOrdenSelectionPuzzleFlow::AddStatuette(AInteractor* currentStatuette)
 		}
 		
 		bEnableDoOnce = false;
+
+		AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_STATUETE_PUZZLE_COMPLETED);
 	}
 	
 	if(CurrentStatuette->IsFirstInteraction())

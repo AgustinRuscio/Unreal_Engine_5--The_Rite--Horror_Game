@@ -12,7 +12,7 @@
 #include "TheRite/AmbientObjects/CustomLight.h"
 #include "Components/AudioComponent.h"
 #include <Kismet/GameplayStatics.h>
-#include "TheRite/LevelsGameMode.h"
+#include "TheRite/AchievementContainer.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 ARealWorldEndGameFlow::ARealWorldEndGameFlow() : VolumeEndGameSound(.7f)
@@ -60,9 +60,12 @@ void ARealWorldEndGameFlow::OnSequenceFinished()
 	Player->ToggleDotUI(true);
 	auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController());
 	controller->EnableInput(controller);
+}
 
-	auto GameMode = Cast<ALevelsGameMode>(GetWorld()->GetAuthGameMode());
-	GameMode->UnlockAchievemetns(TEXT("ACH_WIN_ONE_GAME"));
+//----------------------------------------------------------------------------------------------------------------------
+void ARealWorldEndGameFlow::OnLastSequenceFinished()
+{
+	AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_WIN_ONE_GAME);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -95,5 +98,6 @@ void ARealWorldEndGameFlow::OnInteractableTriggered(AInteractor* interactor)
 	ULevelSequencePlayer* sequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), SequenceShoot,
 		PlaybackSettings, TempLevelSequenceActor);
 
+	sequencePlayer->OnFinished.AddDynamic(this, &ARealWorldEndGameFlow::OnLastSequenceFinished);
 	sequencePlayer->Play();
 }

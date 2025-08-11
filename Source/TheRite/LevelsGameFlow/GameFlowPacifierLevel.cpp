@@ -27,6 +27,8 @@
 #include "Components/AudioComponent.h"
 #include "Engine/BlockingVolume.h"
 #include "Misc/TextFilterExpressionEvaluator.h"
+#include "TheRite/AchievementContainer.h"
+
 
 //----------------------------------------------------------------------------------------------------------------------
 AGameFlowPacifierLevel::AGameFlowPacifierLevel()
@@ -259,6 +261,8 @@ void AGameFlowPacifierLevel::OnHideSeekPuzzleStarted()
 //----------------------------------------------------------------------------------------------------------------------
 void AGameFlowPacifierLevel::EndGame()
 {	
+	AchievementContainer::UnlockAchievemetns(GetWorld(), Achievements::ACH_LUCY_PUZZLE_COMPLETED);
+
 	for (auto Element : Candles_EndGame)
 	{
 		Element->Appear();
