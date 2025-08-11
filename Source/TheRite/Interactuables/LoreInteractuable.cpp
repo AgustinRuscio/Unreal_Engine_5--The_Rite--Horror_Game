@@ -5,6 +5,8 @@
 
 #include "LoreInteractuable.h"
 #include "Kismet/GameplayStatics.h"
+#include <TheRite/AlexPlayerController.h>
+#include <TheRite/Widgets/ChangingdWidget.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 ALoreInteractuable::ALoreInteractuable()
@@ -22,4 +24,9 @@ void ALoreInteractuable::Interaction()
 	Super::Interaction();
 	
 	UGameplayStatics::SpawnSound2D(GetWorld(), AudioToPlay);
+
+	if(!LoreWidgetClass) return;
+
+	if (auto controller = Cast<AAlexPlayerController>(GetWorld()->GetFirstPlayerController()))
+		controller->PushWidget(LoreWidgetClass, true);
 }

@@ -32,4 +32,7 @@ private:
 	//*****************************************************************************//
 	UPROPERTY(EditAnywhere, Category= "Mesh")
 	UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY(EditAnywhere, Category= "FeedBack")
+	TSubclassOf<class UChangingdWidget> LoreWidgetClass;
 };
