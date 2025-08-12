@@ -57,7 +57,7 @@ void ALightSwitch::Interaction()
 	else
 		SwitchTimeLine.ReverseFromEnd();
 	
-
+	OnInteractionTrigger.Broadcast(this);
 	bFlipFlop = !bFlipFlop;
 }
 
