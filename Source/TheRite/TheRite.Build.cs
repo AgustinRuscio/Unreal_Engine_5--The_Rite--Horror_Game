@@ -9,12 +9,10 @@ public class TheRite : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "EnhancedInput", "Core", "CoreUObject", "Engine", "InputCore", "LevelSequence", "MovieScene",
-                                                            "Slate", "SlateCore", "Niagara", "CommonUI", "OnlineSubsystem", "OnlineSubsystemUtils"});
+                                                            "Slate", "SlateCore", "Niagara", "CommonUI"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "Niagara" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Niagara"});
 
-        DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
-        
         // Uncomment if you are using Slate UI
         // PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 
