@@ -44,6 +44,9 @@ public:
 	virtual FString GetItemName() const override;
 	
 	UFUNCTION(BlueprintCallable)
+	virtual FString GetItemDescription() const override;
+
+	UFUNCTION(BlueprintCallable)
 	virtual PickableItemsID GetItemID() const override;
 	
 	UFUNCTION()
@@ -98,6 +101,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
 	FString DisplayName;
 	
+	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
+	FString DisplayDescription;
+
 	UPROPERTY(EditAnywhere, Category = "Interactor Settings")
 	PickableItemsID ItemID;
 };

@@ -31,6 +31,7 @@ public:
 	virtual bool IsRemovable() const = 0;
 
 	virtual FString GetItemName() const = 0;
+	virtual FString GetItemDescription() const = 0;
 	virtual PickableItemsID GetItemID() const = 0;
 	virtual USoundBase* GetSound() const = 0;
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() const = 0;

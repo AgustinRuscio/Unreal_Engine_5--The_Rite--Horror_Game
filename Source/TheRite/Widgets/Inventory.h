@@ -36,11 +36,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	UTextBlock* TextBlockName;
+	
+	UPROPERTY(BlueprintReadWrite)
+	UTextBlock* TextBlockDescription;
 
 	UPROPERTY(BlueprintReadWrite)
 	UImage* OverlayImage;
 	
 	TArray<TPair<FString, UMaterialInterface*>> AllItems;
+	TArray<TPair<FString, FString>> AllDescriptions;
 	
 	UPROPERTY(EditAnywhere)
 	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
@@ -50,9 +54,9 @@ public:
 	//*****************************************************************************//
 //---------------- Inventory setter Methods
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay);
+	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UTextBlock* DescriptionText, UImage* imageToDisplay);
 
-	void AddItemToInventory(FString itemName, PickableItemsID id);
+	void AddItemToInventory(FString itemName, FString Description, PickableItemsID id);
 	void RemoveItem(FString itemName, PickableItemsID id);
 	
 //---------------- Actions Methods
@@ -73,4 +77,5 @@ private:
 	int8 index = 0;
 
 	TPair<FString, UMaterialInterface*> CurrentPair;
+	TPair<FString, FString> CurrentPairDescription;
 };

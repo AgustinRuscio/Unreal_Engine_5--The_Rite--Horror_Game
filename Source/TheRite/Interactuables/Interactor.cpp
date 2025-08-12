@@ -47,6 +47,12 @@ FString AInteractor::GetItemName() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+FString AInteractor::GetItemDescription() const
+{
+	return DisplayDescription;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 PickableItemsID AInteractor::GetItemID() const
 {
 	return ItemID;

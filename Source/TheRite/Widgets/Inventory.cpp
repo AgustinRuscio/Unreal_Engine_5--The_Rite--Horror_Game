@@ -16,11 +16,12 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Inventory setter Methods
-void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UImage* imageToDisplay)
+void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UTextBlock* DescriptionText, UImage* imageToDisplay)
 {
 	BTN_NextItem = Next;
 	BTN_PrevItem = Prev;
 	TextBlockName = textBlock;
+	TextBlockDescription = DescriptionText;
 	OverlayImage = imageToDisplay;
 	
 	BTN_NextItem->OnClicked.AddDynamic(this, &UInventory::ShowNextItem);
@@ -28,7 +29,7 @@ void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* text
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
+void UInventory::AddItemToInventory(FString itemName, FString Description, PickableItemsID id)
 {
 	for (auto Element : AllItems)
 	{
@@ -40,8 +41,13 @@ void UInventory::AddItemToInventory(FString itemName, PickableItemsID id)
 	
 	addedPair.Key = itemName;
 	addedPair.Value = ItemsInIds[id];
+
+	TPair<FString, FString> addedPairTwo;
+	addedPairTwo.Key = itemName;
+	addedPairTwo.Value = Description;
 	
 	AllItems.Add(addedPair);
+	AllDescriptions.Add(addedPairTwo);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -56,7 +62,19 @@ void UInventory::RemoveItem(FString itemName, PickableItemsID id)
 			removedPair.Key = itemName;
 			removedPair.Value = ItemsInIds[id];
 
+			TPair<FString, FString> addedPairTwo;
+
+			for (auto Pair : AllDescriptions)
+			{
+				if (Pair.Key == itemName)
+				{
+					addedPairTwo = Pair;
+					break;
+				}
+			}
+
 			AllItems.Remove(removedPair);
+			AllDescriptions.Remove(addedPairTwo);
 			return;
 		}
 	}
@@ -71,6 +89,11 @@ void UInventory::OnInventoryOpen()
 	{
 		FText NewText = FText::FromString(TEXT("Empty"));
 		TextBlockName->SetText(NewText);
+
+
+		FText NewDescription = FText::FromString(TEXT(""));
+		TextBlockDescription->SetText(NewDescription);
+
 		OverlayImage->SetVisibility(ESlateVisibility::Hidden);
 		
 		BTN_PrevItem->SetIsEnabled(false);
@@ -82,6 +105,14 @@ void UInventory::OnInventoryOpen()
 		
 		FText NewText = FText::FromString(CurrentPair.Key);
 		TextBlockName->SetText(NewText);
+
+
+		CurrentPairDescription = AllDescriptions[index];
+
+		OverlayImage->SetVisibility(ESlateVisibility::Visible);
+		FText NewDescription = FText::FromString(CurrentPairDescription.Value);
+		TextBlockDescription->SetText(NewDescription);
+
 
 		OverlayImage->SetVisibility(ESlateVisibility::Visible);
 		FSlateBrush Brush;
@@ -118,9 +149,13 @@ void UInventory::ShowNextItem()
 		index = 0;
 
 	CurrentPair = AllItems[index];
+	CurrentPairDescription = AllDescriptions[index];
 		
 	FText NewText = FText::FromString(CurrentPair.Key);
 	TextBlockName->SetText(NewText);
+
+	FText NewTextDescription = FText::FromString(CurrentPairDescription.Value);
+	TextBlockDescription->SetText(NewTextDescription);
 
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
@@ -143,10 +178,14 @@ void UInventory::ShowPrevItem()
 		index = AllItems.Num()-1;
 
 	CurrentPair = AllItems[index];
+	CurrentPairDescription = AllDescriptions[index];
 		
 	FText NewText = FText::FromString(CurrentPair.Key);
 	TextBlockName->SetText(NewText);
 	
+	FText NewTextDescription = FText::FromString(CurrentPairDescription.Value);
+	TextBlockDescription->SetText(NewTextDescription);
+
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	FSlateBrush Brush;
 	Brush.SetResourceObject(CurrentPair.Value); 

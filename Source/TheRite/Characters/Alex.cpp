@@ -804,7 +804,7 @@ void AAlex::Interaction()
 	
 	if(ActualInteractuable->IsPickable())
 	{
-		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemID());
+		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemDescription(), ActualInteractuable->GetItemID());
 
 		MyController->PushWidget(OpenInventoryMenu, true);
 	}
