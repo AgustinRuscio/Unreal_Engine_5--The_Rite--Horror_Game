@@ -17,6 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClockPuzzleFinished);
 class AAlex;
 class ATargetPoint;
 class UTutorialWidget;
+class UArrowComponent;
 
 UCLASS()
 class THERITE_API ABigClock : public AInteractor
@@ -46,6 +47,9 @@ public:
 	TArray<UStaticMeshComponent*> AllNeedles;
 	UStaticMeshComponent* CurrentSelected;
 
+	UPROPERTY(EditAnywhere, Category= "Obj", meta=(AllowPrivateAccess = "true"))
+	UArrowComponent* FinallHourNeedleLocation;
+
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
@@ -58,6 +62,8 @@ public:
 
 	void SetReadyToUse();
 	
+	void CompleteClock();
+
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
@@ -66,6 +72,9 @@ private:
 	bool bReadyToUse;
 
 	bool bFirstInteraction = true;
+	bool bFirstAfterCompleting = true;
+
+	bool bIsClockComplete;
 
 	UPROPERTY(EditAnywhere, Category = "Setting")
 	bool bShowClue;
@@ -108,6 +117,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	USoundBase* SFX_Clue;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* SFX_ClockNotReady;
+
 	//-------- Widget
 	UPROPERTY(EditAnywhere, Category= "Widgets")
 	TSubclassOf<UTutorialWidget> WG_ClockClue;
@@ -128,10 +140,14 @@ private:
 	FTimerHandle Timer_ClockClue;
 	
 	FTimeline MoveNeedleTimeLine;
+	FTimeline PutNeedleTimeLine;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	UCurveFloat* CurveFloat;
 	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	UCurveFloat* C2urveFloat;
+
 	AAlex* Player;
 
 	//*****************************************************************************//
@@ -164,4 +180,10 @@ private:
 	
 	UFUNCTION()
 	void MoveNeedleTimeLineFinished();
+
+	UFUNCTION()
+	void PutNeedleNeedleTimeLineTick(float deltaTime);
+	
+	UFUNCTION()
+	void PutneedleNeedleTimeLineFinished();
 };

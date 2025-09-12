@@ -10,15 +10,20 @@
 #include "Kismet/GameplayStatics.h"
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
+#include "Components/ArrowComponent.h"
 
 #define PRINTONVIEWPORT(X) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, FString::Printf(TEXT(X)));
 
+namespace
+{
+	FVector HourNeedleInitialPlace;
+};
 
 //*****************************Public*********************************************
 //********************************************************************************
 
 //----------------------------------------------------------------------------------------------------------------------
-ABigClock::ABigClock()
+ABigClock::ABigClock() : bIsClockComplete(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -34,6 +39,15 @@ ABigClock::ABigClock()
 
 	AllNeedles.Add(HourNeedleMesh);
 	AllNeedles.Add(MinuturesNeedleMesh);
+
+	FinallHourNeedleLocation = CreateDefaultSubobject<UArrowComponent>("HourFinalLocation");
+	FinallHourNeedleLocation->SetupAttachment(BigClockMesh);
+
+
+	if (!bIsClockComplete)
+	{
+		HourNeedleMesh->SetVisibility(false);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -41,36 +55,60 @@ void ABigClock::Interaction()
 {
 	if(bIsFocus || !bCanInteract) return;
 	
-	CurrentSelected = AllNeedles[CurrentNeedle];
-	AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
-
-	Player->OnFocusMode(NewCameraPosition->GetActorTransform(), ExittingRotation, true, true);
-	
-	auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	controller->SetFocusInput();
-
-	controller->OnPrevInventoryItem.AddDynamic(this, &ABigClock::PrevNeedle);
-	controller->OnNextInventoryItem.AddDynamic(this, &ABigClock::NextNeedle);
-	controller->OnInteractionPressed.AddDynamic(this, &ABigClock::NeedleInteraction);
-	controller->OnLeaveFocus.AddDynamic(this, &ABigClock::LeaveFocus);
-	
-	bIsFocus = true;
-
-	if(bFirstInteraction && bShowClue)
+	if (!bIsClockComplete)
 	{
-		bFirstInteraction = false;
+		Player->ForceTalk(SFX_ClockNotReady);
+	}
+	else
+	{
+		if(bFirstAfterCompleting)
+		{
+			bCanInteract = false;
+			bFirstAfterCompleting = false;
+			HourNeedleMesh->SetVisibility(true);
+			PutNeedleTimeLine.Play();
+		}
+		else
+		{
+			CurrentSelected = AllNeedles[CurrentNeedle];
+			AllNeedles[CurrentNeedle]->SetMaterial(0, SelectedNeedleMaterial);
 
-		controller->PushWidget(WG_ClockClue, true);
+			Player->OnFocusMode(NewCameraPosition->GetActorTransform(), ExittingRotation, true, true);
+	
+			auto controller = Cast<AAlexPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+			controller->SetFocusInput();
 
-		UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
-	}	
-	//CheckNeedlesPosition();
+			controller->OnPrevInventoryItem.AddDynamic(this, &ABigClock::PrevNeedle);
+			controller->OnNextInventoryItem.AddDynamic(this, &ABigClock::NextNeedle);
+			controller->OnInteractionPressed.AddDynamic(this, &ABigClock::NeedleInteraction);
+			controller->OnLeaveFocus.AddDynamic(this, &ABigClock::LeaveFocus);
+	
+			bIsFocus = true;
+
+			if(bFirstInteraction && bShowClue)
+			{
+				bFirstInteraction = false;
+
+				controller->PushWidget(WG_ClockClue, true);
+
+				UGameplayStatics::SpawnSound2D(GetWorld(), SFX_Clue);
+			}	
+			//CheckNeedlesPosition();
+		}
+
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ABigClock::SetReadyToUse()
 {
 	bReadyToUse = true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABigClock::CompleteClock()
+{
+	bIsClockComplete = true;
 }
 
 //*****************************Private*********************************************
@@ -82,7 +120,8 @@ void ABigClock::BeginPlay()
 	Super::BeginPlay();
 	
 	Player = CastChecked<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	
+	HourNeedleInitialPlace = HourNeedleMesh->GetRelativeLocation();
+
 	BindTimeLine();
 }
 
@@ -91,6 +130,7 @@ void ABigClock::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	MoveNeedleTimeLine.TickTimeline(DeltaTime);
+	PutNeedleTimeLine.TickTimeline(DeltaTime);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -239,6 +279,15 @@ void ABigClock::BindTimeLine()
 	FOnTimelineEventStatic CameraTargettingFinished;
 	CameraTargettingFinished.BindUFunction(this, FName("MoveNeedleTimeLineFinished"));
 	MoveNeedleTimeLine.SetTimelineFinishedFunc(CameraTargettingFinished);
+
+
+	FOnTimelineFloat PutNeedleTick;
+	PutNeedleTick.BindUFunction(this, FName("PutNeedleNeedleTimeLineTick"));
+	PutNeedleTimeLine.AddInterpFloat(C2urveFloat, PutNeedleTick);
+
+	FOnTimelineEventStatic PutNeedleFinished;
+	PutNeedleFinished.BindUFunction(this, FName("PutneedleNeedleTimeLineFinished"));
+	PutNeedleTimeLine.SetTimelineFinishedFunc(PutNeedleFinished);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -263,5 +312,18 @@ void ABigClock::MoveNeedleTimeLineFinished()
 	TimeLineMoving = false;
 	
 	CheckNeedlesPosition();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABigClock::PutNeedleNeedleTimeLineTick(float deltaTime)
+{
+	auto lerping = FMath::Lerp(HourNeedleInitialPlace, FinallHourNeedleLocation->GetRelativeLocation(), deltaTime);
+	HourNeedleMesh->SetRelativeLocation(lerping);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void ABigClock::PutneedleNeedleTimeLineFinished()
+{
+	bCanInteract = true;
 }
 #pragma endregion 
