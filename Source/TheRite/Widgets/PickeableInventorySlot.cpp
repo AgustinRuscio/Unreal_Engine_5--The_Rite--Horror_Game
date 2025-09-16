@@ -40,7 +40,12 @@ void UPickeableInventorySlot::SetUpSlot(FInventoryItemData ItemData)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::ClearSlot()
+{
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::OnButtonPressed()
 {
-	Inventory->SetInfo(ItemInfo);
+	Inventory->SetSlotInfo(ItemInfo);
 }

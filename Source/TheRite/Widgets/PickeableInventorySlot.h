@@ -30,6 +30,7 @@ public:
 	void SetUpInventory(UInventory* NewInventory);
 	void SetUpSlot(FInventoryItemData ItemData);
 
+	void ClearSlot();
 
 private:
 	bool bIsOccupied = false;

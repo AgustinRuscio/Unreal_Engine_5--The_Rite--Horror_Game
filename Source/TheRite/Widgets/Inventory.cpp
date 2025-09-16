@@ -230,10 +230,17 @@ void UInventory::ShowPrevItem()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::SetInfo(FInventoryItemData ClickedInfo)
+void UInventory::SetSlotInfo(FInventoryItemData ClickedInfo)
 {
 	ItemName->SetText(ClickedInfo.DisplayName);
 	ItemDescription->SetText(ClickedInfo.DisplayDescription);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::ClearSlot()
+{
+	ItemName->SetText(FText::FromString(TEXT("")));
+	ItemDescription->SetText(FText::FromString(TEXT("")));
 }
 
 //----------------------------------------------------------------------------------------------------------------------

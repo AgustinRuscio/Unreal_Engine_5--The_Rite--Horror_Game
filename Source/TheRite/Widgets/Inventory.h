@@ -82,7 +82,8 @@ public:
 	UFUNCTION()
 	void ShowPrevItem();
 
-	void SetInfo(FInventoryItemData ClickedInfo);
+	void SetSlotInfo(FInventoryItemData ClickedInfo);
+	void ClearSlot();
 
 	void PushItemToGrid(UPickeableInventorySlot* NewPickUp);
 	void RemoveItem(UPickeableInventorySlot* NewPickUp);
