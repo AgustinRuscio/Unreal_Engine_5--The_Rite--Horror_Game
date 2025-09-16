@@ -57,6 +57,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components", meta=(AllowPrivateAccess = "true"))
 	class UWidgetInteractionComponent* WidgetInteraction;
 	
+	UPROPERTY(EditAnywhere, Category = "Components", meta=(AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
+
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm_Lighter;
 

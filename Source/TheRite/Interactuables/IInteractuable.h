@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "UObject/Interface.h"
 #include "IInteractuable.generated.h"
 
@@ -34,6 +35,7 @@ public:
 	virtual FString GetItemDescription() const = 0;
 	virtual PickableItemsID GetItemID() const = 0;
 	virtual USoundBase* GetSound() const = 0;
+	virtual FInventoryItemData GetItemInventoryData() const = 0;
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() const = 0;
 	
 	virtual void Deactivate() = 0;

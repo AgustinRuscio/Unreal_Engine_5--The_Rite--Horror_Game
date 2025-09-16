@@ -6,7 +6,9 @@
 #include "Inventory.h"
 #include "Components/TextBlock.h"
 #include "Materials/MaterialInterface.h"
+#include "TheRite/Widgets/PickeableInventorySlot.h"
 #include "Components/Button.h"
+#include "Components/UniformGridPanel.h"
 #include "Components/Image.h"
 #include "Styling/SlateBrush.h"
 
@@ -16,12 +18,43 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Inventory setter Methods
-void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UTextBlock* DescriptionText, UImage* imageToDisplay)
+bool UInventory::CanRecieveItem()
+{
+	return CurrentRow < RowAmmount && CurrentColum < ColumAmmount;
+}
+
+int UInventory::GetRowIndex(UPickeableInventorySlot* a) const
+{
+	for (const auto& SlotTuple : SlotsContainer)
+	{
+		if (SlotTuple.Get<0>() == a)
+		{
+			return SlotTuple.Get<1>();
+		}
+	}
+
+	return -1;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+int UInventory::GetColumnIndex(UPickeableInventorySlot* a) const
+{
+	for (const auto& SlotTuple : SlotsContainer)
+	{
+		if (SlotTuple.Get<0>() == a)
+		{
+			return SlotTuple.Get<2>();
+		}
+	}
+
+	return -1;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::SetWidgetsObject(UButton* Next, UButton* Prev, UImage* imageToDisplay)
 {
 	BTN_NextItem = Next;
 	BTN_PrevItem = Prev;
-	TextBlockName = textBlock;
-	TextBlockDescription = DescriptionText;
 	OverlayImage = imageToDisplay;
 	
 	BTN_NextItem->OnClicked.AddDynamic(this, &UInventory::ShowNextItem);
@@ -88,11 +121,11 @@ void UInventory::OnInventoryOpen()
 	if(AllItems.Num() == 0)
 	{
 		FText NewText = FText::FromString(TEXT("Empty"));
-		TextBlockName->SetText(NewText);
+		ItemName->SetText(NewText);
 
 
 		FText NewDescription = FText::FromString(TEXT(""));
-		TextBlockDescription->SetText(NewDescription);
+		ItemDescription->SetText(NewDescription);
 
 		OverlayImage->SetVisibility(ESlateVisibility::Hidden);
 		
@@ -104,14 +137,14 @@ void UInventory::OnInventoryOpen()
 		CurrentPair = AllItems[index];
 		
 		FText NewText = FText::FromString(CurrentPair.Key);
-		TextBlockName->SetText(NewText);
+		ItemName->SetText(NewText);
 
 
 		CurrentPairDescription = AllDescriptions[index];
 
 		OverlayImage->SetVisibility(ESlateVisibility::Visible);
 		FText NewDescription = FText::FromString(CurrentPairDescription.Value);
-		TextBlockDescription->SetText(NewDescription);
+		ItemDescription->SetText(NewDescription);
 
 
 		OverlayImage->SetVisibility(ESlateVisibility::Visible);
@@ -152,10 +185,10 @@ void UInventory::ShowNextItem()
 	CurrentPairDescription = AllDescriptions[index];
 		
 	FText NewText = FText::FromString(CurrentPair.Key);
-	TextBlockName->SetText(NewText);
+	ItemName->SetText(NewText);
 
 	FText NewTextDescription = FText::FromString(CurrentPairDescription.Value);
-	TextBlockDescription->SetText(NewTextDescription);
+	ItemDescription->SetText(NewTextDescription);
 
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
@@ -181,10 +214,10 @@ void UInventory::ShowPrevItem()
 	CurrentPairDescription = AllDescriptions[index];
 		
 	FText NewText = FText::FromString(CurrentPair.Key);
-	TextBlockName->SetText(NewText);
+	ItemName->SetText(NewText);
 	
 	FText NewTextDescription = FText::FromString(CurrentPairDescription.Value);
-	TextBlockDescription->SetText(NewTextDescription);
+	ItemDescription->SetText(NewTextDescription);
 
 	OverlayImage->SetVisibility(ESlateVisibility::Visible);
 	FSlateBrush Brush;
@@ -195,4 +228,69 @@ void UInventory::ShowPrevItem()
 
 	OverlayImage->SetBrush(Brush);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::SetInfo(FInventoryItemData ClickedInfo)
+{
+	ItemName->SetText(ClickedInfo.DisplayName);
+	ItemDescription->SetText(ClickedInfo.DisplayDescription);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::PushItemToGrid(UPickeableInventorySlot* NewPickUp)
+{
+	for (int row = 0; row < RowAmmount; row++)
+	{
+		for (int col = 0; col < ColumAmmount; col++)
+		{
+			bool bOccupied = false;
+			for (auto& SlotTuple : SlotsContainer)
+			{
+				if (SlotTuple.Get<1>() == row && SlotTuple.Get<2>() == col)
+				{
+					bOccupied = true;
+					break;
+				}
+			}
+
+			if (!bOccupied)
+			{
+				SlotsPanel->AddChildToUniformGrid(NewPickUp, row, col);
+
+				TTuple<UPickeableInventorySlot*, int, int> NewSlot(NewPickUp, row, col);
+				SlotsContainer.Add(NewSlot);
+
+				return;
+			}
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::RemoveItem(UPickeableInventorySlot* NewPickUp)
+{
+	for (int i = 0; i < SlotsContainer.Num(); i++)
+	{
+		if (SlotsContainer[i].Get<0>() == NewPickUp)
+		{
+			// Quitar el widget de la UI
+			if (NewPickUp)
+			{
+				NewPickUp->RemoveFromParent();
+			}
+
+			// Eliminar la tupla del array para liberar el slot
+			SlotsContainer.RemoveAt(i);
+			return;
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::NativeConstruct()
+{
+	
+}
+
+
 #pragma endregion

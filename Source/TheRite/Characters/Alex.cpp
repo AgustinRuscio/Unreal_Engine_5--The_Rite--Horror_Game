@@ -25,7 +25,7 @@
 #include "TheRite/Widgets/TutorialWidget.h"
 #include "InputCore.h"
 #include "Components/WidgetComponent.h"
-
+#include "TheRite/Components/InventoryComponent.h"
 
 //*****************************Public********************************************
 //*******************************************************************************
@@ -64,6 +64,8 @@ AAlex::AAlex()
 	WidgetInteraction->OnHoveredWidgetChanged.AddDynamic(this, &AAlex::WidgetOnSight);
 	
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
+
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>("Inventory Component");
 	
 	BodyLight->SetupAttachment(Camera);
 	Camera->SetupAttachment(GetMesh());
@@ -193,7 +195,8 @@ void AAlex::OnJumpScare()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
-	InventoryWidget->RemoveItem(itemName, id);
+	//InventoryWidget->RemoveItem(itemName, id);
+	InventoryComponent->RemoveItem(id);
 
 	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu, true);
 
@@ -311,8 +314,9 @@ void AAlex::ForceCloseInventory()
 	if(bInventoryFlip)
 		OnInventoryClose.Broadcast();
 
-	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	InventoryWidget->OnInventoryClose();
+	InventoryComponent->ToggleInventory(false);
+	//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+	//InventoryWidget->OnInventoryClose();
 }
 #pragma endregion 
 
@@ -688,12 +692,12 @@ void AAlex::RemoveDotWidget()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::CreateInventoryWidget()
 {
-	InventoryWidget = CreateWidget<UInventory>(GetWorld(), InventoryMenu);
-	InventoryWidget->AddToViewport(2);
-	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-
-	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
+	//InventoryWidget = CreateWidget<UInventory>(GetWorld(), InventoryMenu);
+	//InventoryWidget->AddToViewport(2);
+	//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+	//
+	//MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
+	//MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 }
 
 #pragma endregion 
@@ -804,7 +808,9 @@ void AAlex::Interaction()
 	
 	if(ActualInteractuable->IsPickable())
 	{
-		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemDescription(), ActualInteractuable->GetItemID());
+		//InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemDescription(), ActualInteractuable->GetItemID());
+
+		InventoryComponent->AddItem(ActualInteractuable->GetItemInventoryData());
 
 		MyController->PushWidget(OpenInventoryMenu, true);
 	}
@@ -869,19 +875,25 @@ void AAlex::OpenInventory()
 	if(bInventoryFlip)
 	{
 		OnInventoryOpen.Broadcast();
-		InventoryWidget->OnInventoryOpen();
-		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		InventoryComponent->ToggleInventory(bInventoryFlip);
+
+		//InventoryWidget->OnInventoryOpen();
+		//InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+
 		bInventoryFlip = false;
 	}
 	else
 	{
 		OnInventoryClose.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-		InventoryWidget->OnInventoryClose();
+		
+		InventoryComponent->ToggleInventory(bInventoryFlip);
+		//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+		//InventoryWidget->OnInventoryClose();
+		
 		bInventoryFlip = true;
 	}
 	
-	MyController->SetUIOnly(!bInventoryFlip, false);
+	MyController->SetUIOnly(!bInventoryFlip, !bInventoryFlip);
 }
 #pragma endregion 
 

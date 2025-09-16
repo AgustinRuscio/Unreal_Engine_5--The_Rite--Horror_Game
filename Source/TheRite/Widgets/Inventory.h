@@ -8,13 +8,15 @@
 #include "CoreMinimal.h"
 #include "CommonActivatableWidget.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "Inventory.generated.h"
 
 class UButton;
 class UTextBlock;
 class UMaterialInterface;
 class UImage;
-
+class UUniformGridPanel;
+class UPickeableInventorySlot;
 
 UCLASS()
 class THERITE_API UInventory : public UCommonActivatableWidget
@@ -34,11 +36,14 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	UButton* BTN_PrevItem;
 
-	UPROPERTY(BlueprintReadWrite)
-	UTextBlock* TextBlockName;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ItemName;
 	
-	UPROPERTY(BlueprintReadWrite)
-	UTextBlock* TextBlockDescription;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ItemDescription;
+
+	UPROPERTY(meta = (BindWidget))
+	UUniformGridPanel* SlotsPanel;
 
 	UPROPERTY(BlueprintReadWrite)
 	UImage* OverlayImage;
@@ -49,12 +54,19 @@ public:
 	UPROPERTY(EditAnywhere)
 	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
 
+
+
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 //---------------- Inventory setter Methods
+	bool CanRecieveItem();
+	
+	int GetRowIndex(UPickeableInventorySlot* a) const;
+	int GetColumnIndex(UPickeableInventorySlot* a) const;
+
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UTextBlock* DescriptionText, UImage* imageToDisplay);
+	void SetWidgetsObject(UButton* Next, UButton* Prev, UImage* imageToDisplay);
 
 	void AddItemToInventory(FString itemName, FString Description, PickableItemsID id);
 	void RemoveItem(FString itemName, PickableItemsID id);
@@ -70,12 +82,30 @@ public:
 	UFUNCTION()
 	void ShowPrevItem();
 
+	void SetInfo(FInventoryItemData ClickedInfo);
+
+	void PushItemToGrid(UPickeableInventorySlot* NewPickUp);
+	void RemoveItem(UPickeableInventorySlot* NewPickUp);
+
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	int8 index = 0;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Customization")
+	int8 RowAmmount = 3;
+	UPROPERTY(EditDefaultsOnly, Category = "Customization")
+	int8 ColumAmmount = 3;
+
+	int8 CurrentRow = -1;
+	int8 CurrentColum = -1;
+
 	TPair<FString, UMaterialInterface*> CurrentPair;
 	TPair<FString, FString> CurrentPairDescription;
+
+	TArray<TTuple<UPickeableInventorySlot*, int, int>> SlotsContainer;
+
+
+	virtual void NativeConstruct() override;
 };
