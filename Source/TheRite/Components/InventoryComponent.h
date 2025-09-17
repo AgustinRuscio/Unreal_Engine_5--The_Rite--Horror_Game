@@ -45,8 +45,6 @@ private:
 	UPROPERTY()
 	UInventory* PlayerInventory;
 
-	TArray<TTuple<UPickeableInventorySlot*, int, int, PickableItemsID>> SlotsContainer;
-
 	//*****************************************************************************//
 	//								PRIVATE METHODS								   //
 	//*****************************************************************************//

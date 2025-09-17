@@ -54,7 +54,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
 
-
+	TArray<UPickeableInventorySlot*> AllSlots;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -82,11 +82,11 @@ public:
 	UFUNCTION()
 	void ShowPrevItem();
 
-	void SetSlotInfo(FInventoryItemData ClickedInfo);
+	void SetSlotInfo(FInventoryItemData ClickedInfo, UPickeableInventorySlot* CurrentSlotClicked);
 	void ClearSlot();
 
-	void PushItemToGrid(UPickeableInventorySlot* NewPickUp);
-	void RemoveItem(UPickeableInventorySlot* NewPickUp);
+	void PushItemToGrid(const FInventoryItemData& NewPickUp);
+	void RemoveItem(PickableItemsID id);
 
 private:
 	//*****************************************************************************//
@@ -107,6 +107,8 @@ private:
 
 	TArray<TTuple<UPickeableInventorySlot*, int, int>> SlotsContainer;
 
+	UPROPERTY()
+	UPickeableInventorySlot* CurrentSlot;
 
 	virtual void NativeConstruct() override;
 };

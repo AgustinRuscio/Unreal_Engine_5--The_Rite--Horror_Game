@@ -25,24 +25,13 @@ void UInventoryComponent::ToggleInventory(bool visible)
 //----------------------------------------------------------------------------------------------------------------------
 void UInventoryComponent::AddItem(const FInventoryItemData& ItemData)
 {
-	UPickeableInventorySlot* NewPickUp = CreateWidget<UPickeableInventorySlot>(GetWorld(), InventorySlotWidgetClass);
-	NewPickUp->SetUpSlot(ItemData);
-	NewPickUp->SetUpInventory(PlayerInventory);
-	PlayerInventory->PushItemToGrid(NewPickUp);
-
-	SlotsContainer.Add(MakeTuple(NewPickUp, PlayerInventory->GetRowIndex(NewPickUp), PlayerInventory->GetColumnIndex(NewPickUp), ItemData.ItemId));
+	PlayerInventory->PushItemToGrid(ItemData);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UInventoryComponent::RemoveItem(PickableItemsID id)
 {
-	for (int i = 0; i < SlotsContainer.Num(); ++i)
-	{
-		if (SlotsContainer[i].Get<3>() != id) continue;
-		PlayerInventory->RemoveItem(SlotsContainer[i].Get<0>());
-		SlotsContainer.RemoveAt(i);
-
-	}
+	PlayerInventory->RemoveItem(id);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

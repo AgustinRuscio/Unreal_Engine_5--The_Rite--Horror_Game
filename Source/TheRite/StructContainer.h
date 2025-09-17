@@ -14,6 +14,15 @@ USTRUCT(BlueprintType)
 struct FInventoryItemData
 {
 public: 
+
+	FInventoryItemData()
+	{
+		DisplayImage = nullptr;
+		ItemId = PickableItemsID::None;
+		DisplayName = FText::FromString("Default Item");
+		DisplayDescription = FText::FromString("Default Description");
+	}
+
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	class UTexture* DisplayImage;

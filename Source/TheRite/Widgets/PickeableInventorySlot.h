@@ -21,33 +21,39 @@ class THERITE_API UPickeableInventorySlot : public UCommonUserWidget
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (ExposeOnSpawn = "true"))
-	int Row;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (ExposeOnSpawn = "true"))
-	int Column;
+	bool GetIsOccupied() inline const {return bIsOccupied; }
+	FInventoryItemData GetSlotDataInfo() inline const { return ItemInfo; }
 
 	void SetUpInventory(UInventory* NewInventory);
-	void SetUpSlot(FInventoryItemData ItemData);
 
+	void SetUpSlot(FInventoryItemData ItemData);
 	void ClearSlot();
 
 private:
 	bool bIsOccupied = false;
 
 	FInventoryItemData ItemInfo;
+
 	UPROPERTY(meta = (BindWidget))
 	UButton* ButtonSlot;
 
 	UPROPERTY(meta = (BindWidget))
 	UImage* ItemImage;
+	
+	UPROPERTY(meta = (BindWidget))
+	UImage* BorderImage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	UTexture* EmptyImage;
 
 	UPROPERTY()
 	UInventory* Inventory;
 
 	virtual bool Initialize() override;
 
-
 	UFUNCTION()
 	void OnButtonPressed();
+
+	void SetImage(UTexture* DisplayImage);
+
 };

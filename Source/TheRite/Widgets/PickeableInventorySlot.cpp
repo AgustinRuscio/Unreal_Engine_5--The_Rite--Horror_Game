@@ -28,24 +28,34 @@ void UPickeableInventorySlot::SetUpInventory(UInventory* NewInventory)
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::SetUpSlot(FInventoryItemData ItemData)
 {
+	bIsOccupied = true;
 	ItemInfo = ItemData;
 
-	FSlateBrush Brush;
-	UE::Slate::FDeprecateVector2DParameter v(1000.f, 1000.f);
-	Brush.SetImageSize(v);
-	Brush.SetResourceObject(ItemData.DisplayImage);
+	SetImage(ItemData.DisplayImage);
 
-	ItemImage->SetBrush(Brush);
 	ButtonSlot->SetIsEnabled(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::ClearSlot()
 {
+	bIsOccupied = false;
+	ItemInfo = FInventoryItemData();
+	ButtonSlot->SetIsEnabled(false);
+	SetImage(EmptyImage);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::OnButtonPressed()
 {
-	Inventory->SetSlotInfo(ItemInfo);
+	Inventory->SetSlotInfo(ItemInfo, this);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetImage(UTexture* DisplayImage)
+{
+	FSlateBrush Brush;
+	Brush.SetResourceObject(DisplayImage);
+
+	ItemImage->SetBrush(Brush);
 }

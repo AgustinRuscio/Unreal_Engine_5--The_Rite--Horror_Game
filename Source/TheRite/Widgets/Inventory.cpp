@@ -212,7 +212,7 @@ void UInventory::ShowPrevItem()
 
 	CurrentPair = AllItems[index];
 	CurrentPairDescription = AllDescriptions[index];
-		
+			
 	FText NewText = FText::FromString(CurrentPair.Key);
 	ItemName->SetText(NewText);
 	
@@ -230,10 +230,12 @@ void UInventory::ShowPrevItem()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::SetSlotInfo(FInventoryItemData ClickedInfo)
+void UInventory::SetSlotInfo(FInventoryItemData ClickedInfo, UPickeableInventorySlot* CurrentSlotClicked)
 {
 	ItemName->SetText(ClickedInfo.DisplayName);
 	ItemDescription->SetText(ClickedInfo.DisplayDescription);
+
+	CurrentSlot = CurrentSlotClicked;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -244,60 +246,43 @@ void UInventory::ClearSlot()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::PushItemToGrid(UPickeableInventorySlot* NewPickUp)
+void UInventory::PushItemToGrid(const FInventoryItemData& NewPickUp)
 {
-	for (int row = 0; row < RowAmmount; row++)
+	for (int i = 0; i <= AllSlots.Num(); ++i)
 	{
-		for (int col = 0; col < ColumAmmount; col++)
-		{
-			bool bOccupied = false;
-			for (auto& SlotTuple : SlotsContainer)
-			{
-				if (SlotTuple.Get<1>() == row && SlotTuple.Get<2>() == col)
-				{
-					bOccupied = true;
-					break;
-				}
-			}
+		if (AllSlots[i]->GetIsOccupied()) continue;
 
-			if (!bOccupied)
-			{
-				SlotsPanel->AddChildToUniformGrid(NewPickUp, row, col);
-
-				TTuple<UPickeableInventorySlot*, int, int> NewSlot(NewPickUp, row, col);
-				SlotsContainer.Add(NewSlot);
-
-				return;
-			}
-		}
+		AllSlots[i]->SetUpSlot(NewPickUp);
+		return;
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::RemoveItem(UPickeableInventorySlot* NewPickUp)
+void UInventory::RemoveItem(PickableItemsID id)
 {
-	for (int i = 0; i < SlotsContainer.Num(); i++)
+	for (int i = 0; i <= AllSlots.Num(); ++i)
 	{
-		if (SlotsContainer[i].Get<0>() == NewPickUp)
-		{
-			// Quitar el widget de la UI
-			if (NewPickUp)
-			{
-				NewPickUp->RemoveFromParent();
-			}
+		if(AllSlots[i]->GetSlotDataInfo().ItemId != id) continue;
 
-			// Eliminar la tupla del array para liberar el slot
-			SlotsContainer.RemoveAt(i);
-			return;
-		}
+		AllSlots[i]->ClearSlot();
+
+		if(AllSlots[i] == CurrentSlot)
+			ClearSlot();
+
+		return;
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UInventory::NativeConstruct()
 {
-	
+	for (const auto& current : SlotsPanel->GetAllChildren())
+	{
+		if (auto castedChild = Cast<UPickeableInventorySlot>(current))
+		{
+			castedChild->SetUpInventory(this);
+			AllSlots.Add(castedChild);
+		}
+	}
 }
-
-
 #pragma endregion
