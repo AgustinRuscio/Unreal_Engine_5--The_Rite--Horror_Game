@@ -14,8 +14,6 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLighterMontage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryOpen);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryClose);
 
 class UInputMappingContext;
 class UInputAction;
@@ -26,7 +24,6 @@ class UTimerActionComponent;
 class UPauseMenuWidget;
 class UTutorialWidget;
 class UOpenInventory;
-class UInventory;
 class UChangingdWidget;
 class UCenterDotWidget;
 class IIInteractuable;
@@ -78,9 +75,6 @@ public:
 	FAllItemsCollected OnAllItemCollected;
 	FLighterMontage OnLighterAnimMontage;
 	FJumpscaredFinished OnJumpscaredFinished;
-
-	FInventoryOpen OnInventoryOpen;
-	FInventoryClose OnInventoryClose;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -260,10 +254,6 @@ private:
 	TSubclassOf<UOpenInventory> OpenInventoryMenu;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UInventory> InventoryMenu;
-	UInventory* InventoryWidget;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UChangingdWidget> ConsumibleItemMenu;
 	UChangingdWidget* ConsumibleItemWidget;
 	
@@ -332,10 +322,6 @@ private:
 
 	void PushDotWidget();
 	void RemoveDotWidget();
-
-	//void PushInventoryWidget();
-	void CreateInventoryWidget();
-
 
 //---------------- Tick Methods
 	void HeadBob() const;

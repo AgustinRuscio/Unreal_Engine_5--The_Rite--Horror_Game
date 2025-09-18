@@ -4,28 +4,35 @@
 //----------------------------------------------//
 
 #include "Alex.h"
-#include "MathUtil.h"
-#include "Components/AudioComponent.h"
-#include "TheRite/AlexPlayerController.h"
-#include "TheRite/Components/TimerActionComponent.h"
-#include "TheRite/Interactuables/IInteractuable.h"
-#include "TheRite/Triggers/WrittingsDetector.h"
-#include "TheRite/Widgets/CenterDotWidget.h"
-#include "TheRite/Widgets/Inventory.h"
-#include "TheRite/Widgets/OpenInventory.h"
-#include "TheRite/Widgets/CommonUI/PauseActivableWidget.h"
+
 #include "Camera/CameraComponent.h"
+
+#include "Components/AudioComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Components/WidgetInteractionComponent.h"
-#include "TheRite/Interactuables/Door.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+
+#include "TheRite/AlexPlayerController.h"
+#include "TheRite/Components/TimerActionComponent.h"
+#include "TheRite/Components/InventoryComponent.h"
+
+#include "TheRite/Interactuables/IInteractuable.h"
+#include "TheRite/Interactuables/Door.h"
+
+#include "TheRite/Triggers/WrittingsDetector.h"
+
+#include "TheRite/Widgets/CenterDotWidget.h"
+#include "TheRite/Widgets/OpenInventory.h"
+#include "TheRite/Widgets/CommonUI/PauseActivableWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+
+#include "MathUtil.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "InputCore.h"
-#include "Components/WidgetComponent.h"
-#include "TheRite/Components/InventoryComponent.h"
 
 //*****************************Public********************************************
 //*******************************************************************************
@@ -195,7 +202,6 @@ void AAlex::OnJumpScare()
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 {
-	//InventoryWidget->RemoveItem(itemName, id);
 	InventoryComponent->RemoveItem(id);
 
 	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu, true);
@@ -311,12 +317,7 @@ void AAlex::ForceHolding(bool newHolding)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceCloseInventory()
 {
-	if(bInventoryFlip)
-		OnInventoryClose.Broadcast();
-
 	InventoryComponent->ToggleInventory(false);
-	//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	//InventoryWidget->OnInventoryClose();
 }
 #pragma endregion 
 
@@ -641,7 +642,6 @@ void AAlex::CreateWidgets()
 	CreatePauseWidget();
 
 	PushDotWidget();
-	CreateInventoryWidget();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -670,34 +670,6 @@ void AAlex::PushDotWidget()
 void AAlex::RemoveDotWidget()
 {
 	MyController->RemoveWidget(DotWidget, false);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-//void AAlex::PushInventoryWidget()
-//{
-//	auto pushedWidget = MyController->PushWidget(InventoryMenu);
-//	auto inventory = Cast<UInventory>(pushedWidget);
-//
-//	if (InventoryWidget != nullptr) 
-//	{
-//		inventory->CopyInvetory(*InventoryWidget);
-//	}
-//
-//		InventoryWidget = inventory;
-//
-//	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-//	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-//}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateInventoryWidget()
-{
-	//InventoryWidget = CreateWidget<UInventory>(GetWorld(), InventoryMenu);
-	//InventoryWidget->AddToViewport(2);
-	//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	//
-	//MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	//MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 }
 
 #pragma endregion 
@@ -876,28 +848,10 @@ void AAlex::OpenInventory()
 {
 	if(!bPauseFlip || bFocusing || bFocus || !bCanOpenInventory) return;
 	
-	if(bInventoryFlip)
-	{
-		OnInventoryOpen.Broadcast();
-		InventoryComponent->ToggleInventory(bInventoryFlip);
+	InventoryComponent->ToggleInventory(bInventoryFlip);
+	MyController->SetUIOnly(bInventoryFlip, bInventoryFlip);
 
-		//InventoryWidget->OnInventoryOpen();
-		//InventoryWidget->SetVisibility(ESlateVisibility::Visible);
-
-		bInventoryFlip = false;
-	}
-	else
-	{
-		OnInventoryClose.Broadcast();
-		
-		InventoryComponent->ToggleInventory(bInventoryFlip);
-		//InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-		//InventoryWidget->OnInventoryClose();
-		
-		bInventoryFlip = true;
-	}
-	
-	MyController->SetUIOnly(!bInventoryFlip, !bInventoryFlip);
+	bInventoryFlip = !bInventoryFlip;
 }
 #pragma endregion 
 
