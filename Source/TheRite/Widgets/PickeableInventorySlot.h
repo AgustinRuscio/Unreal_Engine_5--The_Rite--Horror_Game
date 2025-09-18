@@ -21,15 +21,21 @@ class THERITE_API UPickeableInventorySlot : public UCommonUserWidget
 	GENERATED_BODY()
 
 public:
-	bool GetIsOccupied() inline const {return bIsOccupied; }
-	FInventoryItemData GetSlotDataInfo() inline const { return ItemInfo; }
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
+	bool GetIsOccupied() inline const { return bIsOccupied; }
+	const FInventoryItemData& GetSlotDataInfo() inline const { return ItemInfo; }
 
 	void SetUpInventory(UInventory* NewInventory);
 
-	void SetUpSlot(FInventoryItemData ItemData);
+	void SetUpSlot(const FInventoryItemData& ItemData);
 	void ClearSlot();
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	bool bIsOccupied = false;
 
 	FInventoryItemData ItemInfo;
@@ -49,11 +55,14 @@ private:
 	UPROPERTY()
 	UInventory* Inventory;
 
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual bool Initialize() override;
 
 	UFUNCTION()
 	void OnButtonPressed();
 
-	void SetImage(UTexture* DisplayImage);
-
+	void SetImage(UTexture* DisplayImage) const;
+	void SetOccupiedState(bool NewState);
 };

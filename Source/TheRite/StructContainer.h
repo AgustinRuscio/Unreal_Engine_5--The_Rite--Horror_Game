@@ -9,11 +9,11 @@
 #include "EnumsContainer.h"
 #include "StructContainer.generated.h"
 
-
 USTRUCT(BlueprintType)
 struct FInventoryItemData
 {
 public: 
+	GENERATED_BODY()
 
 	FInventoryItemData()
 	{
@@ -23,13 +23,15 @@ public:
 		DisplayDescription = FText::FromString("Default Description");
 	}
 
-	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	class UTexture* DisplayImage;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	PickableItemsID ItemId;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	FText DisplayName;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	FText DisplayDescription;
 };

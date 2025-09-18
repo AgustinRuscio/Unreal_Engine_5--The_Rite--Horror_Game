@@ -7,12 +7,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "TheRite/StructContainer.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "InventoryComponent.generated.h"
 
 class UInventory;
-class UPickeableInventorySlot;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class THERITE_API UInventoryComponent : public UActorComponent
@@ -25,19 +24,19 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-
+	bool DoesInvetoryHasSpace() inline const;
 	void ToggleInventory(bool visible);
 
 	void AddItem(const FInventoryItemData& ItemData);
 
-	void RemoveItem(PickableItemsID ItemData);
+	void RemoveItem(const PickableItemsID& ItemData);
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
-	TSubclassOf<UPickeableInventorySlot> InventorySlotWidgetClass;
+	int InventoryZOrder;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	TSubclassOf<UInventory> InventoryWidgetClass;
@@ -51,5 +50,4 @@ private:
 	virtual void BeginPlay() override;
 
 	void CreateInventoryWidget();
-	
 };

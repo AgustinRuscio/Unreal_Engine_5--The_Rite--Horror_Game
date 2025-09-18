@@ -4,16 +4,19 @@
 //----------------------------------------------//
 
 #include "InventoryComponent.h"
-#include "TheRite/Widgets/Inventory.h"
-#include "TheRite/Widgets/PickeableInventorySlot.h"
 #include "Components/WidgetComponent.h"
-
+#include "TheRite/Widgets/Inventory.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-UInventoryComponent::UInventoryComponent()
+UInventoryComponent::UInventoryComponent() : InventoryZOrder(2), InventoryWidgetClass(nullptr), PlayerInventory(nullptr)
 {
 	PrimaryComponentTick.bCanEverTick = false;
+}
 
+//----------------------------------------------------------------------------------------------------------------------
+bool UInventoryComponent::DoesInvetoryHasSpace() const
+{
+	return PlayerInventory->CanRecieveItem();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -29,7 +32,7 @@ void UInventoryComponent::AddItem(const FInventoryItemData& ItemData)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventoryComponent::RemoveItem(PickableItemsID id)
+void UInventoryComponent::RemoveItem(const PickableItemsID& id)
 {
 	PlayerInventory->RemoveItem(id);
 }
@@ -46,6 +49,6 @@ void UInventoryComponent::BeginPlay()
 void UInventoryComponent::CreateInventoryWidget()
 {
 	PlayerInventory = CreateWidget<UInventory>(GetWorld(), InventoryWidgetClass);
-	PlayerInventory->AddToViewport(2);
+	PlayerInventory->AddToViewport(InventoryZOrder);
 	PlayerInventory->SetVisibility(ESlateVisibility::Collapsed);
 }

@@ -804,15 +804,19 @@ void AAlex::Interaction()
 	if(TalkSound != nullptr)
 		MakeTalk();
 
-	ActualInteractuable->Interaction();
-	
-	if(ActualInteractuable->IsPickable())
+	if (!ActualInteractuable->IsPickable())
 	{
-		//InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemDescription(), ActualInteractuable->GetItemID());
+		ActualInteractuable->Interaction();
+	}
+	else
+	{
+		if(!InventoryComponent->DoesInvetoryHasSpace()) return;
 
 		InventoryComponent->AddItem(ActualInteractuable->GetItemInventoryData());
 
 		MyController->PushWidget(OpenInventoryMenu, true);
+
+		ActualInteractuable->Interaction();
 	}
 }
 

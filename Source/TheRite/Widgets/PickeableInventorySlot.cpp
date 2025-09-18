@@ -5,16 +5,19 @@
 
 #include "PickeableInventorySlot.h"
 #include "Components/Button.h"
-#include "TheRite/Widgets/Inventory.h"
 #include "Components/Image.h"
+#include "TheRite/Widgets/Inventory.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 bool UPickeableInventorySlot::Initialize()
 {
 	if (!Super::Initialize()) return false;
 
-	ButtonSlot->OnClicked.AddDynamic(this, &UPickeableInventorySlot::OnButtonPressed);
-	ButtonSlot->SetIsEnabled(false);
+	if (ButtonSlot)
+	{
+		ButtonSlot->OnClicked.AddDynamic(this, &UPickeableInventorySlot::OnButtonPressed);
+		ButtonSlot->SetIsEnabled(false);
+	}
 
 	return true; 
 }
@@ -26,22 +29,23 @@ void UPickeableInventorySlot::SetUpInventory(UInventory* NewInventory)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UPickeableInventorySlot::SetUpSlot(FInventoryItemData ItemData)
+void UPickeableInventorySlot::SetUpSlot(const FInventoryItemData& ItemData)
 {
-	bIsOccupied = true;
+	SetOccupiedState(true);
+
 	ItemInfo = ItemData;
 
 	SetImage(ItemData.DisplayImage);
 
-	ButtonSlot->SetIsEnabled(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::ClearSlot()
 {
-	bIsOccupied = false;
+	SetOccupiedState(false);
+
 	ItemInfo = FInventoryItemData();
-	ButtonSlot->SetIsEnabled(false);
+
 	SetImage(EmptyImage);
 }
 
@@ -52,10 +56,18 @@ void UPickeableInventorySlot::OnButtonPressed()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UPickeableInventorySlot::SetImage(UTexture* DisplayImage)
+void UPickeableInventorySlot::SetImage(UTexture* DisplayImage) const
 {
 	FSlateBrush Brush;
 	Brush.SetResourceObject(DisplayImage);
 
 	ItemImage->SetBrush(Brush);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetOccupiedState(bool NewState)
+{
+	bIsOccupied = NewState;
+
+	ButtonSlot->SetIsEnabled(NewState);
 }

@@ -13,9 +13,8 @@
 
 class UButton;
 class UTextBlock;
-class UMaterialInterface;
-class UImage;
 class UUniformGridPanel;
+
 class UPickeableInventorySlot;
 
 UCLASS()
@@ -25,17 +24,22 @@ class THERITE_API UInventory : public UCommonActivatableWidget
 
 public:
 	//*****************************************************************************//
-	//								PUBLIC VARIABLES							   //
+	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
-	UPROPERTY(BlueprintReadWrite)
-	FString ObjectText;
-	
-	UPROPERTY(BlueprintReadWrite)
-	UButton* BTN_NextItem;
-	
-	UPROPERTY(BlueprintReadWrite)
-	UButton* BTN_PrevItem;
+//---------------- Inventory setter Methods
+	bool CanRecieveItem() const;
+		
+//---------------- Actions Methods
+	void SetSlotInfo(const FInventoryItemData& ClickedInfo, UPickeableInventorySlot* ClickedSlot);
+	void ClearDisplayedInfo();
 
+	void PushItemToGrid(const FInventoryItemData& NewPickUpData);
+	void RemoveItem(const PickableItemsID& id);
+
+private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ItemName;
 	
@@ -45,68 +49,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UUniformGridPanel* SlotsPanel;
 
-	UPROPERTY(BlueprintReadWrite)
-	UImage* OverlayImage;
-	
-	TArray<TPair<FString, UMaterialInterface*>> AllItems;
-	TArray<TPair<FString, FString>> AllDescriptions;
-	
-	UPROPERTY(EditAnywhere)
-	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
-
+	UPROPERTY()
 	TArray<UPickeableInventorySlot*> AllSlots;
-
-	//*****************************************************************************//
-	//								PUBLIC METHODS								   //
-	//*****************************************************************************//
-//---------------- Inventory setter Methods
-	bool CanRecieveItem();
 	
-	int GetRowIndex(UPickeableInventorySlot* a) const;
-	int GetColumnIndex(UPickeableInventorySlot* a) const;
-
-	UFUNCTION(BlueprintCallable)
-	void SetWidgetsObject(UButton* Next, UButton* Prev, UImage* imageToDisplay);
-
-	void AddItemToInventory(FString itemName, FString Description, PickableItemsID id);
-	void RemoveItem(FString itemName, PickableItemsID id);
-	
-//---------------- Actions Methods
-	void OnInventoryOpen();
-	
-	void OnInventoryClose();
-	
-	UFUNCTION()
-	void ShowNextItem();
-	
-	UFUNCTION()
-	void ShowPrevItem();
-
-	void SetSlotInfo(FInventoryItemData ClickedInfo, UPickeableInventorySlot* CurrentSlotClicked);
-	void ClearSlot();
-
-	void PushItemToGrid(const FInventoryItemData& NewPickUp);
-	void RemoveItem(PickableItemsID id);
-
-private:
-	//*****************************************************************************//
-	//								PRIVATE VARIABLES							   //
-	//*****************************************************************************//
-	int8 index = 0;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Customization")
-	int8 RowAmmount = 3;
-	UPROPERTY(EditDefaultsOnly, Category = "Customization")
-	int8 ColumAmmount = 3;
-
-	int8 CurrentRow = -1;
-	int8 CurrentColum = -1;
-
-	TPair<FString, UMaterialInterface*> CurrentPair;
-	TPair<FString, FString> CurrentPairDescription;
-
-	TArray<TTuple<UPickeableInventorySlot*, int, int>> SlotsContainer;
-
 	UPROPERTY()
 	UPickeableInventorySlot* CurrentSlot;
 
