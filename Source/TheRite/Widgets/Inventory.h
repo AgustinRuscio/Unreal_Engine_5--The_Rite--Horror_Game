@@ -16,6 +16,7 @@ class UTextBlock;
 class UUniformGridPanel;
 
 class UPickeableInventorySlot;
+class UInventorySlotOptions;
 
 UCLASS()
 class THERITE_API UInventory : public UCommonActivatableWidget
@@ -28,13 +29,18 @@ public:
 	//*****************************************************************************//
 //---------------- Inventory setter Methods
 	bool CanRecieveItem() const;
-		
+	
+	UPickeableInventorySlot* GetCurrentSlot() inline const { return CurrentSlot; }
+
 //---------------- Actions Methods
 	void SetSlotInfo(const FInventoryItemData& ClickedInfo, UPickeableInventorySlot* ClickedSlot);
-	void ClearDisplayedInfo();
+	void SetMovingMode(bool NewState);
 
 	void PushItemToGrid(const FInventoryItemData& NewPickUpData);
-	void RemoveItem(const PickableItemsID& id);
+	void RemoveItem(const FInventoryItemData& id);
+
+	void ConfigSlotOptions(UPickeableInventorySlot* SelectedSlot);
+	void ClearSlotOptions();
 
 private:
 	//*****************************************************************************//
@@ -49,11 +55,19 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UUniformGridPanel* SlotsPanel;
 
+	UPROPERTY(meta = (BindWidget))
+	UInventorySlotOptions* WBP_InventorySlotOptions;
+
 	UPROPERTY()
 	TArray<UPickeableInventorySlot*> AllSlots;
 	
 	UPROPERTY()
 	UPickeableInventorySlot* CurrentSlot;
 
+	virtual bool Initialize() override;
+	
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
+
+	void ClearDisplayedInfo();
 };

@@ -8,6 +8,7 @@
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "GameFramework/Character.h"
 #include "Alex.generated.h"
 
@@ -107,7 +108,7 @@ public:
 	
 	void OnJumpScare();
 	
-	void RemoveFromInventory(FString itemName, PickableItemsID id);
+	void RemoveFromInventory(const FInventoryItemData& ItemData);
 
 	void ToggleDotUI(bool active);
 	

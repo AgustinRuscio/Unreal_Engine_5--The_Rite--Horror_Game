@@ -145,7 +145,7 @@ void AMorguePuzzleFlow::OnDeathTiffInteraction(AInteractor* interactor)
 //----------------------------------------------------------------------------------------------------------------------
 void AMorguePuzzleFlow::OnPillowInteraction(AInteractor* interactor)
 {
-	DeathTiff->SetPillowReady(Pillow->GetItemName(), Pillow->GetItemID());
+	DeathTiff->SetPillowReady(Pillow);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

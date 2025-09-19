@@ -8,6 +8,7 @@
 #include "Components/TextBlock.h"
 #include "Components/UniformGridPanel.h"
 #include "TheRite/Widgets/PickeableInventorySlot.h"
+#include "TheRite/Widgets/Inventory/InventorySlotOptions.h"
 #include "Styling/SlateBrush.h"
 
 
@@ -36,12 +37,19 @@ void UInventory::SetSlotInfo(const FInventoryItemData& ClickedInfo, UPickeableIn
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::ClearDisplayedInfo()
+void UInventory::SetMovingMode(bool NewState)
 {
-	ItemName->SetText(FText::FromString(TEXT("")));
-	ItemDescription->SetText(FText::FromString(TEXT("")));
-}
+	for (const auto& Current : AllSlots)
+	{
+		Current->SetIsBeingMoved(NewState);
+	}
 
+	if (!NewState)
+	{
+		WBP_InventorySlotOptions->CloseOptions();
+	}
+}
+ 
 //----------------------------------------------------------------------------------------------------------------------
 void UInventory::PushItemToGrid(const FInventoryItemData& NewPickUpData)
 {
@@ -55,23 +63,39 @@ void UInventory::PushItemToGrid(const FInventoryItemData& NewPickUpData)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::RemoveItem(const PickableItemsID& id)
+void UInventory::RemoveItem(const FInventoryItemData& id)
 {
 
 	for (const auto& Current : AllSlots)
 	{
-		if (Current->GetSlotDataInfo().ItemId != id) continue;
+		if (!Current->GetSlotDataInfo().DisplayName.EqualTo(id.DisplayName)) continue;
 		
 		Current->ClearSlot();
 
 		if(Current == CurrentSlot)
 			ClearDisplayedInfo();
+
+		return;
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventory::NativeConstruct()
+void UInventory::ConfigSlotOptions(UPickeableInventorySlot* SelectedSlot)
 {
+	WBP_InventorySlotOptions->OpenOptions(SelectedSlot);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::ClearSlotOptions()
+{
+	WBP_InventorySlotOptions->CloseOptions();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+bool UInventory::Initialize()
+{
+	if (!Super::Initialize()) return false;
+
 	for (const auto& current : SlotsPanel->GetAllChildren())
 	{
 		if (auto castedChild = Cast<UPickeableInventorySlot>(current))
@@ -80,4 +104,32 @@ void UInventory::NativeConstruct()
 			AllSlots.Add(castedChild);
 		}
 	}
+
+	return true;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	WBP_InventorySlotOptions->SetUpInventory(this);
+	WBP_InventorySlotOptions->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::NativeDestruct()
+{
+	Super::NativeDestruct();
+
+	WBP_InventorySlotOptions->CloseOptions();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::ClearDisplayedInfo()
+{
+	ItemName->SetText(FText::FromString(TEXT("")));
+	ItemDescription->SetText(FText::FromString(TEXT("")));
+
+	CurrentSlot = nullptr;
 }

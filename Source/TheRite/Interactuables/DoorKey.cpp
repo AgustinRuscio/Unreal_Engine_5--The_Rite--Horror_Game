@@ -33,7 +33,7 @@ void ADoorKey::Interaction()
 	OnInteractionTrigger.Broadcast(this);
 	
 	MyDoor->ObtainKey();
-	MyDoor->SetDoorKeyValues(GetItemName(), GetItemID());
+	MyDoor->SetDoorKeyValues(this);
 	
 	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
 

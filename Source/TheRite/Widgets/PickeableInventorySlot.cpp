@@ -8,6 +8,7 @@
 #include "Components/Image.h"
 #include "TheRite/Widgets/Inventory.h"
 
+
 //----------------------------------------------------------------------------------------------------------------------
 bool UPickeableInventorySlot::Initialize()
 {
@@ -26,6 +27,13 @@ bool UPickeableInventorySlot::Initialize()
 void UPickeableInventorySlot::SetUpInventory(UInventory* NewInventory)
 {
 	Inventory = NewInventory;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetIsBeingMoved(bool NewState)
+{
+	bIsBeingMoved = NewState;
+	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -50,9 +58,60 @@ void UPickeableInventorySlot::ClearSlot()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::RemoveItemFromInventory()
+{
+	if(!ItemInfo.bIsRemovable) return;
+
+	Inventory->RemoveItem(ItemInfo);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::OnButtonPressed()
 {
-	Inventory->SetSlotInfo(ItemInfo, this);
+	if (bIsBeingMoved)
+		MovingLogic();
+	else
+		SelectingLogic();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::MovingLogic()
+{
+	if (Inventory->GetCurrentSlot() == this)
+	{
+		Inventory->SetMovingMode(false);
+	}
+	else
+	{
+		auto TempInfo = Inventory->GetCurrentSlot()->GetSlotDataInfo();
+
+		if (bIsOccupied)
+		{
+			Inventory->GetCurrentSlot()->SetUpSlot(ItemInfo);
+		}
+		else
+		{
+			Inventory->GetCurrentSlot()->ClearSlot();
+		}
+
+		SetUpSlot(TempInfo);
+
+		Inventory->SetMovingMode(false);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SelectingLogic()
+{
+	if (Inventory->GetCurrentSlot() != this)
+	{
+		Inventory->SetSlotInfo(ItemInfo, this);
+		Inventory->ClearSlotOptions();
+	}
+	else
+	{
+		Inventory->ConfigSlotOptions(this);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -68,6 +127,6 @@ void UPickeableInventorySlot::SetImage(UTexture* DisplayImage) const
 void UPickeableInventorySlot::SetOccupiedState(bool NewState)
 {
 	bIsOccupied = NewState;
-
+	bIsBeingMoved = false;
 	ButtonSlot->SetIsEnabled(NewState);
 }

@@ -38,7 +38,7 @@ void ADeathTiffany::Interaction()
 		PillowInitialLocation = PillowMesh->GetComponentLocation();
 		PlayerOnTimeLocation = player->GetActorLocation();
 
-		player->RemoveFromInventory(PillowName, PillowId);
+		player->RemoveFromInventory(Pillow->GetItemInventoryData());
 
 		PillowMesh->SetVisibility(true);
 		PillowTimeLine.PlayFromStart();
@@ -52,12 +52,10 @@ void ADeathTiffany::Interaction()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ADeathTiffany::SetPillowReady(FString itemName, PickableItemsID id)
+void ADeathTiffany::SetPillowReady(AInteractor* pillow)
 {
 	bHasPillow = true;
-
-	PillowName = itemName;
-	PillowId = id;
+	this->Pillow = pillow;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

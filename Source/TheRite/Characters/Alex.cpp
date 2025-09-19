@@ -200,9 +200,9 @@ void AAlex::OnJumpScare()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
+void AAlex::RemoveFromInventory(const FInventoryItemData& ItemData)
 {
-	InventoryComponent->RemoveItem(id);
+	InventoryComponent->RemoveItem(ItemData);
 
 	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu, true);
 
@@ -210,6 +210,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 
 	if (ConsumibleItemWidget)
 	{
+		FString itemName = ItemData.DisplayName.ToString();
 		ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
 		ConsumibleItemWidget = nullptr;
 	}

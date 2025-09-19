@@ -190,10 +190,9 @@ void ADoor::ScaryKnock()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region Setter Methods
-void ADoor::SetDoorKeyValues(FString itemName, PickableItemsID id)
+void ADoor::SetDoorKeyValues(AInteractor* Key)
 {
-	keyName = itemName;
-	keyId = id;
+	MyKey = Key;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -581,7 +580,7 @@ void ADoor::UnlockDoorWithKey()
 	KeyStartLocation = Player->GetActorLocation();
 	KeyEndLocation = KeyMesh->GetComponentLocation();
 
-	Player->RemoveFromInventory(keyName ,keyId);
+	Player->RemoveFromInventory(MyKey->GetItemInventoryData());
 
 	TimeLineUnlockDoor.PlayFromStart();
 }

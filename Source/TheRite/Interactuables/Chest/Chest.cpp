@@ -10,9 +10,6 @@
 #include "TheRite/AlexPlayerController.h"
 #include "TheRite/Characters/Alex.h"
 
-static FString MyKeyName;
-static PickableItemsID MyKeyId;
-
 //----------------------------------------------------------------------------------------------------------------------
 AChest::AChest()
 {
@@ -43,7 +40,7 @@ void AChest::Interaction()
 	if(bIsFocus || !bCanInteract) return;
 	if(!bIsUnlocked) return;
 	
-	Player->RemoveFromInventory(MyKeyName, MyKeyId);
+	Player->RemoveFromInventory(ChestKey->GetItemInventoryData());
 	
 	Super::Interaction();
 
@@ -78,11 +75,10 @@ void AChest::LeaveFocus()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AChest::UnlockChest(FString itemName, PickableItemsID id)
+void AChest::UnlockChest(AInteractor* Key)
 {
 	bIsUnlocked = true;
-	MyKeyName	= itemName;
-	MyKeyId		= id;
+	ChestKey = Key;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

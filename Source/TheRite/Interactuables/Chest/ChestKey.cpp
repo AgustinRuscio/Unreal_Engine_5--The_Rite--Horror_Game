@@ -23,7 +23,7 @@ void AChestKey::Interaction()
 	Super::Interaction();
 
 	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
-	MyChest->UnlockChest(GetItemName(), GetItemID());
+	MyChest->UnlockChest(this);
 	
 	Destroy();
 }

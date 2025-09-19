@@ -22,7 +22,7 @@ bool UInventoryComponent::DoesInvetoryHasSpace() const
 //----------------------------------------------------------------------------------------------------------------------
 void UInventoryComponent::ToggleInventory(bool visible)
 {
-	PlayerInventory->SetVisibility(visible ? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
+	visible ? PlayerInventory->AddToViewport(InventoryZOrder) : PlayerInventory->RemoveFromParent();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ void UInventoryComponent::AddItem(const FInventoryItemData& ItemData)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void UInventoryComponent::RemoveItem(const PickableItemsID& id)
+void UInventoryComponent::RemoveItem(const FInventoryItemData& id)
 {
 	PlayerInventory->RemoveItem(id);
 }
@@ -49,6 +49,4 @@ void UInventoryComponent::BeginPlay()
 void UInventoryComponent::CreateInventoryWidget()
 {
 	PlayerInventory = CreateWidget<UInventory>(GetWorld(), InventoryWidgetClass);
-	PlayerInventory->AddToViewport(InventoryZOrder);
-	PlayerInventory->SetVisibility(ESlateVisibility::Collapsed);
 }

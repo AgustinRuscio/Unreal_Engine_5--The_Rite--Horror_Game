@@ -17,21 +17,25 @@ public:
 
 	FInventoryItemData()
 	{
-		DisplayImage = nullptr;
-		ItemId = PickableItemsID::None;
+		bIsRemovable = false;
 		DisplayName = FText::FromString("Default Item");
 		DisplayDescription = FText::FromString("Default Description");
+		ItemId = PickableItemsID::None;
+		DisplayImage = nullptr;
 	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
-	class UTexture* DisplayImage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
-	PickableItemsID ItemId;
+	bool bIsRemovable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	FText DisplayName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	FText DisplayDescription;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	PickableItemsID ItemId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	class UTexture* DisplayImage;
 };

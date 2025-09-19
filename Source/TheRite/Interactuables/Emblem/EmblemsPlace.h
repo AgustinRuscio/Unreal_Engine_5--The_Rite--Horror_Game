@@ -80,8 +80,6 @@ private:
 	UPROPERTY(EditAnyWhere, Category = Settings)
 	FVector LocationToAdd;
 
-	FString CurrentEmblemName;
-	PickableItemsID CurrentEmblemId;
 	
 	UPROPERTY(EditAnyWhere, Category = Settings)
 	USoundBase* MovingSound;

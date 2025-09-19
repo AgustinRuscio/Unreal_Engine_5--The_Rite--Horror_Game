@@ -40,7 +40,7 @@ public:
 	//*****************************************************************************//
 	virtual void Interaction() override;
 
-	void GrabFusible(FString FuseName, PickableItemsID FuseId);
+	void GrabFusible(AInteractor* const interactor);
 	
 private:
 	//*****************************************************************************//
@@ -53,8 +53,8 @@ private:
 	int MaxFusesQuantity = 0;
 	int FusesQuantity = 0;
 
-	TArray<FString> FusesNames;
-	TArray<PickableItemsID> FusesId;
+	UPROPERTY()
+	TArray<AInteractor*> Fuses;
 	
 	
 //-------- Meshes Collider

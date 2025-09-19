@@ -29,7 +29,7 @@ public:
 
 	void AddItem(const FInventoryItemData& ItemData);
 
-	void RemoveItem(const PickableItemsID& ItemData);
+	void RemoveItem(const FInventoryItemData& ItemData);
 
 private:
 	//*****************************************************************************//

@@ -28,15 +28,19 @@ public:
 	const FInventoryItemData& GetSlotDataInfo() inline const { return ItemInfo; }
 
 	void SetUpInventory(UInventory* NewInventory);
+	void SetIsBeingMoved(bool NewState);
 
 	void SetUpSlot(const FInventoryItemData& ItemData);
 	void ClearSlot();
+
+	void RemoveItemFromInventory();
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	bool bIsOccupied = false;
+	bool bIsBeingMoved = false;
 
 	FInventoryItemData ItemInfo;
 
@@ -62,6 +66,9 @@ private:
 
 	UFUNCTION()
 	void OnButtonPressed();
+
+	void MovingLogic();
+	void SelectingLogic();
 
 	void SetImage(UTexture* DisplayImage) const;
 	void SetOccupiedState(bool NewState);
