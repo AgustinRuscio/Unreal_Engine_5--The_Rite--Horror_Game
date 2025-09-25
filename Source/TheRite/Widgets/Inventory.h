@@ -11,6 +11,8 @@
 #include "TheRite/StructContainer.h"
 #include "Inventory.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemInspected, const FInventoryItemData&, ItemData);
+
 class UButton;
 class UTextBlock;
 class UUniformGridPanel;
@@ -24,6 +26,11 @@ class THERITE_API UInventory : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
+	FOnItemInspected OnItemInspected;
+
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
@@ -41,6 +48,8 @@ public:
 
 	void ConfigSlotOptions(UPickeableInventorySlot* SelectedSlot);
 	void ClearSlotOptions();
+
+	void InspectItem(const FInventoryItemData& id);
 
 private:
 	//*****************************************************************************//

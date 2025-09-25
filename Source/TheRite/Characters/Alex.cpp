@@ -421,7 +421,9 @@ void AAlex::BeginPlay()
 	CreateWritingDetector();
 	
 	BindTimeLineMethods();
-	
+
+	InventoryComponent->OnInspectItem.AddDynamic(this, &AAlex::OnInpectMode);
+
 	if(bCanUseLigher && bShowLighterReminder)
 		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
 
@@ -853,6 +855,30 @@ void AAlex::OpenInventory()
 	MyController->SetUIOnly(bInventoryFlip, bInventoryFlip);
 
 	bInventoryFlip = !bInventoryFlip;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::OnInpectMode(bool IsInspecting)
+{
+	MyController->SetInspetInput(IsInspecting);
+	
+	if (IsInspecting)
+	{
+
+		MyController->OnInspetFocus.AddDynamic(InventoryComponent, &UInventoryComponent::LeaveInspection);
+		MyController->OnCameraMoved.AddDynamic(InventoryComponent, &UInventoryComponent::MoveInspetedItem);
+
+		MyController->OnCameraMoved.RemoveDynamic(this, &AAlex::MoveCamera);
+		MyController->OnInventory.RemoveDynamic(this, &AAlex::OpenInventory);
+	}
+	else
+	{
+		MyController->OnInspetFocus.RemoveDynamic(InventoryComponent, &UInventoryComponent::LeaveInspection);
+		MyController->OnCameraMoved.RemoveDynamic(InventoryComponent, &UInventoryComponent::MoveInspetedItem);
+
+		MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+		MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
+	}
 }
 #pragma endregion 
 

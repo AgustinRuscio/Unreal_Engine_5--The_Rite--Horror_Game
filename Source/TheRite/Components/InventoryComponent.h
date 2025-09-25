@@ -11,6 +11,9 @@
 #include "TheRite/StructContainer.h"
 #include "InventoryComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInspecItem, bool, state);
+
+class AInspectItem;
 class UInventory;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -20,6 +23,8 @@ class THERITE_API UInventoryComponent : public UActorComponent
 
 public:	
 	UInventoryComponent();
+
+	FOnInspecItem OnInspectItem;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -31,12 +36,31 @@ public:
 
 	void RemoveItem(const FInventoryItemData& ItemData);
 
+	UFUNCTION()
+	void InspectItem(const FInventoryItemData& itemData);
+
+	UFUNCTION()
+	void LeaveInspection();
+
+	UFUNCTION()
+	void MoveInspetedItem(FVector2D vector);
+
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	int InventoryZOrder;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	float InspectSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	TSubclassOf<AInspectItem> InspecItemClass;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	TSubclassOf<UUserWidget> InspectWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Settings")
 	TSubclassOf<UInventory> InventoryWidgetClass;

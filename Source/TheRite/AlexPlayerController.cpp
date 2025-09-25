@@ -162,6 +162,27 @@ void AAlexPlayerController::SetFocusInput()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::SetInspetInput(bool IsSpecting)
+{
+	if (IsSpecting)
+	{
+		if (UEnhancedInputComponent* enhantedComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
+		{
+			enhantedComponent->BindAction(BackAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::LeaveInspect);
+
+			enhantedComponent->BindAction(CameraLookAction, ETriggerEvent::Triggered, this, &AAlexPlayerController::CameraMoved);
+		}
+	
+		SetInputMode(FInputModeGameOnly());
+		bShowMouseCursor = false;
+	}
+	else
+	{
+		SetUIOnly(true, true);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void AAlexPlayerController::SetNewCursorVisibilityState(bool IsActive)
 {
 	bShowMouseCursor = IsActive;
@@ -350,6 +371,12 @@ void AAlexPlayerController::PrevInventoryItem(const FInputActionValue& value)
 void AAlexPlayerController::BackFromFocus(const FInputActionValue& value)
 {
 	OnLeaveFocus.Broadcast();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlexPlayerController::LeaveInspect(const FInputActionValue& value)
+{
+	OnInspetFocus.Broadcast();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

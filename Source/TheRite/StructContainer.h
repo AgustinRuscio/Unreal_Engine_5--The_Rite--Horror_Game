@@ -18,14 +18,19 @@ public:
 	FInventoryItemData()
 	{
 		bIsRemovable = false;
+		CameraDistance = 100.f;
 		DisplayName = FText::FromString("Default Item");
 		DisplayDescription = FText::FromString("Default Description");
 		ItemId = PickableItemsID::None;
 		DisplayImage = nullptr;
+		InspectMesh = nullptr;
 	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	bool bIsRemovable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	float CameraDistance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	FText DisplayName;
@@ -38,4 +43,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	class UTexture* DisplayImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	class UStaticMesh* InspectMesh;
 };

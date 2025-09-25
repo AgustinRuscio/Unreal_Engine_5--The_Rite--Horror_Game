@@ -88,7 +88,13 @@ void UInventory::ConfigSlotOptions(UPickeableInventorySlot* SelectedSlot)
 //----------------------------------------------------------------------------------------------------------------------
 void UInventory::ClearSlotOptions()
 {
-	WBP_InventorySlotOptions->CloseOptions();
+	WBP_InventorySlotOptions->CloseOptions(); 
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::InspectItem(const FInventoryItemData& data)
+{
+	OnItemInspected.Broadcast(data);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -7,6 +7,7 @@
 #include "Components/Button.h"
 #include "TheRite/Widgets/Inventory.h"
 #include "TheRite/Widgets/PickeableInventorySlot.h"
+#include <Kismet/GameplayStatics.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 void UInventorySlotOptions::SetUpInventory(UInventory* InventoryToUse)
@@ -48,14 +49,13 @@ bool UInventorySlotOptions::Initialize()
 	if (BTN_Remove)
 		BTN_Remove->OnPressed.AddDynamic(this, &UInventorySlotOptions::OnRemoveButtonClicked);
 
-
 	return true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UInventorySlotOptions::OnInspectButtonClicked()
 {
-
+	Inventory->InspectItem(CurrentSlot->GetSlotDataInfo());
 }
 
 //----------------------------------------------------------------------------------------------------------------------

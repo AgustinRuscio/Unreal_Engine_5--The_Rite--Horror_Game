@@ -356,6 +356,8 @@ private:
 	UFUNCTION()
 	void OpenInventory();
 	
+	UFUNCTION()
+	void OnInpectMode(bool NewState);
 //---------------- Lighter Methods
 	UFUNCTION()
 	void MontageAnimOnOff();
