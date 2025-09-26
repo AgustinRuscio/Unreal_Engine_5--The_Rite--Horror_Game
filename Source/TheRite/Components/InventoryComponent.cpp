@@ -9,12 +9,15 @@
 #include "TheRite/Widgets/WidgetsElements/InspectItem.h"
 #include <Kismet/GameplayStatics.h>
 
-namespace
-{
+namespace {
 	AInspectItem* InspectedActor;
 	UUserWidget* InspectWidget;
 }
+namespace {
 
+	float MyPitch = 0.f;
+	float MyYaw = 0.f;
+}
 //----------------------------------------------------------------------------------------------------------------------
 UInventoryComponent::UInventoryComponent() : InventoryZOrder(2), InspectSpeed(5.f), InventoryWidgetClass(nullptr), PlayerInventory(nullptr)
 {
@@ -59,6 +62,9 @@ void UInventoryComponent::InspectItem(const FInventoryItemData& id)
 	InspectedActor = GetWorld()->SpawnActor<AInspectItem>(InspecItemClass, finalLocation, FRotator::ZeroRotator, params);
 	InspectedActor->SetMesh(mesh);
 
+	MyYaw = InspectedActor->GetActorRotation().Yaw;
+	MyPitch = InspectedActor->GetActorRotation().Pitch;
+
 	PlayerInventory->SetVisibility(ESlateVisibility::Collapsed);
 
 	InspectWidget->AddToViewport(InventoryZOrder);
@@ -83,7 +89,12 @@ void UInventoryComponent::MoveInspetedItem(FVector2D Vector)
 {
 	if (!InspectedActor) return;
 
-	InspectedActor->MoveMesh(Vector, InspectSpeed);
+	MyYaw += Vector.X * InspectSpeed;
+	MyPitch += Vector.Y * InspectSpeed;
+
+	FRotator NewRotation = FRotator(MyPitch, MyYaw, 0.f);
+
+	InspectedActor->SetActorRotation(NewRotation);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
