@@ -331,10 +331,10 @@ private:
 	
 //---------------- Input Methods
 	UFUNCTION()
-	void MovePlayer(FVector2D vector);
+	void MovePlayer(const FVector2D& vector);
 	
 	UFUNCTION()
-	void MoveCamera(FVector2D vector);
+	void MoveCamera(const FVector2D& vector);
 
 	UFUNCTION()
 	void Interaction();
@@ -349,7 +349,7 @@ private:
 	void TurnLigherIfPossible();
 	
 	UFUNCTION()
-	void DoorMovement(FVector2D vector);
+	void DoorMovement(const FVector2D& vector);
 	
 	UFUNCTION()
 	void OpenPause();

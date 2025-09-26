@@ -21,6 +21,7 @@ void UInventorySlotOptions::OpenOptions(UPickeableInventorySlot* ClickedButton)
 	CurrentSlot = ClickedButton;
 
 	BTN_Remove->SetIsEnabled(CurrentSlot->GetSlotDataInfo().bIsRemovable);
+	BTN_Inspect->SetIsEnabled(CurrentSlot->GetSlotDataInfo().InspectMesh != nullptr);
 
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }

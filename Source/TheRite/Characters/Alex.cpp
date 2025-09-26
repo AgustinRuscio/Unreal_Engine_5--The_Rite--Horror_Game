@@ -738,7 +738,7 @@ void AAlex::CheckLighterOn()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region  Input Methods
-void AAlex::MovePlayer(FVector2D vector)
+void AAlex::MovePlayer(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 	
@@ -758,7 +758,7 @@ void AAlex::MovePlayer(FVector2D vector)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::MoveCamera(FVector2D vector)
+void AAlex::MoveCamera(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 
@@ -828,7 +828,7 @@ void AAlex::TurnLigherIfPossible()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::DoorMovement(FVector2D vector)
+void AAlex::DoorMovement(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 	

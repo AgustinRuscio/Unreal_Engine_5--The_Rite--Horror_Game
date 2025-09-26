@@ -15,12 +15,28 @@ class THERITE_API AInspectItem : public AActor
 	GENERATED_BODY()
 	
 public:	
+	//CONSTRUCTOR & COMPONENTS
 	AInspectItem();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Mesh;
 
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void SetMesh(UStaticMesh* NewMesh);
 
-	void MoveMesh(FVector2D vector);
+	void MoveMesh(const FVector2D& vector, float speed);
+
+private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
+	float MyPitch = 0.f;
+	float MyYaw = 0.f;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
+	virtual void BeginPlay() override;
 };

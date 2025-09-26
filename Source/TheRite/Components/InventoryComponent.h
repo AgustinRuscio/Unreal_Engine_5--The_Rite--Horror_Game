@@ -43,7 +43,7 @@ public:
 	void LeaveInspection();
 
 	UFUNCTION()
-	void MoveInspetedItem(FVector2D vector);
+	void MoveInspetedItem(const FVector2D& vector);
 
 private:
 	//*****************************************************************************//
