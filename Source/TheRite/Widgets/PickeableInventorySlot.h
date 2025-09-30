@@ -29,6 +29,7 @@ public:
 
 	void SetUpInventory(UInventory* NewInventory);
 	void SetIsBeingMoved(bool NewState);
+	void SetCombining(bool NewState);
 
 	void SetUpSlot(const FInventoryItemData& ItemData);
 	void ClearSlot();
@@ -39,8 +40,9 @@ private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	bool bIsOccupied = false;
+	bool bIsOccupied   = false;
 	bool bIsBeingMoved = false;
+	bool bisCombining  = false;
 
 	FInventoryItemData ItemInfo;
 
@@ -68,6 +70,7 @@ private:
 	void OnButtonPressed();
 
 	void MovingLogic();
+	void CombineLogic();
 	void SelectingLogic();
 
 	void SetImage(UTexture* DisplayImage) const;

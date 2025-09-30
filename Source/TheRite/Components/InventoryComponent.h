@@ -23,7 +23,9 @@ class THERITE_API UInventoryComponent : public UActorComponent
 
 public:	
 	UInventoryComponent();
-
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FOnInspecItem OnInspectItem;
 
 	//*****************************************************************************//

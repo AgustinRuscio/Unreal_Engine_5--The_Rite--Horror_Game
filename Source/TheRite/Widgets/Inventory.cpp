@@ -49,6 +49,20 @@ void UInventory::SetMovingMode(bool NewState)
 		WBP_InventorySlotOptions->CloseOptions();
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+void UInventory::SetCombineMode(bool NewState)
+{
+	for (const auto& Current : AllSlots)
+	{
+		Current->SetCombining(NewState);
+	}
+
+	if (!NewState)
+	{
+		WBP_InventorySlotOptions->CloseOptions();
+	}
+}
  
 //----------------------------------------------------------------------------------------------------------------------
 void UInventory::PushItemToGrid(const FInventoryItemData& NewPickUpData)
@@ -65,7 +79,6 @@ void UInventory::PushItemToGrid(const FInventoryItemData& NewPickUpData)
 //----------------------------------------------------------------------------------------------------------------------
 void UInventory::RemoveItem(const FInventoryItemData& id)
 {
-
 	for (const auto& Current : AllSlots)
 	{
 		if (!Current->GetSlotDataInfo().DisplayName.EqualTo(id.DisplayName)) continue;

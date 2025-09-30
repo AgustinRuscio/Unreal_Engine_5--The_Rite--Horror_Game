@@ -7,7 +7,11 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "TheRite/Widgets/Inventory.h"
+#include "TheRite/Widgets/WidgetsElements/InvenotryOnlyItem.h"
 
+namespace {
+	AInvenotryOnlyItem* TempItem;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 bool UPickeableInventorySlot::Initialize()
@@ -37,9 +41,16 @@ void UPickeableInventorySlot::SetIsBeingMoved(bool NewState)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetCombining(bool NewState)
+{
+	bisCombining = NewState;
+	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::SetUpSlot(const FInventoryItemData& ItemData)
 {
-	SetOccupiedState(true);
+ 	SetOccupiedState(true);
 
 	ItemInfo = ItemData;
 
@@ -70,6 +81,8 @@ void UPickeableInventorySlot::OnButtonPressed()
 {
 	if (bIsBeingMoved)
 		MovingLogic();
+	else if(bisCombining)
+		CombineLogic();
 	else
 		SelectingLogic();
 }
@@ -97,6 +110,36 @@ void UPickeableInventorySlot::MovingLogic()
 		SetUpSlot(TempInfo);
 
 		Inventory->SetMovingMode(false);
+
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::CombineLogic()
+{
+	if (Inventory->GetCurrentSlot() == this)
+	{
+		Inventory->SetCombineMode(false);
+	}
+	else
+	{
+		if(ItemInfo.CombineID != Inventory->GetCurrentSlot()->GetSlotDataInfo().ItemId)
+		{
+			Inventory->SetCombineMode(false);
+		}
+		else
+		{
+			TempItem = GetWorld()->SpawnActor<AInvenotryOnlyItem>(ItemInfo.ResultItem);
+
+			Inventory->RemoveItem(Inventory->GetCurrentSlot()->GetSlotDataInfo());
+			RemoveItemFromInventory();
+
+			Inventory->SetCombineMode(false);
+
+			Inventory->PushItemToGrid(TempItem->GetSlotDataInfo());
+
+			TempItem->Destroy();
+		}
 	}
 }
 

@@ -22,6 +22,7 @@ void UInventorySlotOptions::OpenOptions(UPickeableInventorySlot* ClickedButton)
 
 	BTN_Remove->SetIsEnabled(CurrentSlot->GetSlotDataInfo().bIsRemovable);
 	BTN_Inspect->SetIsEnabled(CurrentSlot->GetSlotDataInfo().InspectMesh != nullptr);
+	BTN_Combine->SetIsEnabled(CurrentSlot->GetSlotDataInfo().CombineID != PickableItemsID::None);
 
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }
@@ -68,7 +69,7 @@ void UInventorySlotOptions::OnMoveButtonClicked()
 //----------------------------------------------------------------------------------------------------------------------
 void UInventorySlotOptions::OnCombineButtonClicked()
 {
-
+	Inventory->SetCombineMode(true);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -19,9 +19,15 @@ public:
 	{
 		bIsRemovable = false;
 		CameraDistance = 100.f;
+		
 		DisplayName = FText::FromString("Default Item");
 		DisplayDescription = FText::FromString("Default Description");
+		
 		ItemId = PickableItemsID::None;
+		CombineID = PickableItemsID::None;
+		
+		ResultItem = nullptr;
+
 		DisplayImage = nullptr;
 		InspectMesh = nullptr;
 	}
@@ -40,6 +46,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	PickableItemsID ItemId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	PickableItemsID CombineID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	TSubclassOf<class AInvenotryOnlyItem> ResultItem;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	class UTexture* DisplayImage;

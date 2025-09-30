@@ -20,12 +20,18 @@ class THERITE_API UInventorySlotOptions : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 public:
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	void SetUpInventory(UInventory* InventoryToUse);
 
 	void OpenOptions(UPickeableInventorySlot* ClickedButton);
 	void CloseOptions();
 
 private:
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(meta = (BindWidget))
 	UButton* BTN_Inspect;
 	
@@ -44,6 +50,9 @@ private:
 	UPROPERTY()
 	UInventory* Inventory;
 
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual bool Initialize() override;
 
 	UFUNCTION()

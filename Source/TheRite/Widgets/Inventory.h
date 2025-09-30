@@ -41,7 +41,9 @@ public:
 
 //---------------- Actions Methods
 	void SetSlotInfo(const FInventoryItemData& ClickedInfo, UPickeableInventorySlot* ClickedSlot);
+
 	void SetMovingMode(bool NewState);
+	void SetCombineMode(bool NewState);
 
 	void PushItemToGrid(const FInventoryItemData& NewPickUpData);
 	void RemoveItem(const FInventoryItemData& id);
