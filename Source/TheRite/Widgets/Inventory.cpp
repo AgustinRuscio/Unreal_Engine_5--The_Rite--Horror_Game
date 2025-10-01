@@ -141,6 +141,9 @@ void UInventory::NativeDestruct()
 {
 	Super::NativeDestruct();
 
+	SetMovingMode(false);
+	SetCombineMode(false);
+
 	WBP_InventorySlotOptions->CloseOptions();
 }
 

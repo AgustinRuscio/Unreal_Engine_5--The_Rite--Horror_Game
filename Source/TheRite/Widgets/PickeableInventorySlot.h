@@ -28,13 +28,13 @@ public:
 	const FInventoryItemData& GetSlotDataInfo() inline const { return ItemInfo; }
 
 	void SetUpInventory(UInventory* NewInventory);
-	void SetIsBeingMoved(bool NewState);
-	void SetCombining(bool NewState);
-
 	void SetUpSlot(const FInventoryItemData& ItemData);
 	void ClearSlot();
 
 	void RemoveItemFromInventory();
+
+	void SetIsBeingMoved(bool NewState);
+	void SetCombining(bool NewState);
 
 private:
 	//*****************************************************************************//

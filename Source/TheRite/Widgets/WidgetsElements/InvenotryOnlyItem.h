@@ -19,14 +19,25 @@ class THERITE_API AInvenotryOnlyItem : public AActor
 	
 public:	
 	AInvenotryOnlyItem();
-
+	//*****************************************************************************//
+	//								PUBLIC VARIABLES							   //
+	//*****************************************************************************//
 	FOnItemAddedToInvenotry OnItemAddedToInventory;
-
+	
+	//*****************************************************************************//
+	//								PUBLIC METHODS								   //
+	//*****************************************************************************//
 	const FInventoryItemData& GetSlotDataInfo() inline const { return ItemInfo; }
 
-
-private:
+private:	
+	//*****************************************************************************//
+	//								PRIVATE VARIABLES							   //
+	//*****************************************************************************//
 	UPROPERTY(EditDefaultsOnly, Category="Inventory")
 	FInventoryItemData ItemInfo;
+
+	//*****************************************************************************//
+	//								PRIVATE METHODS								   //
+	//*****************************************************************************//
 	virtual void BeginPlay() override;
 };

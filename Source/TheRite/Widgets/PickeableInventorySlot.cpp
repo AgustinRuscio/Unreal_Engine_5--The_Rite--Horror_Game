@@ -9,42 +9,15 @@
 #include "TheRite/Widgets/Inventory.h"
 #include "TheRite/Widgets/WidgetsElements/InvenotryOnlyItem.h"
 
-namespace {
-	AInvenotryOnlyItem* TempItem;
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-bool UPickeableInventorySlot::Initialize()
+namespace
 {
-	if (!Super::Initialize()) return false;
-
-	if (ButtonSlot)
-	{
-		ButtonSlot->OnClicked.AddDynamic(this, &UPickeableInventorySlot::OnButtonPressed);
-		ButtonSlot->SetIsEnabled(false);
-	}
-
-	return true; 
+	AInvenotryOnlyItem* TempItem;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::SetUpInventory(UInventory* NewInventory)
 {
 	Inventory = NewInventory;
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void UPickeableInventorySlot::SetIsBeingMoved(bool NewState)
-{
-	bIsBeingMoved = NewState;
-	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void UPickeableInventorySlot::SetCombining(bool NewState)
-{
-	bisCombining = NewState;
-	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -71,9 +44,36 @@ void UPickeableInventorySlot::ClearSlot()
 //----------------------------------------------------------------------------------------------------------------------
 void UPickeableInventorySlot::RemoveItemFromInventory()
 {
-	if(!ItemInfo.bIsRemovable) return;
+	if(!ItemInfo.bIsRemovable && !bisCombining) return;
 
 	Inventory->RemoveItem(ItemInfo);
+}
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetIsBeingMoved(bool NewState)
+{
+	bIsBeingMoved = NewState;
+	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void UPickeableInventorySlot::SetCombining(bool NewState)
+{
+	bisCombining = NewState;
+	ButtonSlot->SetIsEnabled(NewState ? NewState : bIsOccupied);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+bool UPickeableInventorySlot::Initialize()
+{
+	if (!Super::Initialize()) return false;
+
+	if (ButtonSlot)
+	{
+		ButtonSlot->OnClicked.AddDynamic(this, &UPickeableInventorySlot::OnButtonPressed);
+		ButtonSlot->SetIsEnabled(false);
+	}
+
+	return true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -99,18 +99,13 @@ void UPickeableInventorySlot::MovingLogic()
 		auto TempInfo = Inventory->GetCurrentSlot()->GetSlotDataInfo();
 
 		if (bIsOccupied)
-		{
 			Inventory->GetCurrentSlot()->SetUpSlot(ItemInfo);
-		}
 		else
-		{
 			Inventory->GetCurrentSlot()->ClearSlot();
-		}
-
+		
 		SetUpSlot(TempInfo);
 
 		Inventory->SetMovingMode(false);
-
 	}
 }
 
