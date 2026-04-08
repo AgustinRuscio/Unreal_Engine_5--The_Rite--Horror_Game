@@ -43,11 +43,6 @@ void AOverlayInventoryActor::BeginPlay()
 
 	SceneCaptureComponent2D->ShowOnlyActorComponents(this);
 	DeActivate();
-
-	PlayerRef = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	
-	PlayerRef->OnInventoryOpen.AddDynamic(this, &AOverlayInventoryActor::Activate);
-	PlayerRef->OnInventoryClose.AddDynamic(this, &AOverlayInventoryActor::DeActivate);
 }
 
 //----------------------------------------------------------------------------------------------------------------------

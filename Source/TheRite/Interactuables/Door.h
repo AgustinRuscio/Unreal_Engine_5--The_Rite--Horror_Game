@@ -94,7 +94,7 @@ public:
 	void ScaryKnock();
 	
 //---------------- Setter Methods
-	void SetDoorKeyValues(FString itemName, PickableItemsID id);
+	void SetDoorKeyValues(AInteractor* key);
 	void SetCanDragState(bool newDragState);
 	void SetLockedState(bool LockedNewState);
 
@@ -209,8 +209,8 @@ private:
 	
 	FRotator CurrentRotation;
 	
-	FString keyName;
-	PickableItemsID keyId;
+	UPROPERTY()
+	AInteractor* MyKey;
 	
 	//--------- Widget
 

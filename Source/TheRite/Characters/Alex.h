@@ -8,14 +8,13 @@
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "GameFramework/Character.h"
 #include "Alex.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAllItemsCollected);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLighterMontage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FJumpscaredFinished);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryOpen);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryClose);
 
 class UInputMappingContext;
 class UInputAction;
@@ -26,7 +25,6 @@ class UTimerActionComponent;
 class UPauseMenuWidget;
 class UTutorialWidget;
 class UOpenInventory;
-class UInventory;
 class UChangingdWidget;
 class UCenterDotWidget;
 class IIInteractuable;
@@ -57,6 +55,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Components", meta=(AllowPrivateAccess = "true"))
 	class UWidgetInteractionComponent* WidgetInteraction;
 	
+	UPROPERTY(EditAnywhere, Category = "Components", meta=(AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
+
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm_Lighter;
 
@@ -75,9 +76,6 @@ public:
 	FAllItemsCollected OnAllItemCollected;
 	FLighterMontage OnLighterAnimMontage;
 	FJumpscaredFinished OnJumpscaredFinished;
-
-	FInventoryOpen OnInventoryOpen;
-	FInventoryClose OnInventoryClose;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
@@ -110,7 +108,7 @@ public:
 	
 	void OnJumpScare();
 	
-	void RemoveFromInventory(FString itemName, PickableItemsID id);
+	void RemoveFromInventory(const FInventoryItemData& ItemData);
 
 	void ToggleDotUI(bool active);
 	
@@ -257,10 +255,6 @@ private:
 	TSubclassOf<UOpenInventory> OpenInventoryMenu;
 	
 	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UInventory> InventoryMenu;
-	UInventory* InventoryWidget;
-	
-	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UChangingdWidget> ConsumibleItemMenu;
 	UChangingdWidget* ConsumibleItemWidget;
 	
@@ -330,10 +324,6 @@ private:
 	void PushDotWidget();
 	void RemoveDotWidget();
 
-	//void PushInventoryWidget();
-	void CreateInventoryWidget();
-
-
 //---------------- Tick Methods
 	void HeadBob() const;
 	
@@ -341,10 +331,10 @@ private:
 	
 //---------------- Input Methods
 	UFUNCTION()
-	void MovePlayer(FVector2D vector);
+	void MovePlayer(const FVector2D& vector);
 	
 	UFUNCTION()
-	void MoveCamera(FVector2D vector);
+	void MoveCamera(const FVector2D& vector);
 
 	UFUNCTION()
 	void Interaction();
@@ -359,13 +349,15 @@ private:
 	void TurnLigherIfPossible();
 	
 	UFUNCTION()
-	void DoorMovement(FVector2D vector);
+	void DoorMovement(const FVector2D& vector);
 	
 	UFUNCTION()
 	void OpenPause();
 	UFUNCTION()
 	void OpenInventory();
 	
+	UFUNCTION()
+	void OnInpectMode(bool NewState);
 //---------------- Lighter Methods
 	UFUNCTION()
 	void MontageAnimOnOff();

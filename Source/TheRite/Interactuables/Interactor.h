@@ -52,6 +52,9 @@ public:
 	UFUNCTION()
 	virtual USoundBase* GetSound() const override;
 	
+	UFUNCTION()
+	virtual FInventoryItemData GetItemInventoryData() const override;
+
 	virtual TTuple<bool, FString, PickableItemsID> CheckRemove() const override;
 
 //---------------- System Class Methods
@@ -79,6 +82,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="State")
 	bool bWillSound;
 	
+	UPROPERTY(EditAnywhere, Category="State")
+	FInventoryItemData IntemInventoryData;
+
 	UPROPERTY(EditAnywhere, Category="State")
 	USoundBase* AudioToPlay;
 	

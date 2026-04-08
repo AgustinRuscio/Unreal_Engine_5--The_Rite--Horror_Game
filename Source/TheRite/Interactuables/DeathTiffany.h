@@ -37,7 +37,7 @@ public:
 	//*****************************************************************************//
 	void Interaction() override;
 
-	void SetPillowReady(FString itemName, PickableItemsID id);
+	void SetPillowReady(AInteractor* pillow);
 
 private:
 	//*****************************************************************************//
@@ -45,8 +45,8 @@ private:
 	//*****************************************************************************//
 	bool bHasPillow;
 
-	FString PillowName;
-	PickableItemsID PillowId;
+	UPROPERTY()
+	AInteractor* Pillow;
 
 	FVector PillowInitialLocation;
 

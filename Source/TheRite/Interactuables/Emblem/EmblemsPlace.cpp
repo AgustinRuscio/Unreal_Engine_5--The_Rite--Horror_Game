@@ -10,6 +10,11 @@
 #include "TheRite/Characters/Alex.h"
 #include "TheRite/Interactuables/SimpleGrabbableActor.h"
 
+namespace
+{
+	AInteractor* CurrentInteractor = nullptr;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 AEmblemsPlace::AEmblemsPlace()
 {
@@ -58,7 +63,7 @@ void AEmblemsPlace::Interaction()
 	CurrentEndLocation = currentPair.Value;
 	CurrentEmblem->SetVisibility(true);
 	
-	player->RemoveFromInventory(CurrentEmblemName,  CurrentEmblemId);
+	player->RemoveFromInventory(CurrentInteractor->GetItemInventoryData());
 
 	PlaceEmblemTimeLine.PlayFromStart();
 
@@ -157,8 +162,7 @@ void AEmblemsPlace::SetUpPairs()
 //----------------------------------------------------------------------------------------------------------------------
 void AEmblemsPlace::EmblemObtained(AInteractor* Interactable)
 {
-	CurrentEmblemName = Interactable->GetItemName();
-	CurrentEmblemId = Interactable->GetItemID();
+	CurrentInteractor = Interactable;
 	EmblemsPicked++;
 }
 

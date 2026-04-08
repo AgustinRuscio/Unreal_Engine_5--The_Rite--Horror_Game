@@ -3,27 +3,17 @@
 // *UE version	: UE 5.5.4						//
 //----------------------------------------------//
 
-#include "ChestKey.h"
-#include "Chest.h"
-#include "Kismet/GameplayStatics.h"
+#include "InvenotryOnlyItem.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-AChestKey::AChestKey()
+AInvenotryOnlyItem::AInvenotryOnlyItem()
 {
- 	PrimaryActorTick.bCanEverTick = false;
-	
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh Component");
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AChestKey::Interaction()
+void AInvenotryOnlyItem::BeginPlay()
 {
-	if(!bCanInteract) return;
-	
-	Super::Interaction();
-
-	UGameplayStatics::SpawnSoundAtLocation(this, SFX_GrabItem,GetActorLocation());
-	MyChest->UnlockChest(this);
-	
-	Destroy();
+	Super::BeginPlay();
+	OnItemAddedToInventory.Broadcast();
 }

@@ -13,7 +13,7 @@
 #include "AlexPlayerController.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerMovement, FVector2D, vectorInput);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerMovement, const FVector2D&, vectorInput);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStartSprint);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStopSprint);
@@ -23,9 +23,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTurnLighterOn);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHoldingBTN, bool, IsHolding);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveCamera, FVector2D, input);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveCamera, const FVector2D&, input);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFocusBack);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInspectBack);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPaused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventory);
@@ -76,6 +77,7 @@ public:
 	FPaused OnPause;
 	FInventory OnInventory;
 	FOnFocusBack OnLeaveFocus;
+	FOnInspectBack OnInspetFocus;
 
 	FNextInventoryItem OnNextInventoryItem;
 	FPrevInventoryItem OnPrevInventoryItem;
@@ -107,6 +109,8 @@ public:
 	void SetUIOnly(bool uiMode, bool ShowCursor);
 	void SetEventInput();
 	void SetFocusInput();
+	void SetInspetInput(bool IsSpecting);
+
 	void SetNewCursorVisibilityState(bool IsActive);
 
 	void PlayRumbleFeedBack(float intensity, float duration, bool LLarge, bool LSmall, bool  RLarge, bool RSmall);
@@ -202,6 +206,7 @@ private:
 	void PrevInventoryItem(const FInputActionValue& value);
 	void BackFromFocus(const FInputActionValue& value);
 
+	void LeaveInspect(const FInputActionValue& value);
 	void SetInventoryInputs();
 	void SetDoorInputs();
 

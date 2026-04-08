@@ -4,28 +4,35 @@
 //----------------------------------------------//
 
 #include "Alex.h"
-#include "MathUtil.h"
-#include "Components/AudioComponent.h"
-#include "TheRite/AlexPlayerController.h"
-#include "TheRite/Components/TimerActionComponent.h"
-#include "TheRite/Interactuables/IInteractuable.h"
-#include "TheRite/Triggers/WrittingsDetector.h"
-#include "TheRite/Widgets/CenterDotWidget.h"
-#include "TheRite/Widgets/Inventory.h"
-#include "TheRite/Widgets/OpenInventory.h"
-#include "TheRite/Widgets/CommonUI/PauseActivableWidget.h"
+
 #include "Camera/CameraComponent.h"
+
+#include "Components/AudioComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Components/WidgetInteractionComponent.h"
-#include "TheRite/Interactuables/Door.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+
+#include "TheRite/AlexPlayerController.h"
+#include "TheRite/Components/TimerActionComponent.h"
+#include "TheRite/Components/InventoryComponent.h"
+
+#include "TheRite/Interactuables/IInteractuable.h"
+#include "TheRite/Interactuables/Door.h"
+
+#include "TheRite/Triggers/WrittingsDetector.h"
+
+#include "TheRite/Widgets/CenterDotWidget.h"
+#include "TheRite/Widgets/OpenInventory.h"
+#include "TheRite/Widgets/CommonUI/PauseActivableWidget.h"
+#include "TheRite/Widgets/TutorialWidget.h"
+
+#include "MathUtil.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "TheRite/Widgets/TutorialWidget.h"
 #include "InputCore.h"
-#include "Components/WidgetComponent.h"
-
 
 //*****************************Public********************************************
 //*******************************************************************************
@@ -64,6 +71,8 @@ AAlex::AAlex()
 	WidgetInteraction->OnHoveredWidgetChanged.AddDynamic(this, &AAlex::WidgetOnSight);
 	
 	TempAudio = CreateDefaultSubobject<UAudioComponent>("TempAudio");
+
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>("Inventory Component");
 	
 	BodyLight->SetupAttachment(Camera);
 	Camera->SetupAttachment(GetMesh());
@@ -191,9 +200,9 @@ void AAlex::OnJumpScare()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
+void AAlex::RemoveFromInventory(const FInventoryItemData& ItemData)
 {
-	InventoryWidget->RemoveItem(itemName, id);
+	InventoryComponent->RemoveItem(ItemData);
 
 	auto consumWidget = MyController->PushWidget(ConsumibleItemMenu, true);
 
@@ -201,6 +210,7 @@ void AAlex::RemoveFromInventory(FString itemName, PickableItemsID id)
 
 	if (ConsumibleItemWidget)
 	{
+		FString itemName = ItemData.DisplayName.ToString();
 		ConsumibleItemWidget->SetChangingText(FText::FromString(itemName + " used"));
 		ConsumibleItemWidget = nullptr;
 	}
@@ -308,11 +318,7 @@ void AAlex::ForceHolding(bool newHolding)
 //----------------------------------------------------------------------------------------------------------------------
 void AAlex::ForceCloseInventory()
 {
-	if(bInventoryFlip)
-		OnInventoryClose.Broadcast();
-
-	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-	InventoryWidget->OnInventoryClose();
+	InventoryComponent->ToggleInventory(false);
 }
 #pragma endregion 
 
@@ -415,7 +421,9 @@ void AAlex::BeginPlay()
 	CreateWritingDetector();
 	
 	BindTimeLineMethods();
-	
+
+	InventoryComponent->OnInspectItem.AddDynamic(this, &AAlex::OnInpectMode);
+
 	if(bCanUseLigher && bShowLighterReminder)
 		TimerComponentForLighterDisplay->TimerReach.AddDynamic(this, &AAlex::ShowLighterReminder);
 
@@ -637,7 +645,6 @@ void AAlex::CreateWidgets()
 	CreatePauseWidget();
 
 	PushDotWidget();
-	CreateInventoryWidget();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -666,34 +673,6 @@ void AAlex::PushDotWidget()
 void AAlex::RemoveDotWidget()
 {
 	MyController->RemoveWidget(DotWidget, false);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-//void AAlex::PushInventoryWidget()
-//{
-//	auto pushedWidget = MyController->PushWidget(InventoryMenu);
-//	auto inventory = Cast<UInventory>(pushedWidget);
-//
-//	if (InventoryWidget != nullptr) 
-//	{
-//		inventory->CopyInvetory(*InventoryWidget);
-//	}
-//
-//		InventoryWidget = inventory;
-//
-//	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-//	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
-//}
-
-//----------------------------------------------------------------------------------------------------------------------
-void AAlex::CreateInventoryWidget()
-{
-	InventoryWidget = CreateWidget<UInventory>(GetWorld(), InventoryMenu);
-	InventoryWidget->AddToViewport(2);
-	InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-
-	MyController->OnNextInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowNextItem);
-	MyController->OnPrevInventoryItem.AddDynamic(InventoryWidget, &UInventory::ShowPrevItem);
 }
 
 #pragma endregion 
@@ -759,7 +738,7 @@ void AAlex::CheckLighterOn()
 
 //----------------------------------------------------------------------------------------------------------------------
 #pragma region  Input Methods
-void AAlex::MovePlayer(FVector2D vector)
+void AAlex::MovePlayer(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 	
@@ -779,7 +758,7 @@ void AAlex::MovePlayer(FVector2D vector)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::MoveCamera(FVector2D vector)
+void AAlex::MoveCamera(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 
@@ -800,13 +779,19 @@ void AAlex::Interaction()
 	if(TalkSound != nullptr)
 		MakeTalk();
 
-	ActualInteractuable->Interaction();
-	
-	if(ActualInteractuable->IsPickable())
+	if (!ActualInteractuable->IsPickable())
 	{
-		InventoryWidget->AddItemToInventory(ActualInteractuable->GetItemName(), ActualInteractuable->GetItemDescription(), ActualInteractuable->GetItemID());
+		ActualInteractuable->Interaction();
+	}
+	else
+	{
+		if(!InventoryComponent->DoesInvetoryHasSpace()) return;
+
+		InventoryComponent->AddItem(ActualInteractuable->GetItemInventoryData());
 
 		MyController->PushWidget(OpenInventoryMenu, true);
+
+		ActualInteractuable->Interaction();
 	}
 }
 
@@ -843,7 +828,7 @@ void AAlex::TurnLigherIfPossible()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AAlex::DoorMovement(FVector2D vector)
+void AAlex::DoorMovement(const FVector2D& vector)
 {
 	if(bFocusing || bFocus) return;
 	
@@ -866,22 +851,34 @@ void AAlex::OpenInventory()
 {
 	if(!bPauseFlip || bFocusing || bFocus || !bCanOpenInventory) return;
 	
-	if(bInventoryFlip)
+	InventoryComponent->ToggleInventory(bInventoryFlip);
+	MyController->SetUIOnly(bInventoryFlip, bInventoryFlip);
+
+	bInventoryFlip = !bInventoryFlip;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void AAlex::OnInpectMode(bool IsInspecting)
+{
+	MyController->SetInspetInput(IsInspecting);
+	
+	if (IsInspecting)
 	{
-		OnInventoryOpen.Broadcast();
-		InventoryWidget->OnInventoryOpen();
-		InventoryWidget->SetVisibility(ESlateVisibility::Visible);
-		bInventoryFlip = false;
+
+		MyController->OnInspetFocus.AddDynamic(InventoryComponent, &UInventoryComponent::LeaveInspection);
+		MyController->OnCameraMoved.AddDynamic(InventoryComponent, &UInventoryComponent::MoveInspetedItem);
+
+		MyController->OnCameraMoved.RemoveDynamic(this, &AAlex::MoveCamera);
+		MyController->OnInventory.RemoveDynamic(this, &AAlex::OpenInventory);
 	}
 	else
 	{
-		OnInventoryClose.Broadcast();
-		InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
-		InventoryWidget->OnInventoryClose();
-		bInventoryFlip = true;
+		MyController->OnInspetFocus.RemoveDynamic(InventoryComponent, &UInventoryComponent::LeaveInspection);
+		MyController->OnCameraMoved.RemoveDynamic(InventoryComponent, &UInventoryComponent::MoveInspetedItem);
+
+		MyController->OnCameraMoved.AddDynamic(this, &AAlex::MoveCamera);
+		MyController->OnInventory.AddDynamic(this, &AAlex::OpenInventory);
 	}
-	
-	MyController->SetUIOnly(!bInventoryFlip, false);
 }
 #pragma endregion 
 

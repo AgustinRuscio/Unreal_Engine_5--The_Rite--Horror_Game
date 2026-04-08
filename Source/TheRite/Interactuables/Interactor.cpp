@@ -58,10 +58,17 @@ PickableItemsID AInteractor::GetItemID() const
 	return ItemID;
 }
 
+
 //----------------------------------------------------------------------------------------------------------------------
 USoundBase* AInteractor::GetSound() const
 {
 	return bWillSound ? AudioToPlay : nullptr;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+FInventoryItemData AInteractor::GetItemInventoryData() const
+{
+	return IntemInventoryData;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

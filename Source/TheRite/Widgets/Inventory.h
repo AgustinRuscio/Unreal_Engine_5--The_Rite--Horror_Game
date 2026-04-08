@@ -8,13 +8,17 @@
 #include "CoreMinimal.h"
 #include "CommonActivatableWidget.h"
 #include "TheRite/EnumsContainer.h"
+#include "TheRite/StructContainer.h"
 #include "Inventory.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemInspected, const FInventoryItemData&, ItemData);
 
 class UButton;
 class UTextBlock;
-class UMaterialInterface;
-class UImage;
+class UUniformGridPanel;
 
+class UPickeableInventorySlot;
+class UInventorySlotOptions;
 
 UCLASS()
 class THERITE_API UInventory : public UCommonActivatableWidget
@@ -25,57 +29,56 @@ public:
 	//*****************************************************************************//
 	//								PUBLIC VARIABLES							   //
 	//*****************************************************************************//
-	UPROPERTY(BlueprintReadWrite)
-	FString ObjectText;
-	
-	UPROPERTY(BlueprintReadWrite)
-	UButton* BTN_NextItem;
-	
-	UPROPERTY(BlueprintReadWrite)
-	UButton* BTN_PrevItem;
-
-	UPROPERTY(BlueprintReadWrite)
-	UTextBlock* TextBlockName;
-	
-	UPROPERTY(BlueprintReadWrite)
-	UTextBlock* TextBlockDescription;
-
-	UPROPERTY(BlueprintReadWrite)
-	UImage* OverlayImage;
-	
-	TArray<TPair<FString, UMaterialInterface*>> AllItems;
-	TArray<TPair<FString, FString>> AllDescriptions;
-	
-	UPROPERTY(EditAnywhere)
-	TMap<PickableItemsID, UMaterialInterface*> ItemsInIds;
+	FOnItemInspected OnItemInspected;
 
 	//*****************************************************************************//
 	//								PUBLIC METHODS								   //
 	//*****************************************************************************//
 //---------------- Inventory setter Methods
-	UFUNCTION(BlueprintCallable)
-	void SetWidgetsObject(UButton* Next, UButton* Prev, UTextBlock* textBlock, UTextBlock* DescriptionText, UImage* imageToDisplay);
+	bool CanRecieveItem() const;
+	
+	UPickeableInventorySlot* GetCurrentSlot() inline const { return CurrentSlot; }
 
-	void AddItemToInventory(FString itemName, FString Description, PickableItemsID id);
-	void RemoveItem(FString itemName, PickableItemsID id);
-	
 //---------------- Actions Methods
-	void OnInventoryOpen();
-	
-	void OnInventoryClose();
-	
-	UFUNCTION()
-	void ShowNextItem();
-	
-	UFUNCTION()
-	void ShowPrevItem();
+	void SetSlotInfo(const FInventoryItemData& ClickedInfo, UPickeableInventorySlot* ClickedSlot);
+
+	void SetMovingMode(bool NewState);
+	void SetCombineMode(bool NewState);
+
+	void PushItemToGrid(const FInventoryItemData& NewPickUpData);
+	void RemoveItem(const FInventoryItemData& id);
+
+	void ConfigSlotOptions(UPickeableInventorySlot* SelectedSlot);
+	void ClearSlotOptions();
+
+	void InspectItem(const FInventoryItemData& id);
 
 private:
 	//*****************************************************************************//
 	//								PRIVATE VARIABLES							   //
 	//*****************************************************************************//
-	int8 index = 0;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ItemName;
+	
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ItemDescription;
 
-	TPair<FString, UMaterialInterface*> CurrentPair;
-	TPair<FString, FString> CurrentPairDescription;
+	UPROPERTY(meta = (BindWidget))
+	UUniformGridPanel* SlotsPanel;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventorySlotOptions* WBP_InventorySlotOptions;
+
+	UPROPERTY()
+	TArray<UPickeableInventorySlot*> AllSlots;
+	
+	UPROPERTY()
+	UPickeableInventorySlot* CurrentSlot;
+
+	virtual bool Initialize() override;
+	
+	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
+
+	void ClearDisplayedInfo();
 };

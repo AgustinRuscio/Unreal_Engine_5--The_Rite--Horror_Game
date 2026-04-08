@@ -57,10 +57,9 @@ void AFuseBox::Interaction()
 		SecondsFusible->SetVisibility(true);
 	
 	auto player = Cast<AAlex>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
-	player->RemoveFromInventory(FusesNames[0], FusesId[0]);
+	player->RemoveFromInventory(Fuses[0]->GetItemInventoryData());
 
-	FusesNames.RemoveAt(0);
-	FusesId.RemoveAt(0);
+	Fuses.RemoveAt(0);
 	
 	ThermalSwitch->SetCanInteract(false);
 	
@@ -68,10 +67,9 @@ void AFuseBox::Interaction()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void AFuseBox::GrabFusible(FString FuseName, PickableItemsID FuseId)
+void AFuseBox::GrabFusible(AInteractor* const interactor)
 {
-	FusesNames.Add(FuseName);
-	FusesId.Add(FuseId);
+	Fuses.Add(interactor);
 	
 	if(!bHastFusibleToPut)
 		bHastFusibleToPut = true;

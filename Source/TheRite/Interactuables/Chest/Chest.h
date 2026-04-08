@@ -53,7 +53,7 @@ public:
 	UFUNCTION()
 	void LeaveFocus();
 
-	void UnlockChest(FString itemName, PickableItemsID id);
+	void UnlockChest(AInteractor* Key);
 	
 private:
 	//*****************************************************************************//
@@ -96,7 +96,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = VFX)
 	UCurveFloat* FloatCurve;
-	
+
+	UPROPERTY()
+	AInteractor* ChestKey;
+
 	class AAlex* Player;
 	
 	//*****************************************************************************//
